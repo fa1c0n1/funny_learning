@@ -1,0 +1,6 @@
+data=[
+{latitude: 28.343065, longitude: -62.753906, info: 'Type=Elvis'},
+{latitude: 37.879536, longitude: -69.477539, info: 'Type=Elvis'},
+{latitude: 22.705256, longitude: -68.192139, info: 'Type=Elvis'},
+{latitude: 27.166695, longitude: -87.484131, info: 'Type=Elvis'}
+]
