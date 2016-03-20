@@ -1,4 +1,4 @@
-# 30days_makeOS
+# CoreJavaBook 
 
 ###corejava9目录 <br/>
 	-- 该目录保存的是《Java核心技术-Volume1~2》原书第9版的配套示例代码 <br/>
