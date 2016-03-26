@@ -4,6 +4,10 @@
 *.ko
 *.obj
 *.elf
+tags
+
+# Directory
+Head-First-C_Notes/cout/
 
 # Precompiled Headers
 *.gch
