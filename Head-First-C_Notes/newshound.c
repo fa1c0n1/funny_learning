@@ -6,12 +6,13 @@
 int main(int argc, char *argv[])
 {
     char *feeds[] = {
-        "http://www.cnn.com/rss/celebs.xml",
-        "http://www.rollingstone.com/rock.xml",
-        "http://eonline.com/gossip.xml"
+        //"http://www.cnn.com/rss/celebs.xml",
+        //"http://www.rollingstone.com/rock.xml",
+        //"http://eonline.com/gossip.xml"
+        "http://drops.wooyun.org/category/mobile/feed"
     };
 
-    int times = 3;
+    int times = 1;
     char *phrase = argv[1];
     int i;
     for (i = 0; i < times; i++) {
@@ -32,7 +33,7 @@ int main(int argc, char *argv[])
         if (!pid) {
             // 在子进程中应该调用exec()运行脚本
             if (execle("/usr/bin/python", "/usr/bin/python", "./rssgossip.py", 
-                        phrase, NULL, vars)) {
+                        "-u", phrase, NULL, vars)) {
                 fprintf(stderr, "Can't run script: %s\n'", strerror(errno));
                 return 1;
             }
