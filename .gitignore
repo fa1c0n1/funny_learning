@@ -56,3 +56,5 @@ hs_err_pid*
 
 ###### others.gitignore ########
 *.zip
+.tags
+.tags_sorted_by_file
