@@ -158,13 +158,15 @@ status_t BpBinder::dump(int fd, const Vector<String16>& args)
 }
 
 // 查看BpBinder类,发现找不到任何与Binder设备通信交互的地方
+// 那它是如何参与通信的呢?
+// 秘密就在transact()函数中
 status_t BpBinder::transact(
     uint32_t code, const Parcel& data, Parcel* reply, uint32_t flags)
 {
     // Once a binder has died, it will never come back to life.
     if (mAlive) {
         status_t status = IPCThreadState::self()->transact(
-            mHandle, code, data, reply, flags);
+            mHandle, code, data, reply, flags); //mHandle也是参数
         // give serviceManager more chances...
         if (status == DEAD_OBJECT && mHandle != 0) mAlive = 0;
         return status;
