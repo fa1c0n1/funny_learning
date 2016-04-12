@@ -306,7 +306,7 @@ restart:
         return new IPCThreadState;
     }
     
-    //if (gShutdown) return NULL;
+    if (gShutdown) return NULL;
     
     pthread_mutex_lock(&gTLSMutex);
     if (!gHaveTLS) {
@@ -336,12 +336,12 @@ void IPCThreadState::shutdown()
     
     if (gHaveTLS) {
         // XXX Need to wait for all thread pool threads to exit!
-        //IPCThreadState* st = (IPCThreadState*)pthread_getspecific(gTLS);
-        //if (st) {
-        //    delete st;
-        //    pthread_setspecific(gTLS, NULL);
-        //}
-        //gHaveTLS = false;
+        IPCThreadState* st = (IPCThreadState*)pthread_getspecific(gTLS);
+        if (st) {
+            delete st;
+            pthread_setspecific(gTLS, NULL);
+        }
+        gHaveTLS = false;
     }
 }
 
@@ -1063,7 +1063,6 @@ status_t IPCThreadState::executeCommand(int32_t cmd)
     case BR_DEAD_BINDER:
         {
             BpBinder *proxy = (BpBinder*)mIn.readInt32();
-	    ALOGD("[DN #5] BR_DEAD_BINDER cookie %p", proxy);
             proxy->sendObituary();
             mOut.writeInt32(BC_DEAD_BINDER_DONE);
             mOut.writeInt32((int32_t)proxy);
@@ -1072,7 +1071,6 @@ status_t IPCThreadState::executeCommand(int32_t cmd)
     case BR_CLEAR_DEATH_NOTIFICATION_DONE:
         {
             BpBinder *proxy = (BpBinder*)mIn.readInt32();
-	    ALOGD("[DN #5] BR_CLEAR_DEATH_NOTIFICATION_DONE cookie %p", proxy);
             proxy->getWeakRefs()->decWeak(proxy);
         } break;
         

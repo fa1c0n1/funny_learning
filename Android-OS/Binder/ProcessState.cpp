@@ -41,7 +41,7 @@
 #include <sys/mman.h>
 #include <sys/stat.h>
 
-#define BINDER_VM_SIZE ((2*1024*1024) - (4096 *2))
+#define BINDER_VM_SIZE ((1*1024*1024) - (4096 *2))
 
 
 // ---------------------------------------------------------------------------
@@ -194,7 +194,7 @@ sp<IBinder> ProcessState::getStrongProxyForHandle(int32_t handle)
 
     AutoMutex _l(mLock);
 
-   /*
+    /*
     * 根据索引查找对应资源.
     *   如果lookupHandleLocked发现没有对应的资源项，则会创建一个新的项并返回.
     *   这个新项的内容需要填充

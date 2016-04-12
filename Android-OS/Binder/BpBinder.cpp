@@ -167,8 +167,7 @@ status_t BpBinder::transact(
     if (mAlive) {
         status_t status = IPCThreadState::self()->transact(
             mHandle, code, data, reply, flags); //mHandle也是参数
-        // give serviceManager more chances...
-        if (status == DEAD_OBJECT && mHandle != 0) mAlive = 0;
+        if (status == DEAD_OBJECT) mAlive = 0;
         return status;
     }
 

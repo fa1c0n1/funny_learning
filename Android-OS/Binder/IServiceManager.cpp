@@ -167,27 +167,16 @@ public:
     {
         // Parcel: 就把它当作是一个数据包
         Parcel data, reply;
-	unsigned n;
-        status_t err;
         data.writeInterfaceToken(IServiceManager::getInterfaceDescriptor());
         data.writeString16(name);
         data.writeStrongBinder(service);
         data.writeInt32(allowIsolated ? 1 : 0);
-        for (n = 1; n <= 5; n++) {
-            /* remote()返回的是mRemote,也就是BpBinder对象,
-             * 然后将上面封装好的请求数据包data,传入BpBinder的transact()方法
-             * 至此，业务层的工作原理就清晰了，它的作用就是将请求信息打包后,
-             * 再交给通信层去处理
-             */
-            err = remote()->transact(ADD_SERVICE_TRANSACTION, data, &reply);
-            if (err == -EPIPE) {
-                ALOGI("%s is waiting for serviceManager... (retry %d)\n",
-                    String8(name).string(), n);
-                sleep(1);
-            } else {
-                break;
-            }
-        }
+        /* remote()返回的是mRemote,也就是BpBinder对象,
+         * 然后将上面封装好的请求数据包data,传入BpBinder的transact()方法
+         * 至此，业务层的工作原理就清晰了，它的作用就是将请求信息打包后,
+         * 再交给通信层去处理
+         */
+        status_t err = remote()->transact(ADD_SERVICE_TRANSACTION, data, &reply);
         return err == NO_ERROR ? reply.readExceptionCode() : err;
     }
 
