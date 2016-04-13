@@ -432,6 +432,7 @@ void IPCThreadState::joinThreadPool(bool isMain)
 {
     LOG_THREADPOOL("**** THREAD %p (PID %d) IS JOINING THE THREAD POOL\n", (void*)pthread_self(), getpid());
 
+    //注意，如果isMain为true，我们需要循环处理。把请求信息写到mOut中，待会儿一起发出去
     mOut.writeInt32(isMain ? BC_ENTER_LOOPER : BC_REGISTER_LOOPER);
     
     // This thread may have been spawned by a thread that was in the background
@@ -454,6 +455,7 @@ void IPCThreadState::joinThreadPool(bool isMain)
                 mPendingWeakDerefs.clear();
             }
 
+            //处理已经死亡的BBinder对象
             numPending = mPendingStrongDerefs.size();
             if (numPending > 0) {
                 for (size_t i = 0; i < numPending; i++) {
@@ -465,6 +467,7 @@ void IPCThreadState::joinThreadPool(bool isMain)
         }
 
         // now get the next command to be processed, waiting if necessary
+        //发送命令,读取请求
         result = talkWithDriver();
         if (result >= NO_ERROR) {
             size_t IN = mIn.dataAvail();
@@ -475,8 +478,7 @@ void IPCThreadState::joinThreadPool(bool isMain)
                     << getReturnString(cmd) << endl;
             }
 
-
-            result = executeCommand(cmd);
+            result = executeCommand(cmd); //处理消息
         }
         
         // After executing the command, ensure that the thread is returned to the
@@ -532,6 +534,28 @@ status_t IPCThreadState::transact(int32_t handle,
     if (err == NO_ERROR) {
         LOG_ONEWAY(">>>> SEND from pid %d uid %d %s", getpid(), getuid(),
             (flags & TF_ONE_WAY) == 0 ? "READ REPLY" : "ONE WAY");
+
+        /*
+         * 注意这里的第一个参数BC_TRANSACTION，它是应用程序向binder设备发送消息的消息码
+         * 而binder设备向应用程序回复消息的消息码以BR_开头。
+         * 
+         * 在Android 4.0.1中，消息码的定义是在binder_module.h中
+         * 但在Android 4.2.2中在binder_module.h中并没有发现消息码的定义,但发现包含了<linux/binder.h>头文件
+         * 该头文件应该是在prebuilts目录下对应平台(有x86/mips/arm)目录下的usr/include/linux 目录下
+         * 在这里为了避免有时候在Windows系统下用sublime text查看代码且跳转代码的时候会与frameworks目录下的Binder.h
+         * 产生冲突(因为Windows系统对文件名是大小写不敏感的),
+         * 所以在这里将其改名为binder_module_h_tmp_linux_binder.h
+         *
+         * 请求消息码和回应消息码的对应关系, 需要查看Binder驱动的实现才能将其理清楚,这里暂时用不上.
+         *
+         * 熟悉的流程:
+         *      先发数据,然后等结果,很简单.
+         *      有必要确认一下handle这个参数到底起了什么作用,可以看下该函数的实现
+         *  
+         * 查看该函数的实现，发现该函数只是将命令和请求信息封装后写入到mOut缓冲区中,并没有发送出去.
+         *      
+         * 发送请求和接收回复部分的实现在下面的waitForResponse()函数中
+         */
         err = writeTransactionData(BC_TRANSACTION, flags, handle, code, data, NULL);
     }
     
@@ -657,7 +681,7 @@ IPCThreadState::IPCThreadState()
     clearCaller();
 
     // mIn和mOut是两个Parcel.
-    // 把它看成是发送和接收命令的缓冲区即可.
+    // 把它看成是接收和发送命令的缓冲区即可.
     // 每个线程都有一个mIn和一个mOut.
     // 其中mIn是用来接收来自Binder设备的数据,
     // 而mOut是用来存储发往Binder设备的数据.
@@ -679,17 +703,24 @@ status_t IPCThreadState::sendReply(const Parcel& reply, uint32_t flags)
     return waitForResponse(NULL, NULL);
 }
 
+/**
+ * waitForResponse()函数的功能：发送请求和接收回复
+ *
+ *
+ */
 status_t IPCThreadState::waitForResponse(Parcel *reply, status_t *acquireResult)
 {
     int32_t cmd;
     int32_t err;
 
     while (1) {
+        //好家伙, talkWithDriver!!!!!
         if ((err=talkWithDriver()) < NO_ERROR) break;
         err = mIn.errorCheck();
         if (err < NO_ERROR) break;
         if (mIn.dataAvail() == 0) continue;
         
+        //接收回复,得到Binder设备返回的消息码cmd
         cmd = mIn.readInt32();
         
         IF_LOG_COMMANDS() {
@@ -754,7 +785,9 @@ status_t IPCThreadState::waitForResponse(Parcel *reply, status_t *acquireResult)
             goto finish;
 
         default:
-            err = executeCommand(cmd);
+            //发送请求后，假设马上就收到了回复,后续如何处理,
+            // 可跟进executeCommand()函数查看
+            err = executeCommand(cmd); //看这个!!!
             if (err != NO_ERROR) goto finish;
             break;
         }
@@ -770,12 +803,17 @@ finish:
     return err;
 }
 
+/** 打破沙锅问到底：
+ *
+ *     该函数实现了如何与Binder设备进行交互,会是使用write/read方式吗
+ */
 status_t IPCThreadState::talkWithDriver(bool doReceive)
 {
     if (mProcess->mDriverFD <= 0) {
         return -EBADF;
     }
     
+    // binder_write_read是用来与Binder设备交换数据的结构
     binder_write_read bwr;
     
     // Is the read buffer empty?
@@ -786,11 +824,13 @@ status_t IPCThreadState::talkWithDriver(bool doReceive)
     // has requested to read the next data.
     const size_t outAvail = (!doReceive || needRead) ? mOut.dataSize() : 0;
     
+    //请求命令和请求消息的填充
     bwr.write_size = outAvail;
     bwr.write_buffer = (long unsigned int)mOut.data();
 
     // This is what we'll read.
     if (doReceive && needRead) {
+        //接收数据缓冲区信息的填充.如果以后收到数据,就直接填充到mIn中.
         bwr.read_size = mIn.dataCapacity();
         bwr.read_buffer = (long unsigned int)mIn.data();
     } else {
@@ -823,6 +863,7 @@ status_t IPCThreadState::talkWithDriver(bool doReceive)
             alog << "About to read/write, write size = " << mOut.dataSize() << endl;
         }
 #if defined(HAVE_ANDROID_OS)
+        //看来不是使用write/read方式,而是使用ioctl
         if (ioctl(mProcess->mDriverFD, BINDER_WRITE_READ, &bwr) >= 0)
             err = NO_ERROR;
         else
@@ -874,9 +915,12 @@ status_t IPCThreadState::talkWithDriver(bool doReceive)
 status_t IPCThreadState::writeTransactionData(int32_t cmd, uint32_t binderFlags,
     int32_t handle, uint32_t code, const Parcel& data, status_t* statusBuffer)
 {
+    //binder_transaction_data是和binder通信的数据结构
     binder_transaction_data tr;
 
+    //果然,handle的值传递给了target,用来标识目的端,其中,0是ServiceManager的标志
     tr.target.handle = handle;
+    // code是消息码,用来switch/case的!
     tr.code = code;
     tr.flags = binderFlags;
     tr.cookie = 0;
@@ -900,6 +944,9 @@ status_t IPCThreadState::writeTransactionData(int32_t cmd, uint32_t binderFlags,
         return (mLastError = err);
     }
     
+    //把命令写到mOut中,
+    //将addService的请求信息(data)封装到tr后,将tr写入到mOut中
+    //这里并不是直接发出去,可见这个函数有点名不副实.
     mOut.writeInt32(cmd);
     mOut.write(&tr, sizeof(tr));
     
@@ -1048,11 +1095,20 @@ status_t IPCThreadState::executeCommand(int32_t cmd)
                     << reinterpret_cast<const size_t*>(tr.data.ptr.offsets) << endl;
             }
             if (tr.target.ptr) {
+                /*
+                 * 看到了BBinder(BnServiceManager就是从BBinder派生的)..
+                 * 这里的b实际上就是实现BnServiceManager的那个对象
+                 */
                 sp<BBinder> b((BBinder*)tr.cookie);
                 const status_t error = b->transact(tr.code, buffer, &reply, tr.flags);
                 if (error < NO_ERROR) reply.setError(error);
 
             } else {
+                /*
+                 * the_context_object是IPCThreadState.cpp中定义的一个全局变量
+                 * 可通过setTheContextObject函数设置
+                 *
+                 */
                 const status_t error = the_context_object->transact(tr.code, buffer, &reply, tr.flags);
                 if (error < NO_ERROR) reply.setError(error);
             }
@@ -1081,6 +1137,9 @@ status_t IPCThreadState::executeCommand(int32_t cmd)
     
     case BR_DEAD_BINDER:
         {
+            /* 
+             * 收到binder驱动发来的service死掉的信息,看来只有Bp端能收到了
+             */
             BpBinder *proxy = (BpBinder*)mIn.readInt32();
             proxy->sendObituary();
             mOut.writeInt32(BC_DEAD_BINDER_DONE);
@@ -1101,6 +1160,7 @@ status_t IPCThreadState::executeCommand(int32_t cmd)
         break;
         
     case BR_SPAWN_LOOPER:
+        //特别注意: 这里将收到来自Binder驱动的指示以创建一个新线程,用于和Binder通信
         mProcess->spawnPooledThread(false);
         break;
         

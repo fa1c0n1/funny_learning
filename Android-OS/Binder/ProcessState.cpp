@@ -64,6 +64,8 @@ public:
 protected:
     virtual bool threadLoop()
     {
+        //线程函数很简单,不过是在新线程中又创建了一个IPCThreadState,并将其加入到线程池中
+        // 之前提到过,IPCThreadState每个线程都会有一个
         IPCThreadState::self()->joinThreadPool(mIsMain);
         return false;
     }
@@ -139,9 +141,10 @@ sp<IBinder> ProcessState::getContextObject(const String16& name, const sp<IBinde
 void ProcessState::startThreadPool()
 {
     AutoMutex _l(mLock);
+    //如果已经startThreadPool的话,这个函数就没有什么实质作用了.
     if (!mThreadPoolStarted) {
         mThreadPoolStarted = true;
-        spawnPooledThread(true);
+        spawnPooledThread(true); //注意,传进去的参数是true
     }
 }
 
@@ -316,6 +319,7 @@ void ProcessState::spawnPooledThread(bool isMain)
         char buf[16];
         snprintf(buf, sizeof(buf), "Binder_%X", s);
         ALOGV("Spawning new pooled thread, name=%s\n", buf);
+        // PoolThread是在ProcessState中定义的一个Thread的子类
         sp<Thread> t = new PoolThread(isMain);
         t->run(buf);
     }

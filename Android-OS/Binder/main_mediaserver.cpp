@@ -50,8 +50,24 @@ int main(int argc, char** argv)
     CameraService::instantiate();
     // 初始化音频系统的AudioPolicy服务
     AudioPolicyService::instantiate();
+
+    /*
+     * 有几个线程在为Service服务?
+     *
+     * 目前看来有两个:
+     *    : startThreadPool中新启动的线程通过joinThreadPool读取Binder设备,查看是否有请求.
+     *    : 主线程也调用joinThreadPool读取Binder设备,查看是否有请求.
+     *
+     *  看来, Binder设备是支持多线程操作的,其中一定做了同步方面的工作.
+     *
+     *  MediaServer这个进程一共注册了4个服务: AudioFlinger,MediaPlayerService,CameraService,AudioPolicyService
+     *  繁忙的时候,两个线程会不会有点少呢? 
+     *  另外,如果实现的服务负担不是很重,完全可以不调用 startThreadPool(),使用主线程即可胜任.
+     *
+     */
     // ④ 根据名称来推断,难道是要创建一个线程池吗？
     ProcessState::self()->startThreadPool();
     // ⑤ 下面的操作是要将自己加入到刚才的线程池中吗？
     IPCThreadState::self()->joinThreadPool();
+
 }
