@@ -165,6 +165,7 @@ status_t BpBinder::transact(
 {
     // Once a binder has died, it will never come back to life.
     if (mAlive) {
+        // BpBinder果然是道具,它把transact工作交给了IPCThreadState
         status_t status = IPCThreadState::self()->transact(
             mHandle, code, data, reply, flags); //mHandle也是参数
         if (status == DEAD_OBJECT) mAlive = 0;

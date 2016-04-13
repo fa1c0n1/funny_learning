@@ -296,11 +296,21 @@ static bool gShutdown = false;
 static bool gDisableBackgroundScheduling = false;
 
 // IPCThreadState也是一个单例
+// 且每个线程都有一个IPCThreadState
 IPCThreadState* IPCThreadState::self()
 {
-    if (gHaveTLS) {
+    if (gHaveTLS) { //第一次进来为false
 restart:
         const pthread_key_t k = gTLS;
+        /*
+         * TLS是Thread Local Storage(线程本地存储空间) 的简称.
+         * 这里只需知晓: 这种空间每个线程都有,而且线程间不共享这些空间.
+         * 通过pthread_getspecific/pthread_setspecific函数可以获取/设置这些空间中的内容.
+         *
+         * 从线程本地存储空间中获得保存在其中的IPCThreadState对象.
+         *
+         * 有调用pthread_getspecific的地方,肯定也有调用pthread_getspecific的地方.
+         */
         IPCThreadState* st = (IPCThreadState*)pthread_getspecific(k);
         if (st) return st;
         return new IPCThreadState;
@@ -502,6 +512,8 @@ void IPCThreadState::stopProcess(bool immediate)
     //kill(getpid(), SIGKILL);
 }
 
+//该函数实际完成了与Binder通信的工作
+//注意, handle的值为0,代表了通信的目地端
 status_t IPCThreadState::transact(int32_t handle,
                                   uint32_t code, const Parcel& data,
                                   Parcel* reply, uint32_t flags)
@@ -640,8 +652,15 @@ IPCThreadState::IPCThreadState()
       mStrictModePolicy(0),
       mLastTransactionBinderFlags(0)
 {
+    //在构造函数中,把自己设置到本地线程存储中去
     pthread_setspecific(gTLS, this);
     clearCaller();
+
+    // mIn和mOut是两个Parcel.
+    // 把它看成是发送和接收命令的缓冲区即可.
+    // 每个线程都有一个mIn和一个mOut.
+    // 其中mIn是用来接收来自Binder设备的数据,
+    // 而mOut是用来存储发往Binder设备的数据.
     mIn.setDataCapacity(256);
     mOut.setDataCapacity(256);
 }
