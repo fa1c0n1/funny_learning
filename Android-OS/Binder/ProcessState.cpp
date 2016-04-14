@@ -371,7 +371,7 @@ static int open_driver()
 // 这个函数非常重要,它打开了Binder设备
 ProcessState::ProcessState()
     // Android中有很多代码都是这么写的,稍不留神很容易忽略这里调用了一个很重要的函数
-    : mDriverFD(open_driver())
+    : mDriverFD(open_driver()) //打开binder设备
     , mVMStart(MAP_FAILED) //映射内存的起始地址
     , mManagesContexts(false)
     , mBinderContextCheckFunc(NULL)

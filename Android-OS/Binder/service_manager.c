@@ -74,13 +74,19 @@ int str16eq(uint16_t *a, const char *b)
     return 1;
 }
 
+/* 该函数是用来判断注册服务的进程是否有权限,
+ *   不是什么都可以注册的.
+ */
 int svc_can_register(unsigned uid, uint16_t *name)
 {
     unsigned n;
     
+    //如果是root用户或者system用户,则权限够高，允许注册
     if ((uid == 0) || (uid == AID_SYSTEM))
         return 1;
 
+    //allowed是一个结构体数组,用来控制那些达不到root或system的进程
+    //所以,如果Server进程权限不够root或system,请记住要在allowed添加相应的项.
     for (n = 0; n < sizeof(allowed) / sizeof(allowed[0]); n++)
         if ((uid == allowed[n].uid) && str16eq(name, allowed[n].name))
             return 1;
@@ -150,6 +156,7 @@ void *do_find_service(struct binder_state *bs, uint16_t *s, unsigned len, unsign
     }
 }
 
+//注册服务
 int do_add_service(struct binder_state *bs,
                    uint16_t *s, unsigned len,
                    void *ptr, unsigned uid, int allow_isolated)
@@ -161,6 +168,8 @@ int do_add_service(struct binder_state *bs,
     if (!ptr || (len == 0) || (len > 127))
         return -1;
 
+    // svc_can_register函数: 
+    //    比较要注册的进程的uid和名字是否有权限
     if (!svc_can_register(uid, s)) {
         ALOGE("add_service('%s',%p) uid=%d - PERMISSION DENIED\n",
              str8(s), ptr, uid);
@@ -213,6 +222,8 @@ int svcmgr_handler(struct binder_state *bs,
 //    ALOGI("target=%p code=%d pid=%d uid=%d\n",
 //         txn->target, txn->code, txn->sender_pid, txn->sender_euid);
 
+    //在这里svcmgr_handle等于BINDER_SERVICE_MANAGER
+    //这里要比较target是不是自己
     if (txn->target != svcmgr_handle)
         return -1;
 
@@ -228,6 +239,8 @@ int svcmgr_handler(struct binder_state *bs,
         return -1;
     }
 
+    //txn->code存放的是请求命令
+    //switch/case相继实现了IServiceManager中定义的各个业务请求
     switch(txn->code) {
     case SVC_MGR_GET_SERVICE:
     case SVC_MGR_CHECK_SERVICE:
@@ -238,15 +251,16 @@ int svcmgr_handler(struct binder_state *bs,
         bio_put_ref(reply, ptr);
         return 0;
 
-    case SVC_MGR_ADD_SERVICE:
-        s = bio_get_string16(msg, &len);
+    case SVC_MGR_ADD_SERVICE: //这个case: 处理注册服务的请求
+        s = bio_get_string16(msg, &len); //s是字符串表示的service的名称
         ptr = bio_get_ref(msg);
         allow_isolated = bio_get_uint32(msg) ? 1 : 0;
+        // do_add_service()函数最终完成了对addService请求的处理实现.
         if (do_add_service(bs, s, len, ptr, txn->sender_euid, allow_isolated))
             return -1;
         break;
 
-    case SVC_MGR_LIST_SERVICES: {
+    case SVC_MGR_LIST_SERVICES: { //这个case: 获取当前系统已注册的所有service的名字
         unsigned n = bio_get_uint32(msg);
 
         si = svclist;
@@ -270,16 +284,19 @@ int svcmgr_handler(struct binder_state *bs,
 int main(int argc, char **argv)
 {
     struct binder_state *bs;
-    void *svcmgr = BINDER_SERVICE_MANAGER;
+    void *svcmgr = BINDER_SERVICE_MANAGER; //BINDER_SERVICE_MANAGER的值为0,该常量定义在当前目录下的binder.h中
 
+    //①打开binder设备
     bs = binder_open(128*1024);
 
+    //②成为ServiceManager,是不是把自己的handle置为0?
     if (binder_become_context_manager(bs)) {
         ALOGE("cannot become context manager (%s)\n", strerror(errno));
         return -1;
     }
 
     svcmgr_handle = svcmgr;
+    //③处理客户端发过来的请求,最终会调用svcmgr_handler进行对请求进行处理
     binder_loop(bs, svcmgr_handler);
     return 0;
 }

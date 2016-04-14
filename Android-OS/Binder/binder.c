@@ -101,6 +101,7 @@ struct binder_state *binder_open(unsigned mapsize)
         return 0;
     }
 
+    //1)打开binder设备
     bs->fd = open("/dev/binder", O_RDWR);
     if (bs->fd < 0) {
         fprintf(stderr,"binder: cannot open device (%s)\n",
@@ -109,6 +110,7 @@ struct binder_state *binder_open(unsigned mapsize)
     }
 
     bs->mapsize = mapsize;
+    //2)内存映射 
     bs->mapped = mmap(NULL, mapsize, PROT_READ, MAP_PRIVATE, bs->fd, 0);
     if (bs->mapped == MAP_FAILED) {
         fprintf(stderr,"binder: cannot map device (%s)\n",
@@ -136,6 +138,7 @@ void binder_close(struct binder_state *bs)
 
 int binder_become_context_manager(struct binder_state *bs)
 {
+    //实现非常简单,这个0是否就是设置自己的handle呢?
     return ioctl(bs->fd, BINDER_SET_CONTEXT_MGR, 0);
 }
 
@@ -367,7 +370,7 @@ void binder_loop(struct binder_state *bs, binder_handler func)
     readbuf[0] = BC_ENTER_LOOPER;
     binder_write(bs, readbuf, sizeof(unsigned));
 
-    for (;;) {
+    for (;;) { //果然是循环
         bwr.read_size = sizeof(readbuf);
         bwr.read_consumed = 0;
         bwr.read_buffer = (unsigned) readbuf;
@@ -379,6 +382,7 @@ void binder_loop(struct binder_state *bs, binder_handler func)
             break;
         }
 
+        //接收到请求,交给binder_parse,最终会调用func处理这些请求
         res = binder_parse(bs, 0, readbuf, bwr.read_consumed, func);
         if (res == 0) {
             ALOGE("binder_loop: unexpected reply?!\n");
