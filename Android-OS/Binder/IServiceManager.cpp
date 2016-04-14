@@ -139,6 +139,7 @@ public:
     {
     }
 
+    // 查询服务
     virtual sp<IBinder> getService(const String16& name) const
     {
         unsigned n;
@@ -151,7 +152,6 @@ public:
         return NULL;
     }
 
-    // 查询服务
     virtual sp<IBinder> checkService( const String16& name) const
     {
         Parcel data, reply;

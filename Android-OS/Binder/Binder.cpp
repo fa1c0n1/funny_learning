@@ -105,6 +105,7 @@ status_t BBinder::transact(
             reply->writeInt32(pingBinder());
             break;
         default:
+            //调用子类(BnXXXServiceManager)的onTransact(),这是一个虚函数.
             err = onTransact(code, data, reply, flags);
             break;
     }

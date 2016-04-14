@@ -311,14 +311,19 @@ status_t BnMediaPlayerService::onTransact(
         } break;
         case CREATE_MEDIA_RECORDER: {
             CHECK_INTERFACE(IMediaPlayerService, data, reply);
+
+            //从请求数据中解析对应的参数
             pid_t pid = data.readInt32();
+            //MediaPlayerService(即BnMediaPlayerService的子类)要实现createMediaRecorder()函数
             sp<IMediaRecorder> recorder = createMediaRecorder(pid);
             reply->writeStrongBinder(recorder->asBinder());
             return NO_ERROR;
         } break;
         case CREATE_METADATA_RETRIEVER: {
             CHECK_INTERFACE(IMediaPlayerService, data, reply);
+            //从请求数据中解析对应的参数
             pid_t pid = data.readInt32();
+            //MediaPlayerService(即BnMediaPlayerService的子类)要实现createMetadataRetriever()函数
             sp<IMediaMetadataRetriever> retriever = createMetadataRetriever(pid);
             reply->writeStrongBinder(retriever->asBinder());
             return NO_ERROR;

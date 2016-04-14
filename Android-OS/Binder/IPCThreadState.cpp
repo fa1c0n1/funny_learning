@@ -515,7 +515,7 @@ void IPCThreadState::stopProcess(bool immediate)
 }
 
 //该函数实际完成了与Binder通信的工作
-//注意, handle的值为0,代表了通信的目地端
+//注意, handle的值为0,代表了通信的目的端是ServiceManager
 status_t IPCThreadState::transact(int32_t handle,
                                   uint32_t code, const Parcel& data,
                                   Parcel* reply, uint32_t flags)
@@ -1097,7 +1097,6 @@ status_t IPCThreadState::executeCommand(int32_t cmd)
             if (tr.target.ptr) {
                 /*
                  * 看到了BBinder(BnServiceManager就是从BBinder派生的)..
-                 * 这里的b实际上就是实现BnServiceManager的那个对象
                  */
                 sp<BBinder> b((BBinder*)tr.cookie);
                 const status_t error = b->transact(tr.code, buffer, &reply, tr.flags);
@@ -1137,10 +1136,13 @@ status_t IPCThreadState::executeCommand(int32_t cmd)
     
     case BR_DEAD_BINDER:
         {
-            /* 
-             * 收到binder驱动发来的service死掉的信息,看来只有Bp端能收到了
-             */
+            //Binder驱动会通知死亡消息.
+            //下面的proxy对应着已经死亡的远端BBinder.
             BpBinder *proxy = (BpBinder*)mIn.readInt32();
+
+            //发送讣告,Obituary是讣告的意思.
+            //最终会传递到你的DeathNotifier中.
+            //以IMediaDeathNotifier为例,DeathNotifier是IMediaDeathNotifier的内部类
             proxy->sendObituary();
             mOut.writeInt32(BC_DEAD_BINDER_DONE);
             mOut.writeInt32((int32_t)proxy);

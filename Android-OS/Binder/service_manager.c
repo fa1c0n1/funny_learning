@@ -191,19 +191,38 @@ int do_add_service(struct binder_state *bs,
                  str8(s), ptr, uid);
             return -1;
         }
+        //ptr是关键数据,可惜为 void * 类型,只有分析驱动的实现才能知道它的真正意义...
         si->ptr = ptr;
         si->len = len;
         memcpy(si->name, s, (len + 1) * sizeof(uint16_t));
         si->name[len] = '\0';
-        si->death.func = svcinfo_death;
+        si->death.func = svcinfo_death; //service退出的通知函数
         si->death.ptr = si;
         si->allow_isolated = allow_isolated;
+        //这个svclist是一个list(链表???),保存了当前注册到ServiceManager中的信息
         si->next = svclist;
         svclist = si;
     }
 
     binder_acquire(bs, ptr);
+
+    /*
+     * 我们希望当服务进程退出后,ServiceManager能有机会做一些清理的工作,例如释放前面的malloc出来的si
+     *  binder_link_to_death完成这项工作.
+     *  每当有服务进程退出时,ServiceManager都会得到来自Binder设备的通知.
+     *
+     */
     binder_link_to_death(bs, ptr, &si->death);
+
+    /* 至此,服务注册分析完毕.可知,ServiceManager不过就是保存了一些服务的信息.
+     *   那么，这样做又有什么意义呢, 为何需要一个ServiceManager,其重要作用何在?
+     *
+     * ServiceManager能集中管理系统内所有的服务,它能施加权限控制,并不是任何进程都可以注册服务.
+     * ServiceManager支持通过字符串名称来查找对应的Service,这个功能很像DNS.
+     * 另外,由于各种原因,Server进程可能生死无常,如果每个Client都去检测,压力实在太大.现在有了统一管理机构,
+     *      Client只需要查询ServiceManager,就能把握动向,得到最新信息.这可能正是ServiceManager存在的最大意义吧.
+     *
+     */
     return 0;
 }
 
