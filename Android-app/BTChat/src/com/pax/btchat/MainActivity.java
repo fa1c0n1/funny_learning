@@ -38,7 +38,8 @@ import com.pax.btchat.utils.ToastUtils;
 public class MainActivity extends Activity {
 	private static final String TAG = "BTChat";
 	private static final UUID btUUID = UUID.fromString("00001101-0000-1000-8000-00805F9B34FB");
-	private static final int REQUEST_CONNECT_DEVICE_SECURE = 1;
+	private static final int REQUEST_BLUETOOTH_PERMISSION = 1;
+	private static final int REQUEST_CONNECT_DEVICE_SECURE = 2;
 	
 	private ChatAdapter mAdapter;
 	private List<ChatMsg> chatMsgs;
@@ -97,6 +98,7 @@ public class MainActivity extends Activity {
 	}
 	
 	private void initEvent() {
+		requestBt();
 		acceptThread = new AcceptThread();
 		new Thread(acceptThread).start();
 		mAdapter = new ChatAdapter(MainActivity.this, R.layout.msg_item, chatMsgs);
@@ -133,6 +135,11 @@ public class MainActivity extends Activity {
 		});
 	}
 	
+	private void requestBt() {
+		Intent mIntent = new Intent(BluetoothAdapter.ACTION_REQUEST_DISCOVERABLE);
+		startActivityForResult(mIntent, REQUEST_BLUETOOTH_PERMISSION);
+	}
+
 	@Override
 	protected void onDestroy() {
 		Log.d(TAG, "kill myself...");
@@ -282,8 +289,6 @@ public class MainActivity extends Activity {
 				if (connThread != null && btTxSocket != null) {
 					connThread.cancel();
 				}
-//				ToastUtils.showToast(MainActivity.this, "已经断开与" + deviceName + "的连接");
-//				changeMenuTitle(item, "搜索设备");
 			}
 			
 			break;
@@ -307,6 +312,14 @@ public class MainActivity extends Activity {
 	@Override
 	protected void onActivityResult(int requestCode, int resultCode, Intent data) {
 		switch (requestCode) {
+		case REQUEST_BLUETOOTH_PERMISSION:
+			if (resultCode == RESULT_OK) {
+			    //TODO:
+			} else if (resultCode == RESULT_CANCELED) {
+			    ToastUtils.showToast(MainActivity.this, "程序退出");
+			    finish();
+			}
+			break;
         case REQUEST_CONNECT_DEVICE_SECURE:
             if (resultCode == Activity.RESULT_OK) {
 				String address = data.getExtras().getString(BtDeviceListActivity.EXTRA_DEVICE_ADDRESS);
@@ -315,7 +328,6 @@ public class MainActivity extends Activity {
             		BluetoothDevice device = mBtAdapter.getRemoteDevice(address);
             		connectBtDevice(device);
         		}
-            	
             }
             
             break;
