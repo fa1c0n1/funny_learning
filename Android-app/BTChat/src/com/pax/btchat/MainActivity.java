@@ -50,6 +50,7 @@ public class MainActivity extends Activity {
 	private ConnectThread connThread;
 	private BluetoothReceiver mReceiver;
 	
+	private BluetoothServerSocket serverSocket = null;
 	private BluetoothSocket btRxSocket = null;
 	private BluetoothSocket btTxSocket = null;
 	
@@ -69,9 +70,9 @@ public class MainActivity extends Activity {
 				break;
 			case ChatMsg.TYPE_SEND:
 				cmsg = new ChatMsg(ChatMsg.TYPE_SEND, (String) msg.obj);
+				etMsg.setText("");
 				break;
 			}
-			etMsg.setText("");
 			chatMsgs.add(cmsg);
 			mAdapter.notifyDataSetChanged();
 			lvChat.smoothScrollToPosition(chatMsgs.size());
@@ -144,11 +145,31 @@ public class MainActivity extends Activity {
 	protected void onDestroy() {
 		Log.d(TAG, "kill myself...");
 		super.onDestroy();
-		System.exit(0);
+		if (acceptThread != null) {
+			acceptThread.cancel();
+				try {
+					if (serverSocket != null) {
+						//跳出AcceptThread中的outer while循环
+						serverSocket.close();
+						serverSocket = null;
+					}
+				} catch (IOException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+		}
+		if (connThread != null) {
+			connThread.cancel();
+			connThread = null;
+		}
+		if (mReceiver != null) {
+			unregisterReceiver(mReceiver);
+			mReceiver = null;
+		}
+//		System.exit(0);
 	}
 	
 	private class AcceptThread implements Runnable {
-		private BluetoothServerSocket serverSocket = null;
 		private byte[] buf;
 		private int readLen;
 		
@@ -232,10 +253,6 @@ public class MainActivity extends Activity {
 							// TODO Auto-generated catch block
 							e.printStackTrace();
 						}
-					}
-					if (mReceiver != null) {
-						unregisterReceiver(mReceiver);
-						mReceiver = null;
 					}
 				}
 			}
@@ -370,14 +387,8 @@ public class MainActivity extends Activity {
 				return ;
 			}
 			
-			runOnUiThread(new Runnable() {
-				
-				@Override
-				public void run() {
-					tmpMenu.setTitle("断开连接");
-					Toast.makeText(MainActivity.this, "已连接到" + btDevice.getName(), Toast.LENGTH_SHORT).show();
-				}
-			});
+			changeMenuTitle(tmpMenu, "断开连接");
+			ToastUtils.showToast(MainActivity.this, "已连接到" + btDevice.getName());
 			
 			try {
 				mInputStream = btTxSocket.getInputStream();
