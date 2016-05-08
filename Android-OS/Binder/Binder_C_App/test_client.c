@@ -4,6 +4,11 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <errno.h>
+#include <fcntl.h>
+#include <linux/types.h>
+#include <stdbool.h>
+
+#include <private/android_filesystem_config.h>
 
 #include "binder.h"
 #include "test_server.h"
@@ -75,7 +80,7 @@ void sayhello(void)
 
     /* 调用binder_call */
     if (binder_call(g_bs, &msg, &reply, g_handle, HELLO_SVR_CMD_SAYHELLO)) {
-        return 0; 
+        return ; 
     }
 
     /* 从reply中解析处返回值 */

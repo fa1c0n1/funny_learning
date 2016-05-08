@@ -4,6 +4,11 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <errno.h>
+#include <fcntl.h>
+#include <linux/types.h>
+#include <stdbool.h>
+
+#include <private/android_filesystem_config.h>
 
 #include "binder.h"
 #include "test_server.h"
@@ -99,11 +104,11 @@ int hello_service_handler(struct binder_state *bs,
     //ALOGI("target=%x code=%d pid=%d uid=%d\n",
     //  txn->target.handle, txn->code, txn->sender_pid, txn->sender_euid);
 
-    if (txn->target.handle != svcmgr_handle)
-        return -1;
+    //if (txn->target.handle != svcmgr_handle)
+    //    return -1;
 
-    if (txn->code == PING_TRANSACTION)
-        return 0;
+    //if (txn->code == PING_TRANSACTION)
+    //    return 0;
 
     // Equivalent to Parcel::enforceInterface(), reading the RPC
     // header with the strict mode policy mask and the interface name.
@@ -129,13 +134,13 @@ int hello_service_handler(struct binder_state *bs,
         name[i] = '\0';
 
         /* 处理 */
-        i = sayhello_to();
+        i = sayhello_to(name);
         /* 把结果放入reply */
         bio_put_uint32(reply, i);
         break;
 
     default:
-        ALOGE("unknown code %d\n", txn->code);
+        fprintf(stderr, "unknown code %d\n", txn->code);
         return -1;
     }
 
@@ -158,13 +163,13 @@ int main(int argc, char **argv)
     }
 
     /*  add service */
-    ret = svcmgr_publish(bs, svcmgr, "hello", 123);
+    ret = svcmgr_publish(bs, svcmgr, "hello", (void *)123);
     if (!ret) {
         fprintf(stderr, "failed to publish hello service\n");
         return -1;
     }
 
-    ret = svcmgr_publish(bs, svcmgr, "goodbye", 123);
+    ret = svcmgr_publish(bs, svcmgr, "goodbye", (void *)123);
     if (!ret) {
         fprintf(stderr, "failed to publish goodbye service\n");
     }
