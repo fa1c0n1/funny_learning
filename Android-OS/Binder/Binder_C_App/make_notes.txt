@@ -1,2 +1,0 @@
-以下是编译tiny_aosp下的android-5.0.2/frameworks/native/cmds/servicemanager 时所摘抄下来的编译命令:
-
