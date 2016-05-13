@@ -309,7 +309,7 @@ restart:
          *
          * 从线程本地存储空间中获得保存在其中的IPCThreadState对象.
          *
-         * 有调用pthread_getspecific的地方,肯定也有调用pthread_getspecific的地方.
+         * 有调用pthread_getspecific的地方,肯定也有调用pthread_setspecific的地方.
          */
         IPCThreadState* st = (IPCThreadState*)pthread_getspecific(k);
         if (st) return st;
@@ -1096,7 +1096,8 @@ status_t IPCThreadState::executeCommand(int32_t cmd)
             }
             if (tr.target.ptr) {
                 /*
-                 * 看到了BBinder(BnServiceManager就是从BBinder派生的)..
+                 * 看到了BBinder(BnServiceXXX就是从BBinder派生的)..
+                 * 这里的b实际上就是实现BnServiceXXX的那个对象
                  */
                 sp<BBinder> b((BBinder*)tr.cookie);
                 const status_t error = b->transact(tr.code, buffer, &reply, tr.flags);
