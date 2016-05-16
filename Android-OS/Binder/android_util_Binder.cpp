@@ -818,6 +818,10 @@ static int int_register_android_os_Binder(JNIEnv* env)
     clazz = env->FindClass(kBinderPathName);
     LOG_FATAL_IF(clazz == NULL, "Unable to find class android.os.Binder");
 
+    /*
+       gBinderOffsets是一个静态类对象，它专门保存Binder类的一些在JNI层中使用的信息，
+       如成员函数execTransact的methodID，Binder类中成员mObject的fieldID
+     */
     gBinderOffsets.mClass = (jclass) env->NewGlobalRef(clazz);
     gBinderOffsets.mExecTransact
         = env->GetMethodID(clazz, "execTransact", "(IIII)Z");
@@ -827,6 +831,7 @@ static int int_register_android_os_Binder(JNIEnv* env)
         = env->GetFieldID(clazz, "mObject", "I");
     assert(gBinderOffsets.mObject);
 
+    //注册Binder类中的native函数的实现
     return AndroidRuntime::registerNativeMethods(
         env, kBinderPathName,
         gBinderMethods, NELEM(gBinderMethods));
@@ -1259,10 +1264,13 @@ static int int_register_android_os_BinderProxy(JNIEnv* env)
 
 int register_android_os_Binder(JNIEnv* env)
 {
+    //初始化Java Binder类和Native层的关系
     if (int_register_android_os_Binder(env) < 0)
         return -1;
+    //初始化Java BinderInternal类和Native层的关系
     if (int_register_android_os_BinderInternal(env) < 0)
         return -1;
+    //初始化Java BinderProxy类和Native层的关系
     if (int_register_android_os_BinderProxy(env) < 0)
         return -1;
 
