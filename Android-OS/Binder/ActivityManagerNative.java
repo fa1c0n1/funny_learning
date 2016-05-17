@@ -128,6 +128,14 @@ public abstract class ActivityManagerNative extends Binder implements IActivityM
                     ? data.readFileDescriptor() : null;
             Bundle options = data.readInt() != 0
                     ? Bundle.CREATOR.createFromParcel(data) : null;
+            /*
+             * 再由AMS实现业务函数startActivity(该函数的声明是在IActivityManager接口中)
+             *  由此可以看出，JavaBBinder仅是一个传声筒，它本身并不实现任何业务函数，其工作整理如下：
+             *     1) 当它收到请求时，只是简单地调用它所绑定的Java层Binder对象的execTransact()方法
+             *     2) 该Binder对象的execTransact()调用其子类(如ActivityManagerNative)实现的onTransact函数.
+             *     3) 该子类的onTransact()方法将业务又派发给其子类(如AMS)来完成。
+             *  通过这种方式，来自客户端的请求就能传递到正确的Java Binder对象了。
+             */
             int result = startActivity(app, intent, resolvedType,
                     resultTo, resultWho, requestCode, startFlags,
                     profileFile, profileFd, options);

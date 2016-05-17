@@ -159,7 +159,7 @@ class ServiceManagerProxy implements IServiceManager {
         data.writeInterfaceToken(IServiceManager.descriptor);
         data.writeString(name);
 
-        //注意下面这个writeStrongBinder函数,
+        //注意下面这个writeStrongBinder函数??
         data.writeStrongBinder(service);
         data.writeInt(allowIsolated ? 1 : 0);
 

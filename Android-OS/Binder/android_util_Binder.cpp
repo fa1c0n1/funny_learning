@@ -230,6 +230,15 @@ bail:
 
 class JavaBBinderHolder;
 
+/*
+ * 初见JavaBBinder时，多少有些吃惊。回想Native层的Binder架构：
+ *    虽然在代码中调用的是Binder类提供的接口，但其对象却是一个实际的服务端对象，
+ *    例如MediaPlayerService对象、AudioFlinger对象
+ *
+ * 而在Java层的Binder架构中，JavaBBinder却是一个和业务完全无关的对象。那么，
+ * 这个对象如何实现不同业务呢？
+ * 为回答此问题，我们必须查看它的onTransact函数。当收到请求时，系统会调用这个函数.
+ */
 class JavaBBinder : public BBinder
 {
 public:
@@ -260,6 +269,7 @@ protected:
         env->DeleteGlobalRef(mObject);
     }
 
+    //当收到请求时，系统会调用这个函数.
     virtual status_t onTransact(
         uint32_t code, const Parcel& data, Parcel* reply, uint32_t flags = 0)
     {
@@ -274,6 +284,13 @@ protected:
         //printf("Transact from %p to Java code sending: ", this);
         //data.print();
         //printf("\n");
+
+        /*
+         * 调用Java层Binder对象的execTransact()方法
+         * 因为这里用的是ActivityManagerService为例来分析，
+         * 所以这里的mObject就是ActivityManagerService,
+         * 现在调用它的execTransact()方法, 该方法是在Binder类中实现的，见Binder.java
+         */
         jboolean res = env->CallBooleanMethod(mObject, gBinderOffsets.mExecTransact,
             code, (int32_t)&data, (int32_t)reply, flags);
         jthrowable excep = env->ExceptionOccurred();
@@ -331,7 +348,20 @@ private:
 };
 
 // ----------------------------------------------------------------------------
-
+/*
+ * 从派生关系上可以发现，JavaBBinderHolder仅从RefBase派生，
+ * 所以它不属于Binder家族。Java层的Binder对象为什么会和一个与Binder家族无关的对象绑定呢？
+ * 仔细观察JavaBBinderHolder的定义可知：
+ *     JavaBBinderHolder类的get函数中创建了一个JavaBBinder对象，这个对象就是从BBinder派生的
+ * 
+ * 那么这个get()函数是在哪里调用的？ 答案就在下面这句代码中(可在ServiceManagerProxy类的addService()方法中找到):
+ *  
+ *   //其中, data是Parcel对象, service此时还是ActivityManagerService
+ *   // writeStrongBinder()会做一个替换工作
+ *   //该方法的调用native方法nativeWriteStrongBinder(),
+ *   // 且其native实现在android_os_Parcel.cpp中的android_os_Parcel_writeStrongBinder()
+ *   data.writeStrongBinder(service); 
+ */
 class JavaBBinderHolder : public RefBase
 {
 public:
@@ -340,6 +370,7 @@ public:
         AutoMutex _l(mLock);
         sp<JavaBBinder> b = mBinder.promote();
         if (b == NULL) {
+            //创建一个JavaBBinder，obj实际上是Java层的Binder对象
             b = new JavaBBinder(env, obj);
             mBinder = b;
             ALOGV("Creating JavaBinder %p (refs %p) for Object %p, weakCount=%d\n",
@@ -645,12 +676,30 @@ sp<IBinder> ibinderForJavaObject(JNIEnv* env, jobject obj)
 {
     if (obj == NULL) return NULL;
 
+    /*
+     * 如果Java的obj是Binder类，则首先获得JavaBBinderHolder对象，
+     * 然后调用它的get()函数.
+     * 而这个get将返回一个JavaBBinder
+     * 
+     * 由此可知，addService实际添加到Parcel的并不是ActivityManagerService本身,
+     * 而是一个叫JavaBBinder的对象，而最终传递到Binder驱动的正是这个JavaBBinder对象
+     *
+     * 小结：
+     *   1) Java层的Binder通过mObject指向一个Native层的JavaBBinderHolder对象.
+     *   2) Native层的JavaBBinderHolder对象通过mBinder成员变量指向一个Native层的JavaBBinder对象.
+     *   3) Native的JavaBBinder对象又通过mObject变量指向一个Java层的Binder对象.
+     *
+     * 为什么不直接让Java层的Binder对象指向Native层的JavaBBinder对象呢？由于缺乏设计文档，这里
+     * 不便妄加揣测，但从JavaBBinderHolder的实现上来分析，估计和垃圾回收(内存管理)有关，因为
+     * JavaBBinderHolder中的mBinder对象的类型被定义成弱引用wp了。
+     */
     if (env->IsInstanceOf(obj, gBinderOffsets.mClass)) {
         JavaBBinderHolder* jbh = (JavaBBinderHolder*)
             env->GetIntField(obj, gBinderOffsets.mObject);
         return jbh != NULL ? jbh->get(env, obj) : NULL;
     }
 
+    //如果obj是BinderProxy类，则返回Native的BpBinder对象
     if (env->IsInstanceOf(obj, gBinderProxyOffsets.mClass)) {
         return (IBinder*)
             env->GetIntField(obj, gBinderProxyOffsets.mObject);
@@ -798,6 +847,7 @@ static void android_os_Binder_flushPendingCommands(JNIEnv* env, jobject clazz)
 
 static void android_os_Binder_init(JNIEnv* env, jobject obj)
 {
+    //创建一个JavaBBinderHolder对象
     JavaBBinderHolder* jbh = new JavaBBinderHolder();
     if (jbh == NULL) {
         jniThrowException(env, "java/lang/OutOfMemoryError", NULL);
@@ -805,6 +855,9 @@ static void android_os_Binder_init(JNIEnv* env, jobject obj)
     }
     ALOGV("Java Binder %p: acquiring first ref on holder %p", obj, jbh);
     jbh->incStrong((void*)android_os_Binder_init);
+
+    //将这个JavaBBindHolder对象保存到Java Binder对象的mObject成员中
+    // 可见Java的Binder对象将和一个Native层的JavaBBinderHolder对象相关联
     env->SetIntField(obj, gBinderOffsets.mObject, (int)jbh);
 }
 

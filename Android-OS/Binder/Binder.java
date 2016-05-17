@@ -348,6 +348,7 @@ public class Binder implements IBinder {
         // so we'll just call it directly.
         boolean res;
         try {
+            //调用onTransact函数，派生类(比如ActivityManagerNative)可以重新实现这个函数，以完成业务功能
             res = onTransact(code, data, reply, flags);
         } catch (RemoteException e) {
             reply.setDataPosition(0);
