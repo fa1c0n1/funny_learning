@@ -73,6 +73,14 @@ public class BinderInternal {
      * an implementation of IServiceManager, which you can use to find
      * other services.
      */
+    //具体实现在 android_util_Binder.cpp中
+    /*
+     * 简单整理以下BinderInternal.getContextObject()，
+     * 该函数完成了以下工作：
+     *   1)创建了一个Java层的BinderProxy对象
+     *   2)通过JNI，该BinderProxy对象和一个Native层的BpBinder对象挂钩，而
+     *     BpBinder的通信目标就是servicemanager
+     */
     public static final native IBinder getContextObject();
     
     /**

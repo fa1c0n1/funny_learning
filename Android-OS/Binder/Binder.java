@@ -378,6 +378,7 @@ final class BinderProxy implements IBinder {
     }
     
     public native String getInterfaceDescriptor() throws RemoteException;
+    //参见android_util_Binder.cpp
     public native boolean transact(int code, Parcel data, Parcel reply,
             int flags) throws RemoteException;
     public native void linkToDeath(DeathRecipient recipient, int flags)

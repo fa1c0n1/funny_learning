@@ -36,6 +36,10 @@ public final class ServiceManager {
         }
 
         // Find the service manager
+        //调用asInterface，传递的参数类型为IBinder
+        //通过跟进代码可知：
+        //    BinderInternal.getContextObject() 最终返回的是一个可以访问Native层BpBinder对象的BinderProxy对象
+        //    ServiceManagerNative.asInterface()返回的是ServiceManagerProxy对象
         sServiceManager = ServiceManagerNative.asInterface(BinderInternal.getContextObject());
         return sServiceManager;
     }
@@ -86,6 +90,7 @@ public final class ServiceManager {
      */
     public static void addService(String name, IBinder service, boolean allowIsolated) {
         try {
+            //getIServiceManager返回什么
             getIServiceManager().addService(name, service, allowIsolated);
         } catch (RemoteException e) {
             Log.e(TAG, "error in addService", e);

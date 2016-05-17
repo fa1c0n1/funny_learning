@@ -565,8 +565,17 @@ jobject javaObjectForIBinder(JNIEnv* env, const sp<IBinder>& val)
 
     // For the rest of the function we will hold this lock, to serialize
     // looking/creation of Java proxies for native Binder proxies.
+    //mProxyLock是一个全局静态CMutex对象
     AutoMutex _l(mProxyLock);
 
+    /*
+     * val对象实际类型是BpBinder
+     * 事实上，在Native层的BpBinder中有一个ObjectManager，它用来管理在Native BpBinder上
+     * 创建的Java BpBinder对象。
+     * 
+     * 下面这个findObject用来判断gBinderProxyOffsets是否已经保存在ObjectManager中。
+     * 如果是，那就需要删除这个旧的对象
+     */
     // Someone else's...  do we know about it?
     jobject object = (jobject)val->findObject(&gBinderProxyOffsets);
     if (object != NULL) {
@@ -581,10 +590,17 @@ jobject javaObjectForIBinder(JNIEnv* env, const sp<IBinder>& val)
         env->DeleteGlobalRef(object);
     }
 
+    //创建一个新的BinderProxy对象，并将它注册到Native BpBinder对象的ObjectManager中
     object = env->NewObject(gBinderProxyOffsets.mClass, gBinderProxyOffsets.mConstructor);
     if (object != NULL) {
         LOGDEATH("objectForBinder %p: created new proxy %p !\n", val.get(), object);
         // The proxy holds a reference to the native object.
+        /*
+         * 把Native层的BpBinder的指针保存到BinderProxy对象的成员字段mObject中
+         * 于是BinderProxy对象的Native方法可以通过mObject获取BpBinder对象的指针
+         * 
+         * 这个操作是将BinderProxy与BpProxy联系起来的纽带
+         */
         env->SetIntField(object, gBinderProxyOffsets.mObject, (int)val.get());
         val->incStrong(object);
 
@@ -592,16 +608,33 @@ jobject javaObjectForIBinder(JNIEnv* env, const sp<IBinder>& val)
         // proxy, so we can retrieve the same proxy if it is still active.
         jobject refObject = env->NewGlobalRef(
                 env->GetObjectField(object, gBinderProxyOffsets.mSelf));
+
+        /*
+         * 将这个新创建的BinderProxy对象注册(attch)到BpBinder的ObjectManager中，
+         * 同时注册一个回收函数proxy_cleanup. 当BinderProxy对象撤销(detach)的时候，
+         * 该函数会被调用，以释放一些资源(可研究proxy_cleanup).
+         */
         val->attachObject(&gBinderProxyOffsets, refObject,
                 jnienv_to_javavm(env), proxy_cleanup);
 
         // Also remember the death recipients registered on this proxy
+        //DeathRecipientList保存了一个用于死亡通知的list
         sp<DeathRecipientList> drl = new DeathRecipientList;
         drl->incStrong((void*)javaObjectForIBinder);
+
+        //将死亡通知list和BinderProxy对象联系起来.
         env->SetIntField(object, gBinderProxyOffsets.mOrgue, reinterpret_cast<jint>(drl.get()));
 
         // Note that a new object reference has been created.
+        //增加该Proxy对象的引用计数.
         android_atomic_inc(&gNumProxyRefs);
+
+        /*
+          下面这个函数用于垃圾回收.
+          创建的Proxy对象一旦超过200个，
+          该函数将调用BinderInternal类的
+          ForceGc函数做一次垃圾回收. 
+        */
         incRefsCreated(env);
     }
 
@@ -866,7 +899,10 @@ jint android_os_Debug_getDeathObjectCount(JNIEnv* env, jobject clazz)
 
 static jobject android_os_BinderInternal_getContextObject(JNIEnv* env, jobject clazz)
 {
+    //这句代码在学习Native层的Binder时分析过，会返回一个BpBinder对象，
+    //且handle为0，也就是说这里的NULL是用来指明目的端为0，即servicemanager
     sp<IBinder> b = ProcessState::self()->getContextObject(NULL);
+    //由Native层对象创建为一个Java对象
     return javaObjectForIBinder(env, b);
 }
 
@@ -907,11 +943,16 @@ static int int_register_android_os_BinderInternal(JNIEnv* env)
     clazz = env->FindClass(kBinderInternalPathName);
     LOG_FATAL_IF(clazz == NULL, "Unable to find class com.android.internal.os.BinderInternal");
 
+    /*
+       gBinderInternalOffsets是一个静态类对象，它专门保存BinderInternal类的一些在JNI层中使用的信息，
+       如静态成员函数forceBinderGc的methodID
+     */
     gBinderInternalOffsets.mClass = (jclass) env->NewGlobalRef(clazz);
     gBinderInternalOffsets.mForceGc
         = env->GetStaticMethodID(clazz, "forceBinderGc", "()V");
     assert(gBinderInternalOffsets.mForceGc);
 
+    //注册BinderInternal类中的native函数的实现
     return AndroidRuntime::registerNativeMethods(
         env, kBinderInternalPathName,
         gBinderInternalMethods, NELEM(gBinderInternalMethods));
@@ -1057,15 +1098,18 @@ static jboolean android_os_BinderProxy_transact(JNIEnv* env, jobject obj,
         return JNI_FALSE;
     }
 
+    //从Java层的Parcel对象中得到作为参数的Native的Parcel对象
     Parcel* data = parcelForJavaObject(env, dataObj);
     if (data == NULL) {
         return JNI_FALSE;
     }
+    //得到一个用于接收回复的Parcel对象
     Parcel* reply = parcelForJavaObject(env, replyObj);
     if (reply == NULL && replyObj != NULL) {
         return JNI_FALSE;
     }
 
+    //从Java层的BinderProxy对象中得到之前已经创建好的那个Native层的BpBinder对象
     IBinder* target = (IBinder*)
         env->GetIntField(obj, gBinderProxyOffsets.mObject);
     if (target == NULL) {
@@ -1085,6 +1129,7 @@ static jboolean android_os_BinderProxy_transact(JNIEnv* env, jobject obj,
         start_millis = uptimeMillis();
     }
     //printf("Transact from Java code to %p sending: ", target); data->print();
+    //通过Native层的BpBinder对象将请求发送给servicemanager
     status_t err = target->transact(code, *data, reply, flags);
     //if (reply) printf("Transact from Java code to %p received: ", target); reply->print();
     if (time_binder_calls) {
@@ -1218,18 +1263,23 @@ static int int_register_android_os_BinderProxy(JNIEnv* env)
 
     clazz = env->FindClass("java/lang/ref/WeakReference");
     LOG_FATAL_IF(clazz == NULL, "Unable to find class java.lang.ref.WeakReference");
+
+    //gWeakReferenceOffsets用来和WeakReference类打交道
     gWeakReferenceOffsets.mClass = (jclass) env->NewGlobalRef(clazz);
+    //获取WeakReference类get函数的MethodID
     gWeakReferenceOffsets.mGet
         = env->GetMethodID(clazz, "get", "()Ljava/lang/Object;");
     assert(gWeakReferenceOffsets.mGet);
 
     clazz = env->FindClass("java/lang/Error");
     LOG_FATAL_IF(clazz == NULL, "Unable to find class java.lang.Error");
+    //gErrorOffsets用来和Error类打交道
     gErrorOffsets.mClass = (jclass) env->NewGlobalRef(clazz);
 
     clazz = env->FindClass(kBinderProxyPathName);
     LOG_FATAL_IF(clazz == NULL, "Unable to find class android.os.BinderProxy");
 
+    //gBinderProxyOffsets用来和BinderProxy类打交道
     gBinderProxyOffsets.mClass = (jclass) env->NewGlobalRef(clazz);
     gBinderProxyOffsets.mConstructor
         = env->GetMethodID(clazz, "<init>", "()V");
@@ -1250,9 +1300,11 @@ static int int_register_android_os_BinderProxy(JNIEnv* env)
 
     clazz = env->FindClass("java/lang/Class");
     LOG_FATAL_IF(clazz == NULL, "Unable to find java.lang.Class");
+    //gClassOffsets用来和Class类打交道
     gClassOffsets.mGetName = env->GetMethodID(clazz, "getName", "()Ljava/lang/String;");
     assert(gClassOffsets.mGetName);
 
+    //注册BinderProxy类中的native函数的实现
     return AndroidRuntime::registerNativeMethods(
         env, kBinderProxyPathName,
         gBinderProxyMethods, NELEM(gBinderProxyMethods));

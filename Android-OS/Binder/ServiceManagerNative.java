@@ -30,6 +30,11 @@ public abstract class ServiceManagerNative extends Binder implements IServiceMan
      * Cast a Binder object into a service manager interface, generating
      * a proxy if needed.
      */
+    /*
+     * 这里的asInterface方法与Native层Binder中的interface_cast宏的作用类似，
+     *   Java层：以BinderProxy对象为参数构造一个与业务相关的Proxy对象--ServiceManagerProxy.
+     *   Native层: 以BpBinder对象为参数构造一个与业务相关的Proxy对象--BpServiceManager.
+     */
     static public IServiceManager asInterface(IBinder obj)
     {
         if (obj == null) {
@@ -41,6 +46,14 @@ public abstract class ServiceManagerNative extends Binder implements IServiceMan
             return in;
         }
         
+        /*
+         * ServiceManagerProxy对象的各个业务函数会将相应的请求打包交给
+         * BinderProxy对象，该对象再调用native方法，最终由Native层的BpBinder
+         * 对象发送给Binder驱动以完成一次通信。
+         *
+         * PS: 实际上，通过之前对Native层的Binder分析可知，BpBinder对象也不会直接
+         *     和Binder驱动交互，真正和Binder驱动交互的是IPCThreadState
+         */
         return new ServiceManagerProxy(obj);
     }
     
@@ -145,8 +158,13 @@ class ServiceManagerProxy implements IServiceManager {
         Parcel reply = Parcel.obtain();
         data.writeInterfaceToken(IServiceManager.descriptor);
         data.writeString(name);
+
+        //注意下面这个writeStrongBinder函数,
         data.writeStrongBinder(service);
         data.writeInt(allowIsolated ? 1 : 0);
+
+        //mRemote实际上就是BinderProxy对象
+        //调用它的native方法transact，将封装好的请求数据发送出去
         mRemote.transact(ADD_SERVICE_TRANSACTION, data, reply, 0);
         reply.recycle();
         data.recycle();

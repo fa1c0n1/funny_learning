@@ -1364,6 +1364,7 @@ public final class ActivityManagerService extends ActivityManagerNative
         try {
             ActivityManagerService m = mSelf;
             
+            //将ActivityManagerService服务注册到ServiceManager中
             ServiceManager.addService("activity", m, true);
             ServiceManager.addService("meminfo", new MemBinder(m));
             ServiceManager.addService("gfxinfo", new GraphicsBinder(m));
