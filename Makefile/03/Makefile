@@ -21,7 +21,7 @@
 
 #另类风格的Makfile(不推荐，因为文件的依赖关系显得凌乱)
 
-objects = main.o kbd.o command.o display.o insert.o /
+objects = main.o kbd.o command.o display.o insert.o \
           search.o files.o utils.o 
 
 edit : $(objects) 

@@ -19,7 +19,7 @@
 #使用变量;
 #让make自动推导
 
-objects = main.o kbd.o command.o display.o insert.o /
+objects = main.o kbd.o command.o display.o insert.o \ 
           search.o files.o utils.o 
 
 edit : $(objects) 
