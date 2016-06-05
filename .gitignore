@@ -9,6 +9,8 @@ tags
 # Directory
 Head-First-C_Notes/cout/
 c++_primer_plus/cppout/
+arithmetic/aout/
+
 
 # Precompiled Headers
 *.gch
