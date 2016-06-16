@@ -1,0 +1,547 @@
+!_TAG_FILE_FORMAT	2	/extended format; --format=1 will not append ;" to lines/
+!_TAG_FILE_SORTED	1	/0=unsorted, 1=sorted, 2=foldcase/
+!_TAG_PROGRAM_AUTHOR	Darren Hiebert	/dhiebert@users.sourceforge.net/
+!_TAG_PROGRAM_NAME	Exuberant Ctags	//
+!_TAG_PROGRAM_URL	http://ctags.sourceforge.net	/official site/
+!_TAG_PROGRAM_VERSION	5.8	//
+AllocObject	.\jni.h	/^    jobject     (*AllocObject)(JNIEnv*, jclass);$/;"	m	struct:JNINativeInterface
+AllocObject	.\jni.h	/^    jobject AllocObject(jclass clazz)$/;"	f	struct:_JNIEnv
+AttachCurrentThread	.\jni.h	/^    jint        (*AttachCurrentThread)(JavaVM*, JNIEnv**, void*);$/;"	m	struct:JNIInvokeInterface
+AttachCurrentThread	.\jni.h	/^    jint AttachCurrentThread(JNIEnv** p_env, void* thr_args)$/;"	f	struct:_JavaVM
+AttachCurrentThreadAsDaemon	.\jni.h	/^    jint        (*AttachCurrentThreadAsDaemon)(JavaVM*, JNIEnv**, void*);$/;"	m	struct:JNIInvokeInterface
+AttachCurrentThreadAsDaemon	.\jni.h	/^    jint AttachCurrentThreadAsDaemon(JNIEnv** p_env, void* thr_args)$/;"	f	struct:_JavaVM
+CALL_NONVIRT_TYPE	.\jni.h	677;"	d
+CALL_NONVIRT_TYPE_METHOD	.\jni.h	654;"	d
+CALL_NONVIRT_TYPE_METHODA	.\jni.h	671;"	d
+CALL_NONVIRT_TYPE_METHODV	.\jni.h	666;"	d
+CALL_STATIC_TYPE	.\jni.h	774;"	d
+CALL_STATIC_TYPE_METHOD	.\jni.h	751;"	d
+CALL_STATIC_TYPE_METHODA	.\jni.h	768;"	d
+CALL_STATIC_TYPE_METHODV	.\jni.h	763;"	d
+CALL_TYPE	.\jni.h	627;"	d
+CALL_TYPE_METHOD	.\jni.h	607;"	d
+CALL_TYPE_METHODA	.\jni.h	622;"	d
+CALL_TYPE_METHODV	.\jni.h	618;"	d
+C_JNIEnv	.\jni.h	/^typedef const struct JNINativeInterface* C_JNIEnv;$/;"	t	typeref:struct:JNINativeInterface
+CallBooleanMethod	.\jni.h	/^    jboolean    (*CallBooleanMethod)(JNIEnv*, jobject, jmethodID, ...);$/;"	m	struct:JNINativeInterface
+CallBooleanMethodA	.\jni.h	/^    jboolean    (*CallBooleanMethodA)(JNIEnv*, jobject, jmethodID, jvalue*);$/;"	m	struct:JNINativeInterface
+CallBooleanMethodV	.\jni.h	/^    jboolean    (*CallBooleanMethodV)(JNIEnv*, jobject, jmethodID, va_list);$/;"	m	struct:JNINativeInterface
+CallByteMethod	.\jni.h	/^    jbyte       (*CallByteMethod)(JNIEnv*, jobject, jmethodID, ...);$/;"	m	struct:JNINativeInterface
+CallByteMethodA	.\jni.h	/^    jbyte       (*CallByteMethodA)(JNIEnv*, jobject, jmethodID, jvalue*);$/;"	m	struct:JNINativeInterface
+CallByteMethodV	.\jni.h	/^    jbyte       (*CallByteMethodV)(JNIEnv*, jobject, jmethodID, va_list);$/;"	m	struct:JNINativeInterface
+CallCharMethod	.\jni.h	/^    jchar       (*CallCharMethod)(JNIEnv*, jobject, jmethodID, ...);$/;"	m	struct:JNINativeInterface
+CallCharMethodA	.\jni.h	/^    jchar       (*CallCharMethodA)(JNIEnv*, jobject, jmethodID, jvalue*);$/;"	m	struct:JNINativeInterface
+CallCharMethodV	.\jni.h	/^    jchar       (*CallCharMethodV)(JNIEnv*, jobject, jmethodID, va_list);$/;"	m	struct:JNINativeInterface
+CallDoubleMethod	.\jni.h	/^    jdouble     (*CallDoubleMethod)(JNIEnv*, jobject, jmethodID, ...);$/;"	m	struct:JNINativeInterface
+CallDoubleMethodA	.\jni.h	/^    jdouble     (*CallDoubleMethodA)(JNIEnv*, jobject, jmethodID, jvalue*);$/;"	m	struct:JNINativeInterface
+CallDoubleMethodV	.\jni.h	/^    jdouble     (*CallDoubleMethodV)(JNIEnv*, jobject, jmethodID, va_list);$/;"	m	struct:JNINativeInterface
+CallFloatMethod	.\jni.h	/^    jfloat      (*CallFloatMethod)(JNIEnv*, jobject, jmethodID, ...);$/;"	m	struct:JNINativeInterface
+CallFloatMethodA	.\jni.h	/^    jfloat      (*CallFloatMethodA)(JNIEnv*, jobject, jmethodID, jvalue*);$/;"	m	struct:JNINativeInterface
+CallFloatMethodV	.\jni.h	/^    jfloat      (*CallFloatMethodV)(JNIEnv*, jobject, jmethodID, va_list);$/;"	m	struct:JNINativeInterface
+CallIntMethod	.\jni.h	/^    jint        (*CallIntMethod)(JNIEnv*, jobject, jmethodID, ...);$/;"	m	struct:JNINativeInterface
+CallIntMethodA	.\jni.h	/^    jint        (*CallIntMethodA)(JNIEnv*, jobject, jmethodID, jvalue*);$/;"	m	struct:JNINativeInterface
+CallIntMethodV	.\jni.h	/^    jint        (*CallIntMethodV)(JNIEnv*, jobject, jmethodID, va_list);$/;"	m	struct:JNINativeInterface
+CallLongMethod	.\jni.h	/^    jlong       (*CallLongMethod)(JNIEnv*, jobject, jmethodID, ...);$/;"	m	struct:JNINativeInterface
+CallLongMethodA	.\jni.h	/^    jlong       (*CallLongMethodA)(JNIEnv*, jobject, jmethodID, jvalue*);$/;"	m	struct:JNINativeInterface
+CallLongMethodV	.\jni.h	/^    jlong       (*CallLongMethodV)(JNIEnv*, jobject, jmethodID, va_list);$/;"	m	struct:JNINativeInterface
+CallNonvirtualBooleanMethod	.\jni.h	/^    jboolean    (*CallNonvirtualBooleanMethod)(JNIEnv*, jobject, jclass,$/;"	m	struct:JNINativeInterface
+CallNonvirtualBooleanMethodA	.\jni.h	/^    jboolean    (*CallNonvirtualBooleanMethodA)(JNIEnv*, jobject, jclass,$/;"	m	struct:JNINativeInterface
+CallNonvirtualBooleanMethodV	.\jni.h	/^    jboolean    (*CallNonvirtualBooleanMethodV)(JNIEnv*, jobject, jclass,$/;"	m	struct:JNINativeInterface
+CallNonvirtualByteMethod	.\jni.h	/^    jbyte       (*CallNonvirtualByteMethod)(JNIEnv*, jobject, jclass,$/;"	m	struct:JNINativeInterface
+CallNonvirtualByteMethodA	.\jni.h	/^    jbyte       (*CallNonvirtualByteMethodA)(JNIEnv*, jobject, jclass,$/;"	m	struct:JNINativeInterface
+CallNonvirtualByteMethodV	.\jni.h	/^    jbyte       (*CallNonvirtualByteMethodV)(JNIEnv*, jobject, jclass,$/;"	m	struct:JNINativeInterface
+CallNonvirtualCharMethod	.\jni.h	/^    jchar       (*CallNonvirtualCharMethod)(JNIEnv*, jobject, jclass,$/;"	m	struct:JNINativeInterface
+CallNonvirtualCharMethodA	.\jni.h	/^    jchar       (*CallNonvirtualCharMethodA)(JNIEnv*, jobject, jclass,$/;"	m	struct:JNINativeInterface
+CallNonvirtualCharMethodV	.\jni.h	/^    jchar       (*CallNonvirtualCharMethodV)(JNIEnv*, jobject, jclass,$/;"	m	struct:JNINativeInterface
+CallNonvirtualDoubleMethod	.\jni.h	/^    jdouble     (*CallNonvirtualDoubleMethod)(JNIEnv*, jobject, jclass,$/;"	m	struct:JNINativeInterface
+CallNonvirtualDoubleMethodA	.\jni.h	/^    jdouble     (*CallNonvirtualDoubleMethodA)(JNIEnv*, jobject, jclass,$/;"	m	struct:JNINativeInterface
+CallNonvirtualDoubleMethodV	.\jni.h	/^    jdouble     (*CallNonvirtualDoubleMethodV)(JNIEnv*, jobject, jclass,$/;"	m	struct:JNINativeInterface
+CallNonvirtualFloatMethod	.\jni.h	/^    jfloat      (*CallNonvirtualFloatMethod)(JNIEnv*, jobject, jclass,$/;"	m	struct:JNINativeInterface
+CallNonvirtualFloatMethodA	.\jni.h	/^    jfloat      (*CallNonvirtualFloatMethodA)(JNIEnv*, jobject, jclass,$/;"	m	struct:JNINativeInterface
+CallNonvirtualFloatMethodV	.\jni.h	/^    jfloat      (*CallNonvirtualFloatMethodV)(JNIEnv*, jobject, jclass,$/;"	m	struct:JNINativeInterface
+CallNonvirtualIntMethod	.\jni.h	/^    jint        (*CallNonvirtualIntMethod)(JNIEnv*, jobject, jclass,$/;"	m	struct:JNINativeInterface
+CallNonvirtualIntMethodA	.\jni.h	/^    jint        (*CallNonvirtualIntMethodA)(JNIEnv*, jobject, jclass,$/;"	m	struct:JNINativeInterface
+CallNonvirtualIntMethodV	.\jni.h	/^    jint        (*CallNonvirtualIntMethodV)(JNIEnv*, jobject, jclass,$/;"	m	struct:JNINativeInterface
+CallNonvirtualLongMethod	.\jni.h	/^    jlong       (*CallNonvirtualLongMethod)(JNIEnv*, jobject, jclass,$/;"	m	struct:JNINativeInterface
+CallNonvirtualLongMethodA	.\jni.h	/^    jlong       (*CallNonvirtualLongMethodA)(JNIEnv*, jobject, jclass,$/;"	m	struct:JNINativeInterface
+CallNonvirtualLongMethodV	.\jni.h	/^    jlong       (*CallNonvirtualLongMethodV)(JNIEnv*, jobject, jclass,$/;"	m	struct:JNINativeInterface
+CallNonvirtualObjectMethod	.\jni.h	/^    jobject     (*CallNonvirtualObjectMethod)(JNIEnv*, jobject, jclass,$/;"	m	struct:JNINativeInterface
+CallNonvirtualObjectMethodA	.\jni.h	/^    jobject     (*CallNonvirtualObjectMethodA)(JNIEnv*, jobject, jclass,$/;"	m	struct:JNINativeInterface
+CallNonvirtualObjectMethodV	.\jni.h	/^    jobject     (*CallNonvirtualObjectMethodV)(JNIEnv*, jobject, jclass,$/;"	m	struct:JNINativeInterface
+CallNonvirtualShortMethod	.\jni.h	/^    jshort      (*CallNonvirtualShortMethod)(JNIEnv*, jobject, jclass,$/;"	m	struct:JNINativeInterface
+CallNonvirtualShortMethodA	.\jni.h	/^    jshort      (*CallNonvirtualShortMethodA)(JNIEnv*, jobject, jclass,$/;"	m	struct:JNINativeInterface
+CallNonvirtualShortMethodV	.\jni.h	/^    jshort      (*CallNonvirtualShortMethodV)(JNIEnv*, jobject, jclass,$/;"	m	struct:JNINativeInterface
+CallNonvirtualVoidMethod	.\jni.h	/^    void        (*CallNonvirtualVoidMethod)(JNIEnv*, jobject, jclass,$/;"	m	struct:JNINativeInterface
+CallNonvirtualVoidMethod	.\jni.h	/^    void CallNonvirtualVoidMethod(jobject obj, jclass clazz,$/;"	f	struct:_JNIEnv
+CallNonvirtualVoidMethodA	.\jni.h	/^    void        (*CallNonvirtualVoidMethodA)(JNIEnv*, jobject, jclass,$/;"	m	struct:JNINativeInterface
+CallNonvirtualVoidMethodA	.\jni.h	/^    void CallNonvirtualVoidMethodA(jobject obj, jclass clazz,$/;"	f	struct:_JNIEnv
+CallNonvirtualVoidMethodV	.\jni.h	/^    void        (*CallNonvirtualVoidMethodV)(JNIEnv*, jobject, jclass,$/;"	m	struct:JNINativeInterface
+CallNonvirtualVoidMethodV	.\jni.h	/^    void CallNonvirtualVoidMethodV(jobject obj, jclass clazz,$/;"	f	struct:_JNIEnv
+CallObjectMethod	.\jni.h	/^    jobject     (*CallObjectMethod)(JNIEnv*, jobject, jmethodID, ...);$/;"	m	struct:JNINativeInterface
+CallObjectMethodA	.\jni.h	/^    jobject     (*CallObjectMethodA)(JNIEnv*, jobject, jmethodID, jvalue*);$/;"	m	struct:JNINativeInterface
+CallObjectMethodV	.\jni.h	/^    jobject     (*CallObjectMethodV)(JNIEnv*, jobject, jmethodID, va_list);$/;"	m	struct:JNINativeInterface
+CallShortMethod	.\jni.h	/^    jshort      (*CallShortMethod)(JNIEnv*, jobject, jmethodID, ...);$/;"	m	struct:JNINativeInterface
+CallShortMethodA	.\jni.h	/^    jshort      (*CallShortMethodA)(JNIEnv*, jobject, jmethodID, jvalue*);$/;"	m	struct:JNINativeInterface
+CallShortMethodV	.\jni.h	/^    jshort      (*CallShortMethodV)(JNIEnv*, jobject, jmethodID, va_list);$/;"	m	struct:JNINativeInterface
+CallStaticBooleanMethod	.\jni.h	/^    jboolean    (*CallStaticBooleanMethod)(JNIEnv*, jclass, jmethodID, ...);$/;"	m	struct:JNINativeInterface
+CallStaticBooleanMethodA	.\jni.h	/^    jboolean    (*CallStaticBooleanMethodA)(JNIEnv*, jclass, jmethodID,$/;"	m	struct:JNINativeInterface
+CallStaticBooleanMethodV	.\jni.h	/^    jboolean    (*CallStaticBooleanMethodV)(JNIEnv*, jclass, jmethodID,$/;"	m	struct:JNINativeInterface
+CallStaticByteMethod	.\jni.h	/^    jbyte       (*CallStaticByteMethod)(JNIEnv*, jclass, jmethodID, ...);$/;"	m	struct:JNINativeInterface
+CallStaticByteMethodA	.\jni.h	/^    jbyte       (*CallStaticByteMethodA)(JNIEnv*, jclass, jmethodID, jvalue*);$/;"	m	struct:JNINativeInterface
+CallStaticByteMethodV	.\jni.h	/^    jbyte       (*CallStaticByteMethodV)(JNIEnv*, jclass, jmethodID, va_list);$/;"	m	struct:JNINativeInterface
+CallStaticCharMethod	.\jni.h	/^    jchar       (*CallStaticCharMethod)(JNIEnv*, jclass, jmethodID, ...);$/;"	m	struct:JNINativeInterface
+CallStaticCharMethodA	.\jni.h	/^    jchar       (*CallStaticCharMethodA)(JNIEnv*, jclass, jmethodID, jvalue*);$/;"	m	struct:JNINativeInterface
+CallStaticCharMethodV	.\jni.h	/^    jchar       (*CallStaticCharMethodV)(JNIEnv*, jclass, jmethodID, va_list);$/;"	m	struct:JNINativeInterface
+CallStaticDoubleMethod	.\jni.h	/^    jdouble     (*CallStaticDoubleMethod)(JNIEnv*, jclass, jmethodID, ...);$/;"	m	struct:JNINativeInterface
+CallStaticDoubleMethodA	.\jni.h	/^    jdouble     (*CallStaticDoubleMethodA)(JNIEnv*, jclass, jmethodID, jvalue*);$/;"	m	struct:JNINativeInterface
+CallStaticDoubleMethodV	.\jni.h	/^    jdouble     (*CallStaticDoubleMethodV)(JNIEnv*, jclass, jmethodID, va_list);$/;"	m	struct:JNINativeInterface
+CallStaticFloatMethod	.\jni.h	/^    jfloat      (*CallStaticFloatMethod)(JNIEnv*, jclass, jmethodID, ...);$/;"	m	struct:JNINativeInterface
+CallStaticFloatMethodA	.\jni.h	/^    jfloat      (*CallStaticFloatMethodA)(JNIEnv*, jclass, jmethodID, jvalue*);$/;"	m	struct:JNINativeInterface
+CallStaticFloatMethodV	.\jni.h	/^    jfloat      (*CallStaticFloatMethodV)(JNIEnv*, jclass, jmethodID, va_list);$/;"	m	struct:JNINativeInterface
+CallStaticIntMethod	.\jni.h	/^    jint        (*CallStaticIntMethod)(JNIEnv*, jclass, jmethodID, ...);$/;"	m	struct:JNINativeInterface
+CallStaticIntMethodA	.\jni.h	/^    jint        (*CallStaticIntMethodA)(JNIEnv*, jclass, jmethodID, jvalue*);$/;"	m	struct:JNINativeInterface
+CallStaticIntMethodV	.\jni.h	/^    jint        (*CallStaticIntMethodV)(JNIEnv*, jclass, jmethodID, va_list);$/;"	m	struct:JNINativeInterface
+CallStaticLongMethod	.\jni.h	/^    jlong       (*CallStaticLongMethod)(JNIEnv*, jclass, jmethodID, ...);$/;"	m	struct:JNINativeInterface
+CallStaticLongMethodA	.\jni.h	/^    jlong       (*CallStaticLongMethodA)(JNIEnv*, jclass, jmethodID, jvalue*);$/;"	m	struct:JNINativeInterface
+CallStaticLongMethodV	.\jni.h	/^    jlong       (*CallStaticLongMethodV)(JNIEnv*, jclass, jmethodID, va_list);$/;"	m	struct:JNINativeInterface
+CallStaticObjectMethod	.\jni.h	/^    jobject     (*CallStaticObjectMethod)(JNIEnv*, jclass, jmethodID, ...);$/;"	m	struct:JNINativeInterface
+CallStaticObjectMethodA	.\jni.h	/^    jobject     (*CallStaticObjectMethodA)(JNIEnv*, jclass, jmethodID, jvalue*);$/;"	m	struct:JNINativeInterface
+CallStaticObjectMethodV	.\jni.h	/^    jobject     (*CallStaticObjectMethodV)(JNIEnv*, jclass, jmethodID, va_list);$/;"	m	struct:JNINativeInterface
+CallStaticShortMethod	.\jni.h	/^    jshort      (*CallStaticShortMethod)(JNIEnv*, jclass, jmethodID, ...);$/;"	m	struct:JNINativeInterface
+CallStaticShortMethodA	.\jni.h	/^    jshort      (*CallStaticShortMethodA)(JNIEnv*, jclass, jmethodID, jvalue*);$/;"	m	struct:JNINativeInterface
+CallStaticShortMethodV	.\jni.h	/^    jshort      (*CallStaticShortMethodV)(JNIEnv*, jclass, jmethodID, va_list);$/;"	m	struct:JNINativeInterface
+CallStaticVoidMethod	.\jni.h	/^    void        (*CallStaticVoidMethod)(JNIEnv*, jclass, jmethodID, ...);$/;"	m	struct:JNINativeInterface
+CallStaticVoidMethod	.\jni.h	/^    void CallStaticVoidMethod(jclass clazz, jmethodID methodID, ...)$/;"	f	struct:_JNIEnv
+CallStaticVoidMethodA	.\jni.h	/^    void        (*CallStaticVoidMethodA)(JNIEnv*, jclass, jmethodID, jvalue*);$/;"	m	struct:JNINativeInterface
+CallStaticVoidMethodA	.\jni.h	/^    void CallStaticVoidMethodA(jclass clazz, jmethodID methodID, jvalue* args)$/;"	f	struct:_JNIEnv
+CallStaticVoidMethodV	.\jni.h	/^    void        (*CallStaticVoidMethodV)(JNIEnv*, jclass, jmethodID, va_list);$/;"	m	struct:JNINativeInterface
+CallStaticVoidMethodV	.\jni.h	/^    void CallStaticVoidMethodV(jclass clazz, jmethodID methodID, va_list args)$/;"	f	struct:_JNIEnv
+CallVoidMethod	.\jni.h	/^    void        (*CallVoidMethod)(JNIEnv*, jobject, jmethodID, ...);$/;"	m	struct:JNINativeInterface
+CallVoidMethod	.\jni.h	/^    void CallVoidMethod(jobject obj, jmethodID methodID, ...)$/;"	f	struct:_JNIEnv
+CallVoidMethodA	.\jni.h	/^    void        (*CallVoidMethodA)(JNIEnv*, jobject, jmethodID, jvalue*);$/;"	m	struct:JNINativeInterface
+CallVoidMethodA	.\jni.h	/^    void CallVoidMethodA(jobject obj, jmethodID methodID, jvalue* args)$/;"	f	struct:_JNIEnv
+CallVoidMethodV	.\jni.h	/^    void        (*CallVoidMethodV)(JNIEnv*, jobject, jmethodID, va_list);$/;"	m	struct:JNINativeInterface
+CallVoidMethodV	.\jni.h	/^    void CallVoidMethodV(jobject obj, jmethodID methodID, va_list args)$/;"	f	struct:_JNIEnv
+DefineClass	.\jni.h	/^    jclass      (*DefineClass)(JNIEnv*, const char*, jobject, const jbyte*,$/;"	m	struct:JNINativeInterface
+DefineClass	.\jni.h	/^    jclass DefineClass(const char *name, jobject loader, const jbyte* buf,$/;"	f	struct:_JNIEnv
+DeleteGlobalRef	.\jni.h	/^    void        (*DeleteGlobalRef)(JNIEnv*, jobject);$/;"	m	struct:JNINativeInterface
+DeleteGlobalRef	.\jni.h	/^    void DeleteGlobalRef(jobject globalRef)$/;"	f	struct:_JNIEnv
+DeleteLocalRef	.\jni.h	/^    void        (*DeleteLocalRef)(JNIEnv*, jobject);$/;"	m	struct:JNINativeInterface
+DeleteLocalRef	.\jni.h	/^    void DeleteLocalRef(jobject localRef)$/;"	f	struct:_JNIEnv
+DeleteWeakGlobalRef	.\jni.h	/^    void        (*DeleteWeakGlobalRef)(JNIEnv*, jweak);$/;"	m	struct:JNINativeInterface
+DeleteWeakGlobalRef	.\jni.h	/^    void DeleteWeakGlobalRef(jweak obj)$/;"	f	struct:_JNIEnv
+DestroyJavaVM	.\jni.h	/^    jint        (*DestroyJavaVM)(JavaVM*);$/;"	m	struct:JNIInvokeInterface
+DestroyJavaVM	.\jni.h	/^    jint DestroyJavaVM()$/;"	f	struct:_JavaVM
+DetachCurrentThread	.\jni.h	/^    jint        (*DetachCurrentThread)(JavaVM*);$/;"	m	struct:JNIInvokeInterface
+DetachCurrentThread	.\jni.h	/^    jint DetachCurrentThread()$/;"	f	struct:_JavaVM
+EnsureLocalCapacity	.\jni.h	/^    jint        (*EnsureLocalCapacity)(JNIEnv*, jint);$/;"	m	struct:JNINativeInterface
+EnsureLocalCapacity	.\jni.h	/^    jint EnsureLocalCapacity(jint capacity)$/;"	f	struct:_JNIEnv
+ExceptionCheck	.\jni.h	/^    jboolean    (*ExceptionCheck)(JNIEnv*);$/;"	m	struct:JNINativeInterface
+ExceptionCheck	.\jni.h	/^    jboolean ExceptionCheck()$/;"	f	struct:_JNIEnv
+ExceptionClear	.\jni.h	/^    void        (*ExceptionClear)(JNIEnv*);$/;"	m	struct:JNINativeInterface
+ExceptionClear	.\jni.h	/^    void ExceptionClear()$/;"	f	struct:_JNIEnv
+ExceptionDescribe	.\jni.h	/^    void        (*ExceptionDescribe)(JNIEnv*);$/;"	m	struct:JNINativeInterface
+ExceptionDescribe	.\jni.h	/^    void ExceptionDescribe()$/;"	f	struct:_JNIEnv
+ExceptionOccurred	.\jni.h	/^    jthrowable  (*ExceptionOccurred)(JNIEnv*);$/;"	m	struct:JNINativeInterface
+ExceptionOccurred	.\jni.h	/^    jthrowable ExceptionOccurred()$/;"	f	struct:_JNIEnv
+FatalError	.\jni.h	/^    void        (*FatalError)(JNIEnv*, const char*);$/;"	m	struct:JNINativeInterface
+FatalError	.\jni.h	/^    void FatalError(const char* msg)$/;"	f	struct:_JNIEnv
+FindClass	.\jni.h	/^    jclass      (*FindClass)(JNIEnv*, const char*);$/;"	m	struct:JNINativeInterface
+FindClass	.\jni.h	/^    jclass FindClass(const char* name)$/;"	f	struct:_JNIEnv
+FromReflectedField	.\jni.h	/^    jfieldID    (*FromReflectedField)(JNIEnv*, jobject);$/;"	m	struct:JNINativeInterface
+FromReflectedField	.\jni.h	/^    jfieldID FromReflectedField(jobject field)$/;"	f	struct:_JNIEnv
+FromReflectedMethod	.\jni.h	/^    jmethodID   (*FromReflectedMethod)(JNIEnv*, jobject);$/;"	m	struct:JNINativeInterface
+FromReflectedMethod	.\jni.h	/^    jmethodID FromReflectedMethod(jobject method)$/;"	f	struct:_JNIEnv
+GetArrayLength	.\jni.h	/^    jsize       (*GetArrayLength)(JNIEnv*, jarray);$/;"	m	struct:JNINativeInterface
+GetArrayLength	.\jni.h	/^    jsize GetArrayLength(jarray array)$/;"	f	struct:_JNIEnv
+GetBooleanArrayElements	.\jni.h	/^    jboolean*   (*GetBooleanArrayElements)(JNIEnv*, jbooleanArray, jboolean*);$/;"	m	struct:JNINativeInterface
+GetBooleanArrayElements	.\jni.h	/^    jboolean* GetBooleanArrayElements(jbooleanArray array, jboolean* isCopy)$/;"	f	struct:_JNIEnv
+GetBooleanArrayRegion	.\jni.h	/^    void        (*GetBooleanArrayRegion)(JNIEnv*, jbooleanArray,$/;"	m	struct:JNINativeInterface
+GetBooleanArrayRegion	.\jni.h	/^    void GetBooleanArrayRegion(jbooleanArray array, jsize start, jsize len,$/;"	f	struct:_JNIEnv
+GetBooleanField	.\jni.h	/^    jboolean    (*GetBooleanField)(JNIEnv*, jobject, jfieldID);$/;"	m	struct:JNINativeInterface
+GetBooleanField	.\jni.h	/^    jboolean GetBooleanField(jobject obj, jfieldID fieldID)$/;"	f	struct:_JNIEnv
+GetByteArrayElements	.\jni.h	/^    jbyte*      (*GetByteArrayElements)(JNIEnv*, jbyteArray, jboolean*);$/;"	m	struct:JNINativeInterface
+GetByteArrayElements	.\jni.h	/^    jbyte* GetByteArrayElements(jbyteArray array, jboolean* isCopy)$/;"	f	struct:_JNIEnv
+GetByteArrayRegion	.\jni.h	/^    void        (*GetByteArrayRegion)(JNIEnv*, jbyteArray,$/;"	m	struct:JNINativeInterface
+GetByteArrayRegion	.\jni.h	/^    void GetByteArrayRegion(jbyteArray array, jsize start, jsize len,$/;"	f	struct:_JNIEnv
+GetByteField	.\jni.h	/^    jbyte       (*GetByteField)(JNIEnv*, jobject, jfieldID);$/;"	m	struct:JNINativeInterface
+GetByteField	.\jni.h	/^    jbyte GetByteField(jobject obj, jfieldID fieldID)$/;"	f	struct:_JNIEnv
+GetCharArrayElements	.\jni.h	/^    jchar*      (*GetCharArrayElements)(JNIEnv*, jcharArray, jboolean*);$/;"	m	struct:JNINativeInterface
+GetCharArrayElements	.\jni.h	/^    jchar* GetCharArrayElements(jcharArray array, jboolean* isCopy)$/;"	f	struct:_JNIEnv
+GetCharArrayRegion	.\jni.h	/^    void        (*GetCharArrayRegion)(JNIEnv*, jcharArray,$/;"	m	struct:JNINativeInterface
+GetCharArrayRegion	.\jni.h	/^    void GetCharArrayRegion(jcharArray array, jsize start, jsize len,$/;"	f	struct:_JNIEnv
+GetCharField	.\jni.h	/^    jchar       (*GetCharField)(JNIEnv*, jobject, jfieldID);$/;"	m	struct:JNINativeInterface
+GetCharField	.\jni.h	/^    jchar GetCharField(jobject obj, jfieldID fieldID)$/;"	f	struct:_JNIEnv
+GetCurrentPackageName	.\native_utils.c	/^int GetCurrentPackageName(char *processName)$/;"	f
+GetDirectBufferAddress	.\jni.h	/^    void*       (*GetDirectBufferAddress)(JNIEnv*, jobject);$/;"	m	struct:JNINativeInterface
+GetDirectBufferAddress	.\jni.h	/^    void* GetDirectBufferAddress(jobject buf)$/;"	f	struct:_JNIEnv
+GetDirectBufferCapacity	.\jni.h	/^    jlong       (*GetDirectBufferCapacity)(JNIEnv*, jobject);$/;"	m	struct:JNINativeInterface
+GetDirectBufferCapacity	.\jni.h	/^    jlong GetDirectBufferCapacity(jobject buf)$/;"	f	struct:_JNIEnv
+GetDoubleArrayElements	.\jni.h	/^    jdouble*    (*GetDoubleArrayElements)(JNIEnv*, jdoubleArray, jboolean*);$/;"	m	struct:JNINativeInterface
+GetDoubleArrayElements	.\jni.h	/^    jdouble* GetDoubleArrayElements(jdoubleArray array, jboolean* isCopy)$/;"	f	struct:_JNIEnv
+GetDoubleArrayRegion	.\jni.h	/^    void        (*GetDoubleArrayRegion)(JNIEnv*, jdoubleArray,$/;"	m	struct:JNINativeInterface
+GetDoubleArrayRegion	.\jni.h	/^    void GetDoubleArrayRegion(jdoubleArray array, jsize start, jsize len,$/;"	f	struct:_JNIEnv
+GetDoubleField	.\jni.h	/^    jdouble     (*GetDoubleField)(JNIEnv*, jobject, jfieldID);$/;"	m	struct:JNINativeInterface
+GetDoubleField	.\jni.h	/^    jdouble GetDoubleField(jobject obj, jfieldID fieldID)$/;"	f	struct:_JNIEnv
+GetEnv	.\jni.h	/^    jint        (*GetEnv)(JavaVM*, void**, jint);$/;"	m	struct:JNIInvokeInterface
+GetEnv	.\jni.h	/^    jint GetEnv(void** env, jint version)$/;"	f	struct:_JavaVM
+GetFieldID	.\jni.h	/^    jfieldID    (*GetFieldID)(JNIEnv*, jclass, const char*, const char*);$/;"	m	struct:JNINativeInterface
+GetFieldID	.\jni.h	/^    jfieldID GetFieldID(jclass clazz, const char* name, const char* sig)$/;"	f	struct:_JNIEnv
+GetFloatArrayElements	.\jni.h	/^    jfloat*     (*GetFloatArrayElements)(JNIEnv*, jfloatArray, jboolean*);$/;"	m	struct:JNINativeInterface
+GetFloatArrayElements	.\jni.h	/^    jfloat* GetFloatArrayElements(jfloatArray array, jboolean* isCopy)$/;"	f	struct:_JNIEnv
+GetFloatArrayRegion	.\jni.h	/^    void        (*GetFloatArrayRegion)(JNIEnv*, jfloatArray,$/;"	m	struct:JNINativeInterface
+GetFloatArrayRegion	.\jni.h	/^    void GetFloatArrayRegion(jfloatArray array, jsize start, jsize len,$/;"	f	struct:_JNIEnv
+GetFloatField	.\jni.h	/^    jfloat      (*GetFloatField)(JNIEnv*, jobject, jfieldID);$/;"	m	struct:JNINativeInterface
+GetFloatField	.\jni.h	/^    jfloat GetFloatField(jobject obj, jfieldID fieldID)$/;"	f	struct:_JNIEnv
+GetIntArrayElements	.\jni.h	/^    jint*       (*GetIntArrayElements)(JNIEnv*, jintArray, jboolean*);$/;"	m	struct:JNINativeInterface
+GetIntArrayElements	.\jni.h	/^    jint* GetIntArrayElements(jintArray array, jboolean* isCopy)$/;"	f	struct:_JNIEnv
+GetIntArrayRegion	.\jni.h	/^    void        (*GetIntArrayRegion)(JNIEnv*, jintArray,$/;"	m	struct:JNINativeInterface
+GetIntArrayRegion	.\jni.h	/^    void GetIntArrayRegion(jintArray array, jsize start, jsize len,$/;"	f	struct:_JNIEnv
+GetIntField	.\jni.h	/^    jint        (*GetIntField)(JNIEnv*, jobject, jfieldID);$/;"	m	struct:JNINativeInterface
+GetIntField	.\jni.h	/^    jint GetIntField(jobject obj, jfieldID fieldID)$/;"	f	struct:_JNIEnv
+GetJavaVM	.\jni.h	/^    jint        (*GetJavaVM)(JNIEnv*, JavaVM**);$/;"	m	struct:JNINativeInterface
+GetJavaVM	.\jni.h	/^    jint GetJavaVM(JavaVM** vm)$/;"	f	struct:_JNIEnv
+GetLongArrayElements	.\jni.h	/^    jlong*      (*GetLongArrayElements)(JNIEnv*, jlongArray, jboolean*);$/;"	m	struct:JNINativeInterface
+GetLongArrayElements	.\jni.h	/^    jlong* GetLongArrayElements(jlongArray array, jboolean* isCopy)$/;"	f	struct:_JNIEnv
+GetLongArrayRegion	.\jni.h	/^    void        (*GetLongArrayRegion)(JNIEnv*, jlongArray,$/;"	m	struct:JNINativeInterface
+GetLongArrayRegion	.\jni.h	/^    void GetLongArrayRegion(jlongArray array, jsize start, jsize len,$/;"	f	struct:_JNIEnv
+GetLongField	.\jni.h	/^    jlong       (*GetLongField)(JNIEnv*, jobject, jfieldID);$/;"	m	struct:JNINativeInterface
+GetLongField	.\jni.h	/^    jlong GetLongField(jobject obj, jfieldID fieldID)$/;"	f	struct:_JNIEnv
+GetMethodID	.\jni.h	/^    jmethodID   (*GetMethodID)(JNIEnv*, jclass, const char*, const char*);$/;"	m	struct:JNINativeInterface
+GetMethodID	.\jni.h	/^    jmethodID GetMethodID(jclass clazz, const char* name, const char* sig)$/;"	f	struct:_JNIEnv
+GetObjectArrayElement	.\jni.h	/^    jobject     (*GetObjectArrayElement)(JNIEnv*, jobjectArray, jsize);$/;"	m	struct:JNINativeInterface
+GetObjectArrayElement	.\jni.h	/^    jobject GetObjectArrayElement(jobjectArray array, jsize index)$/;"	f	struct:_JNIEnv
+GetObjectClass	.\jni.h	/^    jclass      (*GetObjectClass)(JNIEnv*, jobject);$/;"	m	struct:JNINativeInterface
+GetObjectClass	.\jni.h	/^    jclass GetObjectClass(jobject obj)$/;"	f	struct:_JNIEnv
+GetObjectField	.\jni.h	/^    jobject     (*GetObjectField)(JNIEnv*, jobject, jfieldID);$/;"	m	struct:JNINativeInterface
+GetObjectField	.\jni.h	/^    jobject GetObjectField(jobject obj, jfieldID fieldID)$/;"	f	struct:_JNIEnv
+GetObjectRefType	.\jni.h	/^    jobjectRefType (*GetObjectRefType)(JNIEnv*, jobject);$/;"	m	struct:JNINativeInterface
+GetObjectRefType	.\jni.h	/^    jobjectRefType GetObjectRefType(jobject obj)$/;"	f	struct:_JNIEnv
+GetPrimitiveArrayCritical	.\jni.h	/^    void*       (*GetPrimitiveArrayCritical)(JNIEnv*, jarray, jboolean*);$/;"	m	struct:JNINativeInterface
+GetPrimitiveArrayCritical	.\jni.h	/^    void* GetPrimitiveArrayCritical(jarray array, jboolean* isCopy)$/;"	f	struct:_JNIEnv
+GetShortArrayElements	.\jni.h	/^    jshort*     (*GetShortArrayElements)(JNIEnv*, jshortArray, jboolean*);$/;"	m	struct:JNINativeInterface
+GetShortArrayElements	.\jni.h	/^    jshort* GetShortArrayElements(jshortArray array, jboolean* isCopy)$/;"	f	struct:_JNIEnv
+GetShortArrayRegion	.\jni.h	/^    void        (*GetShortArrayRegion)(JNIEnv*, jshortArray,$/;"	m	struct:JNINativeInterface
+GetShortArrayRegion	.\jni.h	/^    void GetShortArrayRegion(jshortArray array, jsize start, jsize len,$/;"	f	struct:_JNIEnv
+GetShortField	.\jni.h	/^    jshort      (*GetShortField)(JNIEnv*, jobject, jfieldID);$/;"	m	struct:JNINativeInterface
+GetShortField	.\jni.h	/^    jshort GetShortField(jobject obj, jfieldID fieldID)$/;"	f	struct:_JNIEnv
+GetStaticBooleanField	.\jni.h	/^    jboolean    (*GetStaticBooleanField)(JNIEnv*, jclass, jfieldID);$/;"	m	struct:JNINativeInterface
+GetStaticBooleanField	.\jni.h	/^    jboolean GetStaticBooleanField(jclass clazz, jfieldID fieldID)$/;"	f	struct:_JNIEnv
+GetStaticByteField	.\jni.h	/^    jbyte       (*GetStaticByteField)(JNIEnv*, jclass, jfieldID);$/;"	m	struct:JNINativeInterface
+GetStaticByteField	.\jni.h	/^    jbyte GetStaticByteField(jclass clazz, jfieldID fieldID)$/;"	f	struct:_JNIEnv
+GetStaticCharField	.\jni.h	/^    jchar       (*GetStaticCharField)(JNIEnv*, jclass, jfieldID);$/;"	m	struct:JNINativeInterface
+GetStaticCharField	.\jni.h	/^    jchar GetStaticCharField(jclass clazz, jfieldID fieldID)$/;"	f	struct:_JNIEnv
+GetStaticDoubleField	.\jni.h	/^    jdouble     (*GetStaticDoubleField)(JNIEnv*, jclass, jfieldID);$/;"	m	struct:JNINativeInterface
+GetStaticDoubleField	.\jni.h	/^    jdouble GetStaticDoubleField(jclass clazz, jfieldID fieldID)$/;"	f	struct:_JNIEnv
+GetStaticFieldID	.\jni.h	/^    jfieldID    (*GetStaticFieldID)(JNIEnv*, jclass, const char*,$/;"	m	struct:JNINativeInterface
+GetStaticFieldID	.\jni.h	/^    jfieldID GetStaticFieldID(jclass clazz, const char* name, const char* sig)$/;"	f	struct:_JNIEnv
+GetStaticFloatField	.\jni.h	/^    jfloat      (*GetStaticFloatField)(JNIEnv*, jclass, jfieldID);$/;"	m	struct:JNINativeInterface
+GetStaticFloatField	.\jni.h	/^    jfloat GetStaticFloatField(jclass clazz, jfieldID fieldID)$/;"	f	struct:_JNIEnv
+GetStaticIntField	.\jni.h	/^    jint        (*GetStaticIntField)(JNIEnv*, jclass, jfieldID);$/;"	m	struct:JNINativeInterface
+GetStaticIntField	.\jni.h	/^    jint GetStaticIntField(jclass clazz, jfieldID fieldID)$/;"	f	struct:_JNIEnv
+GetStaticLongField	.\jni.h	/^    jlong       (*GetStaticLongField)(JNIEnv*, jclass, jfieldID);$/;"	m	struct:JNINativeInterface
+GetStaticLongField	.\jni.h	/^    jlong GetStaticLongField(jclass clazz, jfieldID fieldID)$/;"	f	struct:_JNIEnv
+GetStaticMethodID	.\jni.h	/^    jmethodID   (*GetStaticMethodID)(JNIEnv*, jclass, const char*, const char*);$/;"	m	struct:JNINativeInterface
+GetStaticMethodID	.\jni.h	/^    jmethodID GetStaticMethodID(jclass clazz, const char* name, const char* sig)$/;"	f	struct:_JNIEnv
+GetStaticObjectField	.\jni.h	/^    jobject     (*GetStaticObjectField)(JNIEnv*, jclass, jfieldID);$/;"	m	struct:JNINativeInterface
+GetStaticObjectField	.\jni.h	/^    jobject GetStaticObjectField(jclass clazz, jfieldID fieldID)$/;"	f	struct:_JNIEnv
+GetStaticShortField	.\jni.h	/^    jshort      (*GetStaticShortField)(JNIEnv*, jclass, jfieldID);$/;"	m	struct:JNINativeInterface
+GetStaticShortField	.\jni.h	/^    jshort GetStaticShortField(jclass clazz, jfieldID fieldID)$/;"	f	struct:_JNIEnv
+GetStringChars	.\jni.h	/^    const jchar* (*GetStringChars)(JNIEnv*, jstring, jboolean*);$/;"	m	struct:JNINativeInterface
+GetStringChars	.\jni.h	/^    const jchar* GetStringChars(jstring string, jboolean* isCopy)$/;"	f	struct:_JNIEnv
+GetStringCritical	.\jni.h	/^    const jchar* (*GetStringCritical)(JNIEnv*, jstring, jboolean*);$/;"	m	struct:JNINativeInterface
+GetStringCritical	.\jni.h	/^    const jchar* GetStringCritical(jstring string, jboolean* isCopy)$/;"	f	struct:_JNIEnv
+GetStringLength	.\jni.h	/^    jsize       (*GetStringLength)(JNIEnv*, jstring);$/;"	m	struct:JNINativeInterface
+GetStringLength	.\jni.h	/^    jsize GetStringLength(jstring string)$/;"	f	struct:_JNIEnv
+GetStringRegion	.\jni.h	/^    void        (*GetStringRegion)(JNIEnv*, jstring, jsize, jsize, jchar*);$/;"	m	struct:JNINativeInterface
+GetStringRegion	.\jni.h	/^    void GetStringRegion(jstring str, jsize start, jsize len, jchar* buf)$/;"	f	struct:_JNIEnv
+GetStringUTFChars	.\jni.h	/^    const char* (*GetStringUTFChars)(JNIEnv*, jstring, jboolean*);$/;"	m	struct:JNINativeInterface
+GetStringUTFChars	.\jni.h	/^    const char* GetStringUTFChars(jstring string, jboolean* isCopy)$/;"	f	struct:_JNIEnv
+GetStringUTFLength	.\jni.h	/^    jsize       (*GetStringUTFLength)(JNIEnv*, jstring);$/;"	m	struct:JNINativeInterface
+GetStringUTFLength	.\jni.h	/^    jsize GetStringUTFLength(jstring string)$/;"	f	struct:_JNIEnv
+GetStringUTFRegion	.\jni.h	/^    void        (*GetStringUTFRegion)(JNIEnv*, jstring, jsize, jsize, char*);$/;"	m	struct:JNINativeInterface
+GetStringUTFRegion	.\jni.h	/^    void GetStringUTFRegion(jstring str, jsize start, jsize len, char* buf)$/;"	f	struct:_JNIEnv
+GetSuperclass	.\jni.h	/^    jclass      (*GetSuperclass)(JNIEnv*, jclass);$/;"	m	struct:JNINativeInterface
+GetSuperclass	.\jni.h	/^    jclass GetSuperclass(jclass clazz)$/;"	f	struct:_JNIEnv
+GetVersion	.\jni.h	/^    jint        (*GetVersion)(JNIEnv *);$/;"	m	struct:JNINativeInterface
+GetVersion	.\jni.h	/^    jint GetVersion()$/;"	f	struct:_JNIEnv
+IsAssignableFrom	.\jni.h	/^    jboolean    (*IsAssignableFrom)(JNIEnv*, jclass, jclass);$/;"	m	struct:JNINativeInterface
+IsAssignableFrom	.\jni.h	/^    jboolean IsAssignableFrom(jclass clazz1, jclass clazz2)$/;"	f	struct:_JNIEnv
+IsInstanceOf	.\jni.h	/^    jboolean    (*IsInstanceOf)(JNIEnv*, jobject, jclass);$/;"	m	struct:JNINativeInterface
+IsInstanceOf	.\jni.h	/^    jboolean IsInstanceOf(jobject obj, jclass clazz)$/;"	f	struct:_JNIEnv
+IsSameObject	.\jni.h	/^    jboolean    (*IsSameObject)(JNIEnv*, jobject, jobject);$/;"	m	struct:JNINativeInterface
+IsSameObject	.\jni.h	/^    jboolean IsSameObject(jobject ref1, jobject ref2)$/;"	f	struct:_JNIEnv
+JNICALL	.\jni.h	1123;"	d
+JNIEXPORT	.\jni.h	1122;"	d
+JNIEnv	.\jni.h	/^typedef _JNIEnv JNIEnv;$/;"	t
+JNIEnv	.\jni.h	/^typedef const struct JNINativeInterface* JNIEnv;$/;"	t	typeref:struct:JNINativeInterface
+JNIGlobalRefType	.\jni.h	/^    JNIGlobalRefType = 2,$/;"	e	enum:jobjectRefType
+JNIIMPORT	.\jni.h	1121;"	d
+JNIInvalidRefType	.\jni.h	/^    JNIInvalidRefType = 0,$/;"	e	enum:jobjectRefType
+JNIInvokeInterface	.\jni.h	/^struct JNIInvokeInterface {$/;"	s
+JNILocalRefType	.\jni.h	/^    JNILocalRefType = 1,$/;"	e	enum:jobjectRefType
+JNINativeInterface	.\jni.h	/^struct JNINativeInterface {$/;"	s
+JNINativeMethod	.\jni.h	/^} JNINativeMethod;$/;"	t	typeref:struct:__anon1
+JNIWeakGlobalRefType	.\jni.h	/^    JNIWeakGlobalRefType = 3$/;"	e	enum:jobjectRefType
+JNI_ABORT	.\jni.h	1154;"	d
+JNI_COMMIT	.\jni.h	1153;"	d
+JNI_EDETACHED	.\jni.h	1150;"	d
+JNI_ERR	.\jni.h	1149;"	d
+JNI_EVERSION	.\jni.h	1151;"	d
+JNI_FALSE	.\jni.h	1140;"	d
+JNI_H_	.\jni.h	25;"	d
+JNI_OK	.\jni.h	1148;"	d
+JNI_Onload	.\native_utils.c	/^JNI_Onload(JavaVM *jvm, void *reserved)$/;"	f
+JNI_TRUE	.\jni.h	1141;"	d
+JNI_VERSION_1_1	.\jni.h	1143;"	d
+JNI_VERSION_1_2	.\jni.h	1144;"	d
+JNI_VERSION_1_4	.\jni.h	1145;"	d
+JNI_VERSION_1_6	.\jni.h	1146;"	d
+JavaVM	.\jni.h	/^typedef _JavaVM JavaVM;$/;"	t
+JavaVM	.\jni.h	/^typedef const struct JNIInvokeInterface* JavaVM;$/;"	t	typeref:struct:JNIInvokeInterface
+JavaVMAttachArgs	.\jni.h	/^struct JavaVMAttachArgs {$/;"	s
+JavaVMAttachArgs	.\jni.h	/^typedef struct JavaVMAttachArgs JavaVMAttachArgs;$/;"	t	typeref:struct:JavaVMAttachArgs
+JavaVMInitArgs	.\jni.h	/^typedef struct JavaVMInitArgs {$/;"	s
+JavaVMInitArgs	.\jni.h	/^} JavaVMInitArgs;$/;"	t	typeref:struct:JavaVMInitArgs
+JavaVMOption	.\jni.h	/^typedef struct JavaVMOption {$/;"	s
+JavaVMOption	.\jni.h	/^} JavaVMOption;$/;"	t	typeref:struct:JavaVMOption
+LOCAL_LDLIBS	.\Android.mk	/^LOCAL_LDLIBS	:= -llog$/;"	m
+LOCAL_MODULE	.\Android.mk	/^LOCAL_MODULE 	:= jnidemo $/;"	m
+LOCAL_PATH	.\Android.mk	/^LOCAL_PATH := $(call my-dir)$/;"	m
+LOCAL_SRC_FILES	.\Android.mk	/^LOCAL_SRC_FILES	:= native_utils.c $/;"	m
+LOGD	.\native_utils.c	10;"	d	file:
+LOGI	.\native_utils.c	11;"	d	file:
+LOG_TAG	.\native_utils.c	9;"	d	file:
+MonitorEnter	.\jni.h	/^    jint        (*MonitorEnter)(JNIEnv*, jobject);$/;"	m	struct:JNINativeInterface
+MonitorEnter	.\jni.h	/^    jint MonitorEnter(jobject obj)$/;"	f	struct:_JNIEnv
+MonitorExit	.\jni.h	/^    jint        (*MonitorExit)(JNIEnv*, jobject);$/;"	m	struct:JNINativeInterface
+MonitorExit	.\jni.h	/^    jint MonitorExit(jobject obj)$/;"	f	struct:_JNIEnv
+NewBooleanArray	.\jni.h	/^    jbooleanArray (*NewBooleanArray)(JNIEnv*, jsize);$/;"	m	struct:JNINativeInterface
+NewBooleanArray	.\jni.h	/^    jbooleanArray NewBooleanArray(jsize length)$/;"	f	struct:_JNIEnv
+NewByteArray	.\jni.h	/^    jbyteArray    (*NewByteArray)(JNIEnv*, jsize);$/;"	m	struct:JNINativeInterface
+NewByteArray	.\jni.h	/^    jbyteArray NewByteArray(jsize length)$/;"	f	struct:_JNIEnv
+NewCharArray	.\jni.h	/^    jcharArray    (*NewCharArray)(JNIEnv*, jsize);$/;"	m	struct:JNINativeInterface
+NewCharArray	.\jni.h	/^    jcharArray NewCharArray(jsize length)$/;"	f	struct:_JNIEnv
+NewDirectByteBuffer	.\jni.h	/^    jobject     (*NewDirectByteBuffer)(JNIEnv*, void*, jlong);$/;"	m	struct:JNINativeInterface
+NewDirectByteBuffer	.\jni.h	/^    jobject NewDirectByteBuffer(void* address, jlong capacity)$/;"	f	struct:_JNIEnv
+NewDoubleArray	.\jni.h	/^    jdoubleArray  (*NewDoubleArray)(JNIEnv*, jsize);$/;"	m	struct:JNINativeInterface
+NewDoubleArray	.\jni.h	/^    jdoubleArray NewDoubleArray(jsize length)$/;"	f	struct:_JNIEnv
+NewFloatArray	.\jni.h	/^    jfloatArray   (*NewFloatArray)(JNIEnv*, jsize);$/;"	m	struct:JNINativeInterface
+NewFloatArray	.\jni.h	/^    jfloatArray NewFloatArray(jsize length)$/;"	f	struct:_JNIEnv
+NewGlobalRef	.\jni.h	/^    jobject     (*NewGlobalRef)(JNIEnv*, jobject);$/;"	m	struct:JNINativeInterface
+NewGlobalRef	.\jni.h	/^    jobject NewGlobalRef(jobject obj)$/;"	f	struct:_JNIEnv
+NewIntArray	.\jni.h	/^    jintArray     (*NewIntArray)(JNIEnv*, jsize);$/;"	m	struct:JNINativeInterface
+NewIntArray	.\jni.h	/^    jintArray NewIntArray(jsize length)$/;"	f	struct:_JNIEnv
+NewLocalRef	.\jni.h	/^    jobject     (*NewLocalRef)(JNIEnv*, jobject);$/;"	m	struct:JNINativeInterface
+NewLocalRef	.\jni.h	/^    jobject NewLocalRef(jobject ref)$/;"	f	struct:_JNIEnv
+NewLongArray	.\jni.h	/^    jlongArray    (*NewLongArray)(JNIEnv*, jsize);$/;"	m	struct:JNINativeInterface
+NewLongArray	.\jni.h	/^    jlongArray NewLongArray(jsize length)$/;"	f	struct:_JNIEnv
+NewObject	.\jni.h	/^    jobject     (*NewObject)(JNIEnv*, jclass, jmethodID, ...);$/;"	m	struct:JNINativeInterface
+NewObject	.\jni.h	/^    jobject NewObject(jclass clazz, jmethodID methodID, ...)$/;"	f	struct:_JNIEnv
+NewObjectA	.\jni.h	/^    jobject     (*NewObjectA)(JNIEnv*, jclass, jmethodID, jvalue*);$/;"	m	struct:JNINativeInterface
+NewObjectA	.\jni.h	/^    jobject NewObjectA(jclass clazz, jmethodID methodID, jvalue* args)$/;"	f	struct:_JNIEnv
+NewObjectArray	.\jni.h	/^    jobjectArray (*NewObjectArray)(JNIEnv*, jsize, jclass, jobject);$/;"	m	struct:JNINativeInterface
+NewObjectArray	.\jni.h	/^    jobjectArray NewObjectArray(jsize length, jclass elementClass,$/;"	f	struct:_JNIEnv
+NewObjectV	.\jni.h	/^    jobject     (*NewObjectV)(JNIEnv*, jclass, jmethodID, va_list);$/;"	m	struct:JNINativeInterface
+NewObjectV	.\jni.h	/^    jobject NewObjectV(jclass clazz, jmethodID methodID, va_list args)$/;"	f	struct:_JNIEnv
+NewShortArray	.\jni.h	/^    jshortArray   (*NewShortArray)(JNIEnv*, jsize);$/;"	m	struct:JNINativeInterface
+NewShortArray	.\jni.h	/^    jshortArray NewShortArray(jsize length)$/;"	f	struct:_JNIEnv
+NewString	.\jni.h	/^    jstring     (*NewString)(JNIEnv*, const jchar*, jsize);$/;"	m	struct:JNINativeInterface
+NewString	.\jni.h	/^    jstring NewString(const jchar* unicodeChars, jsize len)$/;"	f	struct:_JNIEnv
+NewStringUTF	.\jni.h	/^    jstring     (*NewStringUTF)(JNIEnv*, const char*);$/;"	m	struct:JNINativeInterface
+NewStringUTF	.\jni.h	/^    jstring NewStringUTF(const char* bytes)$/;"	f	struct:_JNIEnv
+NewWeakGlobalRef	.\jni.h	/^    jweak       (*NewWeakGlobalRef)(JNIEnv*, jobject);$/;"	m	struct:JNINativeInterface
+NewWeakGlobalRef	.\jni.h	/^    jweak NewWeakGlobalRef(jobject obj)$/;"	f	struct:_JNIEnv
+PopLocalFrame	.\jni.h	/^    jobject     (*PopLocalFrame)(JNIEnv*, jobject);$/;"	m	struct:JNINativeInterface
+PopLocalFrame	.\jni.h	/^    jobject PopLocalFrame(jobject result)$/;"	f	struct:_JNIEnv
+PushLocalFrame	.\jni.h	/^    jint        (*PushLocalFrame)(JNIEnv*, jint);$/;"	m	struct:JNINativeInterface
+PushLocalFrame	.\jni.h	/^    jint PushLocalFrame(jint capacity)$/;"	f	struct:_JNIEnv
+RegisterNatives	.\jni.h	/^    jint        (*RegisterNatives)(JNIEnv*, jclass, const JNINativeMethod*,$/;"	m	struct:JNINativeInterface
+RegisterNatives	.\jni.h	/^    jint RegisterNatives(jclass clazz, const JNINativeMethod* methods,$/;"	f	struct:_JNIEnv
+ReleaseBooleanArrayElements	.\jni.h	/^    void        (*ReleaseBooleanArrayElements)(JNIEnv*, jbooleanArray,$/;"	m	struct:JNINativeInterface
+ReleaseBooleanArrayElements	.\jni.h	/^    void ReleaseBooleanArrayElements(jbooleanArray array, jboolean* elems,$/;"	f	struct:_JNIEnv
+ReleaseByteArrayElements	.\jni.h	/^    void        (*ReleaseByteArrayElements)(JNIEnv*, jbyteArray,$/;"	m	struct:JNINativeInterface
+ReleaseByteArrayElements	.\jni.h	/^    void ReleaseByteArrayElements(jbyteArray array, jbyte* elems,$/;"	f	struct:_JNIEnv
+ReleaseCharArrayElements	.\jni.h	/^    void        (*ReleaseCharArrayElements)(JNIEnv*, jcharArray,$/;"	m	struct:JNINativeInterface
+ReleaseCharArrayElements	.\jni.h	/^    void ReleaseCharArrayElements(jcharArray array, jchar* elems,$/;"	f	struct:_JNIEnv
+ReleaseDoubleArrayElements	.\jni.h	/^    void        (*ReleaseDoubleArrayElements)(JNIEnv*, jdoubleArray,$/;"	m	struct:JNINativeInterface
+ReleaseDoubleArrayElements	.\jni.h	/^    void ReleaseDoubleArrayElements(jdoubleArray array, jdouble* elems,$/;"	f	struct:_JNIEnv
+ReleaseFloatArrayElements	.\jni.h	/^    void        (*ReleaseFloatArrayElements)(JNIEnv*, jfloatArray,$/;"	m	struct:JNINativeInterface
+ReleaseFloatArrayElements	.\jni.h	/^    void ReleaseFloatArrayElements(jfloatArray array, jfloat* elems,$/;"	f	struct:_JNIEnv
+ReleaseIntArrayElements	.\jni.h	/^    void        (*ReleaseIntArrayElements)(JNIEnv*, jintArray,$/;"	m	struct:JNINativeInterface
+ReleaseIntArrayElements	.\jni.h	/^    void ReleaseIntArrayElements(jintArray array, jint* elems,$/;"	f	struct:_JNIEnv
+ReleaseLongArrayElements	.\jni.h	/^    void        (*ReleaseLongArrayElements)(JNIEnv*, jlongArray,$/;"	m	struct:JNINativeInterface
+ReleaseLongArrayElements	.\jni.h	/^    void ReleaseLongArrayElements(jlongArray array, jlong* elems,$/;"	f	struct:_JNIEnv
+ReleasePrimitiveArrayCritical	.\jni.h	/^    void        (*ReleasePrimitiveArrayCritical)(JNIEnv*, jarray, void*, jint);$/;"	m	struct:JNINativeInterface
+ReleasePrimitiveArrayCritical	.\jni.h	/^    void ReleasePrimitiveArrayCritical(jarray array, void* carray, jint mode)$/;"	f	struct:_JNIEnv
+ReleaseShortArrayElements	.\jni.h	/^    void        (*ReleaseShortArrayElements)(JNIEnv*, jshortArray,$/;"	m	struct:JNINativeInterface
+ReleaseShortArrayElements	.\jni.h	/^    void ReleaseShortArrayElements(jshortArray array, jshort* elems,$/;"	f	struct:_JNIEnv
+ReleaseStringChars	.\jni.h	/^    void        (*ReleaseStringChars)(JNIEnv*, jstring, const jchar*);$/;"	m	struct:JNINativeInterface
+ReleaseStringChars	.\jni.h	/^    void ReleaseStringChars(jstring string, const jchar* chars)$/;"	f	struct:_JNIEnv
+ReleaseStringCritical	.\jni.h	/^    void        (*ReleaseStringCritical)(JNIEnv*, jstring, const jchar*);$/;"	m	struct:JNINativeInterface
+ReleaseStringCritical	.\jni.h	/^    void ReleaseStringCritical(jstring string, const jchar* carray)$/;"	f	struct:_JNIEnv
+ReleaseStringUTFChars	.\jni.h	/^    void        (*ReleaseStringUTFChars)(JNIEnv*, jstring, const char*);$/;"	m	struct:JNINativeInterface
+ReleaseStringUTFChars	.\jni.h	/^    void ReleaseStringUTFChars(jstring string, const char* utf)$/;"	f	struct:_JNIEnv
+SetBooleanArrayRegion	.\jni.h	/^    void        (*SetBooleanArrayRegion)(JNIEnv*, jbooleanArray,$/;"	m	struct:JNINativeInterface
+SetBooleanArrayRegion	.\jni.h	/^    void SetBooleanArrayRegion(jbooleanArray array, jsize start, jsize len,$/;"	f	struct:_JNIEnv
+SetBooleanField	.\jni.h	/^    void        (*SetBooleanField)(JNIEnv*, jobject, jfieldID, jboolean);$/;"	m	struct:JNINativeInterface
+SetBooleanField	.\jni.h	/^    void SetBooleanField(jobject obj, jfieldID fieldID, jboolean value)$/;"	f	struct:_JNIEnv
+SetByteArrayRegion	.\jni.h	/^    void        (*SetByteArrayRegion)(JNIEnv*, jbyteArray,$/;"	m	struct:JNINativeInterface
+SetByteArrayRegion	.\jni.h	/^    void SetByteArrayRegion(jbyteArray array, jsize start, jsize len,$/;"	f	struct:_JNIEnv
+SetByteField	.\jni.h	/^    void        (*SetByteField)(JNIEnv*, jobject, jfieldID, jbyte);$/;"	m	struct:JNINativeInterface
+SetByteField	.\jni.h	/^    void SetByteField(jobject obj, jfieldID fieldID, jbyte value)$/;"	f	struct:_JNIEnv
+SetCharArrayRegion	.\jni.h	/^    void        (*SetCharArrayRegion)(JNIEnv*, jcharArray,$/;"	m	struct:JNINativeInterface
+SetCharArrayRegion	.\jni.h	/^    void SetCharArrayRegion(jcharArray array, jsize start, jsize len,$/;"	f	struct:_JNIEnv
+SetCharField	.\jni.h	/^    void        (*SetCharField)(JNIEnv*, jobject, jfieldID, jchar);$/;"	m	struct:JNINativeInterface
+SetCharField	.\jni.h	/^    void SetCharField(jobject obj, jfieldID fieldID, jchar value)$/;"	f	struct:_JNIEnv
+SetDoubleArrayRegion	.\jni.h	/^    void        (*SetDoubleArrayRegion)(JNIEnv*, jdoubleArray,$/;"	m	struct:JNINativeInterface
+SetDoubleArrayRegion	.\jni.h	/^    void SetDoubleArrayRegion(jdoubleArray array, jsize start, jsize len,$/;"	f	struct:_JNIEnv
+SetDoubleField	.\jni.h	/^    void        (*SetDoubleField)(JNIEnv*, jobject, jfieldID, jdouble);$/;"	m	struct:JNINativeInterface
+SetDoubleField	.\jni.h	/^    void SetDoubleField(jobject obj, jfieldID fieldID, jdouble value)$/;"	f	struct:_JNIEnv
+SetFloatArrayRegion	.\jni.h	/^    void        (*SetFloatArrayRegion)(JNIEnv*, jfloatArray,$/;"	m	struct:JNINativeInterface
+SetFloatArrayRegion	.\jni.h	/^    void SetFloatArrayRegion(jfloatArray array, jsize start, jsize len,$/;"	f	struct:_JNIEnv
+SetFloatField	.\jni.h	/^    void        (*SetFloatField)(JNIEnv*, jobject, jfieldID, jfloat);$/;"	m	struct:JNINativeInterface
+SetFloatField	.\jni.h	/^    void SetFloatField(jobject obj, jfieldID fieldID, jfloat value)$/;"	f	struct:_JNIEnv
+SetIntArrayRegion	.\jni.h	/^    void        (*SetIntArrayRegion)(JNIEnv*, jintArray,$/;"	m	struct:JNINativeInterface
+SetIntArrayRegion	.\jni.h	/^    void SetIntArrayRegion(jintArray array, jsize start, jsize len,$/;"	f	struct:_JNIEnv
+SetIntField	.\jni.h	/^    void        (*SetIntField)(JNIEnv*, jobject, jfieldID, jint);$/;"	m	struct:JNINativeInterface
+SetIntField	.\jni.h	/^    void SetIntField(jobject obj, jfieldID fieldID, jint value)$/;"	f	struct:_JNIEnv
+SetLongArrayRegion	.\jni.h	/^    void        (*SetLongArrayRegion)(JNIEnv*, jlongArray,$/;"	m	struct:JNINativeInterface
+SetLongArrayRegion	.\jni.h	/^    void SetLongArrayRegion(jlongArray array, jsize start, jsize len,$/;"	f	struct:_JNIEnv
+SetLongField	.\jni.h	/^    void        (*SetLongField)(JNIEnv*, jobject, jfieldID, jlong);$/;"	m	struct:JNINativeInterface
+SetLongField	.\jni.h	/^    void SetLongField(jobject obj, jfieldID fieldID, jlong value)$/;"	f	struct:_JNIEnv
+SetObjectArrayElement	.\jni.h	/^    void        (*SetObjectArrayElement)(JNIEnv*, jobjectArray, jsize, jobject);$/;"	m	struct:JNINativeInterface
+SetObjectArrayElement	.\jni.h	/^    void SetObjectArrayElement(jobjectArray array, jsize index, jobject value)$/;"	f	struct:_JNIEnv
+SetObjectField	.\jni.h	/^    void        (*SetObjectField)(JNIEnv*, jobject, jfieldID, jobject);$/;"	m	struct:JNINativeInterface
+SetObjectField	.\jni.h	/^    void SetObjectField(jobject obj, jfieldID fieldID, jobject value)$/;"	f	struct:_JNIEnv
+SetShortArrayRegion	.\jni.h	/^    void        (*SetShortArrayRegion)(JNIEnv*, jshortArray,$/;"	m	struct:JNINativeInterface
+SetShortArrayRegion	.\jni.h	/^    void SetShortArrayRegion(jshortArray array, jsize start, jsize len,$/;"	f	struct:_JNIEnv
+SetShortField	.\jni.h	/^    void        (*SetShortField)(JNIEnv*, jobject, jfieldID, jshort);$/;"	m	struct:JNINativeInterface
+SetShortField	.\jni.h	/^    void SetShortField(jobject obj, jfieldID fieldID, jshort value)$/;"	f	struct:_JNIEnv
+SetStaticBooleanField	.\jni.h	/^    void        (*SetStaticBooleanField)(JNIEnv*, jclass, jfieldID, jboolean);$/;"	m	struct:JNINativeInterface
+SetStaticBooleanField	.\jni.h	/^    void SetStaticBooleanField(jclass clazz, jfieldID fieldID, jboolean value)$/;"	f	struct:_JNIEnv
+SetStaticByteField	.\jni.h	/^    void        (*SetStaticByteField)(JNIEnv*, jclass, jfieldID, jbyte);$/;"	m	struct:JNINativeInterface
+SetStaticByteField	.\jni.h	/^    void SetStaticByteField(jclass clazz, jfieldID fieldID, jbyte value)$/;"	f	struct:_JNIEnv
+SetStaticCharField	.\jni.h	/^    void        (*SetStaticCharField)(JNIEnv*, jclass, jfieldID, jchar);$/;"	m	struct:JNINativeInterface
+SetStaticCharField	.\jni.h	/^    void SetStaticCharField(jclass clazz, jfieldID fieldID, jchar value)$/;"	f	struct:_JNIEnv
+SetStaticDoubleField	.\jni.h	/^    void        (*SetStaticDoubleField)(JNIEnv*, jclass, jfieldID, jdouble);$/;"	m	struct:JNINativeInterface
+SetStaticDoubleField	.\jni.h	/^    void SetStaticDoubleField(jclass clazz, jfieldID fieldID, jdouble value)$/;"	f	struct:_JNIEnv
+SetStaticFloatField	.\jni.h	/^    void        (*SetStaticFloatField)(JNIEnv*, jclass, jfieldID, jfloat);$/;"	m	struct:JNINativeInterface
+SetStaticFloatField	.\jni.h	/^    void SetStaticFloatField(jclass clazz, jfieldID fieldID, jfloat value)$/;"	f	struct:_JNIEnv
+SetStaticIntField	.\jni.h	/^    void        (*SetStaticIntField)(JNIEnv*, jclass, jfieldID, jint);$/;"	m	struct:JNINativeInterface
+SetStaticIntField	.\jni.h	/^    void SetStaticIntField(jclass clazz, jfieldID fieldID, jint value)$/;"	f	struct:_JNIEnv
+SetStaticLongField	.\jni.h	/^    void        (*SetStaticLongField)(JNIEnv*, jclass, jfieldID, jlong);$/;"	m	struct:JNINativeInterface
+SetStaticLongField	.\jni.h	/^    void SetStaticLongField(jclass clazz, jfieldID fieldID, jlong value)$/;"	f	struct:_JNIEnv
+SetStaticObjectField	.\jni.h	/^    void        (*SetStaticObjectField)(JNIEnv*, jclass, jfieldID, jobject);$/;"	m	struct:JNINativeInterface
+SetStaticObjectField	.\jni.h	/^    void SetStaticObjectField(jclass clazz, jfieldID fieldID, jobject value)$/;"	f	struct:_JNIEnv
+SetStaticShortField	.\jni.h	/^    void        (*SetStaticShortField)(JNIEnv*, jclass, jfieldID, jshort);$/;"	m	struct:JNINativeInterface
+SetStaticShortField	.\jni.h	/^    void SetStaticShortField(jclass clazz, jfieldID fieldID, jshort value)$/;"	f	struct:_JNIEnv
+Throw	.\jni.h	/^    jint        (*Throw)(JNIEnv*, jthrowable);$/;"	m	struct:JNINativeInterface
+Throw	.\jni.h	/^    jint Throw(jthrowable obj)$/;"	f	struct:_JNIEnv
+ThrowNew	.\jni.h	/^    jint        (*ThrowNew)(JNIEnv *, jclass, const char *);$/;"	m	struct:JNINativeInterface
+ThrowNew	.\jni.h	/^    jint ThrowNew(jclass clazz, const char* message)$/;"	f	struct:_JNIEnv
+ToReflectedField	.\jni.h	/^    jobject     (*ToReflectedField)(JNIEnv*, jclass, jfieldID, jboolean);$/;"	m	struct:JNINativeInterface
+ToReflectedField	.\jni.h	/^    jobject ToReflectedField(jclass cls, jfieldID fieldID, jboolean isStatic)$/;"	f	struct:_JNIEnv
+ToReflectedMethod	.\jni.h	/^    jobject     (*ToReflectedMethod)(JNIEnv*, jclass, jmethodID, jboolean);$/;"	m	struct:JNINativeInterface
+ToReflectedMethod	.\jni.h	/^    jobject ToReflectedMethod(jclass cls, jmethodID methodID, jboolean isStatic)$/;"	f	struct:_JNIEnv
+UnregisterNatives	.\jni.h	/^    jint        (*UnregisterNatives)(JNIEnv*, jclass);$/;"	m	struct:JNINativeInterface
+UnregisterNatives	.\jni.h	/^    jint UnregisterNatives(jclass clazz)$/;"	f	struct:_JNIEnv
+_JNIEnv	.\jni.h	/^struct _JNIEnv {$/;"	s
+_JavaVM	.\jni.h	/^struct _JavaVM {$/;"	s
+_jarray	.\jni.h	/^class _jarray : public _jobject {};$/;"	c
+_jbooleanArray	.\jni.h	/^class _jbooleanArray : public _jarray {};$/;"	c
+_jbyteArray	.\jni.h	/^class _jbyteArray : public _jarray {};$/;"	c
+_jcharArray	.\jni.h	/^class _jcharArray : public _jarray {};$/;"	c
+_jclass	.\jni.h	/^class _jclass : public _jobject {};$/;"	c
+_jdoubleArray	.\jni.h	/^class _jdoubleArray : public _jarray {};$/;"	c
+_jfloatArray	.\jni.h	/^class _jfloatArray : public _jarray {};$/;"	c
+_jintArray	.\jni.h	/^class _jintArray : public _jarray {};$/;"	c
+_jlongArray	.\jni.h	/^class _jlongArray : public _jarray {};$/;"	c
+_jobject	.\jni.h	/^class _jobject {};$/;"	c
+_jobjectArray	.\jni.h	/^class _jobjectArray : public _jarray {};$/;"	c
+_jshortArray	.\jni.h	/^class _jshortArray : public _jarray {};$/;"	c
+_jstring	.\jni.h	/^class _jstring : public _jobject {};$/;"	c
+_jthrowable	.\jni.h	/^class _jthrowable : public _jobject {};$/;"	c
+b	.\jni.h	/^    jbyte       b;$/;"	m	union:jvalue
+c	.\jni.h	/^    jchar       c;$/;"	m	union:jvalue
+d	.\jni.h	/^    jdouble     d;$/;"	m	union:jvalue
+extraInfo	.\jni.h	/^    void*       extraInfo;$/;"	m	struct:JavaVMOption
+f	.\jni.h	/^    jfloat      f;$/;"	m	union:jvalue
+fnPtr	.\jni.h	/^    void*       fnPtr;$/;"	m	struct:__anon1
+functions	.\jni.h	/^    const struct JNIInvokeInterface* functions;$/;"	m	struct:_JavaVM	typeref:struct:_JavaVM::JNIInvokeInterface
+functions	.\jni.h	/^    const struct JNINativeInterface* functions;$/;"	m	struct:_JNIEnv	typeref:struct:_JNIEnv::JNINativeInterface
+group	.\jni.h	/^    jobject     group;      \/* global ref of a ThreadGroup object, or NULL *\/$/;"	m	struct:JavaVMAttachArgs
+i	.\jni.h	/^    jint        i;$/;"	m	union:jvalue
+ignoreUnrecognized	.\jni.h	/^    jboolean    ignoreUnrecognized;$/;"	m	struct:JavaVMInitArgs
+j	.\jni.h	/^    jlong       j;$/;"	m	union:jvalue
+jarray	.\jni.h	/^typedef _jarray*        jarray;$/;"	t
+jarray	.\jni.h	/^typedef jobject         jarray;$/;"	t
+jboolean	.\jni.h	/^typedef uint8_t         jboolean;       \/* unsigned 8 bits *\/$/;"	t
+jboolean	.\jni.h	/^typedef unsigned char   jboolean;       \/* unsigned 8 bits *\/$/;"	t
+jbooleanArray	.\jni.h	/^typedef _jbooleanArray* jbooleanArray;$/;"	t
+jbooleanArray	.\jni.h	/^typedef jarray          jbooleanArray;$/;"	t
+jbyte	.\jni.h	/^typedef int8_t          jbyte;          \/* signed 8 bits *\/$/;"	t
+jbyte	.\jni.h	/^typedef signed char     jbyte;          \/* signed 8 bits *\/$/;"	t
+jbyteArray	.\jni.h	/^typedef _jbyteArray*    jbyteArray;$/;"	t
+jbyteArray	.\jni.h	/^typedef jarray          jbyteArray;$/;"	t
+jchar	.\jni.h	/^typedef uint16_t        jchar;          \/* unsigned 16 bits *\/$/;"	t
+jchar	.\jni.h	/^typedef unsigned short  jchar;          \/* unsigned 16 bits *\/$/;"	t
+jcharArray	.\jni.h	/^typedef _jcharArray*    jcharArray;$/;"	t
+jcharArray	.\jni.h	/^typedef jarray          jcharArray;$/;"	t
+jclass	.\jni.h	/^typedef _jclass*        jclass;$/;"	t
+jclass	.\jni.h	/^typedef jobject         jclass;$/;"	t
+jdouble	.\jni.h	/^typedef double          jdouble;        \/* 64-bit IEEE 754 *\/$/;"	t
+jdoubleArray	.\jni.h	/^typedef _jdoubleArray*  jdoubleArray;$/;"	t
+jdoubleArray	.\jni.h	/^typedef jarray          jdoubleArray;$/;"	t
+jfieldID	.\jni.h	/^typedef struct _jfieldID* jfieldID;     \/* field IDs *\/$/;"	t	typeref:struct:_jfieldID
+jfloat	.\jni.h	/^typedef float           jfloat;         \/* 32-bit IEEE 754 *\/$/;"	t
+jfloatArray	.\jni.h	/^typedef _jfloatArray*   jfloatArray;$/;"	t
+jfloatArray	.\jni.h	/^typedef jarray          jfloatArray;$/;"	t
+jint	.\jni.h	/^typedef int             jint;           \/* signed 32 bits *\/$/;"	t
+jint	.\jni.h	/^typedef int32_t         jint;           \/* signed 32 bits *\/$/;"	t
+jintArray	.\jni.h	/^typedef _jintArray*     jintArray;$/;"	t
+jintArray	.\jni.h	/^typedef jarray          jintArray;$/;"	t
+jlong	.\jni.h	/^typedef int64_t         jlong;          \/* signed 64 bits *\/$/;"	t
+jlong	.\jni.h	/^typedef long long       jlong;          \/* signed 64 bits *\/$/;"	t
+jlongArray	.\jni.h	/^typedef _jlongArray*    jlongArray;$/;"	t
+jlongArray	.\jni.h	/^typedef jarray          jlongArray;$/;"	t
+jmethodID	.\jni.h	/^typedef struct _jmethodID* jmethodID;   \/* method IDs *\/$/;"	t	typeref:struct:_jmethodID
+jobject	.\jni.h	/^typedef _jobject*       jobject;$/;"	t
+jobject	.\jni.h	/^typedef void*           jobject;$/;"	t
+jobjectArray	.\jni.h	/^typedef _jobjectArray*  jobjectArray;$/;"	t
+jobjectArray	.\jni.h	/^typedef jarray          jobjectArray;$/;"	t
+jobjectRefType	.\jni.h	/^typedef enum jobjectRefType {$/;"	g
+jobjectRefType	.\jni.h	/^} jobjectRefType;$/;"	t	typeref:enum:jobjectRefType
+jshort	.\jni.h	/^typedef int16_t         jshort;         \/* signed 16 bits *\/$/;"	t
+jshort	.\jni.h	/^typedef short           jshort;         \/* signed 16 bits *\/$/;"	t
+jshortArray	.\jni.h	/^typedef _jshortArray*   jshortArray;$/;"	t
+jshortArray	.\jni.h	/^typedef jarray          jshortArray;$/;"	t
+jsize	.\jni.h	/^typedef jint            jsize;$/;"	t
+jstring	.\jni.h	/^typedef _jstring*       jstring;$/;"	t
+jstring	.\jni.h	/^typedef jobject         jstring;$/;"	t
+jthrowable	.\jni.h	/^typedef _jthrowable*    jthrowable;$/;"	t
+jthrowable	.\jni.h	/^typedef jobject         jthrowable;$/;"	t
+jvalue	.\jni.h	/^typedef union jvalue {$/;"	u
+jvalue	.\jni.h	/^} jvalue;$/;"	t	typeref:union:jvalue
+jweak	.\jni.h	/^typedef _jobject*       jweak;$/;"	t
+jweak	.\jni.h	/^typedef jobject         jweak;$/;"	t
+l	.\jni.h	/^    jobject     l;$/;"	m	union:jvalue
+methods	.\native_utils.c	/^const static JNINativeMethod methods[] = {$/;"	v	file:
+nOptions	.\jni.h	/^    jint        nOptions;$/;"	m	struct:JavaVMInitArgs
+name	.\jni.h	/^    const char* name;       \/* NULL or name of thread as modified UTF-8 str *\/$/;"	m	struct:JavaVMAttachArgs
+name	.\jni.h	/^    const char* name;$/;"	m	struct:__anon1
+native_get_package_name	.\native_utils.c	/^jstring native_get_package_name(JNIEnv *env, jobject obj)$/;"	f
+optionString	.\jni.h	/^    const char* optionString;$/;"	m	struct:JavaVMOption
+options	.\jni.h	/^    JavaVMOption* options;$/;"	m	struct:JavaVMInitArgs
+reserved0	.\jni.h	/^    void*       reserved0;$/;"	m	struct:JNIInvokeInterface
+reserved0	.\jni.h	/^    void*       reserved0;$/;"	m	struct:JNINativeInterface
+reserved1	.\jni.h	/^    void*       reserved1;$/;"	m	struct:JNIInvokeInterface
+reserved1	.\jni.h	/^    void*       reserved1;$/;"	m	struct:JNINativeInterface
+reserved2	.\jni.h	/^    void*       reserved2;$/;"	m	struct:JNIInvokeInterface
+reserved2	.\jni.h	/^    void*       reserved2;$/;"	m	struct:JNINativeInterface
+reserved3	.\jni.h	/^    void*       reserved3;$/;"	m	struct:JNINativeInterface
+s	.\jni.h	/^    jshort      s;$/;"	m	union:jvalue
+signature	.\jni.h	/^    const char* signature;$/;"	m	struct:__anon1
+version	.\jni.h	/^    jint        version;    \/* must be >= JNI_VERSION_1_2 *\/$/;"	m	struct:JavaVMAttachArgs
+version	.\jni.h	/^    jint        version;    \/* use JNI_VERSION_1_2 or later *\/$/;"	m	struct:JavaVMInitArgs
+z	.\jni.h	/^    jboolean    z;$/;"	m	union:jvalue
