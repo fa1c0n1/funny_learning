@@ -128,7 +128,8 @@ struct {
 #undef KEYWORD
 
 /*
-    综上, 可以领略到 keywords.h时,   
+    综上, 可以领略到 keywords.h时, 综合上来得到一个keyword_info结构体的数组,
+    这个keyword_info结构体数组以前面定义的枚举值为索引   
 
  */
 
