@@ -18,13 +18,14 @@ public class MainActivity extends Activity {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_main);
 		ndkTools = new NativeTools();
-		initView();
+		initViewAndData();
 	}
 
-	private void initView() {
+	private void initViewAndData() {
 		tvPkgName = (TextView) findViewById(R.id.tv_pkgname);
 		tvPkgName.setText("包名: " + ndkTools.nativeGetPackageName());
 		tvPkgName.append("\n" + "FileDir: " + ndkTools.nativeGetFilesDir());
+		ndkTools.nativeGetFilesDirFromJava(getFilesDir().getAbsolutePath());
 	}
 
 }

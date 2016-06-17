@@ -7,8 +7,11 @@
 
 #include <android/log.h>
 #define LOG_TAG    "NativeLog"
+#define LOGV(...)    __android_log_print(ANDROID_LOG_VERBOSE, LOG_TAG, __VA_ARGS__)
 #define LOGD(...)    __android_log_print(ANDROID_LOG_DEBUG, LOG_TAG, __VA_ARGS__)
 #define LOGI(...)    __android_log_print(ANDROID_LOG_INFO, LOG_TAG, __VA_ARGS__)
+#define LOGW(...)    __android_log_print(ANDROID_LOG_WARN, LOG_TAG, __VA_ARGS__)
+#define LOGE(...)    __android_log_print(ANDROID_LOG_ERROR, LOG_TAG, __VA_ARGS__)
 
 
 int GetCurrentPackageName(char *processName)
@@ -19,13 +22,13 @@ int GetCurrentPackageName(char *processName)
     sprintf(cmdline, "/proc/%d/cmdline", getpid());
     int fd = open(cmdline, O_RDONLY);
     if (fd == -1) {
-        LOGD("open /proc/xxx/cmdline error");
+        LOGE("open /proc/xxx/cmdline error");
         return -1;
     }
 
     ret = read(fd, processName, 128);
     if (ret == -1) {
-        LOGD("read /proc/xxx/cmdline error");
+        LOGE("read /proc/xxx/cmdline error");
         return -1;
     }
 
@@ -52,9 +55,17 @@ jstring native_get_files_dir(JNIEnv *env, jobject obj)
     return (*env)->NewStringUTF(env, files_dir);
 }
 
+void native_get_files_dir_from_java(JNIEnv *env, jobject obj, jstring filesDir)
+{
+    const char *files_dir = (*env)->GetStringUTFChars(env, filesDir, NULL);
+    LOGD("FileDir from Java: %s", files_dir);
+    (*env)->ReleaseStringUTFChars(env, filesDir, files_dir);
+}
+
 static const JNINativeMethod methods[] = {
 	{"nativeGetPackageName", "()Ljava/lang/String;", (void *)native_get_package_name},
-    {"nativeGetFilesDir", "()Ljava/lang/String;", (void *)native_get_files_dir}
+    {"nativeGetFilesDir", "()Ljava/lang/String;", (void *)native_get_files_dir},
+    {"nativeGetFilesDirFromJava", "(Ljava/lang/String;)V", (void *)native_get_files_dir_from_java}
 };
 
 JNIEXPORT jint JNICALL
@@ -72,7 +83,7 @@ JNI_OnLoad(JavaVM *jvm, void *reserved)
     	return JNI_ERR;
     }
 
-    if((*env)->RegisterNatives(env, cls, methods, 2) < 0) {
+    if((*env)->RegisterNatives(env, cls, methods, 3) < 0) {
     	return JNI_ERR;	
     }
 	
