@@ -26,6 +26,14 @@ public class MainActivity extends Activity {
 		tvPkgName.setText("包名: " + ndkTools.nativeGetPackageName());
 		tvPkgName.append("\n" + "FileDir: " + ndkTools.nativeGetFilesDir());
 		ndkTools.nativeGetFilesDirFromJava(getFilesDir().getAbsolutePath());
+		int arr[] = new int[10];
+		for (int i = 0; i < 10; i++) {
+			arr[i] = i;
+		}
+		int sum = ndkTools.nativeSumArray(arr);
+		tvPkgName.append("\n" + "sumArr=" + sum);
+		ndkTools.nativeGetSDCardDirFromJava(Environment.getExternalStorageDirectory().getAbsolutePath());
+		ndkTools.nativeCreateFile("smb.confg");
 	}
 
 }
