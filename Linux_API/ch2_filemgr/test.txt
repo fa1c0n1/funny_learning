@@ -1,0 +1,57 @@
+1st linuxd prerequisites
+    1.1 If Android version is less than 4.2 and Bluetooth supported:
+        Set config_bluetooth_adapter_quick_switch to false in frameworks/base/core/res/res/values/config.xml
+    1.2 Add Wi-Fi/BT service into init.rc as following
+        service wifiservice /data/rftesttool/wifiservice
+            class main
+            user root
+        service btservice /data/rftesttool/btservice
+            class main
+            user root
+    1.3 Enable CONFIG_BT_HCIUART and CONFIG_BT_HCIUART_H4 in kernel menuconfig
+    1.4 If your module BT interface is USB(skip this step if it's UART), please add following patch to bt usb driver and 
+        set CONFIG_BT_HCIBTUSB=m to build out btusb.ko
+    --- a/linux-3.3/drivers/bluetooth/btusb.c
+    +++ b/linux-3.3/drivers/bluetooth/btusb.c
+    @@ -105,6 +105,12 @@ static struct usb_device_id btusb_table[] = {
+        { USB_DEVICE(0x0a5c, 0x21f3) },
+        { USB_DEVICE(0x413c, 0x8197) },
+
+        +       /* AMPAK AP6242(BCM43242) */
+        +       { USB_DEVICE(0x0a5c, 0x7242) },
+        +
+        +       /* AMPAK AP6269(BCM43569) */
+        +       { USB_DEVICE(0x0a5c, 0x2045) },
+        +
+        { }     /* Terminating entry */
+
+    1.5 Re-build Android source then download Android image to your device
+
+2. RFTestTool package installation steps
+    2.1 adb push rftesttool /data/rftesttool
+    2.2 (1) arm cpu and Android version is less than 4.x: adb shell cp /data/rftesttool/android_v1-v4/* /data/rftesttool/
+        (2) arm cpu and Android version is later than 5.0: adb shell cp /data/rftesttool/android_v5-vn/* /data/rftesttool/
+        (3) x86 cpu: adb shell cp /data/rftesttool/android_v5-vn/* /data/rftesttool/
+    2.3 If Wi-Fi driver is built a kernel module(.ko)，please copy Wi-Fi driver to /data/rftesttool/bcmdhd.ko from your system
+    2.4 Copy nvram to /data/rftesttool/nvram.txt from your system
+    2.5 If Bluetooth supported, copy Bluetooth firmware (.hcd) to /data/rftesttool/bcmdhd.hcd
+    2.6 If your module BT interface is USB(skip this step if it's UART), please copy btusb.ko to /data/rftesttool/btusb.ko
+    2.7 chmod 755 /data/rftesttool/*
+    2.8 adb install rfteesttool/RFTestTool-user.apk
+
+3. RFTestTool initialization
+    3.1 If Wi-Fi/BT service is not added into init.rc, you have to excute the services after system booting up and the two service should have root permission:
+        /data/rftesttool/wifiservice&
+        /data/rftesttool/btservice&
+    3.2 Please disable Wi-Fi and BT in Settings and enable Airplane mode
+    3.3 Android 2.x ~ 4.1: hciattach, brcm_patchram_plus and bluetoothd service should not be running ( you can use "ps" to check)
+                    Please rename the files and reboot if the service is still running
+        Android 4.2+: Remove /system/app/Bluetooth.apk
+    3.4 Reboot system
+    3.5 Open RFTestTool
+    3.6 Set correct Wi-Fi driver type, Wi-Fi/BT interface and Wi-Fi driver type in RFTestTool settings
+    3.7 Set correct Country in RFTestTool advanced
+    3.8 Enable Wi-Fi and you will see the color of Wi-Fi change to blue
+    3.9 Go to Functions tab and start the testing
+    3.10 Enable BT, and your can start to test after the color of BT change to blue 
+2nd linux2nd linux2nd linux
