@@ -1,0 +1,7729 @@
+/usr/include, typeflag=1
+other file
+
+/usr/include/ctype.h, typeflag=0
+regular file
+
+/usr/include/link.h, typeflag=0
+regular file
+
+/usr/include/string.h, typeflag=0
+regular file
+
+/usr/include/X11, typeflag=1
+other file
+
+/usr/include/X11/Xpoll.h, typeflag=0
+regular file
+
+/usr/include/X11/Xatom.h, typeflag=0
+regular file
+
+/usr/include/X11/Xos.h, typeflag=0
+regular file
+
+/usr/include/X11/Xprotostr.h, typeflag=0
+regular file
+
+/usr/include/X11/Xregion.h, typeflag=0
+regular file
+
+/usr/include/X11/HPkeysym.h, typeflag=0
+regular file
+
+/usr/include/X11/keysymdef.h, typeflag=0
+regular file
+
+/usr/include/X11/Xcms.h, typeflag=0
+regular file
+
+/usr/include/X11/Xutil.h, typeflag=0
+regular file
+
+/usr/include/X11/Xos_r.h, typeflag=0
+regular file
+
+/usr/include/X11/XlibConf.h, typeflag=0
+regular file
+
+/usr/include/X11/Xproto.h, typeflag=0
+regular file
+
+/usr/include/X11/Xwindows.h, typeflag=0
+regular file
+
+/usr/include/X11/keysym.h, typeflag=0
+regular file
+
+/usr/include/X11/cursorfont.h, typeflag=0
+regular file
+
+/usr/include/X11/ImUtil.h, typeflag=0
+regular file
+
+/usr/include/X11/xshmfence.h, typeflag=0
+regular file
+
+/usr/include/X11/Xmd.h, typeflag=0
+regular file
+
+/usr/include/X11/Sunkeysym.h, typeflag=0
+regular file
+
+/usr/include/X11/Xresource.h, typeflag=0
+regular file
+
+/usr/include/X11/Xthreads.h, typeflag=0
+regular file
+
+/usr/include/X11/Xlibint.h, typeflag=0
+regular file
+
+/usr/include/X11/Xlocale.h, typeflag=0
+regular file
+
+/usr/include/X11/Xfuncs.h, typeflag=0
+regular file
+
+/usr/include/X11/XKBlib.h, typeflag=0
+regular file
+
+/usr/include/X11/Xauth.h, typeflag=0
+regular file
+
+/usr/include/X11/Xdmcp.h, typeflag=0
+regular file
+
+/usr/include/X11/Xlib.h, typeflag=0
+regular file
+
+/usr/include/X11/Xdefs.h, typeflag=0
+regular file
+
+/usr/include/X11/Xw32defs.h, typeflag=0
+regular file
+
+/usr/include/X11/ap_keysym.h, typeflag=0
+regular file
+
+/usr/include/X11/Xalloca.h, typeflag=0
+regular file
+
+/usr/include/X11/X.h, typeflag=0
+regular file
+
+/usr/include/X11/extensions, typeflag=1
+other file
+
+/usr/include/X11/extensions/shapeproto.h, typeflag=0
+regular file
+
+/usr/include/X11/extensions/xtestproto.h, typeflag=0
+regular file
+
+/usr/include/X11/extensions/shmproto.h, typeflag=0
+regular file
+
+/usr/include/X11/extensions/cup.h, typeflag=0
+regular file
+
+/usr/include/X11/extensions/syncconst.h, typeflag=0
+regular file
+
+/usr/include/X11/extensions/XKBproto.h, typeflag=0
+regular file
+
+/usr/include/X11/extensions/Xdamage.h, typeflag=0
+regular file
+
+/usr/include/X11/extensions/multibufproto.h, typeflag=0
+regular file
+
+/usr/include/X11/extensions/EVIproto.h, typeflag=0
+regular file
+
+/usr/include/X11/extensions/sync.h, typeflag=0
+regular file
+
+/usr/include/X11/extensions/xf86vmstr.h, typeflag=0
+regular file
+
+/usr/include/X11/extensions/damageproto.h, typeflag=0
+regular file
+
+/usr/include/X11/extensions/cupproto.h, typeflag=0
+regular file
+
+/usr/include/X11/extensions/Xcup.h, typeflag=0
+regular file
+
+/usr/include/X11/extensions/dbe.h, typeflag=0
+regular file
+
+/usr/include/X11/extensions/xtestconst.h, typeflag=0
+regular file
+
+/usr/include/X11/extensions/security.h, typeflag=0
+regular file
+
+/usr/include/X11/extensions/securproto.h, typeflag=0
+regular file
+
+/usr/include/X11/extensions/dpms.h, typeflag=0
+regular file
+
+/usr/include/X11/extensions/xtestext1const.h, typeflag=0
+regular file
+
+/usr/include/X11/extensions/ag.h, typeflag=0
+regular file
+
+/usr/include/X11/extensions/XI2.h, typeflag=0
+regular file
+
+/usr/include/X11/extensions/lbxproto.h, typeflag=0
+regular file
+
+/usr/include/X11/extensions/xfixesproto.h, typeflag=0
+regular file
+
+/usr/include/X11/extensions/agproto.h, typeflag=0
+regular file
+
+/usr/include/X11/extensions/dpmsconst.h, typeflag=0
+regular file
+
+/usr/include/X11/extensions/dri2tokens.h, typeflag=0
+regular file
+
+/usr/include/X11/extensions/Xge.h, typeflag=0
+regular file
+
+/usr/include/X11/extensions/dbeproto.h, typeflag=0
+regular file
+
+/usr/include/X11/extensions/ge.h, typeflag=0
+regular file
+
+/usr/include/X11/extensions/multibufconst.h, typeflag=0
+regular file
+
+/usr/include/X11/extensions/xf86vmode.h, typeflag=0
+regular file
+
+/usr/include/X11/extensions/dpmsproto.h, typeflag=0
+regular file
+
+/usr/include/X11/extensions/XLbx.h, typeflag=0
+regular file
+
+/usr/include/X11/extensions/xfixeswire.h, typeflag=0
+regular file
+
+/usr/include/X11/extensions/mitmiscproto.h, typeflag=0
+regular file
+
+/usr/include/X11/extensions/syncproto.h, typeflag=0
+regular file
+
+/usr/include/X11/extensions/MITMisc.h, typeflag=0
+regular file
+
+/usr/include/X11/extensions/shape.h, typeflag=0
+regular file
+
+/usr/include/X11/extensions/XIproto.h, typeflag=0
+regular file
+
+/usr/include/X11/extensions/XEVI.h, typeflag=0
+regular file
+
+/usr/include/X11/extensions/mitmiscconst.h, typeflag=0
+regular file
+
+/usr/include/X11/extensions/xf86vm.h, typeflag=0
+regular file
+
+/usr/include/X11/extensions/damagewire.h, typeflag=0
+regular file
+
+/usr/include/X11/extensions/secur.h, typeflag=0
+regular file
+
+/usr/include/X11/extensions/XKBgeom.h, typeflag=0
+regular file
+
+/usr/include/X11/extensions/xtestext1proto.h, typeflag=0
+regular file
+
+/usr/include/X11/extensions/XI.h, typeflag=0
+regular file
+
+/usr/include/X11/extensions/Xag.h, typeflag=0
+regular file
+
+/usr/include/X11/extensions/xf86vmproto.h, typeflag=0
+regular file
+
+/usr/include/X11/extensions/XI2proto.h, typeflag=0
+regular file
+
+/usr/include/X11/extensions/shm.h, typeflag=0
+regular file
+
+/usr/include/X11/extensions/syncstr.h, typeflag=0
+regular file
+
+/usr/include/X11/extensions/XKBstr.h, typeflag=0
+regular file
+
+/usr/include/X11/extensions/Xext.h, typeflag=0
+regular file
+
+/usr/include/X11/extensions/xtestext1.h, typeflag=0
+regular file
+
+/usr/include/X11/extensions/XKB.h, typeflag=0
+regular file
+
+/usr/include/X11/extensions/shmstr.h, typeflag=0
+regular file
+
+/usr/include/X11/extensions/lbx.h, typeflag=0
+regular file
+
+/usr/include/X11/extensions/shapeconst.h, typeflag=0
+regular file
+
+/usr/include/X11/extensions/extutil.h, typeflag=0
+regular file
+
+/usr/include/X11/extensions/Xfixes.h, typeflag=0
+regular file
+
+/usr/include/X11/extensions/EVI.h, typeflag=0
+regular file
+
+/usr/include/X11/extensions/XKBsrv.h, typeflag=0
+regular file
+
+/usr/include/X11/extensions/geproto.h, typeflag=0
+regular file
+
+/usr/include/X11/extensions/Xdbe.h, typeflag=0
+regular file
+
+/usr/include/X11/extensions/multibuf.h, typeflag=0
+regular file
+
+/usr/include/X11/extensions/dri2proto.h, typeflag=0
+regular file
+
+/usr/include/X11/extensions/shapestr.h, typeflag=0
+regular file
+
+/usr/include/X11/extensions/XShm.h, typeflag=0
+regular file
+
+/usr/include/X11/XWDFile.h, typeflag=0
+regular file
+
+/usr/include/X11/Xwinsock.h, typeflag=0
+regular file
+
+/usr/include/X11/Xarch.h, typeflag=0
+regular file
+
+/usr/include/X11/Xosdefs.h, typeflag=0
+regular file
+
+/usr/include/X11/DECkeysym.h, typeflag=0
+regular file
+
+/usr/include/X11/Xtrans, typeflag=1
+other file
+
+/usr/include/X11/Xtrans/transport.c, typeflag=0
+regular file
+
+/usr/include/X11/Xtrans/Xtranssock.c, typeflag=0
+regular file
+
+/usr/include/X11/Xtrans/Xtrans.h, typeflag=0
+regular file
+
+/usr/include/X11/Xtrans/Xtransutil.c, typeflag=0
+regular file
+
+/usr/include/X11/Xtrans/Xtrans.c, typeflag=0
+regular file
+
+/usr/include/X11/Xtrans/Xtranslcl.c, typeflag=0
+regular file
+
+/usr/include/X11/Xtrans/Xtransint.h, typeflag=0
+regular file
+
+/usr/include/X11/Xfuncproto.h, typeflag=0
+regular file
+
+/usr/include/X11/Xlib-xcb.h, typeflag=0
+regular file
+
+/usr/include/X11/XF86keysym.h, typeflag=0
+regular file
+
+/usr/include/uapi, typeflag=1
+other file
+
+/usr/include/uchar.h, typeflag=0
+regular file
+
+/usr/include/spawn.h, typeflag=0
+regular file
+
+/usr/include/wctype.h, typeflag=0
+regular file
+
+/usr/include/gshadow.h, typeflag=0
+regular file
+
+/usr/include/syscall.h, typeflag=0
+regular file
+
+/usr/include/tic.h, typeflag=0
+regular file
+
+/usr/include/elf.h, typeflag=0
+regular file
+
+/usr/include/stdio_ext.h, typeflag=0
+regular file
+
+/usr/include/wait.h, typeflag=0
+regular file
+
+/usr/include/net, typeflag=1
+other file
+
+/usr/include/net/ppp_defs.h, typeflag=0
+regular file
+
+/usr/include/net/if_arp.h, typeflag=0
+regular file
+
+/usr/include/net/if_shaper.h, typeflag=0
+regular file
+
+/usr/include/net/if_ppp.h, typeflag=0
+regular file
+
+/usr/include/net/ethernet.h, typeflag=0
+regular file
+
+/usr/include/net/if_slip.h, typeflag=0
+regular file
+
+/usr/include/net/if_packet.h, typeflag=0
+regular file
+
+/usr/include/net/if.h, typeflag=0
+regular file
+
+/usr/include/net/route.h, typeflag=0
+regular file
+
+/usr/include/net/ppp-comp.h, typeflag=0
+regular file
+
+/usr/include/errno.h, typeflag=0
+regular file
+
+/usr/include/sched.h, typeflag=0
+regular file
+
+/usr/include/thread_db.h, typeflag=0
+regular file
+
+/usr/include/math.h, typeflag=0
+regular file
+
+/usr/include/netiucv, typeflag=1
+other file
+
+/usr/include/netiucv/iucv.h, typeflag=0
+regular file
+
+/usr/include/ulimit.h, typeflag=0
+regular file
+
+/usr/include/etip.h, typeflag=0
+regular file
+
+/usr/include/termio.h, typeflag=0
+regular file
+
+/usr/include/bits, typeflag=1
+other file
+
+/usr/include/bits/inotify.h, typeflag=0
+regular file
+
+/usr/include/bits/link.h, typeflag=0
+regular file
+
+/usr/include/bits/epoll.h, typeflag=0
+regular file
+
+/usr/include/bits/string.h, typeflag=0
+regular file
+
+/usr/include/bits/posix_opt.h, typeflag=0
+regular file
+
+/usr/include/bits/syscall.h, typeflag=0
+regular file
+
+/usr/include/bits/sys_errlist.h, typeflag=0
+regular file
+
+/usr/include/bits/libc-lock.h, typeflag=0
+regular file
+
+/usr/include/bits/mathcalls.h, typeflag=0
+regular file
+
+/usr/include/bits/errno.h, typeflag=0
+regular file
+
+/usr/include/bits/sched.h, typeflag=0
+regular file
+
+/usr/include/bits/ipc.h, typeflag=0
+regular file
+
+/usr/include/bits/byteswap-16.h, typeflag=0
+regular file
+
+/usr/include/bits/stdio.h, typeflag=0
+regular file
+
+/usr/include/bits/fcntl.h, typeflag=0
+regular file
+
+/usr/include/bits/math-finite.h, typeflag=0
+regular file
+
+/usr/include/bits/xopen_lim.h, typeflag=0
+regular file
+
+/usr/include/bits/wordsize.h, typeflag=0
+regular file
+
+/usr/include/bits/resource.h, typeflag=0
+regular file
+
+/usr/include/bits/fenv.h, typeflag=0
+regular file
+
+/usr/include/bits/socket.h, typeflag=0
+regular file
+
+/usr/include/bits/stdlib-bsearch.h, typeflag=0
+regular file
+
+/usr/include/bits/setjmp2.h, typeflag=0
+regular file
+
+/usr/include/bits/sigthread.h, typeflag=0
+regular file
+
+/usr/include/bits/mqueue2.h, typeflag=0
+regular file
+
+/usr/include/bits/monetary-ldbl.h, typeflag=0
+regular file
+
+/usr/include/bits/stropts.h, typeflag=0
+regular file
+
+/usr/include/bits/huge_valf.h, typeflag=0
+regular file
+
+/usr/include/bits/string2.h, typeflag=0
+regular file
+
+/usr/include/bits/stab.def, typeflag=0
+regular file
+
+/usr/include/bits/poll.h, typeflag=0
+regular file
+
+/usr/include/bits/a.out.h, typeflag=0
+regular file
+
+/usr/include/bits/mqueue.h, typeflag=0
+regular file
+
+/usr/include/bits/types.h, typeflag=0
+regular file
+
+/usr/include/bits/byteswap.h, typeflag=0
+regular file
+
+/usr/include/bits/confname.h, typeflag=0
+regular file
+
+/usr/include/bits/dlfcn.h, typeflag=0
+regular file
+
+/usr/include/bits/syslog-path.h, typeflag=0
+regular file
+
+/usr/include/bits/huge_vall.h, typeflag=0
+regular file
+
+/usr/include/bits/environments.h, typeflag=0
+regular file
+
+/usr/include/bits/semaphore.h, typeflag=0
+regular file
+
+/usr/include/bits/xtitypes.h, typeflag=0
+regular file
+
+/usr/include/bits/socket2.h, typeflag=0
+regular file
+
+/usr/include/bits/sigset.h, typeflag=0
+regular file
+
+/usr/include/bits/sem.h, typeflag=0
+regular file
+
+/usr/include/bits/in.h, typeflag=0
+regular file
+
+/usr/include/bits/fenvinline.h, typeflag=0
+regular file
+
+/usr/include/bits/termios.h, typeflag=0
+regular file
+
+/usr/include/bits/ioctls.h, typeflag=0
+regular file
+
+/usr/include/bits/pthreadtypes.h, typeflag=0
+regular file
+
+/usr/include/bits/setjmp.h, typeflag=0
+regular file
+
+/usr/include/bits/hwcap.h, typeflag=0
+regular file
+
+/usr/include/bits/select2.h, typeflag=0
+regular file
+
+/usr/include/bits/auxv.h, typeflag=0
+regular file
+
+/usr/include/bits/stat.h, typeflag=0
+regular file
+
+/usr/include/bits/mman.h, typeflag=0
+regular file
+
+/usr/include/bits/initspin.h, typeflag=0
+regular file
+
+/usr/include/bits/dirent.h, typeflag=0
+regular file
+
+/usr/include/bits/inf.h, typeflag=0
+regular file
+
+/usr/include/bits/stdio_lim.h, typeflag=0
+regular file
+
+/usr/include/bits/signum.h, typeflag=0
+regular file
+
+/usr/include/bits/siginfo.h, typeflag=0
+regular file
+
+/usr/include/bits/fcntl2.h, typeflag=0
+regular file
+
+/usr/include/bits/error.h, typeflag=0
+regular file
+
+/usr/include/bits/eventfd.h, typeflag=0
+regular file
+
+/usr/include/bits/sysctl.h, typeflag=0
+regular file
+
+/usr/include/bits/fcntl-linux.h, typeflag=0
+regular file
+
+/usr/include/bits/printf-ldbl.h, typeflag=0
+regular file
+
+/usr/include/bits/socket_type.h, typeflag=0
+regular file
+
+/usr/include/bits/timerfd.h, typeflag=0
+regular file
+
+/usr/include/bits/elfclass.h, typeflag=0
+regular file
+
+/usr/include/bits/stdlib-float.h, typeflag=0
+regular file
+
+/usr/include/bits/libio-ldbl.h, typeflag=0
+regular file
+
+/usr/include/bits/poll2.h, typeflag=0
+regular file
+
+/usr/include/bits/mman-linux.h, typeflag=0
+regular file
+
+/usr/include/bits/posix2_lim.h, typeflag=0
+regular file
+
+/usr/include/bits/cmathcalls.h, typeflag=0
+regular file
+
+/usr/include/bits/time.h, typeflag=0
+regular file
+
+/usr/include/bits/sigcontext.h, typeflag=0
+regular file
+
+/usr/include/bits/sockaddr.h, typeflag=0
+regular file
+
+/usr/include/bits/huge_val.h, typeflag=0
+regular file
+
+/usr/include/bits/mathinline.h, typeflag=0
+regular file
+
+/usr/include/bits/typesizes.h, typeflag=0
+regular file
+
+/usr/include/bits/syslog-ldbl.h, typeflag=0
+regular file
+
+/usr/include/bits/uio.h, typeflag=0
+regular file
+
+/usr/include/bits/mathdef.h, typeflag=0
+regular file
+
+/usr/include/bits/wchar-ldbl.h, typeflag=0
+regular file
+
+/usr/include/bits/ioctl-types.h, typeflag=0
+regular file
+
+/usr/include/bits/select.h, typeflag=0
+regular file
+
+/usr/include/bits/wchar2.h, typeflag=0
+regular file
+
+/usr/include/bits/shm.h, typeflag=0
+regular file
+
+/usr/include/bits/msq.h, typeflag=0
+regular file
+
+/usr/include/bits/endian.h, typeflag=0
+regular file
+
+/usr/include/bits/ustat.h, typeflag=0
+regular file
+
+/usr/include/bits/waitflags.h, typeflag=0
+regular file
+
+/usr/include/bits/stdio-ldbl.h, typeflag=0
+regular file
+
+/usr/include/bits/wchar.h, typeflag=0
+regular file
+
+/usr/include/bits/waitstatus.h, typeflag=0
+regular file
+
+/usr/include/bits/timex.h, typeflag=0
+regular file
+
+/usr/include/bits/locale.h, typeflag=0
+regular file
+
+/usr/include/bits/utsname.h, typeflag=0
+regular file
+
+/usr/include/bits/stdlib.h, typeflag=0
+regular file
+
+/usr/include/bits/unistd.h, typeflag=0
+regular file
+
+/usr/include/bits/netdb.h, typeflag=0
+regular file
+
+/usr/include/bits/sigstack.h, typeflag=0
+regular file
+
+/usr/include/bits/sigaction.h, typeflag=0
+regular file
+
+/usr/include/bits/statfs.h, typeflag=0
+regular file
+
+/usr/include/bits/statvfs.h, typeflag=0
+regular file
+
+/usr/include/bits/stdlib-ldbl.h, typeflag=0
+regular file
+
+/usr/include/bits/posix1_lim.h, typeflag=0
+regular file
+
+/usr/include/bits/utmpx.h, typeflag=0
+regular file
+
+/usr/include/bits/utmp.h, typeflag=0
+regular file
+
+/usr/include/bits/local_lim.h, typeflag=0
+regular file
+
+/usr/include/bits/nan.h, typeflag=0
+regular file
+
+/usr/include/bits/signalfd.h, typeflag=0
+regular file
+
+/usr/include/bits/syslog.h, typeflag=0
+regular file
+
+/usr/include/bits/ipctypes.h, typeflag=0
+regular file
+
+/usr/include/bits/param.h, typeflag=0
+regular file
+
+/usr/include/bits/string3.h, typeflag=0
+regular file
+
+/usr/include/bits/stdio2.h, typeflag=0
+regular file
+
+/usr/include/bits/stdio-lock.h, typeflag=0
+regular file
+
+/usr/include/stdio.h, typeflag=0
+regular file
+
+/usr/include/cursesw.h, typeflag=0
+regular file
+
+/usr/include/fcntl.h, typeflag=0
+regular file
+
+/usr/include/shadow.h, typeflag=0
+regular file
+
+/usr/include/zlib.h, typeflag=0
+regular file
+
+/usr/include/libdrm, typeflag=1
+other file
+
+/usr/include/libdrm/mach64_drm.h, typeflag=0
+regular file
+
+/usr/include/libdrm/radeon_cs_int.h, typeflag=0
+regular file
+
+/usr/include/libdrm/intel_debug.h, typeflag=0
+regular file
+
+/usr/include/libdrm/nouveau_drm.h, typeflag=0
+regular file
+
+/usr/include/libdrm/radeon_cs.h, typeflag=0
+regular file
+
+/usr/include/libdrm/drm_sarea.h, typeflag=0
+regular file
+
+/usr/include/libdrm/qxl_drm.h, typeflag=0
+regular file
+
+/usr/include/libdrm/sis_drm.h, typeflag=0
+regular file
+
+/usr/include/libdrm/vmwgfx_drm.h, typeflag=0
+regular file
+
+/usr/include/libdrm/tegra_drm.h, typeflag=0
+regular file
+
+/usr/include/libdrm/mga_drm.h, typeflag=0
+regular file
+
+/usr/include/libdrm/radeon_drm.h, typeflag=0
+regular file
+
+/usr/include/libdrm/drm_mode.h, typeflag=0
+regular file
+
+/usr/include/libdrm/radeon_bo_int.h, typeflag=0
+regular file
+
+/usr/include/libdrm/radeon_bo_gem.h, typeflag=0
+regular file
+
+/usr/include/libdrm/drm.h, typeflag=0
+regular file
+
+/usr/include/libdrm/savage_drm.h, typeflag=0
+regular file
+
+/usr/include/libdrm/radeon_bo.h, typeflag=0
+regular file
+
+/usr/include/libdrm/nouveau.h, typeflag=0
+regular file
+
+/usr/include/libdrm/r600_pci_ids.h, typeflag=0
+regular file
+
+/usr/include/libdrm/r128_drm.h, typeflag=0
+regular file
+
+/usr/include/libdrm/radeon_cs_gem.h, typeflag=0
+regular file
+
+/usr/include/libdrm/intel_aub.h, typeflag=0
+regular file
+
+/usr/include/libdrm/i915_drm.h, typeflag=0
+regular file
+
+/usr/include/libdrm/via_drm.h, typeflag=0
+regular file
+
+/usr/include/libdrm/radeon_surface.h, typeflag=0
+regular file
+
+/usr/include/libdrm/intel_bufmgr.h, typeflag=0
+regular file
+
+/usr/include/libdrm/drm_fourcc.h, typeflag=0
+regular file
+
+/usr/include/ttyent.h, typeflag=0
+regular file
+
+/usr/include/fenv.h, typeflag=0
+regular file
+
+/usr/include/_G_config.h, typeflag=0
+regular file
+
+/usr/include/ncurses_dll.h, typeflag=0
+regular file
+
+/usr/include/stropts.h, typeflag=0
+regular file
+
+/usr/include/term_entry.h, typeflag=0
+regular file
+
+/usr/include/nss.h, typeflag=0
+regular file
+
+/usr/include/poll.h, typeflag=0
+regular file
+
+/usr/include/mqueue.h, typeflag=0
+regular file
+
+/usr/include/ucontext.h, typeflag=0
+regular file
+
+/usr/include/ifaddrs.h, typeflag=0
+regular file
+
+/usr/include/features.h, typeflag=0
+regular file
+
+/usr/include/signal.h, typeflag=0
+regular file
+
+/usr/include/glob.h, typeflag=0
+regular file
+
+/usr/include/execinfo.h, typeflag=0
+regular file
+
+/usr/include/c++, typeflag=1
+other file
+
+/usr/include/c++/4.8, typeflag=1
+other file
+
+/usr/include/c++/4.8/algorithm, typeflag=0
+regular file
+
+/usr/include/c++/4.8/typeindex, typeflag=0
+regular file
+
+/usr/include/c++/4.8/typeinfo, typeflag=0
+regular file
+
+/usr/include/c++/4.8/vector, typeflag=0
+regular file
+
+/usr/include/c++/4.8/ctime, typeflag=0
+regular file
+
+/usr/include/c++/4.8/scoped_allocator, typeflag=0
+regular file
+
+/usr/include/c++/4.8/cinttypes, typeflag=0
+regular file
+
+/usr/include/c++/4.8/ciso646, typeflag=0
+regular file
+
+/usr/include/c++/4.8/string, typeflag=0
+regular file
+
+/usr/include/c++/4.8/climits, typeflag=0
+regular file
+
+/usr/include/c++/4.8/cstring, typeflag=0
+regular file
+
+/usr/include/c++/4.8/istream, typeflag=0
+regular file
+
+/usr/include/c++/4.8/tr1, typeflag=1
+other file
+
+/usr/include/c++/4.8/tr1/ell_integral.tcc, typeflag=0
+regular file
+
+/usr/include/c++/4.8/tr1/ctype.h, typeflag=0
+regular file
+
+/usr/include/c++/4.8/tr1/riemann_zeta.tcc, typeflag=0
+regular file
+
+/usr/include/c++/4.8/tr1/ctime, typeflag=0
+regular file
+
+/usr/include/c++/4.8/tr1/cinttypes, typeflag=0
+regular file
+
+/usr/include/c++/4.8/tr1/gamma.tcc, typeflag=0
+regular file
+
+/usr/include/c++/4.8/tr1/wctype.h, typeflag=0
+regular file
+
+/usr/include/c++/4.8/tr1/climits, typeflag=0
+regular file
+
+/usr/include/c++/4.8/tr1/math.h, typeflag=0
+regular file
+
+/usr/include/c++/4.8/tr1/stdio.h, typeflag=0
+regular file
+
+/usr/include/c++/4.8/tr1/complex, typeflag=0
+regular file
+
+/usr/include/c++/4.8/tr1/cmath, typeflag=0
+regular file
+
+/usr/include/c++/4.8/tr1/fenv.h, typeflag=0
+regular file
+
+/usr/include/c++/4.8/tr1/poly_hermite.tcc, typeflag=0
+regular file
+
+/usr/include/c++/4.8/tr1/hypergeometric.tcc, typeflag=0
+regular file
+
+/usr/include/c++/4.8/tr1/cwchar, typeflag=0
+regular file
+
+/usr/include/c++/4.8/tr1/regex, typeflag=0
+regular file
+
+/usr/include/c++/4.8/tr1/cstdbool, typeflag=0
+regular file
+
+/usr/include/c++/4.8/tr1/memory, typeflag=0
+regular file
+
+/usr/include/c++/4.8/tr1/ctgmath, typeflag=0
+regular file
+
+/usr/include/c++/4.8/tr1/tuple, typeflag=0
+regular file
+
+/usr/include/c++/4.8/tr1/array, typeflag=0
+regular file
+
+/usr/include/c++/4.8/tr1/functional, typeflag=0
+regular file
+
+/usr/include/c++/4.8/tr1/complex.h, typeflag=0
+regular file
+
+/usr/include/c++/4.8/tr1/ccomplex, typeflag=0
+regular file
+
+/usr/include/c++/4.8/tr1/shared_ptr.h, typeflag=0
+regular file
+
+/usr/include/c++/4.8/tr1/special_function_util.h, typeflag=0
+regular file
+
+/usr/include/c++/4.8/tr1/unordered_set.h, typeflag=0
+regular file
+
+/usr/include/c++/4.8/tr1/hashtable_policy.h, typeflag=0
+regular file
+
+/usr/include/c++/4.8/tr1/functional_hash.h, typeflag=0
+regular file
+
+/usr/include/c++/4.8/tr1/stdint.h, typeflag=0
+regular file
+
+/usr/include/c++/4.8/tr1/exp_integral.tcc, typeflag=0
+regular file
+
+/usr/include/c++/4.8/tr1/type_traits, typeflag=0
+regular file
+
+/usr/include/c++/4.8/tr1/stdbool.h, typeflag=0
+regular file
+
+/usr/include/c++/4.8/tr1/float.h, typeflag=0
+regular file
+
+/usr/include/c++/4.8/tr1/utility, typeflag=0
+regular file
+
+/usr/include/c++/4.8/tr1/limits.h, typeflag=0
+regular file
+
+/usr/include/c++/4.8/tr1/random, typeflag=0
+regular file
+
+/usr/include/c++/4.8/tr1/poly_laguerre.tcc, typeflag=0
+regular file
+
+/usr/include/c++/4.8/tr1/beta_function.tcc, typeflag=0
+regular file
+
+/usr/include/c++/4.8/tr1/unordered_map, typeflag=0
+regular file
+
+/usr/include/c++/4.8/tr1/cfenv, typeflag=0
+regular file
+
+/usr/include/c++/4.8/tr1/cstdio, typeflag=0
+regular file
+
+/usr/include/c++/4.8/tr1/legendre_function.tcc, typeflag=0
+regular file
+
+/usr/include/c++/4.8/tr1/cfloat, typeflag=0
+regular file
+
+/usr/include/c++/4.8/tr1/unordered_map.h, typeflag=0
+regular file
+
+/usr/include/c++/4.8/tr1/tgmath.h, typeflag=0
+regular file
+
+/usr/include/c++/4.8/tr1/cctype, typeflag=0
+regular file
+
+/usr/include/c++/4.8/tr1/wchar.h, typeflag=0
+regular file
+
+/usr/include/c++/4.8/tr1/stdlib.h, typeflag=0
+regular file
+
+/usr/include/c++/4.8/tr1/cwctype, typeflag=0
+regular file
+
+/usr/include/c++/4.8/tr1/modified_bessel_func.tcc, typeflag=0
+regular file
+
+/usr/include/c++/4.8/tr1/stdarg.h, typeflag=0
+regular file
+
+/usr/include/c++/4.8/tr1/hashtable.h, typeflag=0
+regular file
+
+/usr/include/c++/4.8/tr1/cstdlib, typeflag=0
+regular file
+
+/usr/include/c++/4.8/tr1/cstdarg, typeflag=0
+regular file
+
+/usr/include/c++/4.8/tr1/unordered_set, typeflag=0
+regular file
+
+/usr/include/c++/4.8/tr1/random.tcc, typeflag=0
+regular file
+
+/usr/include/c++/4.8/tr1/bessel_function.tcc, typeflag=0
+regular file
+
+/usr/include/c++/4.8/tr1/inttypes.h, typeflag=0
+regular file
+
+/usr/include/c++/4.8/tr1/cstdint, typeflag=0
+regular file
+
+/usr/include/c++/4.8/tr1/random.h, typeflag=0
+regular file
+
+/usr/include/c++/4.8/queue, typeflag=0
+regular file
+
+/usr/include/c++/4.8/iosfwd, typeflag=0
+regular file
+
+/usr/include/c++/4.8/cxxabi.h, typeflag=0
+regular file
+
+/usr/include/c++/4.8/bits, typeflag=1
+other file
+
+/usr/include/c++/4.8/bits/unique_ptr.h, typeflag=0
+regular file
+
+/usr/include/c++/4.8/bits/basic_ios.h, typeflag=0
+regular file
+
+/usr/include/c++/4.8/bits/stl_map.h, typeflag=0
+regular file
+
+/usr/include/c++/4.8/bits/streambuf.tcc, typeflag=0
+regular file
+
+/usr/include/c++/4.8/bits/stl_raw_storage_iter.h, typeflag=0
+regular file
+
+/usr/include/c++/4.8/bits/range_access.h, typeflag=0
+regular file
+
+/usr/include/c++/4.8/bits/valarray_array.h, typeflag=0
+regular file
+
+/usr/include/c++/4.8/bits/exception_ptr.h, typeflag=0
+regular file
+
+/usr/include/c++/4.8/bits/atomic_lockfree_defines.h, typeflag=0
+regular file
+
+/usr/include/c++/4.8/bits/stl_iterator.h, typeflag=0
+regular file
+
+/usr/include/c++/4.8/bits/exception_defines.h, typeflag=0
+regular file
+
+/usr/include/c++/4.8/bits/stl_iterator_base_types.h, typeflag=0
+regular file
+
+/usr/include/c++/4.8/bits/istream.tcc, typeflag=0
+regular file
+
+/usr/include/c++/4.8/bits/stl_iterator_base_funcs.h, typeflag=0
+regular file
+
+/usr/include/c++/4.8/bits/hash_bytes.h, typeflag=0
+regular file
+
+/usr/include/c++/4.8/bits/regex_constants.h, typeflag=0
+regular file
+
+/usr/include/c++/4.8/bits/allocator.h, typeflag=0
+regular file
+
+/usr/include/c++/4.8/bits/stl_relops.h, typeflag=0
+regular file
+
+/usr/include/c++/4.8/bits/stl_pair.h, typeflag=0
+regular file
+
+/usr/include/c++/4.8/bits/ios_base.h, typeflag=0
+regular file
+
+/usr/include/c++/4.8/bits/algorithmfwd.h, typeflag=0
+regular file
+
+/usr/include/c++/4.8/bits/regex_nfa.h, typeflag=0
+regular file
+
+/usr/include/c++/4.8/bits/regex_nfa.tcc, typeflag=0
+regular file
+
+/usr/include/c++/4.8/bits/uses_allocator.h, typeflag=0
+regular file
+
+/usr/include/c++/4.8/bits/atomic_base.h, typeflag=0
+regular file
+
+/usr/include/c++/4.8/bits/valarray_before.h, typeflag=0
+regular file
+
+/usr/include/c++/4.8/bits/stl_multiset.h, typeflag=0
+regular file
+
+/usr/include/c++/4.8/bits/alloc_traits.h, typeflag=0
+regular file
+
+/usr/include/c++/4.8/bits/stl_heap.h, typeflag=0
+regular file
+
+/usr/include/c++/4.8/bits/forward_list.h, typeflag=0
+regular file
+
+/usr/include/c++/4.8/bits/stl_tempbuf.h, typeflag=0
+regular file
+
+/usr/include/c++/4.8/bits/locale_facets.tcc, typeflag=0
+regular file
+
+/usr/include/c++/4.8/bits/stl_uninitialized.h, typeflag=0
+regular file
+
+/usr/include/c++/4.8/bits/stringfwd.h, typeflag=0
+regular file
+
+/usr/include/c++/4.8/bits/shared_ptr_base.h, typeflag=0
+regular file
+
+/usr/include/c++/4.8/bits/memoryfwd.h, typeflag=0
+regular file
+
+/usr/include/c++/4.8/bits/stl_set.h, typeflag=0
+regular file
+
+/usr/include/c++/4.8/bits/stl_tree.h, typeflag=0
+regular file
+
+/usr/include/c++/4.8/bits/move.h, typeflag=0
+regular file
+
+/usr/include/c++/4.8/bits/streambuf_iterator.h, typeflag=0
+regular file
+
+/usr/include/c++/4.8/bits/stl_bvector.h, typeflag=0
+regular file
+
+/usr/include/c++/4.8/bits/shared_ptr.h, typeflag=0
+regular file
+
+/usr/include/c++/4.8/bits/stream_iterator.h, typeflag=0
+regular file
+
+/usr/include/c++/4.8/bits/stl_function.h, typeflag=0
+regular file
+
+/usr/include/c++/4.8/bits/fstream.tcc, typeflag=0
+regular file
+
+/usr/include/c++/4.8/bits/unordered_set.h, typeflag=0
+regular file
+
+/usr/include/c++/4.8/bits/hashtable_policy.h, typeflag=0
+regular file
+
+/usr/include/c++/4.8/bits/regex_cursor.h, typeflag=0
+regular file
+
+/usr/include/c++/4.8/bits/valarray_array.tcc, typeflag=0
+regular file
+
+/usr/include/c++/4.8/bits/functional_hash.h, typeflag=0
+regular file
+
+/usr/include/c++/4.8/bits/cxxabi_forced.h, typeflag=0
+regular file
+
+/usr/include/c++/4.8/bits/basic_ios.tcc, typeflag=0
+regular file
+
+/usr/include/c++/4.8/bits/locale_classes.tcc, typeflag=0
+regular file
+
+/usr/include/c++/4.8/bits/gslice_array.h, typeflag=0
+regular file
+
+/usr/include/c++/4.8/bits/stl_queue.h, typeflag=0
+regular file
+
+/usr/include/c++/4.8/bits/regex_grep_matcher.h, typeflag=0
+regular file
+
+/usr/include/c++/4.8/bits/slice_array.h, typeflag=0
+regular file
+
+/usr/include/c++/4.8/bits/basic_string.tcc, typeflag=0
+regular file
+
+/usr/include/c++/4.8/bits/stl_construct.h, typeflag=0
+regular file
+
+/usr/include/c++/4.8/bits/cpp_type_traits.h, typeflag=0
+regular file
+
+/usr/include/c++/4.8/bits/char_traits.h, typeflag=0
+regular file
+
+/usr/include/c++/4.8/bits/vector.tcc, typeflag=0
+regular file
+
+/usr/include/c++/4.8/bits/ostream.tcc, typeflag=0
+regular file
+
+/usr/include/c++/4.8/bits/boost_concept_check.h, typeflag=0
+regular file
+
+/usr/include/c++/4.8/bits/stl_stack.h, typeflag=0
+regular file
+
+/usr/include/c++/4.8/bits/regex_error.h, typeflag=0
+regular file
+
+/usr/include/c++/4.8/bits/mask_array.h, typeflag=0
+regular file
+
+/usr/include/c++/4.8/bits/stl_algo.h, typeflag=0
+regular file
+
+/usr/include/c++/4.8/bits/locale_facets_nonio.h, typeflag=0
+regular file
+
+/usr/include/c++/4.8/bits/locale_facets.h, typeflag=0
+regular file
+
+/usr/include/c++/4.8/bits/basic_string.h, typeflag=0
+regular file
+
+/usr/include/c++/4.8/bits/stl_numeric.h, typeflag=0
+regular file
+
+/usr/include/c++/4.8/bits/list.tcc, typeflag=0
+regular file
+
+/usr/include/c++/4.8/bits/sstream.tcc, typeflag=0
+regular file
+
+/usr/include/c++/4.8/bits/gslice.h, typeflag=0
+regular file
+
+/usr/include/c++/4.8/bits/regex.h, typeflag=0
+regular file
+
+/usr/include/c++/4.8/bits/functexcept.h, typeflag=0
+regular file
+
+/usr/include/c++/4.8/bits/locale_classes.h, typeflag=0
+regular file
+
+/usr/include/c++/4.8/bits/c++0x_warning.h, typeflag=0
+regular file
+
+/usr/include/c++/4.8/bits/codecvt.h, typeflag=0
+regular file
+
+/usr/include/c++/4.8/bits/regex_grep_matcher.tcc, typeflag=0
+regular file
+
+/usr/include/c++/4.8/bits/stl_deque.h, typeflag=0
+regular file
+
+/usr/include/c++/4.8/bits/unordered_map.h, typeflag=0
+regular file
+
+/usr/include/c++/4.8/bits/indirect_array.h, typeflag=0
+regular file
+
+/usr/include/c++/4.8/bits/valarray_after.h, typeflag=0
+regular file
+
+/usr/include/c++/4.8/bits/ostream_insert.h, typeflag=0
+regular file
+
+/usr/include/c++/4.8/bits/concept_check.h, typeflag=0
+regular file
+
+/usr/include/c++/4.8/bits/ptr_traits.h, typeflag=0
+regular file
+
+/usr/include/c++/4.8/bits/regex_compiler.h, typeflag=0
+regular file
+
+/usr/include/c++/4.8/bits/stl_multimap.h, typeflag=0
+regular file
+
+/usr/include/c++/4.8/bits/hashtable.h, typeflag=0
+regular file
+
+/usr/include/c++/4.8/bits/forward_list.tcc, typeflag=0
+regular file
+
+/usr/include/c++/4.8/bits/stl_vector.h, typeflag=0
+regular file
+
+/usr/include/c++/4.8/bits/localefwd.h, typeflag=0
+regular file
+
+/usr/include/c++/4.8/bits/stl_list.h, typeflag=0
+regular file
+
+/usr/include/c++/4.8/bits/deque.tcc, typeflag=0
+regular file
+
+/usr/include/c++/4.8/bits/random.tcc, typeflag=0
+regular file
+
+/usr/include/c++/4.8/bits/locale_facets_nonio.tcc, typeflag=0
+regular file
+
+/usr/include/c++/4.8/bits/stl_algobase.h, typeflag=0
+regular file
+
+/usr/include/c++/4.8/bits/nested_exception.h, typeflag=0
+regular file
+
+/usr/include/c++/4.8/bits/postypes.h, typeflag=0
+regular file
+
+/usr/include/c++/4.8/bits/random.h, typeflag=0
+regular file
+
+/usr/include/c++/4.8/complex, typeflag=0
+regular file
+
+/usr/include/c++/4.8/decimal, typeflag=1
+other file
+
+/usr/include/c++/4.8/decimal/decimal.h, typeflag=0
+regular file
+
+/usr/include/c++/4.8/decimal/decimal, typeflag=0
+regular file
+
+/usr/include/c++/4.8/numeric, typeflag=0
+regular file
+
+/usr/include/c++/4.8/fstream, typeflag=0
+regular file
+
+/usr/include/c++/4.8/cmath, typeflag=0
+regular file
+
+/usr/include/c++/4.8/iomanip, typeflag=0
+regular file
+
+/usr/include/c++/4.8/map, typeflag=0
+regular file
+
+/usr/include/c++/4.8/iterator, typeflag=0
+regular file
+
+/usr/include/c++/4.8/fenv.h, typeflag=0
+regular file
+
+/usr/include/c++/4.8/ratio, typeflag=0
+regular file
+
+/usr/include/c++/4.8/cwchar, typeflag=0
+regular file
+
+/usr/include/c++/4.8/regex, typeflag=0
+regular file
+
+/usr/include/c++/4.8/tr2, typeflag=1
+other file
+
+/usr/include/c++/4.8/tr2/bool_set, typeflag=0
+regular file
+
+/usr/include/c++/4.8/tr2/ratio, typeflag=0
+regular file
+
+/usr/include/c++/4.8/tr2/dynamic_bitset, typeflag=0
+regular file
+
+/usr/include/c++/4.8/tr2/type_traits, typeflag=0
+regular file
+
+/usr/include/c++/4.8/tr2/bool_set.tcc, typeflag=0
+regular file
+
+/usr/include/c++/4.8/cstddef, typeflag=0
+regular file
+
+/usr/include/c++/4.8/mutex, typeflag=0
+regular file
+
+/usr/include/c++/4.8/atomic, typeflag=0
+regular file
+
+/usr/include/c++/4.8/sun, typeflag=1
+other file
+
+/usr/include/c++/4.8/sun/awt, typeflag=1
+other file
+
+/usr/include/c++/4.8/sun/awt/CausedFocusEvent.h, typeflag=0
+regular file
+
+/usr/include/c++/4.8/sun/misc, typeflag=1
+other file
+
+/usr/include/c++/4.8/sun/misc/Service.h, typeflag=0
+regular file
+
+/usr/include/c++/4.8/sun/misc/ServiceConfigurationError.h, typeflag=0
+regular file
+
+/usr/include/c++/4.8/sun/misc/Unsafe.h, typeflag=0
+regular file
+
+/usr/include/c++/4.8/sun/reflect, typeflag=1
+other file
+
+/usr/include/c++/4.8/sun/reflect/Reflection.h, typeflag=0
+regular file
+
+/usr/include/c++/4.8/sun/reflect/misc, typeflag=1
+other file
+
+/usr/include/c++/4.8/sun/reflect/misc/ReflectUtil.h, typeflag=0
+regular file
+
+/usr/include/c++/4.8/sun/reflect/annotation, typeflag=1
+other file
+
+/usr/include/c++/4.8/sun/reflect/annotation/AnnotationType.h, typeflag=0
+regular file
+
+/usr/include/c++/4.8/sun/reflect/annotation/AnnotationParser.h, typeflag=0
+regular file
+
+/usr/include/c++/4.8/sun/reflect/annotation/ExceptionProxy.h, typeflag=0
+regular file
+
+/usr/include/c++/4.8/sun/reflect/annotation/EnumConstantNotPresentExceptionProxy.h, typeflag=0
+regular file
+
+/usr/include/c++/4.8/sun/reflect/annotation/AnnotationInvocationHandler.h, typeflag=0
+regular file
+
+/usr/include/c++/4.8/cstdbool, typeflag=0
+regular file
+
+/usr/include/c++/4.8/memory, typeflag=0
+regular file
+
+/usr/include/c++/4.8/ctgmath, typeflag=0
+regular file
+
+/usr/include/c++/4.8/tuple, typeflag=0
+regular file
+
+/usr/include/c++/4.8/csignal, typeflag=0
+regular file
+
+/usr/include/c++/4.8/list, typeflag=0
+regular file
+
+/usr/include/c++/4.8/array, typeflag=0
+regular file
+
+/usr/include/c++/4.8/functional, typeflag=0
+regular file
+
+/usr/include/c++/4.8/locale, typeflag=0
+regular file
+
+/usr/include/c++/4.8/complex.h, typeflag=0
+regular file
+
+/usr/include/c++/4.8/ccomplex, typeflag=0
+regular file
+
+/usr/include/c++/4.8/csetjmp, typeflag=0
+regular file
+
+/usr/include/c++/4.8/backward, typeflag=1
+other file
+
+/usr/include/c++/4.8/backward/auto_ptr.h, typeflag=0
+regular file
+
+/usr/include/c++/4.8/backward/hash_fun.h, typeflag=0
+regular file
+
+/usr/include/c++/4.8/backward/backward_warning.h, typeflag=0
+regular file
+
+/usr/include/c++/4.8/backward/hash_set, typeflag=0
+regular file
+
+/usr/include/c++/4.8/backward/hash_map, typeflag=0
+regular file
+
+/usr/include/c++/4.8/backward/strstream, typeflag=0
+regular file
+
+/usr/include/c++/4.8/backward/binders.h, typeflag=0
+regular file
+
+/usr/include/c++/4.8/backward/hashtable.h, typeflag=0
+regular file
+
+/usr/include/c++/4.8/clocale, typeflag=0
+regular file
+
+/usr/include/c++/4.8/cerrno, typeflag=0
+regular file
+
+/usr/include/c++/4.8/profile, typeflag=1
+other file
+
+/usr/include/c++/4.8/profile/vector, typeflag=0
+regular file
+
+/usr/include/c++/4.8/profile/iterator_tracker.h, typeflag=0
+regular file
+
+/usr/include/c++/4.8/profile/multiset.h, typeflag=0
+regular file
+
+/usr/include/c++/4.8/profile/map, typeflag=0
+regular file
+
+/usr/include/c++/4.8/profile/map.h, typeflag=0
+regular file
+
+/usr/include/c++/4.8/profile/list, typeflag=0
+regular file
+
+/usr/include/c++/4.8/profile/array, typeflag=0
+regular file
+
+/usr/include/c++/4.8/profile/impl, typeflag=1
+other file
+
+/usr/include/c++/4.8/profile/impl/profiler_vector_to_list.h, typeflag=0
+regular file
+
+/usr/include/c++/4.8/profile/impl/profiler_map_to_unordered_map.h, typeflag=0
+regular file
+
+/usr/include/c++/4.8/profile/impl/profiler_node.h, typeflag=0
+regular file
+
+/usr/include/c++/4.8/profile/impl/profiler_state.h, typeflag=0
+regular file
+
+/usr/include/c++/4.8/profile/impl/profiler.h, typeflag=0
+regular file
+
+/usr/include/c++/4.8/profile/impl/profiler_list_to_vector.h, typeflag=0
+regular file
+
+/usr/include/c++/4.8/profile/impl/profiler_hashtable_size.h, typeflag=0
+regular file
+
+/usr/include/c++/4.8/profile/impl/profiler_list_to_slist.h, typeflag=0
+regular file
+
+/usr/include/c++/4.8/profile/impl/profiler_container_size.h, typeflag=0
+regular file
+
+/usr/include/c++/4.8/profile/impl/profiler_trace.h, typeflag=0
+regular file
+
+/usr/include/c++/4.8/profile/impl/profiler_algos.h, typeflag=0
+regular file
+
+/usr/include/c++/4.8/profile/impl/profiler_vector_size.h, typeflag=0
+regular file
+
+/usr/include/c++/4.8/profile/impl/profiler_hash_func.h, typeflag=0
+regular file
+
+/usr/include/c++/4.8/profile/unordered_base.h, typeflag=0
+regular file
+
+/usr/include/c++/4.8/profile/set.h, typeflag=0
+regular file
+
+/usr/include/c++/4.8/profile/forward_list, typeflag=0
+regular file
+
+/usr/include/c++/4.8/profile/unordered_map, typeflag=0
+regular file
+
+/usr/include/c++/4.8/profile/bitset, typeflag=0
+regular file
+
+/usr/include/c++/4.8/profile/multimap.h, typeflag=0
+regular file
+
+/usr/include/c++/4.8/profile/deque, typeflag=0
+regular file
+
+/usr/include/c++/4.8/profile/set, typeflag=0
+regular file
+
+/usr/include/c++/4.8/profile/unordered_set, typeflag=0
+regular file
+
+/usr/include/c++/4.8/profile/base.h, typeflag=0
+regular file
+
+/usr/include/c++/4.8/stack, typeflag=0
+regular file
+
+/usr/include/c++/4.8/debug, typeflag=1
+other file
+
+/usr/include/c++/4.8/debug/vector, typeflag=0
+regular file
+
+/usr/include/c++/4.8/debug/string, typeflag=0
+regular file
+
+/usr/include/c++/4.8/debug/multiset.h, typeflag=0
+regular file
+
+/usr/include/c++/4.8/debug/safe_sequence.h, typeflag=0
+regular file
+
+/usr/include/c++/4.8/debug/safe_iterator.tcc, typeflag=0
+regular file
+
+/usr/include/c++/4.8/debug/safe_base.h, typeflag=0
+regular file
+
+/usr/include/c++/4.8/debug/map, typeflag=0
+regular file
+
+/usr/include/c++/4.8/debug/safe_iterator.h, typeflag=0
+regular file
+
+/usr/include/c++/4.8/debug/safe_unordered_container.h, typeflag=0
+regular file
+
+/usr/include/c++/4.8/debug/map.h, typeflag=0
+regular file
+
+/usr/include/c++/4.8/debug/safe_unordered_container.tcc, typeflag=0
+regular file
+
+/usr/include/c++/4.8/debug/macros.h, typeflag=0
+regular file
+
+/usr/include/c++/4.8/debug/list, typeflag=0
+regular file
+
+/usr/include/c++/4.8/debug/array, typeflag=0
+regular file
+
+/usr/include/c++/4.8/debug/safe_unordered_base.h, typeflag=0
+regular file
+
+/usr/include/c++/4.8/debug/safe_sequence.tcc, typeflag=0
+regular file
+
+/usr/include/c++/4.8/debug/formatter.h, typeflag=0
+regular file
+
+/usr/include/c++/4.8/debug/safe_local_iterator.h, typeflag=0
+regular file
+
+/usr/include/c++/4.8/debug/safe_local_iterator.tcc, typeflag=0
+regular file
+
+/usr/include/c++/4.8/debug/set.h, typeflag=0
+regular file
+
+/usr/include/c++/4.8/debug/functions.h, typeflag=0
+regular file
+
+/usr/include/c++/4.8/debug/forward_list, typeflag=0
+regular file
+
+/usr/include/c++/4.8/debug/unordered_map, typeflag=0
+regular file
+
+/usr/include/c++/4.8/debug/bitset, typeflag=0
+regular file
+
+/usr/include/c++/4.8/debug/multimap.h, typeflag=0
+regular file
+
+/usr/include/c++/4.8/debug/debug.h, typeflag=0
+regular file
+
+/usr/include/c++/4.8/debug/deque, typeflag=0
+regular file
+
+/usr/include/c++/4.8/debug/set, typeflag=0
+regular file
+
+/usr/include/c++/4.8/debug/unordered_set, typeflag=0
+regular file
+
+/usr/include/c++/4.8/cstdalign, typeflag=0
+regular file
+
+/usr/include/c++/4.8/cassert, typeflag=0
+regular file
+
+/usr/include/c++/4.8/condition_variable, typeflag=0
+regular file
+
+/usr/include/c++/4.8/ios, typeflag=0
+regular file
+
+/usr/include/c++/4.8/type_traits, typeflag=0
+regular file
+
+/usr/include/c++/4.8/stdexcept, typeflag=0
+regular file
+
+/usr/include/c++/4.8/chrono, typeflag=0
+regular file
+
+/usr/include/c++/4.8/utility, typeflag=0
+regular file
+
+/usr/include/c++/4.8/random, typeflag=0
+regular file
+
+/usr/include/c++/4.8/streambuf, typeflag=0
+regular file
+
+/usr/include/c++/4.8/system_error, typeflag=0
+regular file
+
+/usr/include/c++/4.8/iostream, typeflag=0
+regular file
+
+/usr/include/c++/4.8/forward_list, typeflag=0
+regular file
+
+/usr/include/c++/4.8/exception, typeflag=0
+regular file
+
+/usr/include/c++/4.8/unordered_map, typeflag=0
+regular file
+
+/usr/include/c++/4.8/cfenv, typeflag=0
+regular file
+
+/usr/include/c++/4.8/cstdio, typeflag=0
+regular file
+
+/usr/include/c++/4.8/cfloat, typeflag=0
+regular file
+
+/usr/include/c++/4.8/bitset, typeflag=0
+regular file
+
+/usr/include/c++/4.8/parallel, typeflag=1
+other file
+
+/usr/include/c++/4.8/parallel/algorithm, typeflag=0
+regular file
+
+/usr/include/c++/4.8/parallel/settings.h, typeflag=0
+regular file
+
+/usr/include/c++/4.8/parallel/find.h, typeflag=0
+regular file
+
+/usr/include/c++/4.8/parallel/iterator.h, typeflag=0
+regular file
+
+/usr/include/c++/4.8/parallel/random_shuffle.h, typeflag=0
+regular file
+
+/usr/include/c++/4.8/parallel/compiletime_settings.h, typeflag=0
+regular file
+
+/usr/include/c++/4.8/parallel/compatibility.h, typeflag=0
+regular file
+
+/usr/include/c++/4.8/parallel/numeric, typeflag=0
+regular file
+
+/usr/include/c++/4.8/parallel/multiseq_selection.h, typeflag=0
+regular file
+
+/usr/include/c++/4.8/parallel/multiway_mergesort.h, typeflag=0
+regular file
+
+/usr/include/c++/4.8/parallel/algorithmfwd.h, typeflag=0
+regular file
+
+/usr/include/c++/4.8/parallel/partial_sum.h, typeflag=0
+regular file
+
+/usr/include/c++/4.8/parallel/types.h, typeflag=0
+regular file
+
+/usr/include/c++/4.8/parallel/features.h, typeflag=0
+regular file
+
+/usr/include/c++/4.8/parallel/balanced_quicksort.h, typeflag=0
+regular file
+
+/usr/include/c++/4.8/parallel/omp_loop.h, typeflag=0
+regular file
+
+/usr/include/c++/4.8/parallel/par_loop.h, typeflag=0
+regular file
+
+/usr/include/c++/4.8/parallel/tags.h, typeflag=0
+regular file
+
+/usr/include/c++/4.8/parallel/set_operations.h, typeflag=0
+regular file
+
+/usr/include/c++/4.8/parallel/workstealing.h, typeflag=0
+regular file
+
+/usr/include/c++/4.8/parallel/merge.h, typeflag=0
+regular file
+
+/usr/include/c++/4.8/parallel/algo.h, typeflag=0
+regular file
+
+/usr/include/c++/4.8/parallel/list_partition.h, typeflag=0
+regular file
+
+/usr/include/c++/4.8/parallel/omp_loop_static.h, typeflag=0
+regular file
+
+/usr/include/c++/4.8/parallel/random_number.h, typeflag=0
+regular file
+
+/usr/include/c++/4.8/parallel/quicksort.h, typeflag=0
+regular file
+
+/usr/include/c++/4.8/parallel/for_each.h, typeflag=0
+regular file
+
+/usr/include/c++/4.8/parallel/unique_copy.h, typeflag=0
+regular file
+
+/usr/include/c++/4.8/parallel/parallel.h, typeflag=0
+regular file
+
+/usr/include/c++/4.8/parallel/numericfwd.h, typeflag=0
+regular file
+
+/usr/include/c++/4.8/parallel/basic_iterator.h, typeflag=0
+regular file
+
+/usr/include/c++/4.8/parallel/sort.h, typeflag=0
+regular file
+
+/usr/include/c++/4.8/parallel/checkers.h, typeflag=0
+regular file
+
+/usr/include/c++/4.8/parallel/losertree.h, typeflag=0
+regular file
+
+/usr/include/c++/4.8/parallel/multiway_merge.h, typeflag=0
+regular file
+
+/usr/include/c++/4.8/parallel/find_selectors.h, typeflag=0
+regular file
+
+/usr/include/c++/4.8/parallel/search.h, typeflag=0
+regular file
+
+/usr/include/c++/4.8/parallel/queue.h, typeflag=0
+regular file
+
+/usr/include/c++/4.8/parallel/algobase.h, typeflag=0
+regular file
+
+/usr/include/c++/4.8/parallel/partition.h, typeflag=0
+regular file
+
+/usr/include/c++/4.8/parallel/for_each_selectors.h, typeflag=0
+regular file
+
+/usr/include/c++/4.8/parallel/equally_split.h, typeflag=0
+regular file
+
+/usr/include/c++/4.8/parallel/base.h, typeflag=0
+regular file
+
+/usr/include/c++/4.8/tgmath.h, typeflag=0
+regular file
+
+/usr/include/c++/4.8/cctype, typeflag=0
+regular file
+
+/usr/include/c++/4.8/ostream, typeflag=0
+regular file
+
+/usr/include/c++/4.8/cwctype, typeflag=0
+regular file
+
+/usr/include/c++/4.8/initializer_list, typeflag=0
+regular file
+
+/usr/include/c++/4.8/new, typeflag=0
+regular file
+
+/usr/include/c++/4.8/cstdlib, typeflag=0
+regular file
+
+/usr/include/c++/4.8/future, typeflag=0
+regular file
+
+/usr/include/c++/4.8/deque, typeflag=0
+regular file
+
+/usr/include/c++/4.8/thread, typeflag=0
+regular file
+
+/usr/include/c++/4.8/set, typeflag=0
+regular file
+
+/usr/include/c++/4.8/ext, typeflag=1
+other file
+
+/usr/include/c++/4.8/ext/algorithm, typeflag=0
+regular file
+
+/usr/include/c++/4.8/ext/vstring.tcc, typeflag=0
+regular file
+
+/usr/include/c++/4.8/ext/sso_string_base.h, typeflag=0
+regular file
+
+/usr/include/c++/4.8/ext/rc_string_base.h, typeflag=0
+regular file
+
+/usr/include/c++/4.8/ext/rb_tree, typeflag=0
+regular file
+
+/usr/include/c++/4.8/ext/cast.h, typeflag=0
+regular file
+
+/usr/include/c++/4.8/ext/ropeimpl.h, typeflag=0
+regular file
+
+/usr/include/c++/4.8/ext/numeric_traits.h, typeflag=0
+regular file
+
+/usr/include/c++/4.8/ext/typelist.h, typeflag=0
+regular file
+
+/usr/include/c++/4.8/ext/numeric, typeflag=0
+regular file
+
+/usr/include/c++/4.8/ext/cmath, typeflag=0
+regular file
+
+/usr/include/c++/4.8/ext/iterator, typeflag=0
+regular file
+
+/usr/include/c++/4.8/ext/pool_allocator.h, typeflag=0
+regular file
+
+/usr/include/c++/4.8/ext/alloc_traits.h, typeflag=0
+regular file
+
+/usr/include/c++/4.8/ext/stdio_filebuf.h, typeflag=0
+regular file
+
+/usr/include/c++/4.8/ext/memory, typeflag=0
+regular file
+
+/usr/include/c++/4.8/ext/array_allocator.h, typeflag=0
+regular file
+
+/usr/include/c++/4.8/ext/functional, typeflag=0
+regular file
+
+/usr/include/c++/4.8/ext/pointer.h, typeflag=0
+regular file
+
+/usr/include/c++/4.8/ext/hash_set, typeflag=0
+regular file
+
+/usr/include/c++/4.8/ext/pod_char_traits.h, typeflag=0
+regular file
+
+/usr/include/c++/4.8/ext/vstring.h, typeflag=0
+regular file
+
+/usr/include/c++/4.8/ext/pb_ds, typeflag=1
+other file
+
+/usr/include/c++/4.8/ext/pb_ds/list_update_policy.hpp, typeflag=0
+regular file
+
+/usr/include/c++/4.8/ext/pb_ds/tree_policy.hpp, typeflag=0
+regular file
+
+/usr/include/c++/4.8/ext/pb_ds/assoc_container.hpp, typeflag=0
+regular file
+
+/usr/include/c++/4.8/ext/pb_ds/priority_queue.hpp, typeflag=0
+regular file
+
+/usr/include/c++/4.8/ext/pb_ds/tag_and_trait.hpp, typeflag=0
+regular file
+
+/usr/include/c++/4.8/ext/pb_ds/detail, typeflag=1
+other file
+
+/usr/include/c++/4.8/ext/pb_ds/detail/ov_tree_map_, typeflag=1
+other file
+
+/usr/include/c++/4.8/ext/pb_ds/detail/ov_tree_map_/constructors_destructor_fn_imps.hpp, typeflag=0
+regular file
+
+/usr/include/c++/4.8/ext/pb_ds/detail/ov_tree_map_/iterators_fn_imps.hpp, typeflag=0
+regular file
+
+/usr/include/c++/4.8/ext/pb_ds/detail/ov_tree_map_/policy_access_fn_imps.hpp, typeflag=0
+regular file
+
+/usr/include/c++/4.8/ext/pb_ds/detail/ov_tree_map_/erase_fn_imps.hpp, typeflag=0
+regular file
+
+/usr/include/c++/4.8/ext/pb_ds/detail/ov_tree_map_/info_fn_imps.hpp, typeflag=0
+regular file
+
+/usr/include/c++/4.8/ext/pb_ds/detail/ov_tree_map_/insert_fn_imps.hpp, typeflag=0
+regular file
+
+/usr/include/c++/4.8/ext/pb_ds/detail/ov_tree_map_/split_join_fn_imps.hpp, typeflag=0
+regular file
+
+/usr/include/c++/4.8/ext/pb_ds/detail/ov_tree_map_/debug_fn_imps.hpp, typeflag=0
+regular file
+
+/usr/include/c++/4.8/ext/pb_ds/detail/ov_tree_map_/ov_tree_map_.hpp, typeflag=0
+regular file
+
+/usr/include/c++/4.8/ext/pb_ds/detail/ov_tree_map_/traits.hpp, typeflag=0
+regular file
+
+/usr/include/c++/4.8/ext/pb_ds/detail/ov_tree_map_/node_iterators.hpp, typeflag=0
+regular file
+
+/usr/include/c++/4.8/ext/pb_ds/detail/cc_hash_table_map_, typeflag=1
+other file
+
+/usr/include/c++/4.8/ext/pb_ds/detail/cc_hash_table_map_/erase_no_store_hash_fn_imps.hpp, typeflag=0
+regular file
+
+/usr/include/c++/4.8/ext/pb_ds/detail/cc_hash_table_map_/size_fn_imps.hpp, typeflag=0
+regular file
+
+/usr/include/c++/4.8/ext/pb_ds/detail/cc_hash_table_map_/insert_no_store_hash_fn_imps.hpp, typeflag=0
+regular file
+
+/usr/include/c++/4.8/ext/pb_ds/detail/cc_hash_table_map_/debug_no_store_hash_fn_imps.hpp, typeflag=0
+regular file
+
+/usr/include/c++/4.8/ext/pb_ds/detail/cc_hash_table_map_/cmp_fn_imps.hpp, typeflag=0
+regular file
+
+/usr/include/c++/4.8/ext/pb_ds/detail/cc_hash_table_map_/find_store_hash_fn_imps.hpp, typeflag=0
+regular file
+
+/usr/include/c++/4.8/ext/pb_ds/detail/cc_hash_table_map_/iterators_fn_imps.hpp, typeflag=0
+regular file
+
+/usr/include/c++/4.8/ext/pb_ds/detail/cc_hash_table_map_/resize_no_store_hash_fn_imps.hpp, typeflag=0
+regular file
+
+/usr/include/c++/4.8/ext/pb_ds/detail/cc_hash_table_map_/policy_access_fn_imps.hpp, typeflag=0
+regular file
+
+/usr/include/c++/4.8/ext/pb_ds/detail/cc_hash_table_map_/resize_fn_imps.hpp, typeflag=0
+regular file
+
+/usr/include/c++/4.8/ext/pb_ds/detail/cc_hash_table_map_/debug_store_hash_fn_imps.hpp, typeflag=0
+regular file
+
+/usr/include/c++/4.8/ext/pb_ds/detail/cc_hash_table_map_/resize_store_hash_fn_imps.hpp, typeflag=0
+regular file
+
+/usr/include/c++/4.8/ext/pb_ds/detail/cc_hash_table_map_/erase_fn_imps.hpp, typeflag=0
+regular file
+
+/usr/include/c++/4.8/ext/pb_ds/detail/cc_hash_table_map_/constructor_destructor_no_store_hash_fn_imps.hpp, typeflag=0
+regular file
+
+/usr/include/c++/4.8/ext/pb_ds/detail/cc_hash_table_map_/insert_store_hash_fn_imps.hpp, typeflag=0
+regular file
+
+/usr/include/c++/4.8/ext/pb_ds/detail/cc_hash_table_map_/info_fn_imps.hpp, typeflag=0
+regular file
+
+/usr/include/c++/4.8/ext/pb_ds/detail/cc_hash_table_map_/erase_store_hash_fn_imps.hpp, typeflag=0
+regular file
+
+/usr/include/c++/4.8/ext/pb_ds/detail/cc_hash_table_map_/trace_fn_imps.hpp, typeflag=0
+regular file
+
+/usr/include/c++/4.8/ext/pb_ds/detail/cc_hash_table_map_/cond_key_dtor_entry_dealtor.hpp, typeflag=0
+regular file
+
+/usr/include/c++/4.8/ext/pb_ds/detail/cc_hash_table_map_/find_fn_imps.hpp, typeflag=0
+regular file
+
+/usr/include/c++/4.8/ext/pb_ds/detail/cc_hash_table_map_/insert_fn_imps.hpp, typeflag=0
+regular file
+
+/usr/include/c++/4.8/ext/pb_ds/detail/cc_hash_table_map_/cc_ht_map_.hpp, typeflag=0
+regular file
+
+/usr/include/c++/4.8/ext/pb_ds/detail/cc_hash_table_map_/entry_list_fn_imps.hpp, typeflag=0
+regular file
+
+/usr/include/c++/4.8/ext/pb_ds/detail/cc_hash_table_map_/debug_fn_imps.hpp, typeflag=0
+regular file
+
+/usr/include/c++/4.8/ext/pb_ds/detail/cc_hash_table_map_/constructor_destructor_store_hash_fn_imps.hpp, typeflag=0
+regular file
+
+/usr/include/c++/4.8/ext/pb_ds/detail/cc_hash_table_map_/constructor_destructor_fn_imps.hpp, typeflag=0
+regular file
+
+/usr/include/c++/4.8/ext/pb_ds/detail/types_traits.hpp, typeflag=0
+regular file
+
+/usr/include/c++/4.8/ext/pb_ds/detail/splay_tree_, typeflag=1
+other file
+
+/usr/include/c++/4.8/ext/pb_ds/detail/splay_tree_/splay_fn_imps.hpp, typeflag=0
+regular file
+
+/usr/include/c++/4.8/ext/pb_ds/detail/splay_tree_/constructors_destructor_fn_imps.hpp, typeflag=0
+regular file
+
+/usr/include/c++/4.8/ext/pb_ds/detail/splay_tree_/erase_fn_imps.hpp, typeflag=0
+regular file
+
+/usr/include/c++/4.8/ext/pb_ds/detail/splay_tree_/info_fn_imps.hpp, typeflag=0
+regular file
+
+/usr/include/c++/4.8/ext/pb_ds/detail/splay_tree_/find_fn_imps.hpp, typeflag=0
+regular file
+
+/usr/include/c++/4.8/ext/pb_ds/detail/splay_tree_/insert_fn_imps.hpp, typeflag=0
+regular file
+
+/usr/include/c++/4.8/ext/pb_ds/detail/splay_tree_/split_join_fn_imps.hpp, typeflag=0
+regular file
+
+/usr/include/c++/4.8/ext/pb_ds/detail/splay_tree_/debug_fn_imps.hpp, typeflag=0
+regular file
+
+/usr/include/c++/4.8/ext/pb_ds/detail/splay_tree_/splay_tree_.hpp, typeflag=0
+regular file
+
+/usr/include/c++/4.8/ext/pb_ds/detail/splay_tree_/traits.hpp, typeflag=0
+regular file
+
+/usr/include/c++/4.8/ext/pb_ds/detail/splay_tree_/node.hpp, typeflag=0
+regular file
+
+/usr/include/c++/4.8/ext/pb_ds/detail/binomial_heap_base_, typeflag=1
+other file
+
+/usr/include/c++/4.8/ext/pb_ds/detail/binomial_heap_base_/constructors_destructor_fn_imps.hpp, typeflag=0
+regular file
+
+/usr/include/c++/4.8/ext/pb_ds/detail/binomial_heap_base_/binomial_heap_base_.hpp, typeflag=0
+regular file
+
+/usr/include/c++/4.8/ext/pb_ds/detail/binomial_heap_base_/erase_fn_imps.hpp, typeflag=0
+regular file
+
+/usr/include/c++/4.8/ext/pb_ds/detail/binomial_heap_base_/find_fn_imps.hpp, typeflag=0
+regular file
+
+/usr/include/c++/4.8/ext/pb_ds/detail/binomial_heap_base_/insert_fn_imps.hpp, typeflag=0
+regular file
+
+/usr/include/c++/4.8/ext/pb_ds/detail/binomial_heap_base_/split_join_fn_imps.hpp, typeflag=0
+regular file
+
+/usr/include/c++/4.8/ext/pb_ds/detail/binomial_heap_base_/debug_fn_imps.hpp, typeflag=0
+regular file
+
+/usr/include/c++/4.8/ext/pb_ds/detail/pat_trie_, typeflag=1
+other file
+
+/usr/include/c++/4.8/ext/pb_ds/detail/pat_trie_/constructors_destructor_fn_imps.hpp, typeflag=0
+regular file
+
+/usr/include/c++/4.8/ext/pb_ds/detail/pat_trie_/iterators_fn_imps.hpp, typeflag=0
+regular file
+
+/usr/include/c++/4.8/ext/pb_ds/detail/pat_trie_/pat_trie_base.hpp, typeflag=0
+regular file
+
+/usr/include/c++/4.8/ext/pb_ds/detail/pat_trie_/policy_access_fn_imps.hpp, typeflag=0
+regular file
+
+/usr/include/c++/4.8/ext/pb_ds/detail/pat_trie_/update_fn_imps.hpp, typeflag=0
+regular file
+
+/usr/include/c++/4.8/ext/pb_ds/detail/pat_trie_/erase_fn_imps.hpp, typeflag=0
+regular file
+
+/usr/include/c++/4.8/ext/pb_ds/detail/pat_trie_/synth_access_traits.hpp, typeflag=0
+regular file
+
+/usr/include/c++/4.8/ext/pb_ds/detail/pat_trie_/insert_join_fn_imps.hpp, typeflag=0
+regular file
+
+/usr/include/c++/4.8/ext/pb_ds/detail/pat_trie_/rotate_fn_imps.hpp, typeflag=0
+regular file
+
+/usr/include/c++/4.8/ext/pb_ds/detail/pat_trie_/info_fn_imps.hpp, typeflag=0
+regular file
+
+/usr/include/c++/4.8/ext/pb_ds/detail/pat_trie_/trace_fn_imps.hpp, typeflag=0
+regular file
+
+/usr/include/c++/4.8/ext/pb_ds/detail/pat_trie_/find_fn_imps.hpp, typeflag=0
+regular file
+
+/usr/include/c++/4.8/ext/pb_ds/detail/pat_trie_/pat_trie_.hpp, typeflag=0
+regular file
+
+/usr/include/c++/4.8/ext/pb_ds/detail/pat_trie_/r_erase_fn_imps.hpp, typeflag=0
+regular file
+
+/usr/include/c++/4.8/ext/pb_ds/detail/pat_trie_/debug_fn_imps.hpp, typeflag=0
+regular file
+
+/usr/include/c++/4.8/ext/pb_ds/detail/pat_trie_/traits.hpp, typeflag=0
+regular file
+
+/usr/include/c++/4.8/ext/pb_ds/detail/pat_trie_/split_fn_imps.hpp, typeflag=0
+regular file
+
+/usr/include/c++/4.8/ext/pb_ds/detail/debug_map_base.hpp, typeflag=0
+regular file
+
+/usr/include/c++/4.8/ext/pb_ds/detail/branch_policy, typeflag=1
+other file
+
+/usr/include/c++/4.8/ext/pb_ds/detail/branch_policy/branch_policy.hpp, typeflag=0
+regular file
+
+/usr/include/c++/4.8/ext/pb_ds/detail/branch_policy/null_node_metadata.hpp, typeflag=0
+regular file
+
+/usr/include/c++/4.8/ext/pb_ds/detail/branch_policy/traits.hpp, typeflag=0
+regular file
+
+/usr/include/c++/4.8/ext/pb_ds/detail/gp_hash_table_map_, typeflag=1
+other file
+
+/usr/include/c++/4.8/ext/pb_ds/detail/gp_hash_table_map_/erase_no_store_hash_fn_imps.hpp, typeflag=0
+regular file
+
+/usr/include/c++/4.8/ext/pb_ds/detail/gp_hash_table_map_/insert_no_store_hash_fn_imps.hpp, typeflag=0
+regular file
+
+/usr/include/c++/4.8/ext/pb_ds/detail/gp_hash_table_map_/find_no_store_hash_fn_imps.hpp, typeflag=0
+regular file
+
+/usr/include/c++/4.8/ext/pb_ds/detail/gp_hash_table_map_/debug_no_store_hash_fn_imps.hpp, typeflag=0
+regular file
+
+/usr/include/c++/4.8/ext/pb_ds/detail/gp_hash_table_map_/find_store_hash_fn_imps.hpp, typeflag=0
+regular file
+
+/usr/include/c++/4.8/ext/pb_ds/detail/gp_hash_table_map_/resize_no_store_hash_fn_imps.hpp, typeflag=0
+regular file
+
+/usr/include/c++/4.8/ext/pb_ds/detail/gp_hash_table_map_/policy_access_fn_imps.hpp, typeflag=0
+regular file
+
+/usr/include/c++/4.8/ext/pb_ds/detail/gp_hash_table_map_/resize_fn_imps.hpp, typeflag=0
+regular file
+
+/usr/include/c++/4.8/ext/pb_ds/detail/gp_hash_table_map_/debug_store_hash_fn_imps.hpp, typeflag=0
+regular file
+
+/usr/include/c++/4.8/ext/pb_ds/detail/gp_hash_table_map_/resize_store_hash_fn_imps.hpp, typeflag=0
+regular file
+
+/usr/include/c++/4.8/ext/pb_ds/detail/gp_hash_table_map_/erase_fn_imps.hpp, typeflag=0
+regular file
+
+/usr/include/c++/4.8/ext/pb_ds/detail/gp_hash_table_map_/constructor_destructor_no_store_hash_fn_imps.hpp, typeflag=0
+regular file
+
+/usr/include/c++/4.8/ext/pb_ds/detail/gp_hash_table_map_/iterator_fn_imps.hpp, typeflag=0
+regular file
+
+/usr/include/c++/4.8/ext/pb_ds/detail/gp_hash_table_map_/insert_store_hash_fn_imps.hpp, typeflag=0
+regular file
+
+/usr/include/c++/4.8/ext/pb_ds/detail/gp_hash_table_map_/info_fn_imps.hpp, typeflag=0
+regular file
+
+/usr/include/c++/4.8/ext/pb_ds/detail/gp_hash_table_map_/erase_store_hash_fn_imps.hpp, typeflag=0
+regular file
+
+/usr/include/c++/4.8/ext/pb_ds/detail/gp_hash_table_map_/trace_fn_imps.hpp, typeflag=0
+regular file
+
+/usr/include/c++/4.8/ext/pb_ds/detail/gp_hash_table_map_/gp_ht_map_.hpp, typeflag=0
+regular file
+
+/usr/include/c++/4.8/ext/pb_ds/detail/gp_hash_table_map_/find_fn_imps.hpp, typeflag=0
+regular file
+
+/usr/include/c++/4.8/ext/pb_ds/detail/gp_hash_table_map_/insert_fn_imps.hpp, typeflag=0
+regular file
+
+/usr/include/c++/4.8/ext/pb_ds/detail/gp_hash_table_map_/debug_fn_imps.hpp, typeflag=0
+regular file
+
+/usr/include/c++/4.8/ext/pb_ds/detail/gp_hash_table_map_/constructor_destructor_store_hash_fn_imps.hpp, typeflag=0
+regular file
+
+/usr/include/c++/4.8/ext/pb_ds/detail/gp_hash_table_map_/constructor_destructor_fn_imps.hpp, typeflag=0
+regular file
+
+/usr/include/c++/4.8/ext/pb_ds/detail/binomial_heap_, typeflag=1
+other file
+
+/usr/include/c++/4.8/ext/pb_ds/detail/binomial_heap_/constructors_destructor_fn_imps.hpp, typeflag=0
+regular file
+
+/usr/include/c++/4.8/ext/pb_ds/detail/binomial_heap_/binomial_heap_.hpp, typeflag=0
+regular file
+
+/usr/include/c++/4.8/ext/pb_ds/detail/binomial_heap_/debug_fn_imps.hpp, typeflag=0
+regular file
+
+/usr/include/c++/4.8/ext/pb_ds/detail/cond_dealtor.hpp, typeflag=0
+regular file
+
+/usr/include/c++/4.8/ext/pb_ds/detail/pairing_heap_, typeflag=1
+other file
+
+/usr/include/c++/4.8/ext/pb_ds/detail/pairing_heap_/constructors_destructor_fn_imps.hpp, typeflag=0
+regular file
+
+/usr/include/c++/4.8/ext/pb_ds/detail/pairing_heap_/pairing_heap_.hpp, typeflag=0
+regular file
+
+/usr/include/c++/4.8/ext/pb_ds/detail/pairing_heap_/erase_fn_imps.hpp, typeflag=0
+regular file
+
+/usr/include/c++/4.8/ext/pb_ds/detail/pairing_heap_/find_fn_imps.hpp, typeflag=0
+regular file
+
+/usr/include/c++/4.8/ext/pb_ds/detail/pairing_heap_/insert_fn_imps.hpp, typeflag=0
+regular file
+
+/usr/include/c++/4.8/ext/pb_ds/detail/pairing_heap_/split_join_fn_imps.hpp, typeflag=0
+regular file
+
+/usr/include/c++/4.8/ext/pb_ds/detail/pairing_heap_/debug_fn_imps.hpp, typeflag=0
+regular file
+
+/usr/include/c++/4.8/ext/pb_ds/detail/type_utils.hpp, typeflag=0
+regular file
+
+/usr/include/c++/4.8/ext/pb_ds/detail/priority_queue_base_dispatch.hpp, typeflag=0
+regular file
+
+/usr/include/c++/4.8/ext/pb_ds/detail/tree_policy, typeflag=1
+other file
+
+/usr/include/c++/4.8/ext/pb_ds/detail/tree_policy/sample_tree_node_update.hpp, typeflag=0
+regular file
+
+/usr/include/c++/4.8/ext/pb_ds/detail/tree_policy/order_statistics_imp.hpp, typeflag=0
+regular file
+
+/usr/include/c++/4.8/ext/pb_ds/detail/tree_policy/node_metadata_selector.hpp, typeflag=0
+regular file
+
+/usr/include/c++/4.8/ext/pb_ds/detail/container_base_dispatch.hpp, typeflag=0
+regular file
+
+/usr/include/c++/4.8/ext/pb_ds/detail/thin_heap_, typeflag=1
+other file
+
+/usr/include/c++/4.8/ext/pb_ds/detail/thin_heap_/constructors_destructor_fn_imps.hpp, typeflag=0
+regular file
+
+/usr/include/c++/4.8/ext/pb_ds/detail/thin_heap_/thin_heap_.hpp, typeflag=0
+regular file
+
+/usr/include/c++/4.8/ext/pb_ds/detail/thin_heap_/erase_fn_imps.hpp, typeflag=0
+regular file
+
+/usr/include/c++/4.8/ext/pb_ds/detail/thin_heap_/trace_fn_imps.hpp, typeflag=0
+regular file
+
+/usr/include/c++/4.8/ext/pb_ds/detail/thin_heap_/find_fn_imps.hpp, typeflag=0
+regular file
+
+/usr/include/c++/4.8/ext/pb_ds/detail/thin_heap_/insert_fn_imps.hpp, typeflag=0
+regular file
+
+/usr/include/c++/4.8/ext/pb_ds/detail/thin_heap_/split_join_fn_imps.hpp, typeflag=0
+regular file
+
+/usr/include/c++/4.8/ext/pb_ds/detail/thin_heap_/debug_fn_imps.hpp, typeflag=0
+regular file
+
+/usr/include/c++/4.8/ext/pb_ds/detail/list_update_map_, typeflag=1
+other file
+
+/usr/include/c++/4.8/ext/pb_ds/detail/list_update_map_/entry_metadata_base.hpp, typeflag=0
+regular file
+
+/usr/include/c++/4.8/ext/pb_ds/detail/list_update_map_/iterators_fn_imps.hpp, typeflag=0
+regular file
+
+/usr/include/c++/4.8/ext/pb_ds/detail/list_update_map_/lu_map_.hpp, typeflag=0
+regular file
+
+/usr/include/c++/4.8/ext/pb_ds/detail/list_update_map_/erase_fn_imps.hpp, typeflag=0
+regular file
+
+/usr/include/c++/4.8/ext/pb_ds/detail/list_update_map_/info_fn_imps.hpp, typeflag=0
+regular file
+
+/usr/include/c++/4.8/ext/pb_ds/detail/list_update_map_/trace_fn_imps.hpp, typeflag=0
+regular file
+
+/usr/include/c++/4.8/ext/pb_ds/detail/list_update_map_/find_fn_imps.hpp, typeflag=0
+regular file
+
+/usr/include/c++/4.8/ext/pb_ds/detail/list_update_map_/insert_fn_imps.hpp, typeflag=0
+regular file
+
+/usr/include/c++/4.8/ext/pb_ds/detail/list_update_map_/debug_fn_imps.hpp, typeflag=0
+regular file
+
+/usr/include/c++/4.8/ext/pb_ds/detail/list_update_map_/constructor_destructor_fn_imps.hpp, typeflag=0
+regular file
+
+/usr/include/c++/4.8/ext/pb_ds/detail/list_update_policy, typeflag=1
+other file
+
+/usr/include/c++/4.8/ext/pb_ds/detail/list_update_policy/sample_update_policy.hpp, typeflag=0
+regular file
+
+/usr/include/c++/4.8/ext/pb_ds/detail/list_update_policy/lu_counter_metadata.hpp, typeflag=0
+regular file
+
+/usr/include/c++/4.8/ext/pb_ds/detail/binary_heap_, typeflag=1
+other file
+
+/usr/include/c++/4.8/ext/pb_ds/detail/binary_heap_/constructors_destructor_fn_imps.hpp, typeflag=0
+regular file
+
+/usr/include/c++/4.8/ext/pb_ds/detail/binary_heap_/iterators_fn_imps.hpp, typeflag=0
+regular file
+
+/usr/include/c++/4.8/ext/pb_ds/detail/binary_heap_/policy_access_fn_imps.hpp, typeflag=0
+regular file
+
+/usr/include/c++/4.8/ext/pb_ds/detail/binary_heap_/resize_policy.hpp, typeflag=0
+regular file
+
+/usr/include/c++/4.8/ext/pb_ds/detail/binary_heap_/entry_pred.hpp, typeflag=0
+regular file
+
+/usr/include/c++/4.8/ext/pb_ds/detail/binary_heap_/binary_heap_.hpp, typeflag=0
+regular file
+
+/usr/include/c++/4.8/ext/pb_ds/detail/binary_heap_/erase_fn_imps.hpp, typeflag=0
+regular file
+
+/usr/include/c++/4.8/ext/pb_ds/detail/binary_heap_/info_fn_imps.hpp, typeflag=0
+regular file
+
+/usr/include/c++/4.8/ext/pb_ds/detail/binary_heap_/trace_fn_imps.hpp, typeflag=0
+regular file
+
+/usr/include/c++/4.8/ext/pb_ds/detail/binary_heap_/find_fn_imps.hpp, typeflag=0
+regular file
+
+/usr/include/c++/4.8/ext/pb_ds/detail/binary_heap_/entry_cmp.hpp, typeflag=0
+regular file
+
+/usr/include/c++/4.8/ext/pb_ds/detail/binary_heap_/insert_fn_imps.hpp, typeflag=0
+regular file
+
+/usr/include/c++/4.8/ext/pb_ds/detail/binary_heap_/split_join_fn_imps.hpp, typeflag=0
+regular file
+
+/usr/include/c++/4.8/ext/pb_ds/detail/binary_heap_/const_iterator.hpp, typeflag=0
+regular file
+
+/usr/include/c++/4.8/ext/pb_ds/detail/binary_heap_/debug_fn_imps.hpp, typeflag=0
+regular file
+
+/usr/include/c++/4.8/ext/pb_ds/detail/binary_heap_/point_const_iterator.hpp, typeflag=0
+regular file
+
+/usr/include/c++/4.8/ext/pb_ds/detail/rb_tree_map_, typeflag=1
+other file
+
+/usr/include/c++/4.8/ext/pb_ds/detail/rb_tree_map_/constructors_destructor_fn_imps.hpp, typeflag=0
+regular file
+
+/usr/include/c++/4.8/ext/pb_ds/detail/rb_tree_map_/rb_tree_.hpp, typeflag=0
+regular file
+
+/usr/include/c++/4.8/ext/pb_ds/detail/rb_tree_map_/erase_fn_imps.hpp, typeflag=0
+regular file
+
+/usr/include/c++/4.8/ext/pb_ds/detail/rb_tree_map_/info_fn_imps.hpp, typeflag=0
+regular file
+
+/usr/include/c++/4.8/ext/pb_ds/detail/rb_tree_map_/find_fn_imps.hpp, typeflag=0
+regular file
+
+/usr/include/c++/4.8/ext/pb_ds/detail/rb_tree_map_/insert_fn_imps.hpp, typeflag=0
+regular file
+
+/usr/include/c++/4.8/ext/pb_ds/detail/rb_tree_map_/split_join_fn_imps.hpp, typeflag=0
+regular file
+
+/usr/include/c++/4.8/ext/pb_ds/detail/rb_tree_map_/debug_fn_imps.hpp, typeflag=0
+regular file
+
+/usr/include/c++/4.8/ext/pb_ds/detail/rb_tree_map_/traits.hpp, typeflag=0
+regular file
+
+/usr/include/c++/4.8/ext/pb_ds/detail/rb_tree_map_/node.hpp, typeflag=0
+regular file
+
+/usr/include/c++/4.8/ext/pb_ds/detail/bin_search_tree_, typeflag=1
+other file
+
+/usr/include/c++/4.8/ext/pb_ds/detail/bin_search_tree_/constructors_destructor_fn_imps.hpp, typeflag=0
+regular file
+
+/usr/include/c++/4.8/ext/pb_ds/detail/bin_search_tree_/bin_search_tree_.hpp, typeflag=0
+regular file
+
+/usr/include/c++/4.8/ext/pb_ds/detail/bin_search_tree_/iterators_fn_imps.hpp, typeflag=0
+regular file
+
+/usr/include/c++/4.8/ext/pb_ds/detail/bin_search_tree_/policy_access_fn_imps.hpp, typeflag=0
+regular file
+
+/usr/include/c++/4.8/ext/pb_ds/detail/bin_search_tree_/point_iterators.hpp, typeflag=0
+regular file
+
+/usr/include/c++/4.8/ext/pb_ds/detail/bin_search_tree_/erase_fn_imps.hpp, typeflag=0
+regular file
+
+/usr/include/c++/4.8/ext/pb_ds/detail/bin_search_tree_/rotate_fn_imps.hpp, typeflag=0
+regular file
+
+/usr/include/c++/4.8/ext/pb_ds/detail/bin_search_tree_/info_fn_imps.hpp, typeflag=0
+regular file
+
+/usr/include/c++/4.8/ext/pb_ds/detail/bin_search_tree_/find_fn_imps.hpp, typeflag=0
+regular file
+
+/usr/include/c++/4.8/ext/pb_ds/detail/bin_search_tree_/insert_fn_imps.hpp, typeflag=0
+regular file
+
+/usr/include/c++/4.8/ext/pb_ds/detail/bin_search_tree_/split_join_fn_imps.hpp, typeflag=0
+regular file
+
+/usr/include/c++/4.8/ext/pb_ds/detail/bin_search_tree_/r_erase_fn_imps.hpp, typeflag=0
+regular file
+
+/usr/include/c++/4.8/ext/pb_ds/detail/bin_search_tree_/debug_fn_imps.hpp, typeflag=0
+regular file
+
+/usr/include/c++/4.8/ext/pb_ds/detail/bin_search_tree_/traits.hpp, typeflag=0
+regular file
+
+/usr/include/c++/4.8/ext/pb_ds/detail/bin_search_tree_/node_iterators.hpp, typeflag=0
+regular file
+
+/usr/include/c++/4.8/ext/pb_ds/detail/rc_binomial_heap_, typeflag=1
+other file
+
+/usr/include/c++/4.8/ext/pb_ds/detail/rc_binomial_heap_/constructors_destructor_fn_imps.hpp, typeflag=0
+regular file
+
+/usr/include/c++/4.8/ext/pb_ds/detail/rc_binomial_heap_/rc.hpp, typeflag=0
+regular file
+
+/usr/include/c++/4.8/ext/pb_ds/detail/rc_binomial_heap_/erase_fn_imps.hpp, typeflag=0
+regular file
+
+/usr/include/c++/4.8/ext/pb_ds/detail/rc_binomial_heap_/trace_fn_imps.hpp, typeflag=0
+regular file
+
+/usr/include/c++/4.8/ext/pb_ds/detail/rc_binomial_heap_/insert_fn_imps.hpp, typeflag=0
+regular file
+
+/usr/include/c++/4.8/ext/pb_ds/detail/rc_binomial_heap_/split_join_fn_imps.hpp, typeflag=0
+regular file
+
+/usr/include/c++/4.8/ext/pb_ds/detail/rc_binomial_heap_/debug_fn_imps.hpp, typeflag=0
+regular file
+
+/usr/include/c++/4.8/ext/pb_ds/detail/rc_binomial_heap_/rc_binomial_heap_.hpp, typeflag=0
+regular file
+
+/usr/include/c++/4.8/ext/pb_ds/detail/eq_fn, typeflag=1
+other file
+
+/usr/include/c++/4.8/ext/pb_ds/detail/eq_fn/eq_by_less.hpp, typeflag=0
+regular file
+
+/usr/include/c++/4.8/ext/pb_ds/detail/eq_fn/hash_eq_fn.hpp, typeflag=0
+regular file
+
+/usr/include/c++/4.8/ext/pb_ds/detail/standard_policies.hpp, typeflag=0
+regular file
+
+/usr/include/c++/4.8/ext/pb_ds/detail/left_child_next_sibling_heap_, typeflag=1
+other file
+
+/usr/include/c++/4.8/ext/pb_ds/detail/left_child_next_sibling_heap_/constructors_destructor_fn_imps.hpp, typeflag=0
+regular file
+
+/usr/include/c++/4.8/ext/pb_ds/detail/left_child_next_sibling_heap_/left_child_next_sibling_heap_.hpp, typeflag=0
+regular file
+
+/usr/include/c++/4.8/ext/pb_ds/detail/left_child_next_sibling_heap_/iterators_fn_imps.hpp, typeflag=0
+regular file
+
+/usr/include/c++/4.8/ext/pb_ds/detail/left_child_next_sibling_heap_/policy_access_fn_imps.hpp, typeflag=0
+regular file
+
+/usr/include/c++/4.8/ext/pb_ds/detail/left_child_next_sibling_heap_/erase_fn_imps.hpp, typeflag=0
+regular file
+
+/usr/include/c++/4.8/ext/pb_ds/detail/left_child_next_sibling_heap_/info_fn_imps.hpp, typeflag=0
+regular file
+
+/usr/include/c++/4.8/ext/pb_ds/detail/left_child_next_sibling_heap_/trace_fn_imps.hpp, typeflag=0
+regular file
+
+/usr/include/c++/4.8/ext/pb_ds/detail/left_child_next_sibling_heap_/insert_fn_imps.hpp, typeflag=0
+regular file
+
+/usr/include/c++/4.8/ext/pb_ds/detail/left_child_next_sibling_heap_/const_iterator.hpp, typeflag=0
+regular file
+
+/usr/include/c++/4.8/ext/pb_ds/detail/left_child_next_sibling_heap_/debug_fn_imps.hpp, typeflag=0
+regular file
+
+/usr/include/c++/4.8/ext/pb_ds/detail/left_child_next_sibling_heap_/point_const_iterator.hpp, typeflag=0
+regular file
+
+/usr/include/c++/4.8/ext/pb_ds/detail/left_child_next_sibling_heap_/node.hpp, typeflag=0
+regular file
+
+/usr/include/c++/4.8/ext/pb_ds/detail/resize_policy, typeflag=1
+other file
+
+/usr/include/c++/4.8/ext/pb_ds/detail/resize_policy/hash_exponential_size_policy_imp.hpp, typeflag=0
+regular file
+
+/usr/include/c++/4.8/ext/pb_ds/detail/resize_policy/hash_prime_size_policy_imp.hpp, typeflag=0
+regular file
+
+/usr/include/c++/4.8/ext/pb_ds/detail/resize_policy/sample_resize_policy.hpp, typeflag=0
+regular file
+
+/usr/include/c++/4.8/ext/pb_ds/detail/resize_policy/hash_standard_resize_policy_imp.hpp, typeflag=0
+regular file
+
+/usr/include/c++/4.8/ext/pb_ds/detail/resize_policy/cc_hash_max_collision_check_resize_trigger_imp.hpp, typeflag=0
+regular file
+
+/usr/include/c++/4.8/ext/pb_ds/detail/resize_policy/hash_load_check_resize_trigger_size_base.hpp, typeflag=0
+regular file
+
+/usr/include/c++/4.8/ext/pb_ds/detail/resize_policy/sample_size_policy.hpp, typeflag=0
+regular file
+
+/usr/include/c++/4.8/ext/pb_ds/detail/resize_policy/sample_resize_trigger.hpp, typeflag=0
+regular file
+
+/usr/include/c++/4.8/ext/pb_ds/detail/resize_policy/hash_load_check_resize_trigger_imp.hpp, typeflag=0
+regular file
+
+/usr/include/c++/4.8/ext/pb_ds/detail/hash_fn, typeflag=1
+other file
+
+/usr/include/c++/4.8/ext/pb_ds/detail/hash_fn/linear_probe_fn_imp.hpp, typeflag=0
+regular file
+
+/usr/include/c++/4.8/ext/pb_ds/detail/hash_fn/probe_fn_base.hpp, typeflag=0
+regular file
+
+/usr/include/c++/4.8/ext/pb_ds/detail/hash_fn/mask_based_range_hashing.hpp, typeflag=0
+regular file
+
+/usr/include/c++/4.8/ext/pb_ds/detail/hash_fn/sample_ranged_hash_fn.hpp, typeflag=0
+regular file
+
+/usr/include/c++/4.8/ext/pb_ds/detail/hash_fn/sample_probe_fn.hpp, typeflag=0
+regular file
+
+/usr/include/c++/4.8/ext/pb_ds/detail/hash_fn/mod_based_range_hashing.hpp, typeflag=0
+regular file
+
+/usr/include/c++/4.8/ext/pb_ds/detail/hash_fn/quadratic_probe_fn_imp.hpp, typeflag=0
+regular file
+
+/usr/include/c++/4.8/ext/pb_ds/detail/hash_fn/direct_mask_range_hashing_imp.hpp, typeflag=0
+regular file
+
+/usr/include/c++/4.8/ext/pb_ds/detail/hash_fn/ranged_probe_fn.hpp, typeflag=0
+regular file
+
+/usr/include/c++/4.8/ext/pb_ds/detail/hash_fn/direct_mod_range_hashing_imp.hpp, typeflag=0
+regular file
+
+/usr/include/c++/4.8/ext/pb_ds/detail/hash_fn/sample_range_hashing.hpp, typeflag=0
+regular file
+
+/usr/include/c++/4.8/ext/pb_ds/detail/hash_fn/sample_ranged_probe_fn.hpp, typeflag=0
+regular file
+
+/usr/include/c++/4.8/ext/pb_ds/detail/hash_fn/ranged_hash_fn.hpp, typeflag=0
+regular file
+
+/usr/include/c++/4.8/ext/pb_ds/detail/tree_trace_base.hpp, typeflag=0
+regular file
+
+/usr/include/c++/4.8/ext/pb_ds/detail/unordered_iterator, typeflag=1
+other file
+
+/usr/include/c++/4.8/ext/pb_ds/detail/unordered_iterator/point_iterator.hpp, typeflag=0
+regular file
+
+/usr/include/c++/4.8/ext/pb_ds/detail/unordered_iterator/const_iterator.hpp, typeflag=0
+regular file
+
+/usr/include/c++/4.8/ext/pb_ds/detail/unordered_iterator/iterator.hpp, typeflag=0
+regular file
+
+/usr/include/c++/4.8/ext/pb_ds/detail/unordered_iterator/point_const_iterator.hpp, typeflag=0
+regular file
+
+/usr/include/c++/4.8/ext/pb_ds/detail/trie_policy, typeflag=1
+other file
+
+/usr/include/c++/4.8/ext/pb_ds/detail/trie_policy/sample_trie_access_traits.hpp, typeflag=0
+regular file
+
+/usr/include/c++/4.8/ext/pb_ds/detail/trie_policy/order_statistics_imp.hpp, typeflag=0
+regular file
+
+/usr/include/c++/4.8/ext/pb_ds/detail/trie_policy/sample_trie_node_update.hpp, typeflag=0
+regular file
+
+/usr/include/c++/4.8/ext/pb_ds/detail/trie_policy/node_metadata_selector.hpp, typeflag=0
+regular file
+
+/usr/include/c++/4.8/ext/pb_ds/detail/trie_policy/trie_string_access_traits_imp.hpp, typeflag=0
+regular file
+
+/usr/include/c++/4.8/ext/pb_ds/detail/trie_policy/prefix_search_node_update_imp.hpp, typeflag=0
+regular file
+
+/usr/include/c++/4.8/ext/pb_ds/detail/trie_policy/trie_policy_base.hpp, typeflag=0
+regular file
+
+/usr/include/c++/4.8/ext/pb_ds/trie_policy.hpp, typeflag=0
+regular file
+
+/usr/include/c++/4.8/ext/pb_ds/hash_policy.hpp, typeflag=0
+regular file
+
+/usr/include/c++/4.8/ext/pb_ds/exception.hpp, typeflag=0
+regular file
+
+/usr/include/c++/4.8/ext/hash_map, typeflag=0
+regular file
+
+/usr/include/c++/4.8/ext/mt_allocator.h, typeflag=0
+regular file
+
+/usr/include/c++/4.8/ext/bitmap_allocator.h, typeflag=0
+regular file
+
+/usr/include/c++/4.8/ext/type_traits.h, typeflag=0
+regular file
+
+/usr/include/c++/4.8/ext/enc_filebuf.h, typeflag=0
+regular file
+
+/usr/include/c++/4.8/ext/concurrence.h, typeflag=0
+regular file
+
+/usr/include/c++/4.8/ext/rope, typeflag=0
+regular file
+
+/usr/include/c++/4.8/ext/random, typeflag=0
+regular file
+
+/usr/include/c++/4.8/ext/string_conversions.h, typeflag=0
+regular file
+
+/usr/include/c++/4.8/ext/codecvt_specializations.h, typeflag=0
+regular file
+
+/usr/include/c++/4.8/ext/vstring_util.h, typeflag=0
+regular file
+
+/usr/include/c++/4.8/ext/vstring_fwd.h, typeflag=0
+regular file
+
+/usr/include/c++/4.8/ext/new_allocator.h, typeflag=0
+regular file
+
+/usr/include/c++/4.8/ext/malloc_allocator.h, typeflag=0
+regular file
+
+/usr/include/c++/4.8/ext/throw_allocator.h, typeflag=0
+regular file
+
+/usr/include/c++/4.8/ext/slist, typeflag=0
+regular file
+
+/usr/include/c++/4.8/ext/atomicity.h, typeflag=0
+regular file
+
+/usr/include/c++/4.8/ext/debug_allocator.h, typeflag=0
+regular file
+
+/usr/include/c++/4.8/ext/extptr_allocator.h, typeflag=0
+regular file
+
+/usr/include/c++/4.8/ext/random.tcc, typeflag=0
+regular file
+
+/usr/include/c++/4.8/ext/stdio_sync_filebuf.h, typeflag=0
+regular file
+
+/usr/include/c++/4.8/cstdarg, typeflag=0
+regular file
+
+/usr/include/c++/4.8/unordered_set, typeflag=0
+regular file
+
+/usr/include/c++/4.8/sstream, typeflag=0
+regular file
+
+/usr/include/c++/4.8/cstdint, typeflag=0
+regular file
+
+/usr/include/c++/4.8/valarray, typeflag=0
+regular file
+
+/usr/include/c++/4.8/limits, typeflag=0
+regular file
+
+/usr/include/byteswap.h, typeflag=0
+regular file
+
+/usr/include/dlfcn.h, typeflag=0
+regular file
+
+/usr/include/mtd, typeflag=1
+other file
+
+/usr/include/mtd/ubi-user.h, typeflag=0
+regular file
+
+/usr/include/mtd/mtd-abi.h, typeflag=0
+regular file
+
+/usr/include/mtd/inftl-user.h, typeflag=0
+regular file
+
+/usr/include/mtd/nftl-user.h, typeflag=0
+regular file
+
+/usr/include/mtd/mtd-user.h, typeflag=0
+regular file
+
+/usr/include/grp.h, typeflag=0
+regular file
+
+/usr/include/arpa, typeflag=1
+other file
+
+/usr/include/arpa/nameser_compat.h, typeflag=0
+regular file
+
+/usr/include/arpa/nameser.h, typeflag=0
+regular file
+
+/usr/include/arpa/tftp.h, typeflag=0
+regular file
+
+/usr/include/arpa/inet.h, typeflag=0
+regular file
+
+/usr/include/arpa/ftp.h, typeflag=0
+regular file
+
+/usr/include/arpa/telnet.h, typeflag=0
+regular file
+
+/usr/include/gnu, typeflag=1
+other file
+
+/usr/include/gnu/stubs-32.h, typeflag=0
+regular file
+
+/usr/include/gnu/stubs-64.h, typeflag=0
+regular file
+
+/usr/include/gnu/stubs.h, typeflag=0
+regular file
+
+/usr/include/gnu/libc-version.h, typeflag=0
+regular file
+
+/usr/include/gnu/option-groups.h, typeflag=0
+regular file
+
+/usr/include/gnu/lib-names.h, typeflag=0
+regular file
+
+/usr/include/gnu/stubs-x32.h, typeflag=0
+regular file
+
+/usr/include/semaphore.h, typeflag=0
+regular file
+
+/usr/include/asm, typeflag=1
+other file
+
+/usr/include/asm/ipcbuf.h, typeflag=0
+regular file
+
+/usr/include/asm/unistd_32.h, typeflag=0
+regular file
+
+/usr/include/asm/kvm.h, typeflag=0
+regular file
+
+/usr/include/asm/auxvec.h, typeflag=0
+regular file
+
+/usr/include/asm/msgbuf.h, typeflag=0
+regular file
+
+/usr/include/asm/ldt.h, typeflag=0
+regular file
+
+/usr/include/asm/sockios.h, typeflag=0
+regular file
+
+/usr/include/asm/errno.h, typeflag=0
+regular file
+
+/usr/include/asm/fcntl.h, typeflag=0
+regular file
+
+/usr/include/asm/sembuf.h, typeflag=0
+regular file
+
+/usr/include/asm/ioctl.h, typeflag=0
+regular file
+
+/usr/include/asm/prctl.h, typeflag=0
+regular file
+
+/usr/include/asm/resource.h, typeflag=0
+regular file
+
+/usr/include/asm/socket.h, typeflag=0
+regular file
+
+/usr/include/asm/termbits.h, typeflag=0
+regular file
+
+/usr/include/asm/debugreg.h, typeflag=0
+regular file
+
+/usr/include/asm/perf_regs.h, typeflag=0
+regular file
+
+/usr/include/asm/posix_types_64.h, typeflag=0
+regular file
+
+/usr/include/asm/poll.h, typeflag=0
+regular file
+
+/usr/include/asm/byteorder.h, typeflag=0
+regular file
+
+/usr/include/asm/a.out.h, typeflag=0
+regular file
+
+/usr/include/asm/types.h, typeflag=0
+regular file
+
+/usr/include/asm/ucontext.h, typeflag=0
+regular file
+
+/usr/include/asm/signal.h, typeflag=0
+regular file
+
+/usr/include/asm/ptrace.h, typeflag=0
+regular file
+
+/usr/include/asm/svm.h, typeflag=0
+regular file
+
+/usr/include/asm/mce.h, typeflag=0
+regular file
+
+/usr/include/asm/termios.h, typeflag=0
+regular file
+
+/usr/include/asm/vsyscall.h, typeflag=0
+regular file
+
+/usr/include/asm/hw_breakpoint.h, typeflag=0
+regular file
+
+/usr/include/asm/ioctls.h, typeflag=0
+regular file
+
+/usr/include/asm/stat.h, typeflag=0
+regular file
+
+/usr/include/asm/mman.h, typeflag=0
+regular file
+
+/usr/include/asm/posix_types_32.h, typeflag=0
+regular file
+
+/usr/include/asm/e820.h, typeflag=0
+regular file
+
+/usr/include/asm/siginfo.h, typeflag=0
+regular file
+
+/usr/include/asm/shmbuf.h, typeflag=0
+regular file
+
+/usr/include/asm/sigcontext32.h, typeflag=0
+regular file
+
+/usr/include/asm/setup.h, typeflag=0
+regular file
+
+/usr/include/asm/msr.h, typeflag=0
+regular file
+
+/usr/include/asm/sigcontext.h, typeflag=0
+regular file
+
+/usr/include/asm/boot.h, typeflag=0
+regular file
+
+/usr/include/asm/hyperv.h, typeflag=0
+regular file
+
+/usr/include/asm/processor-flags.h, typeflag=0
+regular file
+
+/usr/include/asm/bootparam.h, typeflag=0
+regular file
+
+/usr/include/asm/vmx.h, typeflag=0
+regular file
+
+/usr/include/asm/unistd_64.h, typeflag=0
+regular file
+
+/usr/include/asm/swab.h, typeflag=0
+regular file
+
+/usr/include/asm/bitsperlong.h, typeflag=0
+regular file
+
+/usr/include/asm/msr-index.h, typeflag=0
+regular file
+
+/usr/include/asm/posix_types_x32.h, typeflag=0
+regular file
+
+/usr/include/asm/unistd.h, typeflag=0
+regular file
+
+/usr/include/asm/ptrace-abi.h, typeflag=0
+regular file
+
+/usr/include/asm/statfs.h, typeflag=0
+regular file
+
+/usr/include/asm/unistd_x32.h, typeflag=0
+regular file
+
+/usr/include/asm/mtrr.h, typeflag=0
+regular file
+
+/usr/include/asm/vm86.h, typeflag=0
+regular file
+
+/usr/include/asm/posix_types.h, typeflag=0
+regular file
+
+/usr/include/asm/param.h, typeflag=0
+regular file
+
+/usr/include/asm/kvm_para.h, typeflag=0
+regular file
+
+/usr/include/asm/ist.h, typeflag=0
+regular file
+
+/usr/include/monetary.h, typeflag=0
+regular file
+
+/usr/include/regexp.h, typeflag=0
+regular file
+
+/usr/include/printf.h, typeflag=0
+regular file
+
+/usr/include/stdc-predef.h, typeflag=0
+regular file
+
+/usr/include/neteconet, typeflag=1
+other file
+
+/usr/include/neteconet/ec.h, typeflag=0
+regular file
+
+/usr/include/complex.h, typeflag=0
+regular file
+
+/usr/include/protocols, typeflag=1
+other file
+
+/usr/include/protocols/routed.h, typeflag=0
+regular file
+
+/usr/include/protocols/talkd.h, typeflag=0
+regular file
+
+/usr/include/protocols/timed.h, typeflag=0
+regular file
+
+/usr/include/protocols/rwhod.h, typeflag=0
+regular file
+
+/usr/include/cursesf.h, typeflag=0
+regular file
+
+/usr/include/GL, typeflag=1
+other file
+
+/usr/include/GL/glxint.h, typeflag=0
+regular file
+
+/usr/include/GL/glxproto.h, typeflag=0
+regular file
+
+/usr/include/GL/glx.h, typeflag=0
+regular file
+
+/usr/include/GL/gl_mangle.h, typeflag=0
+regular file
+
+/usr/include/GL/gl.h, typeflag=0
+regular file
+
+/usr/include/GL/glxext.h, typeflag=0
+regular file
+
+/usr/include/GL/glx_mangle.h, typeflag=0
+regular file
+
+/usr/include/GL/glxmd.h, typeflag=0
+regular file
+
+/usr/include/GL/glext.h, typeflag=0
+regular file
+
+/usr/include/GL/glxtokens.h, typeflag=0
+regular file
+
+/usr/include/GL/internal, typeflag=1
+other file
+
+/usr/include/GL/internal/glcore.h, typeflag=0
+regular file
+
+/usr/include/GL/internal/dri_interface.h, typeflag=0
+regular file
+
+/usr/include/stab.h, typeflag=0
+regular file
+
+/usr/include/netash, typeflag=1
+other file
+
+/usr/include/netash/ash.h, typeflag=0
+regular file
+
+/usr/include/rpc, typeflag=1
+other file
+
+/usr/include/rpc/xdr.h, typeflag=0
+regular file
+
+/usr/include/rpc/pmap_clnt.h, typeflag=0
+regular file
+
+/usr/include/rpc/pmap_rmt.h, typeflag=0
+regular file
+
+/usr/include/rpc/types.h, typeflag=0
+regular file
+
+/usr/include/rpc/key_prot.h, typeflag=0
+regular file
+
+/usr/include/rpc/des_crypt.h, typeflag=0
+regular file
+
+/usr/include/rpc/auth_des.h, typeflag=0
+regular file
+
+/usr/include/rpc/auth_unix.h, typeflag=0
+regular file
+
+/usr/include/rpc/clnt.h, typeflag=0
+regular file
+
+/usr/include/rpc/rpc_msg.h, typeflag=0
+regular file
+
+/usr/include/rpc/auth.h, typeflag=0
+regular file
+
+/usr/include/rpc/rpc.h, typeflag=0
+regular file
+
+/usr/include/rpc/svc_auth.h, typeflag=0
+regular file
+
+/usr/include/rpc/rpc_des.h, typeflag=0
+regular file
+
+/usr/include/rpc/netdb.h, typeflag=0
+regular file
+
+/usr/include/rpc/pmap_prot.h, typeflag=0
+regular file
+
+/usr/include/rpc/svc.h, typeflag=0
+regular file
+
+/usr/include/err.h, typeflag=0
+regular file
+
+/usr/include/tar.h, typeflag=0
+regular file
+
+/usr/include/unctrl.h, typeflag=0
+regular file
+
+/usr/include/termios.h, typeflag=0
+regular file
+
+/usr/include/alloca.h, typeflag=0
+regular file
+
+/usr/include/cpio.h, typeflag=0
+regular file
+
+/usr/include/asm-generic, typeflag=1
+other file
+
+/usr/include/asm-generic/ipcbuf.h, typeflag=0
+regular file
+
+/usr/include/asm-generic/auxvec.h, typeflag=0
+regular file
+
+/usr/include/asm-generic/signal-defs.h, typeflag=0
+regular file
+
+/usr/include/asm-generic/msgbuf.h, typeflag=0
+regular file
+
+/usr/include/asm-generic/sockios.h, typeflag=0
+regular file
+
+/usr/include/asm-generic/errno.h, typeflag=0
+regular file
+
+/usr/include/asm-generic/int-ll64.h, typeflag=0
+regular file
+
+/usr/include/asm-generic/fcntl.h, typeflag=0
+regular file
+
+/usr/include/asm-generic/sembuf.h, typeflag=0
+regular file
+
+/usr/include/asm-generic/shmparam.h, typeflag=0
+regular file
+
+/usr/include/asm-generic/ioctl.h, typeflag=0
+regular file
+
+/usr/include/asm-generic/resource.h, typeflag=0
+regular file
+
+/usr/include/asm-generic/socket.h, typeflag=0
+regular file
+
+/usr/include/asm-generic/termbits.h, typeflag=0
+regular file
+
+/usr/include/asm-generic/poll.h, typeflag=0
+regular file
+
+/usr/include/asm-generic/types.h, typeflag=0
+regular file
+
+/usr/include/asm-generic/ucontext.h, typeflag=0
+regular file
+
+/usr/include/asm-generic/signal.h, typeflag=0
+regular file
+
+/usr/include/asm-generic/errno-base.h, typeflag=0
+regular file
+
+/usr/include/asm-generic/termios.h, typeflag=0
+regular file
+
+/usr/include/asm-generic/ioctls.h, typeflag=0
+regular file
+
+/usr/include/asm-generic/stat.h, typeflag=0
+regular file
+
+/usr/include/asm-generic/mman.h, typeflag=0
+regular file
+
+/usr/include/asm-generic/siginfo.h, typeflag=0
+regular file
+
+/usr/include/asm-generic/shmbuf.h, typeflag=0
+regular file
+
+/usr/include/asm-generic/setup.h, typeflag=0
+regular file
+
+/usr/include/asm-generic/swab.h, typeflag=0
+regular file
+
+/usr/include/asm-generic/bitsperlong.h, typeflag=0
+regular file
+
+/usr/include/asm-generic/unistd.h, typeflag=0
+regular file
+
+/usr/include/asm-generic/statfs.h, typeflag=0
+regular file
+
+/usr/include/asm-generic/int-l64.h, typeflag=0
+regular file
+
+/usr/include/asm-generic/mman-common.h, typeflag=0
+regular file
+
+/usr/include/asm-generic/posix_types.h, typeflag=0
+regular file
+
+/usr/include/asm-generic/param.h, typeflag=0
+regular file
+
+/usr/include/asm-generic/kvm_para.h, typeflag=0
+regular file
+
+/usr/include/setjmp.h, typeflag=0
+regular file
+
+/usr/include/menu.h, typeflag=0
+regular file
+
+/usr/include/ncurses.h, typeflag=0
+regular file
+
+/usr/include/gnu-versions.h, typeflag=0
+regular file
+
+/usr/include/netinet, typeflag=1
+other file
+
+/usr/include/netinet/ether.h, typeflag=0
+regular file
+
+/usr/include/netinet/udp.h, typeflag=0
+regular file
+
+/usr/include/netinet/ip6.h, typeflag=0
+regular file
+
+/usr/include/netinet/igmp.h, typeflag=0
+regular file
+
+/usr/include/netinet/if_tr.h, typeflag=0
+regular file
+
+/usr/include/netinet/in.h, typeflag=0
+regular file
+
+/usr/include/netinet/if_fddi.h, typeflag=0
+regular file
+
+/usr/include/netinet/if_ether.h, typeflag=0
+regular file
+
+/usr/include/netinet/icmp6.h, typeflag=0
+regular file
+
+/usr/include/netinet/ip.h, typeflag=0
+regular file
+
+/usr/include/netinet/ip_icmp.h, typeflag=0
+regular file
+
+/usr/include/netinet/in_systm.h, typeflag=0
+regular file
+
+/usr/include/netinet/tcp.h, typeflag=0
+regular file
+
+/usr/include/video, typeflag=1
+other file
+
+/usr/include/video/uvesafb.h, typeflag=0
+regular file
+
+/usr/include/video/edid.h, typeflag=0
+regular file
+
+/usr/include/video/sisfb.h, typeflag=0
+regular file
+
+/usr/include/rpcsvc, typeflag=1
+other file
+
+/usr/include/rpcsvc/mount.h, typeflag=0
+regular file
+
+/usr/include/rpcsvc/rquota.h, typeflag=0
+regular file
+
+/usr/include/rpcsvc/nfs_prot.h, typeflag=0
+regular file
+
+/usr/include/rpcsvc/yp_prot.h, typeflag=0
+regular file
+
+/usr/include/rpcsvc/mount.x, typeflag=0
+regular file
+
+/usr/include/rpcsvc/rstat.x, typeflag=0
+regular file
+
+/usr/include/rpcsvc/spray.h, typeflag=0
+regular file
+
+/usr/include/rpcsvc/nis_object.x, typeflag=0
+regular file
+
+/usr/include/rpcsvc/sm_inter.h, typeflag=0
+regular file
+
+/usr/include/rpcsvc/ypupd.h, typeflag=0
+regular file
+
+/usr/include/rpcsvc/nislib.h, typeflag=0
+regular file
+
+/usr/include/rpcsvc/yp.h, typeflag=0
+regular file
+
+/usr/include/rpcsvc/rex.h, typeflag=0
+regular file
+
+/usr/include/rpcsvc/key_prot.h, typeflag=0
+regular file
+
+/usr/include/rpcsvc/nlm_prot.x, typeflag=0
+regular file
+
+/usr/include/rpcsvc/bootparam_prot.x, typeflag=0
+regular file
+
+/usr/include/rpcsvc/bootparam_prot.h, typeflag=0
+regular file
+
+/usr/include/rpcsvc/nfs_prot.x, typeflag=0
+regular file
+
+/usr/include/rpcsvc/yp.x, typeflag=0
+regular file
+
+/usr/include/rpcsvc/klm_prot.x, typeflag=0
+regular file
+
+/usr/include/rpcsvc/nis_tags.h, typeflag=0
+regular file
+
+/usr/include/rpcsvc/yppasswd.h, typeflag=0
+regular file
+
+/usr/include/rpcsvc/rusers.h, typeflag=0
+regular file
+
+/usr/include/rpcsvc/rquota.x, typeflag=0
+regular file
+
+/usr/include/rpcsvc/sm_inter.x, typeflag=0
+regular file
+
+/usr/include/rpcsvc/nis_callback.x, typeflag=0
+regular file
+
+/usr/include/rpcsvc/ypclnt.h, typeflag=0
+regular file
+
+/usr/include/rpcsvc/rusers.x, typeflag=0
+regular file
+
+/usr/include/rpcsvc/nis_callback.h, typeflag=0
+regular file
+
+/usr/include/rpcsvc/klm_prot.h, typeflag=0
+regular file
+
+/usr/include/rpcsvc/yppasswd.x, typeflag=0
+regular file
+
+/usr/include/rpcsvc/nlm_prot.h, typeflag=0
+regular file
+
+/usr/include/rpcsvc/bootparam.h, typeflag=0
+regular file
+
+/usr/include/rpcsvc/spray.x, typeflag=0
+regular file
+
+/usr/include/rpcsvc/rstat.h, typeflag=0
+regular file
+
+/usr/include/rpcsvc/nis.h, typeflag=0
+regular file
+
+/usr/include/rpcsvc/rex.x, typeflag=0
+regular file
+
+/usr/include/rpcsvc/nis.x, typeflag=0
+regular file
+
+/usr/include/rpcsvc/key_prot.x, typeflag=0
+regular file
+
+/usr/include/netpacket, typeflag=1
+other file
+
+/usr/include/netpacket/packet.h, typeflag=0
+regular file
+
+/usr/include/scsi, typeflag=1
+other file
+
+/usr/include/scsi/scsi.h, typeflag=0
+regular file
+
+/usr/include/scsi/scsi_netlink_fc.h, typeflag=0
+regular file
+
+/usr/include/scsi/sg.h, typeflag=0
+regular file
+
+/usr/include/scsi/scsi_netlink.h, typeflag=0
+regular file
+
+/usr/include/scsi/fc, typeflag=1
+other file
+
+/usr/include/scsi/fc/fc_gs.h, typeflag=0
+regular file
+
+/usr/include/scsi/fc/fc_els.h, typeflag=0
+regular file
+
+/usr/include/scsi/fc/fc_ns.h, typeflag=0
+regular file
+
+/usr/include/scsi/fc/fc_fs.h, typeflag=0
+regular file
+
+/usr/include/scsi/scsi_bsg_fc.h, typeflag=0
+regular file
+
+/usr/include/scsi/scsi_ioctl.h, typeflag=0
+regular file
+
+/usr/include/stdint.h, typeflag=0
+regular file
+
+/usr/include/obstack.h, typeflag=0
+regular file
+
+/usr/include/aio.h, typeflag=0
+regular file
+
+/usr/include/FlexLexer.h, typeflag=0
+regular file
+
+/usr/include/nfs, typeflag=1
+other file
+
+/usr/include/nfs/nfs.h, typeflag=0
+regular file
+
+/usr/include/pthread.h, typeflag=0
+regular file
+
+/usr/include/dirent.h, typeflag=0
+regular file
+
+/usr/include/ftw.h, typeflag=0
+regular file
+
+/usr/include/netrose, typeflag=1
+other file
+
+/usr/include/netrose/rose.h, typeflag=0
+regular file
+
+/usr/include/values.h, typeflag=0
+regular file
+
+/usr/include/sound, typeflag=1
+other file
+
+/usr/include/sound/sfnt_info.h, typeflag=0
+regular file
+
+/usr/include/sound/hdsp.h, typeflag=0
+regular file
+
+/usr/include/sound/compress_offload.h, typeflag=0
+regular file
+
+/usr/include/sound/hdspm.h, typeflag=0
+regular file
+
+/usr/include/sound/compress_params.h, typeflag=0
+regular file
+
+/usr/include/sound/asound.h, typeflag=0
+regular file
+
+/usr/include/sound/emu10k1.h, typeflag=0
+regular file
+
+/usr/include/sound/asequencer.h, typeflag=0
+regular file
+
+/usr/include/sound/sb16_csp.h, typeflag=0
+regular file
+
+/usr/include/sound/asound_fm.h, typeflag=0
+regular file
+
+/usr/include/sound/firewire.h, typeflag=0
+regular file
+
+/usr/include/sgtty.h, typeflag=0
+regular file
+
+/usr/include/paths.h, typeflag=0
+regular file
+
+/usr/include/fnmatch.h, typeflag=0
+regular file
+
+/usr/include/eti.h, typeflag=0
+regular file
+
+/usr/include/cursesp.h, typeflag=0
+regular file
+
+/usr/include/mntent.h, typeflag=0
+regular file
+
+/usr/include/i386-linux-gnu, typeflag=1
+other file
+
+/usr/include/i386-linux-gnu/bits, typeflag=1
+other file
+
+/usr/include/i386-linux-gnu/bits/inotify.h, typeflag=0
+regular file
+
+/usr/include/i386-linux-gnu/bits/link.h, typeflag=0
+regular file
+
+/usr/include/i386-linux-gnu/bits/epoll.h, typeflag=0
+regular file
+
+/usr/include/i386-linux-gnu/bits/string.h, typeflag=0
+regular file
+
+/usr/include/i386-linux-gnu/bits/posix_opt.h, typeflag=0
+regular file
+
+/usr/include/i386-linux-gnu/bits/syscall.h, typeflag=0
+regular file
+
+/usr/include/i386-linux-gnu/bits/sys_errlist.h, typeflag=0
+regular file
+
+/usr/include/i386-linux-gnu/bits/libc-lock.h, typeflag=0
+regular file
+
+/usr/include/i386-linux-gnu/bits/mathcalls.h, typeflag=0
+regular file
+
+/usr/include/i386-linux-gnu/bits/errno.h, typeflag=0
+regular file
+
+/usr/include/i386-linux-gnu/bits/sched.h, typeflag=0
+regular file
+
+/usr/include/i386-linux-gnu/bits/ipc.h, typeflag=0
+regular file
+
+/usr/include/i386-linux-gnu/bits/byteswap-16.h, typeflag=0
+regular file
+
+/usr/include/i386-linux-gnu/bits/stdio.h, typeflag=0
+regular file
+
+/usr/include/i386-linux-gnu/bits/fcntl.h, typeflag=0
+regular file
+
+/usr/include/i386-linux-gnu/bits/math-finite.h, typeflag=0
+regular file
+
+/usr/include/i386-linux-gnu/bits/xopen_lim.h, typeflag=0
+regular file
+
+/usr/include/i386-linux-gnu/bits/wordsize.h, typeflag=0
+regular file
+
+/usr/include/i386-linux-gnu/bits/resource.h, typeflag=0
+regular file
+
+/usr/include/i386-linux-gnu/bits/fenv.h, typeflag=0
+regular file
+
+/usr/include/i386-linux-gnu/bits/socket.h, typeflag=0
+regular file
+
+/usr/include/i386-linux-gnu/bits/stdlib-bsearch.h, typeflag=0
+regular file
+
+/usr/include/i386-linux-gnu/bits/setjmp2.h, typeflag=0
+regular file
+
+/usr/include/i386-linux-gnu/bits/sigthread.h, typeflag=0
+regular file
+
+/usr/include/i386-linux-gnu/bits/mqueue2.h, typeflag=0
+regular file
+
+/usr/include/i386-linux-gnu/bits/monetary-ldbl.h, typeflag=0
+regular file
+
+/usr/include/i386-linux-gnu/bits/stropts.h, typeflag=0
+regular file
+
+/usr/include/i386-linux-gnu/bits/huge_valf.h, typeflag=0
+regular file
+
+/usr/include/i386-linux-gnu/bits/string2.h, typeflag=0
+regular file
+
+/usr/include/i386-linux-gnu/bits/stab.def, typeflag=0
+regular file
+
+/usr/include/i386-linux-gnu/bits/poll.h, typeflag=0
+regular file
+
+/usr/include/i386-linux-gnu/bits/a.out.h, typeflag=0
+regular file
+
+/usr/include/i386-linux-gnu/bits/mqueue.h, typeflag=0
+regular file
+
+/usr/include/i386-linux-gnu/bits/types.h, typeflag=0
+regular file
+
+/usr/include/i386-linux-gnu/bits/byteswap.h, typeflag=0
+regular file
+
+/usr/include/i386-linux-gnu/bits/confname.h, typeflag=0
+regular file
+
+/usr/include/i386-linux-gnu/bits/dlfcn.h, typeflag=0
+regular file
+
+/usr/include/i386-linux-gnu/bits/syslog-path.h, typeflag=0
+regular file
+
+/usr/include/i386-linux-gnu/bits/huge_vall.h, typeflag=0
+regular file
+
+/usr/include/i386-linux-gnu/bits/environments.h, typeflag=0
+regular file
+
+/usr/include/i386-linux-gnu/bits/semaphore.h, typeflag=0
+regular file
+
+/usr/include/i386-linux-gnu/bits/xtitypes.h, typeflag=0
+regular file
+
+/usr/include/i386-linux-gnu/bits/socket2.h, typeflag=0
+regular file
+
+/usr/include/i386-linux-gnu/bits/sigset.h, typeflag=0
+regular file
+
+/usr/include/i386-linux-gnu/bits/sem.h, typeflag=0
+regular file
+
+/usr/include/i386-linux-gnu/bits/in.h, typeflag=0
+regular file
+
+/usr/include/i386-linux-gnu/bits/fenvinline.h, typeflag=0
+regular file
+
+/usr/include/i386-linux-gnu/bits/termios.h, typeflag=0
+regular file
+
+/usr/include/i386-linux-gnu/bits/ioctls.h, typeflag=0
+regular file
+
+/usr/include/i386-linux-gnu/bits/pthreadtypes.h, typeflag=0
+regular file
+
+/usr/include/i386-linux-gnu/bits/setjmp.h, typeflag=0
+regular file
+
+/usr/include/i386-linux-gnu/bits/hwcap.h, typeflag=0
+regular file
+
+/usr/include/i386-linux-gnu/bits/select2.h, typeflag=0
+regular file
+
+/usr/include/i386-linux-gnu/bits/auxv.h, typeflag=0
+regular file
+
+/usr/include/i386-linux-gnu/bits/stat.h, typeflag=0
+regular file
+
+/usr/include/i386-linux-gnu/bits/mman.h, typeflag=0
+regular file
+
+/usr/include/i386-linux-gnu/bits/initspin.h, typeflag=0
+regular file
+
+/usr/include/i386-linux-gnu/bits/dirent.h, typeflag=0
+regular file
+
+/usr/include/i386-linux-gnu/bits/inf.h, typeflag=0
+regular file
+
+/usr/include/i386-linux-gnu/bits/stdio_lim.h, typeflag=0
+regular file
+
+/usr/include/i386-linux-gnu/bits/signum.h, typeflag=0
+regular file
+
+/usr/include/i386-linux-gnu/bits/siginfo.h, typeflag=0
+regular file
+
+/usr/include/i386-linux-gnu/bits/fcntl2.h, typeflag=0
+regular file
+
+/usr/include/i386-linux-gnu/bits/error.h, typeflag=0
+regular file
+
+/usr/include/i386-linux-gnu/bits/eventfd.h, typeflag=0
+regular file
+
+/usr/include/i386-linux-gnu/bits/sysctl.h, typeflag=0
+regular file
+
+/usr/include/i386-linux-gnu/bits/fcntl-linux.h, typeflag=0
+regular file
+
+/usr/include/i386-linux-gnu/bits/printf-ldbl.h, typeflag=0
+regular file
+
+/usr/include/i386-linux-gnu/bits/socket_type.h, typeflag=0
+regular file
+
+/usr/include/i386-linux-gnu/bits/timerfd.h, typeflag=0
+regular file
+
+/usr/include/i386-linux-gnu/bits/elfclass.h, typeflag=0
+regular file
+
+/usr/include/i386-linux-gnu/bits/stdlib-float.h, typeflag=0
+regular file
+
+/usr/include/i386-linux-gnu/bits/libio-ldbl.h, typeflag=0
+regular file
+
+/usr/include/i386-linux-gnu/bits/poll2.h, typeflag=0
+regular file
+
+/usr/include/i386-linux-gnu/bits/mman-linux.h, typeflag=0
+regular file
+
+/usr/include/i386-linux-gnu/bits/posix2_lim.h, typeflag=0
+regular file
+
+/usr/include/i386-linux-gnu/bits/cmathcalls.h, typeflag=0
+regular file
+
+/usr/include/i386-linux-gnu/bits/time.h, typeflag=0
+regular file
+
+/usr/include/i386-linux-gnu/bits/sigcontext.h, typeflag=0
+regular file
+
+/usr/include/i386-linux-gnu/bits/sockaddr.h, typeflag=0
+regular file
+
+/usr/include/i386-linux-gnu/bits/huge_val.h, typeflag=0
+regular file
+
+/usr/include/i386-linux-gnu/bits/mathinline.h, typeflag=0
+regular file
+
+/usr/include/i386-linux-gnu/bits/typesizes.h, typeflag=0
+regular file
+
+/usr/include/i386-linux-gnu/bits/syslog-ldbl.h, typeflag=0
+regular file
+
+/usr/include/i386-linux-gnu/bits/uio.h, typeflag=0
+regular file
+
+/usr/include/i386-linux-gnu/bits/mathdef.h, typeflag=0
+regular file
+
+/usr/include/i386-linux-gnu/bits/wchar-ldbl.h, typeflag=0
+regular file
+
+/usr/include/i386-linux-gnu/bits/ioctl-types.h, typeflag=0
+regular file
+
+/usr/include/i386-linux-gnu/bits/select.h, typeflag=0
+regular file
+
+/usr/include/i386-linux-gnu/bits/wchar2.h, typeflag=0
+regular file
+
+/usr/include/i386-linux-gnu/bits/shm.h, typeflag=0
+regular file
+
+/usr/include/i386-linux-gnu/bits/msq.h, typeflag=0
+regular file
+
+/usr/include/i386-linux-gnu/bits/endian.h, typeflag=0
+regular file
+
+/usr/include/i386-linux-gnu/bits/ustat.h, typeflag=0
+regular file
+
+/usr/include/i386-linux-gnu/bits/waitflags.h, typeflag=0
+regular file
+
+/usr/include/i386-linux-gnu/bits/stdio-ldbl.h, typeflag=0
+regular file
+
+/usr/include/i386-linux-gnu/bits/wchar.h, typeflag=0
+regular file
+
+/usr/include/i386-linux-gnu/bits/waitstatus.h, typeflag=0
+regular file
+
+/usr/include/i386-linux-gnu/bits/timex.h, typeflag=0
+regular file
+
+/usr/include/i386-linux-gnu/bits/locale.h, typeflag=0
+regular file
+
+/usr/include/i386-linux-gnu/bits/utsname.h, typeflag=0
+regular file
+
+/usr/include/i386-linux-gnu/bits/stdlib.h, typeflag=0
+regular file
+
+/usr/include/i386-linux-gnu/bits/unistd.h, typeflag=0
+regular file
+
+/usr/include/i386-linux-gnu/bits/netdb.h, typeflag=0
+regular file
+
+/usr/include/i386-linux-gnu/bits/sigstack.h, typeflag=0
+regular file
+
+/usr/include/i386-linux-gnu/bits/sigaction.h, typeflag=0
+regular file
+
+/usr/include/i386-linux-gnu/bits/statfs.h, typeflag=0
+regular file
+
+/usr/include/i386-linux-gnu/bits/statvfs.h, typeflag=0
+regular file
+
+/usr/include/i386-linux-gnu/bits/stdlib-ldbl.h, typeflag=0
+regular file
+
+/usr/include/i386-linux-gnu/bits/posix1_lim.h, typeflag=0
+regular file
+
+/usr/include/i386-linux-gnu/bits/utmpx.h, typeflag=0
+regular file
+
+/usr/include/i386-linux-gnu/bits/utmp.h, typeflag=0
+regular file
+
+/usr/include/i386-linux-gnu/bits/local_lim.h, typeflag=0
+regular file
+
+/usr/include/i386-linux-gnu/bits/nan.h, typeflag=0
+regular file
+
+/usr/include/i386-linux-gnu/bits/signalfd.h, typeflag=0
+regular file
+
+/usr/include/i386-linux-gnu/bits/syslog.h, typeflag=0
+regular file
+
+/usr/include/i386-linux-gnu/bits/ipctypes.h, typeflag=0
+regular file
+
+/usr/include/i386-linux-gnu/bits/param.h, typeflag=0
+regular file
+
+/usr/include/i386-linux-gnu/bits/string3.h, typeflag=0
+regular file
+
+/usr/include/i386-linux-gnu/bits/stdio2.h, typeflag=0
+regular file
+
+/usr/include/i386-linux-gnu/bits/stdio-lock.h, typeflag=0
+regular file
+
+/usr/include/i386-linux-gnu/a.out.h, typeflag=0
+regular file
+
+/usr/include/i386-linux-gnu/gnu, typeflag=1
+other file
+
+/usr/include/i386-linux-gnu/gnu/stubs-32.h, typeflag=0
+regular file
+
+/usr/include/i386-linux-gnu/gnu/stubs.h, typeflag=0
+regular file
+
+/usr/include/i386-linux-gnu/gnu/libc-version.h, typeflag=0
+regular file
+
+/usr/include/i386-linux-gnu/gnu/option-groups.h, typeflag=0
+regular file
+
+/usr/include/i386-linux-gnu/gnu/lib-names.h, typeflag=0
+regular file
+
+/usr/include/i386-linux-gnu/asm, typeflag=1
+other file
+
+/usr/include/i386-linux-gnu/asm/ipcbuf.h, typeflag=0
+regular file
+
+/usr/include/i386-linux-gnu/asm/unistd_32.h, typeflag=0
+regular file
+
+/usr/include/i386-linux-gnu/asm/kvm.h, typeflag=0
+regular file
+
+/usr/include/i386-linux-gnu/asm/auxvec.h, typeflag=0
+regular file
+
+/usr/include/i386-linux-gnu/asm/msgbuf.h, typeflag=0
+regular file
+
+/usr/include/i386-linux-gnu/asm/ldt.h, typeflag=0
+regular file
+
+/usr/include/i386-linux-gnu/asm/sockios.h, typeflag=0
+regular file
+
+/usr/include/i386-linux-gnu/asm/errno.h, typeflag=0
+regular file
+
+/usr/include/i386-linux-gnu/asm/fcntl.h, typeflag=0
+regular file
+
+/usr/include/i386-linux-gnu/asm/sembuf.h, typeflag=0
+regular file
+
+/usr/include/i386-linux-gnu/asm/ioctl.h, typeflag=0
+regular file
+
+/usr/include/i386-linux-gnu/asm/prctl.h, typeflag=0
+regular file
+
+/usr/include/i386-linux-gnu/asm/resource.h, typeflag=0
+regular file
+
+/usr/include/i386-linux-gnu/asm/socket.h, typeflag=0
+regular file
+
+/usr/include/i386-linux-gnu/asm/termbits.h, typeflag=0
+regular file
+
+/usr/include/i386-linux-gnu/asm/debugreg.h, typeflag=0
+regular file
+
+/usr/include/i386-linux-gnu/asm/perf_regs.h, typeflag=0
+regular file
+
+/usr/include/i386-linux-gnu/asm/posix_types_64.h, typeflag=0
+regular file
+
+/usr/include/i386-linux-gnu/asm/poll.h, typeflag=0
+regular file
+
+/usr/include/i386-linux-gnu/asm/byteorder.h, typeflag=0
+regular file
+
+/usr/include/i386-linux-gnu/asm/a.out.h, typeflag=0
+regular file
+
+/usr/include/i386-linux-gnu/asm/types.h, typeflag=0
+regular file
+
+/usr/include/i386-linux-gnu/asm/ucontext.h, typeflag=0
+regular file
+
+/usr/include/i386-linux-gnu/asm/signal.h, typeflag=0
+regular file
+
+/usr/include/i386-linux-gnu/asm/ptrace.h, typeflag=0
+regular file
+
+/usr/include/i386-linux-gnu/asm/svm.h, typeflag=0
+regular file
+
+/usr/include/i386-linux-gnu/asm/mce.h, typeflag=0
+regular file
+
+/usr/include/i386-linux-gnu/asm/termios.h, typeflag=0
+regular file
+
+/usr/include/i386-linux-gnu/asm/vsyscall.h, typeflag=0
+regular file
+
+/usr/include/i386-linux-gnu/asm/hw_breakpoint.h, typeflag=0
+regular file
+
+/usr/include/i386-linux-gnu/asm/ioctls.h, typeflag=0
+regular file
+
+/usr/include/i386-linux-gnu/asm/stat.h, typeflag=0
+regular file
+
+/usr/include/i386-linux-gnu/asm/mman.h, typeflag=0
+regular file
+
+/usr/include/i386-linux-gnu/asm/posix_types_32.h, typeflag=0
+regular file
+
+/usr/include/i386-linux-gnu/asm/e820.h, typeflag=0
+regular file
+
+/usr/include/i386-linux-gnu/asm/siginfo.h, typeflag=0
+regular file
+
+/usr/include/i386-linux-gnu/asm/shmbuf.h, typeflag=0
+regular file
+
+/usr/include/i386-linux-gnu/asm/sigcontext32.h, typeflag=0
+regular file
+
+/usr/include/i386-linux-gnu/asm/setup.h, typeflag=0
+regular file
+
+/usr/include/i386-linux-gnu/asm/msr.h, typeflag=0
+regular file
+
+/usr/include/i386-linux-gnu/asm/sigcontext.h, typeflag=0
+regular file
+
+/usr/include/i386-linux-gnu/asm/boot.h, typeflag=0
+regular file
+
+/usr/include/i386-linux-gnu/asm/hyperv.h, typeflag=0
+regular file
+
+/usr/include/i386-linux-gnu/asm/processor-flags.h, typeflag=0
+regular file
+
+/usr/include/i386-linux-gnu/asm/bootparam.h, typeflag=0
+regular file
+
+/usr/include/i386-linux-gnu/asm/vmx.h, typeflag=0
+regular file
+
+/usr/include/i386-linux-gnu/asm/unistd_64.h, typeflag=0
+regular file
+
+/usr/include/i386-linux-gnu/asm/swab.h, typeflag=0
+regular file
+
+/usr/include/i386-linux-gnu/asm/bitsperlong.h, typeflag=0
+regular file
+
+/usr/include/i386-linux-gnu/asm/msr-index.h, typeflag=0
+regular file
+
+/usr/include/i386-linux-gnu/asm/posix_types_x32.h, typeflag=0
+regular file
+
+/usr/include/i386-linux-gnu/asm/unistd.h, typeflag=0
+regular file
+
+/usr/include/i386-linux-gnu/asm/ptrace-abi.h, typeflag=0
+regular file
+
+/usr/include/i386-linux-gnu/asm/statfs.h, typeflag=0
+regular file
+
+/usr/include/i386-linux-gnu/asm/unistd_x32.h, typeflag=0
+regular file
+
+/usr/include/i386-linux-gnu/asm/mtrr.h, typeflag=0
+regular file
+
+/usr/include/i386-linux-gnu/asm/vm86.h, typeflag=0
+regular file
+
+/usr/include/i386-linux-gnu/asm/posix_types.h, typeflag=0
+regular file
+
+/usr/include/i386-linux-gnu/asm/param.h, typeflag=0
+regular file
+
+/usr/include/i386-linux-gnu/asm/kvm_para.h, typeflag=0
+regular file
+
+/usr/include/i386-linux-gnu/asm/ist.h, typeflag=0
+regular file
+
+/usr/include/i386-linux-gnu/ieee754.h, typeflag=0
+regular file
+
+/usr/include/i386-linux-gnu/sys, typeflag=1
+other file
+
+/usr/include/i386-linux-gnu/sys/mount.h, typeflag=0
+regular file
+
+/usr/include/i386-linux-gnu/sys/inotify.h, typeflag=0
+regular file
+
+/usr/include/i386-linux-gnu/sys/epoll.h, typeflag=0
+regular file
+
+/usr/include/i386-linux-gnu/sys/swap.h, typeflag=0
+regular file
+
+/usr/include/i386-linux-gnu/sys/syscall.h, typeflag=0
+regular file
+
+/usr/include/i386-linux-gnu/sys/elf.h, typeflag=0
+regular file
+
+/usr/include/i386-linux-gnu/sys/wait.h, typeflag=0
+regular file
+
+/usr/include/i386-linux-gnu/sys/errno.h, typeflag=0
+regular file
+
+/usr/include/i386-linux-gnu/sys/ipc.h, typeflag=0
+regular file
+
+/usr/include/i386-linux-gnu/sys/xattr.h, typeflag=0
+regular file
+
+/usr/include/i386-linux-gnu/sys/fanotify.h, typeflag=0
+regular file
+
+/usr/include/i386-linux-gnu/sys/fcntl.h, typeflag=0
+regular file
+
+/usr/include/i386-linux-gnu/sys/gmon.h, typeflag=0
+regular file
+
+/usr/include/i386-linux-gnu/sys/ioctl.h, typeflag=0
+regular file
+
+/usr/include/i386-linux-gnu/sys/prctl.h, typeflag=0
+regular file
+
+/usr/include/i386-linux-gnu/sys/resource.h, typeflag=0
+regular file
+
+/usr/include/i386-linux-gnu/sys/fsuid.h, typeflag=0
+regular file
+
+/usr/include/i386-linux-gnu/sys/socket.h, typeflag=0
+regular file
+
+/usr/include/i386-linux-gnu/sys/debugreg.h, typeflag=0
+regular file
+
+/usr/include/i386-linux-gnu/sys/klog.h, typeflag=0
+regular file
+
+/usr/include/i386-linux-gnu/sys/file.h, typeflag=0
+regular file
+
+/usr/include/i386-linux-gnu/sys/stropts.h, typeflag=0
+regular file
+
+/usr/include/i386-linux-gnu/sys/perm.h, typeflag=0
+regular file
+
+/usr/include/i386-linux-gnu/sys/poll.h, typeflag=0
+regular file
+
+/usr/include/i386-linux-gnu/sys/un.h, typeflag=0
+regular file
+
+/usr/include/i386-linux-gnu/sys/types.h, typeflag=0
+regular file
+
+/usr/include/i386-linux-gnu/sys/ucontext.h, typeflag=0
+regular file
+
+/usr/include/i386-linux-gnu/sys/signal.h, typeflag=0
+regular file
+
+/usr/include/i386-linux-gnu/sys/ptrace.h, typeflag=0
+regular file
+
+/usr/include/i386-linux-gnu/sys/kdaemon.h, typeflag=0
+regular file
+
+/usr/include/i386-linux-gnu/sys/quota.h, typeflag=0
+regular file
+
+/usr/include/i386-linux-gnu/sys/user.h, typeflag=0
+regular file
+
+/usr/include/i386-linux-gnu/sys/sendfile.h, typeflag=0
+regular file
+
+/usr/include/i386-linux-gnu/sys/procfs.h, typeflag=0
+regular file
+
+/usr/include/i386-linux-gnu/sys/sem.h, typeflag=0
+regular file
+
+/usr/include/i386-linux-gnu/sys/msg.h, typeflag=0
+regular file
+
+/usr/include/i386-linux-gnu/sys/termios.h, typeflag=0
+regular file
+
+/usr/include/i386-linux-gnu/sys/vtimes.h, typeflag=0
+regular file
+
+/usr/include/i386-linux-gnu/sys/kd.h, typeflag=0
+regular file
+
+/usr/include/i386-linux-gnu/sys/auxv.h, typeflag=0
+regular file
+
+/usr/include/i386-linux-gnu/sys/stat.h, typeflag=0
+regular file
+
+/usr/include/i386-linux-gnu/sys/acct.h, typeflag=0
+regular file
+
+/usr/include/i386-linux-gnu/sys/mman.h, typeflag=0
+regular file
+
+/usr/include/i386-linux-gnu/sys/times.h, typeflag=0
+regular file
+
+/usr/include/i386-linux-gnu/sys/cdefs.h, typeflag=0
+regular file
+
+/usr/include/i386-linux-gnu/sys/pci.h, typeflag=0
+regular file
+
+/usr/include/i386-linux-gnu/sys/dir.h, typeflag=0
+regular file
+
+/usr/include/i386-linux-gnu/sys/raw.h, typeflag=0
+regular file
+
+/usr/include/i386-linux-gnu/sys/personality.h, typeflag=0
+regular file
+
+/usr/include/i386-linux-gnu/sys/eventfd.h, typeflag=0
+regular file
+
+/usr/include/i386-linux-gnu/sys/sysctl.h, typeflag=0
+regular file
+
+/usr/include/i386-linux-gnu/sys/timerfd.h, typeflag=0
+regular file
+
+/usr/include/i386-linux-gnu/sys/io.h, typeflag=0
+regular file
+
+/usr/include/i386-linux-gnu/sys/socketvar.h, typeflag=0
+regular file
+
+/usr/include/i386-linux-gnu/sys/profil.h, typeflag=0
+regular file
+
+/usr/include/i386-linux-gnu/sys/time.h, typeflag=0
+regular file
+
+/usr/include/i386-linux-gnu/sys/bitypes.h, typeflag=0
+regular file
+
+/usr/include/i386-linux-gnu/sys/reboot.h, typeflag=0
+regular file
+
+/usr/include/i386-linux-gnu/sys/vlimit.h, typeflag=0
+regular file
+
+/usr/include/i386-linux-gnu/sys/reg.h, typeflag=0
+regular file
+
+/usr/include/i386-linux-gnu/sys/soundcard.h, typeflag=0
+regular file
+
+/usr/include/i386-linux-gnu/sys/uio.h, typeflag=0
+regular file
+
+/usr/include/i386-linux-gnu/sys/select.h, typeflag=0
+regular file
+
+/usr/include/i386-linux-gnu/sys/shm.h, typeflag=0
+regular file
+
+/usr/include/i386-linux-gnu/sys/ttydefaults.h, typeflag=0
+regular file
+
+/usr/include/i386-linux-gnu/sys/sysmacros.h, typeflag=0
+regular file
+
+/usr/include/i386-linux-gnu/sys/ustat.h, typeflag=0
+regular file
+
+/usr/include/i386-linux-gnu/sys/timeb.h, typeflag=0
+regular file
+
+/usr/include/i386-linux-gnu/sys/timex.h, typeflag=0
+regular file
+
+/usr/include/i386-linux-gnu/sys/utsname.h, typeflag=0
+regular file
+
+/usr/include/i386-linux-gnu/sys/gmon_out.h, typeflag=0
+regular file
+
+/usr/include/i386-linux-gnu/sys/unistd.h, typeflag=0
+regular file
+
+/usr/include/i386-linux-gnu/sys/mtio.h, typeflag=0
+regular file
+
+/usr/include/i386-linux-gnu/sys/statfs.h, typeflag=0
+regular file
+
+/usr/include/i386-linux-gnu/sys/statvfs.h, typeflag=0
+regular file
+
+/usr/include/i386-linux-gnu/sys/sysinfo.h, typeflag=0
+regular file
+
+/usr/include/i386-linux-gnu/sys/vfs.h, typeflag=0
+regular file
+
+/usr/include/i386-linux-gnu/sys/ttychars.h, typeflag=0
+regular file
+
+/usr/include/i386-linux-gnu/sys/queue.h, typeflag=0
+regular file
+
+/usr/include/i386-linux-gnu/sys/vt.h, typeflag=0
+regular file
+
+/usr/include/i386-linux-gnu/sys/vm86.h, typeflag=0
+regular file
+
+/usr/include/i386-linux-gnu/sys/ultrasound.h, typeflag=0
+regular file
+
+/usr/include/i386-linux-gnu/sys/signalfd.h, typeflag=0
+regular file
+
+/usr/include/i386-linux-gnu/sys/syslog.h, typeflag=0
+regular file
+
+/usr/include/i386-linux-gnu/sys/param.h, typeflag=0
+regular file
+
+/usr/include/i386-linux-gnu/zconf.h, typeflag=0
+regular file
+
+/usr/include/i386-linux-gnu/fpu_control.h, typeflag=0
+regular file
+
+/usr/include/netipx, typeflag=1
+other file
+
+/usr/include/netipx/ipx.h, typeflag=0
+regular file
+
+/usr/include/termcap.h, typeflag=0
+regular file
+
+/usr/include/error.h, typeflag=0
+regular file
+
+/usr/include/cursesapp.h, typeflag=0
+regular file
+
+/usr/include/nl_types.h, typeflag=0
+regular file
+
+/usr/include/langinfo.h, typeflag=0
+regular file
+
+/usr/include/re_comp.h, typeflag=0
+regular file
+
+/usr/include/strings.h, typeflag=0
+regular file
+
+/usr/include/limits.h, typeflag=0
+regular file
+
+/usr/include/rdma, typeflag=1
+other file
+
+/usr/include/rdma/ib_user_sa.h, typeflag=0
+regular file
+
+/usr/include/rdma/rdma_netlink.h, typeflag=0
+regular file
+
+/usr/include/rdma/ib_user_cm.h, typeflag=0
+regular file
+
+/usr/include/rdma/ib_user_verbs.h, typeflag=0
+regular file
+
+/usr/include/rdma/rdma_user_cm.h, typeflag=0
+regular file
+
+/usr/include/rdma/ib_user_mad.h, typeflag=0
+regular file
+
+/usr/include/xcb, typeflag=1
+other file
+
+/usr/include/xcb/randr.h, typeflag=0
+regular file
+
+/usr/include/xcb/sync.h, typeflag=0
+regular file
+
+/usr/include/xcb/dri3.h, typeflag=0
+regular file
+
+/usr/include/xcb/dri2.h, typeflag=0
+regular file
+
+/usr/include/xcb/glx.h, typeflag=0
+regular file
+
+/usr/include/xcb/present.h, typeflag=0
+regular file
+
+/usr/include/xcb/xproto.h, typeflag=0
+regular file
+
+/usr/include/xcb/xc_misc.h, typeflag=0
+regular file
+
+/usr/include/xcb/xcbext.h, typeflag=0
+regular file
+
+/usr/include/xcb/shape.h, typeflag=0
+regular file
+
+/usr/include/xcb/bigreq.h, typeflag=0
+regular file
+
+/usr/include/xcb/xcb.h, typeflag=0
+regular file
+
+/usr/include/xcb/xfixes.h, typeflag=0
+regular file
+
+/usr/include/xcb/render.h, typeflag=0
+regular file
+
+/usr/include/sudo_plugin.h, typeflag=0
+regular file
+
+/usr/include/libintl.h, typeflag=0
+regular file
+
+/usr/include/sys, typeflag=1
+other file
+
+/usr/include/sys/mount.h, typeflag=0
+regular file
+
+/usr/include/sys/inotify.h, typeflag=0
+regular file
+
+/usr/include/sys/epoll.h, typeflag=0
+regular file
+
+/usr/include/sys/swap.h, typeflag=0
+regular file
+
+/usr/include/sys/syscall.h, typeflag=0
+regular file
+
+/usr/include/sys/elf.h, typeflag=0
+regular file
+
+/usr/include/sys/wait.h, typeflag=0
+regular file
+
+/usr/include/sys/errno.h, typeflag=0
+regular file
+
+/usr/include/sys/ipc.h, typeflag=0
+regular file
+
+/usr/include/sys/xattr.h, typeflag=0
+regular file
+
+/usr/include/sys/fanotify.h, typeflag=0
+regular file
+
+/usr/include/sys/fcntl.h, typeflag=0
+regular file
+
+/usr/include/sys/gmon.h, typeflag=0
+regular file
+
+/usr/include/sys/ioctl.h, typeflag=0
+regular file
+
+/usr/include/sys/prctl.h, typeflag=0
+regular file
+
+/usr/include/sys/resource.h, typeflag=0
+regular file
+
+/usr/include/sys/fsuid.h, typeflag=0
+regular file
+
+/usr/include/sys/socket.h, typeflag=0
+regular file
+
+/usr/include/sys/debugreg.h, typeflag=0
+regular file
+
+/usr/include/sys/klog.h, typeflag=0
+regular file
+
+/usr/include/sys/file.h, typeflag=0
+regular file
+
+/usr/include/sys/stropts.h, typeflag=0
+regular file
+
+/usr/include/sys/perm.h, typeflag=0
+regular file
+
+/usr/include/sys/poll.h, typeflag=0
+regular file
+
+/usr/include/sys/un.h, typeflag=0
+regular file
+
+/usr/include/sys/types.h, typeflag=0
+regular file
+
+/usr/include/sys/ucontext.h, typeflag=0
+regular file
+
+/usr/include/sys/signal.h, typeflag=0
+regular file
+
+/usr/include/sys/ptrace.h, typeflag=0
+regular file
+
+/usr/include/sys/kdaemon.h, typeflag=0
+regular file
+
+/usr/include/sys/quota.h, typeflag=0
+regular file
+
+/usr/include/sys/user.h, typeflag=0
+regular file
+
+/usr/include/sys/sendfile.h, typeflag=0
+regular file
+
+/usr/include/sys/procfs.h, typeflag=0
+regular file
+
+/usr/include/sys/sem.h, typeflag=0
+regular file
+
+/usr/include/sys/msg.h, typeflag=0
+regular file
+
+/usr/include/sys/termios.h, typeflag=0
+regular file
+
+/usr/include/sys/vtimes.h, typeflag=0
+regular file
+
+/usr/include/sys/kd.h, typeflag=0
+regular file
+
+/usr/include/sys/auxv.h, typeflag=0
+regular file
+
+/usr/include/sys/stat.h, typeflag=0
+regular file
+
+/usr/include/sys/acct.h, typeflag=0
+regular file
+
+/usr/include/sys/mman.h, typeflag=0
+regular file
+
+/usr/include/sys/times.h, typeflag=0
+regular file
+
+/usr/include/sys/cdefs.h, typeflag=0
+regular file
+
+/usr/include/sys/pci.h, typeflag=0
+regular file
+
+/usr/include/sys/dir.h, typeflag=0
+regular file
+
+/usr/include/sys/raw.h, typeflag=0
+regular file
+
+/usr/include/sys/personality.h, typeflag=0
+regular file
+
+/usr/include/sys/eventfd.h, typeflag=0
+regular file
+
+/usr/include/sys/sysctl.h, typeflag=0
+regular file
+
+/usr/include/sys/timerfd.h, typeflag=0
+regular file
+
+/usr/include/sys/io.h, typeflag=0
+regular file
+
+/usr/include/sys/socketvar.h, typeflag=0
+regular file
+
+/usr/include/sys/profil.h, typeflag=0
+regular file
+
+/usr/include/sys/time.h, typeflag=0
+regular file
+
+/usr/include/sys/bitypes.h, typeflag=0
+regular file
+
+/usr/include/sys/reboot.h, typeflag=0
+regular file
+
+/usr/include/sys/vlimit.h, typeflag=0
+regular file
+
+/usr/include/sys/reg.h, typeflag=0
+regular file
+
+/usr/include/sys/soundcard.h, typeflag=0
+regular file
+
+/usr/include/sys/uio.h, typeflag=0
+regular file
+
+/usr/include/sys/select.h, typeflag=0
+regular file
+
+/usr/include/sys/shm.h, typeflag=0
+regular file
+
+/usr/include/sys/ttydefaults.h, typeflag=0
+regular file
+
+/usr/include/sys/sysmacros.h, typeflag=0
+regular file
+
+/usr/include/sys/ustat.h, typeflag=0
+regular file
+
+/usr/include/sys/timeb.h, typeflag=0
+regular file
+
+/usr/include/sys/timex.h, typeflag=0
+regular file
+
+/usr/include/sys/utsname.h, typeflag=0
+regular file
+
+/usr/include/sys/gmon_out.h, typeflag=0
+regular file
+
+/usr/include/sys/unistd.h, typeflag=0
+regular file
+
+/usr/include/sys/mtio.h, typeflag=0
+regular file
+
+/usr/include/sys/statfs.h, typeflag=0
+regular file
+
+/usr/include/sys/statvfs.h, typeflag=0
+regular file
+
+/usr/include/sys/sysinfo.h, typeflag=0
+regular file
+
+/usr/include/sys/vfs.h, typeflag=0
+regular file
+
+/usr/include/sys/ttychars.h, typeflag=0
+regular file
+
+/usr/include/sys/queue.h, typeflag=0
+regular file
+
+/usr/include/sys/vt.h, typeflag=0
+regular file
+
+/usr/include/sys/vm86.h, typeflag=0
+regular file
+
+/usr/include/sys/ultrasound.h, typeflag=0
+regular file
+
+/usr/include/sys/signalfd.h, typeflag=0
+regular file
+
+/usr/include/sys/syslog.h, typeflag=0
+regular file
+
+/usr/include/sys/param.h, typeflag=0
+regular file
+
+/usr/include/fts.h, typeflag=0
+regular file
+
+/usr/include/regex.h, typeflag=0
+regular file
+
+/usr/include/envz.h, typeflag=0
+regular file
+
+/usr/include/libgen.h, typeflag=0
+regular file
+
+/usr/include/time.h, typeflag=0
+regular file
+
+/usr/include/sysexits.h, typeflag=0
+regular file
+
+/usr/include/mcheck.h, typeflag=0
+regular file
+
+/usr/include/drm, typeflag=1
+other file
+
+/usr/include/drm/exynos_drm.h, typeflag=0
+regular file
+
+/usr/include/drm/nouveau_drm.h, typeflag=0
+regular file
+
+/usr/include/drm/drm_sarea.h, typeflag=0
+regular file
+
+/usr/include/drm/qxl_drm.h, typeflag=0
+regular file
+
+/usr/include/drm/sis_drm.h, typeflag=0
+regular file
+
+/usr/include/drm/vmwgfx_drm.h, typeflag=0
+regular file
+
+/usr/include/drm/tegra_drm.h, typeflag=0
+regular file
+
+/usr/include/drm/i810_drm.h, typeflag=0
+regular file
+
+/usr/include/drm/mga_drm.h, typeflag=0
+regular file
+
+/usr/include/drm/radeon_drm.h, typeflag=0
+regular file
+
+/usr/include/drm/drm_mode.h, typeflag=0
+regular file
+
+/usr/include/drm/drm.h, typeflag=0
+regular file
+
+/usr/include/drm/savage_drm.h, typeflag=0
+regular file
+
+/usr/include/drm/r128_drm.h, typeflag=0
+regular file
+
+/usr/include/drm/i915_drm.h, typeflag=0
+regular file
+
+/usr/include/drm/via_drm.h, typeflag=0
+regular file
+
+/usr/include/drm/msm_drm.h, typeflag=0
+regular file
+
+/usr/include/drm/drm_fourcc.h, typeflag=0
+regular file
+
+/usr/include/cursesm.h, typeflag=0
+regular file
+
+/usr/include/panel.h, typeflag=0
+regular file
+
+/usr/include/netatalk, typeflag=1
+other file
+
+/usr/include/netatalk/at.h, typeflag=0
+regular file
+
+/usr/include/term.h, typeflag=0
+regular file
+
+/usr/include/fstab.h, typeflag=0
+regular file
+
+/usr/include/endian.h, typeflag=0
+regular file
+
+/usr/include/libio.h, typeflag=0
+regular file
+
+/usr/include/ustat.h, typeflag=0
+regular file
+
+/usr/include/lastlog.h, typeflag=0
+regular file
+
+/usr/include/tgmath.h, typeflag=0
+regular file
+
+/usr/include/wchar.h, typeflag=0
+regular file
+
+/usr/include/malloc.h, typeflag=0
+regular file
+
+/usr/include/readline, typeflag=1
+other file
+
+/usr/include/readline/rlstdc.h, typeflag=0
+regular file
+
+/usr/include/readline/rltypedefs.h, typeflag=0
+regular file
+
+/usr/include/readline/rlconf.h, typeflag=0
+regular file
+
+/usr/include/readline/readline.h, typeflag=0
+regular file
+
+/usr/include/readline/history.h, typeflag=0
+regular file
+
+/usr/include/readline/chardefs.h, typeflag=0
+regular file
+
+/usr/include/readline/tilde.h, typeflag=0
+regular file
+
+/usr/include/readline/keymaps.h, typeflag=0
+regular file
+
+/usr/include/locale.h, typeflag=0
+regular file
+
+/usr/include/stdlib.h, typeflag=0
+regular file
+
+/usr/include/gconv.h, typeflag=0
+regular file
+
+/usr/include/unistd.h, typeflag=0
+regular file
+
+/usr/include/resolv.h, typeflag=0
+regular file
+
+/usr/include/netdb.h, typeflag=0
+regular file
+
+/usr/include/search.h, typeflag=0
+regular file
+
+/usr/include/argp.h, typeflag=0
+regular file
+
+/usr/include/x86_64-linux-gnu, typeflag=1
+other file
+
+/usr/include/x86_64-linux-gnu/a.out.h, typeflag=0
+regular file
+
+/usr/include/x86_64-linux-gnu/c++, typeflag=1
+other file
+
+/usr/include/x86_64-linux-gnu/c++/4.8, typeflag=1
+other file
+
+/usr/include/x86_64-linux-gnu/c++/4.8/bits, typeflag=1
+other file
+
+/usr/include/x86_64-linux-gnu/c++/4.8/bits/messages_members.h, typeflag=0
+regular file
+
+/usr/include/x86_64-linux-gnu/c++/4.8/bits/cpu_defines.h, typeflag=0
+regular file
+
+/usr/include/x86_64-linux-gnu/c++/4.8/bits/gthr-posix.h, typeflag=0
+regular file
+
+/usr/include/x86_64-linux-gnu/c++/4.8/bits/stdc++.h, typeflag=0
+regular file
+
+/usr/include/x86_64-linux-gnu/c++/4.8/bits/gthr.h, typeflag=0
+regular file
+
+/usr/include/x86_64-linux-gnu/c++/4.8/bits/c++allocator.h, typeflag=0
+regular file
+
+/usr/include/x86_64-linux-gnu/c++/4.8/bits/ctype_inline.h, typeflag=0
+regular file
+
+/usr/include/x86_64-linux-gnu/c++/4.8/bits/stdtr1c++.h, typeflag=0
+regular file
+
+/usr/include/x86_64-linux-gnu/c++/4.8/bits/ctype_base.h, typeflag=0
+regular file
+
+/usr/include/x86_64-linux-gnu/c++/4.8/bits/opt_random.h, typeflag=0
+regular file
+
+/usr/include/x86_64-linux-gnu/c++/4.8/bits/error_constants.h, typeflag=0
+regular file
+
+/usr/include/x86_64-linux-gnu/c++/4.8/bits/time_members.h, typeflag=0
+regular file
+
+/usr/include/x86_64-linux-gnu/c++/4.8/bits/gthr-default.h, typeflag=0
+regular file
+
+/usr/include/x86_64-linux-gnu/c++/4.8/bits/c++config.h, typeflag=0
+regular file
+
+/usr/include/x86_64-linux-gnu/c++/4.8/bits/gthr-single.h, typeflag=0
+regular file
+
+/usr/include/x86_64-linux-gnu/c++/4.8/bits/basic_file.h, typeflag=0
+regular file
+
+/usr/include/x86_64-linux-gnu/c++/4.8/bits/c++locale.h, typeflag=0
+regular file
+
+/usr/include/x86_64-linux-gnu/c++/4.8/bits/cxxabi_tweaks.h, typeflag=0
+regular file
+
+/usr/include/x86_64-linux-gnu/c++/4.8/bits/os_defines.h, typeflag=0
+regular file
+
+/usr/include/x86_64-linux-gnu/c++/4.8/bits/c++io.h, typeflag=0
+regular file
+
+/usr/include/x86_64-linux-gnu/c++/4.8/bits/atomic_word.h, typeflag=0
+regular file
+
+/usr/include/x86_64-linux-gnu/c++/4.8/bits/extc++.h, typeflag=0
+regular file
+
+/usr/include/x86_64-linux-gnu/c++/4.8/32, typeflag=1
+other file
+
+/usr/include/x86_64-linux-gnu/c++/4.8/32/bits, typeflag=1
+other file
+
+/usr/include/x86_64-linux-gnu/c++/4.8/32/bits/messages_members.h, typeflag=0
+regular file
+
+/usr/include/x86_64-linux-gnu/c++/4.8/32/bits/cpu_defines.h, typeflag=0
+regular file
+
+/usr/include/x86_64-linux-gnu/c++/4.8/32/bits/gthr-posix.h, typeflag=0
+regular file
+
+/usr/include/x86_64-linux-gnu/c++/4.8/32/bits/stdc++.h, typeflag=0
+regular file
+
+/usr/include/x86_64-linux-gnu/c++/4.8/32/bits/gthr.h, typeflag=0
+regular file
+
+/usr/include/x86_64-linux-gnu/c++/4.8/32/bits/c++allocator.h, typeflag=0
+regular file
+
+/usr/include/x86_64-linux-gnu/c++/4.8/32/bits/ctype_inline.h, typeflag=0
+regular file
+
+/usr/include/x86_64-linux-gnu/c++/4.8/32/bits/stdtr1c++.h, typeflag=0
+regular file
+
+/usr/include/x86_64-linux-gnu/c++/4.8/32/bits/ctype_base.h, typeflag=0
+regular file
+
+/usr/include/x86_64-linux-gnu/c++/4.8/32/bits/opt_random.h, typeflag=0
+regular file
+
+/usr/include/x86_64-linux-gnu/c++/4.8/32/bits/error_constants.h, typeflag=0
+regular file
+
+/usr/include/x86_64-linux-gnu/c++/4.8/32/bits/time_members.h, typeflag=0
+regular file
+
+/usr/include/x86_64-linux-gnu/c++/4.8/32/bits/gthr-default.h, typeflag=0
+regular file
+
+/usr/include/x86_64-linux-gnu/c++/4.8/32/bits/c++config.h, typeflag=0
+regular file
+
+/usr/include/x86_64-linux-gnu/c++/4.8/32/bits/gthr-single.h, typeflag=0
+regular file
+
+/usr/include/x86_64-linux-gnu/c++/4.8/32/bits/basic_file.h, typeflag=0
+regular file
+
+/usr/include/x86_64-linux-gnu/c++/4.8/32/bits/c++locale.h, typeflag=0
+regular file
+
+/usr/include/x86_64-linux-gnu/c++/4.8/32/bits/cxxabi_tweaks.h, typeflag=0
+regular file
+
+/usr/include/x86_64-linux-gnu/c++/4.8/32/bits/os_defines.h, typeflag=0
+regular file
+
+/usr/include/x86_64-linux-gnu/c++/4.8/32/bits/c++io.h, typeflag=0
+regular file
+
+/usr/include/x86_64-linux-gnu/c++/4.8/32/bits/atomic_word.h, typeflag=0
+regular file
+
+/usr/include/x86_64-linux-gnu/c++/4.8/32/bits/extc++.h, typeflag=0
+regular file
+
+/usr/include/x86_64-linux-gnu/c++/4.8/32/ext, typeflag=1
+other file
+
+/usr/include/x86_64-linux-gnu/c++/4.8/32/ext/opt_random.h, typeflag=0
+regular file
+
+/usr/include/x86_64-linux-gnu/c++/4.8/ext, typeflag=1
+other file
+
+/usr/include/x86_64-linux-gnu/c++/4.8/ext/opt_random.h, typeflag=0
+regular file
+
+/usr/include/x86_64-linux-gnu/c++/4.8/x32, typeflag=1
+other file
+
+/usr/include/x86_64-linux-gnu/c++/4.8/x32/bits, typeflag=1
+other file
+
+/usr/include/x86_64-linux-gnu/c++/4.8/x32/bits/messages_members.h, typeflag=0
+regular file
+
+/usr/include/x86_64-linux-gnu/c++/4.8/x32/bits/cpu_defines.h, typeflag=0
+regular file
+
+/usr/include/x86_64-linux-gnu/c++/4.8/x32/bits/gthr-posix.h, typeflag=0
+regular file
+
+/usr/include/x86_64-linux-gnu/c++/4.8/x32/bits/stdc++.h, typeflag=0
+regular file
+
+/usr/include/x86_64-linux-gnu/c++/4.8/x32/bits/gthr.h, typeflag=0
+regular file
+
+/usr/include/x86_64-linux-gnu/c++/4.8/x32/bits/c++allocator.h, typeflag=0
+regular file
+
+/usr/include/x86_64-linux-gnu/c++/4.8/x32/bits/ctype_inline.h, typeflag=0
+regular file
+
+/usr/include/x86_64-linux-gnu/c++/4.8/x32/bits/stdtr1c++.h, typeflag=0
+regular file
+
+/usr/include/x86_64-linux-gnu/c++/4.8/x32/bits/ctype_base.h, typeflag=0
+regular file
+
+/usr/include/x86_64-linux-gnu/c++/4.8/x32/bits/opt_random.h, typeflag=0
+regular file
+
+/usr/include/x86_64-linux-gnu/c++/4.8/x32/bits/error_constants.h, typeflag=0
+regular file
+
+/usr/include/x86_64-linux-gnu/c++/4.8/x32/bits/time_members.h, typeflag=0
+regular file
+
+/usr/include/x86_64-linux-gnu/c++/4.8/x32/bits/gthr-default.h, typeflag=0
+regular file
+
+/usr/include/x86_64-linux-gnu/c++/4.8/x32/bits/c++config.h, typeflag=0
+regular file
+
+/usr/include/x86_64-linux-gnu/c++/4.8/x32/bits/gthr-single.h, typeflag=0
+regular file
+
+/usr/include/x86_64-linux-gnu/c++/4.8/x32/bits/basic_file.h, typeflag=0
+regular file
+
+/usr/include/x86_64-linux-gnu/c++/4.8/x32/bits/c++locale.h, typeflag=0
+regular file
+
+/usr/include/x86_64-linux-gnu/c++/4.8/x32/bits/cxxabi_tweaks.h, typeflag=0
+regular file
+
+/usr/include/x86_64-linux-gnu/c++/4.8/x32/bits/os_defines.h, typeflag=0
+regular file
+
+/usr/include/x86_64-linux-gnu/c++/4.8/x32/bits/c++io.h, typeflag=0
+regular file
+
+/usr/include/x86_64-linux-gnu/c++/4.8/x32/bits/atomic_word.h, typeflag=0
+regular file
+
+/usr/include/x86_64-linux-gnu/c++/4.8/x32/bits/extc++.h, typeflag=0
+regular file
+
+/usr/include/x86_64-linux-gnu/c++/4.8/x32/ext, typeflag=1
+other file
+
+/usr/include/x86_64-linux-gnu/c++/4.8/x32/ext/opt_random.h, typeflag=0
+regular file
+
+/usr/include/x86_64-linux-gnu/ieee754.h, typeflag=0
+regular file
+
+/usr/include/x86_64-linux-gnu/sys, typeflag=1
+other file
+
+/usr/include/x86_64-linux-gnu/sys/mount.h, typeflag=0
+regular file
+
+/usr/include/x86_64-linux-gnu/sys/inotify.h, typeflag=0
+regular file
+
+/usr/include/x86_64-linux-gnu/sys/epoll.h, typeflag=0
+regular file
+
+/usr/include/x86_64-linux-gnu/sys/swap.h, typeflag=0
+regular file
+
+/usr/include/x86_64-linux-gnu/sys/syscall.h, typeflag=0
+regular file
+
+/usr/include/x86_64-linux-gnu/sys/elf.h, typeflag=0
+regular file
+
+/usr/include/x86_64-linux-gnu/sys/wait.h, typeflag=0
+regular file
+
+/usr/include/x86_64-linux-gnu/sys/errno.h, typeflag=0
+regular file
+
+/usr/include/x86_64-linux-gnu/sys/ipc.h, typeflag=0
+regular file
+
+/usr/include/x86_64-linux-gnu/sys/xattr.h, typeflag=0
+regular file
+
+/usr/include/x86_64-linux-gnu/sys/fanotify.h, typeflag=0
+regular file
+
+/usr/include/x86_64-linux-gnu/sys/fcntl.h, typeflag=0
+regular file
+
+/usr/include/x86_64-linux-gnu/sys/gmon.h, typeflag=0
+regular file
+
+/usr/include/x86_64-linux-gnu/sys/ioctl.h, typeflag=0
+regular file
+
+/usr/include/x86_64-linux-gnu/sys/prctl.h, typeflag=0
+regular file
+
+/usr/include/x86_64-linux-gnu/sys/resource.h, typeflag=0
+regular file
+
+/usr/include/x86_64-linux-gnu/sys/fsuid.h, typeflag=0
+regular file
+
+/usr/include/x86_64-linux-gnu/sys/socket.h, typeflag=0
+regular file
+
+/usr/include/x86_64-linux-gnu/sys/debugreg.h, typeflag=0
+regular file
+
+/usr/include/x86_64-linux-gnu/sys/klog.h, typeflag=0
+regular file
+
+/usr/include/x86_64-linux-gnu/sys/file.h, typeflag=0
+regular file
+
+/usr/include/x86_64-linux-gnu/sys/stropts.h, typeflag=0
+regular file
+
+/usr/include/x86_64-linux-gnu/sys/perm.h, typeflag=0
+regular file
+
+/usr/include/x86_64-linux-gnu/sys/poll.h, typeflag=0
+regular file
+
+/usr/include/x86_64-linux-gnu/sys/un.h, typeflag=0
+regular file
+
+/usr/include/x86_64-linux-gnu/sys/types.h, typeflag=0
+regular file
+
+/usr/include/x86_64-linux-gnu/sys/ucontext.h, typeflag=0
+regular file
+
+/usr/include/x86_64-linux-gnu/sys/signal.h, typeflag=0
+regular file
+
+/usr/include/x86_64-linux-gnu/sys/ptrace.h, typeflag=0
+regular file
+
+/usr/include/x86_64-linux-gnu/sys/kdaemon.h, typeflag=0
+regular file
+
+/usr/include/x86_64-linux-gnu/sys/quota.h, typeflag=0
+regular file
+
+/usr/include/x86_64-linux-gnu/sys/user.h, typeflag=0
+regular file
+
+/usr/include/x86_64-linux-gnu/sys/sendfile.h, typeflag=0
+regular file
+
+/usr/include/x86_64-linux-gnu/sys/procfs.h, typeflag=0
+regular file
+
+/usr/include/x86_64-linux-gnu/sys/sem.h, typeflag=0
+regular file
+
+/usr/include/x86_64-linux-gnu/sys/msg.h, typeflag=0
+regular file
+
+/usr/include/x86_64-linux-gnu/sys/termios.h, typeflag=0
+regular file
+
+/usr/include/x86_64-linux-gnu/sys/vtimes.h, typeflag=0
+regular file
+
+/usr/include/x86_64-linux-gnu/sys/kd.h, typeflag=0
+regular file
+
+/usr/include/x86_64-linux-gnu/sys/auxv.h, typeflag=0
+regular file
+
+/usr/include/x86_64-linux-gnu/sys/stat.h, typeflag=0
+regular file
+
+/usr/include/x86_64-linux-gnu/sys/acct.h, typeflag=0
+regular file
+
+/usr/include/x86_64-linux-gnu/sys/mman.h, typeflag=0
+regular file
+
+/usr/include/x86_64-linux-gnu/sys/times.h, typeflag=0
+regular file
+
+/usr/include/x86_64-linux-gnu/sys/cdefs.h, typeflag=0
+regular file
+
+/usr/include/x86_64-linux-gnu/sys/pci.h, typeflag=0
+regular file
+
+/usr/include/x86_64-linux-gnu/sys/dir.h, typeflag=0
+regular file
+
+/usr/include/x86_64-linux-gnu/sys/raw.h, typeflag=0
+regular file
+
+/usr/include/x86_64-linux-gnu/sys/personality.h, typeflag=0
+regular file
+
+/usr/include/x86_64-linux-gnu/sys/eventfd.h, typeflag=0
+regular file
+
+/usr/include/x86_64-linux-gnu/sys/sysctl.h, typeflag=0
+regular file
+
+/usr/include/x86_64-linux-gnu/sys/timerfd.h, typeflag=0
+regular file
+
+/usr/include/x86_64-linux-gnu/sys/io.h, typeflag=0
+regular file
+
+/usr/include/x86_64-linux-gnu/sys/socketvar.h, typeflag=0
+regular file
+
+/usr/include/x86_64-linux-gnu/sys/profil.h, typeflag=0
+regular file
+
+/usr/include/x86_64-linux-gnu/sys/time.h, typeflag=0
+regular file
+
+/usr/include/x86_64-linux-gnu/sys/bitypes.h, typeflag=0
+regular file
+
+/usr/include/x86_64-linux-gnu/sys/reboot.h, typeflag=0
+regular file
+
+/usr/include/x86_64-linux-gnu/sys/vlimit.h, typeflag=0
+regular file
+
+/usr/include/x86_64-linux-gnu/sys/reg.h, typeflag=0
+regular file
+
+/usr/include/x86_64-linux-gnu/sys/soundcard.h, typeflag=0
+regular file
+
+/usr/include/x86_64-linux-gnu/sys/uio.h, typeflag=0
+regular file
+
+/usr/include/x86_64-linux-gnu/sys/select.h, typeflag=0
+regular file
+
+/usr/include/x86_64-linux-gnu/sys/shm.h, typeflag=0
+regular file
+
+/usr/include/x86_64-linux-gnu/sys/ttydefaults.h, typeflag=0
+regular file
+
+/usr/include/x86_64-linux-gnu/sys/sysmacros.h, typeflag=0
+regular file
+
+/usr/include/x86_64-linux-gnu/sys/ustat.h, typeflag=0
+regular file
+
+/usr/include/x86_64-linux-gnu/sys/timeb.h, typeflag=0
+regular file
+
+/usr/include/x86_64-linux-gnu/sys/timex.h, typeflag=0
+regular file
+
+/usr/include/x86_64-linux-gnu/sys/utsname.h, typeflag=0
+regular file
+
+/usr/include/x86_64-linux-gnu/sys/gmon_out.h, typeflag=0
+regular file
+
+/usr/include/x86_64-linux-gnu/sys/unistd.h, typeflag=0
+regular file
+
+/usr/include/x86_64-linux-gnu/sys/mtio.h, typeflag=0
+regular file
+
+/usr/include/x86_64-linux-gnu/sys/statfs.h, typeflag=0
+regular file
+
+/usr/include/x86_64-linux-gnu/sys/statvfs.h, typeflag=0
+regular file
+
+/usr/include/x86_64-linux-gnu/sys/sysinfo.h, typeflag=0
+regular file
+
+/usr/include/x86_64-linux-gnu/sys/vfs.h, typeflag=0
+regular file
+
+/usr/include/x86_64-linux-gnu/sys/ttychars.h, typeflag=0
+regular file
+
+/usr/include/x86_64-linux-gnu/sys/queue.h, typeflag=0
+regular file
+
+/usr/include/x86_64-linux-gnu/sys/vt.h, typeflag=0
+regular file
+
+/usr/include/x86_64-linux-gnu/sys/vm86.h, typeflag=0
+regular file
+
+/usr/include/x86_64-linux-gnu/sys/ultrasound.h, typeflag=0
+regular file
+
+/usr/include/x86_64-linux-gnu/sys/signalfd.h, typeflag=0
+regular file
+
+/usr/include/x86_64-linux-gnu/sys/syslog.h, typeflag=0
+regular file
+
+/usr/include/x86_64-linux-gnu/sys/param.h, typeflag=0
+regular file
+
+/usr/include/x86_64-linux-gnu/fpu_control.h, typeflag=0
+regular file
+
+/usr/include/fmtmsg.h, typeflag=0
+regular file
+
+/usr/include/iconv.h, typeflag=0
+regular file
+
+/usr/include/nc_tparm.h, typeflag=0
+regular file
+
+/usr/include/xf86drm.h, typeflag=0
+regular file
+
+/usr/include/xf86drmMode.h, typeflag=0
+regular file
+
+/usr/include/netrom, typeflag=1
+other file
+
+/usr/include/netrom/netrom.h, typeflag=0
+regular file
+
+/usr/include/argz.h, typeflag=0
+regular file
+
+/usr/include/fpu_control.h, typeflag=0
+regular file
+
+/usr/include/utmpx.h, typeflag=0
+regular file
+
+/usr/include/wordexp.h, typeflag=0
+regular file
+
+/usr/include/crypt.h, typeflag=0
+regular file
+
+/usr/include/utmp.h, typeflag=0
+regular file
+
+/usr/include/linux, typeflag=1
+other file
+
+/usr/include/linux/tty.h, typeflag=0
+regular file
+
+/usr/include/linux/hdlc.h, typeflag=0
+regular file
+
+/usr/include/linux/inotify.h, typeflag=0
+regular file
+
+/usr/include/linux/ncp_fs.h, typeflag=0
+regular file
+
+/usr/include/linux/major.h, typeflag=0
+regular file
+
+/usr/include/linux/fb.h, typeflag=0
+regular file
+
+/usr/include/linux/atmsvc.h, typeflag=0
+regular file
+
+/usr/include/linux/netfilter_bridge, typeflag=1
+other file
+
+/usr/include/linux/netfilter_bridge/ebt_among.h, typeflag=0
+regular file
+
+/usr/include/linux/netfilter_bridge/ebt_arp.h, typeflag=0
+regular file
+
+/usr/include/linux/netfilter_bridge/ebt_vlan.h, typeflag=0
+regular file
+
+/usr/include/linux/netfilter_bridge/ebt_pkttype.h, typeflag=0
+regular file
+
+/usr/include/linux/netfilter_bridge/ebt_limit.h, typeflag=0
+regular file
+
+/usr/include/linux/netfilter_bridge/ebt_mark_m.h, typeflag=0
+regular file
+
+/usr/include/linux/netfilter_bridge/ebt_mark_t.h, typeflag=0
+regular file
+
+/usr/include/linux/netfilter_bridge/ebt_ulog.h, typeflag=0
+regular file
+
+/usr/include/linux/netfilter_bridge/ebt_ip6.h, typeflag=0
+regular file
+
+/usr/include/linux/netfilter_bridge/ebt_arpreply.h, typeflag=0
+regular file
+
+/usr/include/linux/netfilter_bridge/ebtables.h, typeflag=0
+regular file
+
+/usr/include/linux/netfilter_bridge/ebt_802_3.h, typeflag=0
+regular file
+
+/usr/include/linux/netfilter_bridge/ebt_ip.h, typeflag=0
+regular file
+
+/usr/include/linux/netfilter_bridge/ebt_stp.h, typeflag=0
+regular file
+
+/usr/include/linux/netfilter_bridge/ebt_nflog.h, typeflag=0
+regular file
+
+/usr/include/linux/netfilter_bridge/ebt_redirect.h, typeflag=0
+regular file
+
+/usr/include/linux/netfilter_bridge/ebt_log.h, typeflag=0
+regular file
+
+/usr/include/linux/netfilter_bridge/ebt_nat.h, typeflag=0
+regular file
+
+/usr/include/linux/msdos_fs.h, typeflag=0
+regular file
+
+/usr/include/linux/aio_abi.h, typeflag=0
+regular file
+
+/usr/include/linux/kernel-page-flags.h, typeflag=0
+regular file
+
+/usr/include/linux/string.h, typeflag=0
+regular file
+
+/usr/include/linux/kvm.h, typeflag=0
+regular file
+
+/usr/include/linux/nfs4.h, typeflag=0
+regular file
+
+/usr/include/linux/netfilter, typeflag=1
+other file
+
+/usr/include/linux/netfilter/xt_DSCP.h, typeflag=0
+regular file
+
+/usr/include/linux/netfilter/xt_realm.h, typeflag=0
+regular file
+
+/usr/include/linux/netfilter/xt_length.h, typeflag=0
+regular file
+
+/usr/include/linux/netfilter/xt_multiport.h, typeflag=0
+regular file
+
+/usr/include/linux/netfilter/nf_tables_compat.h, typeflag=0
+regular file
+
+/usr/include/linux/netfilter/xt_rpfilter.h, typeflag=0
+regular file
+
+/usr/include/linux/netfilter/xt_helper.h, typeflag=0
+regular file
+
+/usr/include/linux/netfilter/x_tables.h, typeflag=0
+regular file
+
+/usr/include/linux/netfilter/xt_string.h, typeflag=0
+regular file
+
+/usr/include/linux/netfilter/xt_owner.h, typeflag=0
+regular file
+
+/usr/include/linux/netfilter/xt_cpu.h, typeflag=0
+regular file
+
+/usr/include/linux/netfilter/ipset, typeflag=1
+other file
+
+/usr/include/linux/netfilter/ipset/ip_set.h, typeflag=0
+regular file
+
+/usr/include/linux/netfilter/ipset/ip_set_hash.h, typeflag=0
+regular file
+
+/usr/include/linux/netfilter/ipset/ip_set_bitmap.h, typeflag=0
+regular file
+
+/usr/include/linux/netfilter/ipset/ip_set_list.h, typeflag=0
+regular file
+
+/usr/include/linux/netfilter/xt_SECMARK.h, typeflag=0
+regular file
+
+/usr/include/linux/netfilter/nfnetlink.h, typeflag=0
+regular file
+
+/usr/include/linux/netfilter/xt_CT.h, typeflag=0
+regular file
+
+/usr/include/linux/netfilter/xt_RATEEST.h, typeflag=0
+regular file
+
+/usr/include/linux/netfilter/xt_esp.h, typeflag=0
+regular file
+
+/usr/include/linux/netfilter/xt_policy.h, typeflag=0
+regular file
+
+/usr/include/linux/netfilter/xt_connlabel.h, typeflag=0
+regular file
+
+/usr/include/linux/netfilter/xt_tcpmss.h, typeflag=0
+regular file
+
+/usr/include/linux/netfilter/xt_addrtype.h, typeflag=0
+regular file
+
+/usr/include/linux/netfilter/xt_dscp.h, typeflag=0
+regular file
+
+/usr/include/linux/netfilter/xt_devgroup.h, typeflag=0
+regular file
+
+/usr/include/linux/netfilter/xt_CONNSECMARK.h, typeflag=0
+regular file
+
+/usr/include/linux/netfilter/xt_conntrack.h, typeflag=0
+regular file
+
+/usr/include/linux/netfilter/nfnetlink_cttimeout.h, typeflag=0
+regular file
+
+/usr/include/linux/netfilter/xt_comment.h, typeflag=0
+regular file
+
+/usr/include/linux/netfilter/xt_connbytes.h, typeflag=0
+regular file
+
+/usr/include/linux/netfilter/xt_mark.h, typeflag=0
+regular file
+
+/usr/include/linux/netfilter/xt_mac.h, typeflag=0
+regular file
+
+/usr/include/linux/netfilter/xt_set.h, typeflag=0
+regular file
+
+/usr/include/linux/netfilter/nf_conntrack_ftp.h, typeflag=0
+regular file
+
+/usr/include/linux/netfilter/xt_quota.h, typeflag=0
+regular file
+
+/usr/include/linux/netfilter/xt_AUDIT.h, typeflag=0
+regular file
+
+/usr/include/linux/netfilter/xt_TPROXY.h, typeflag=0
+regular file
+
+/usr/include/linux/netfilter/xt_recent.h, typeflag=0
+regular file
+
+/usr/include/linux/netfilter/nfnetlink_conntrack.h, typeflag=0
+regular file
+
+/usr/include/linux/netfilter/xt_bpf.h, typeflag=0
+regular file
+
+/usr/include/linux/netfilter/xt_CHECKSUM.h, typeflag=0
+regular file
+
+/usr/include/linux/netfilter/nfnetlink_queue.h, typeflag=0
+regular file
+
+/usr/include/linux/netfilter/nf_conntrack_common.h, typeflag=0
+regular file
+
+/usr/include/linux/netfilter/xt_HMARK.h, typeflag=0
+regular file
+
+/usr/include/linux/netfilter/xt_IDLETIMER.h, typeflag=0
+regular file
+
+/usr/include/linux/netfilter/xt_statistic.h, typeflag=0
+regular file
+
+/usr/include/linux/netfilter/xt_physdev.h, typeflag=0
+regular file
+
+/usr/include/linux/netfilter/xt_hashlimit.h, typeflag=0
+regular file
+
+/usr/include/linux/netfilter/xt_CONNMARK.h, typeflag=0
+regular file
+
+/usr/include/linux/netfilter/xt_ecn.h, typeflag=0
+regular file
+
+/usr/include/linux/netfilter/xt_u32.h, typeflag=0
+regular file
+
+/usr/include/linux/netfilter/xt_limit.h, typeflag=0
+regular file
+
+/usr/include/linux/netfilter/xt_osf.h, typeflag=0
+regular file
+
+/usr/include/linux/netfilter/xt_rateest.h, typeflag=0
+regular file
+
+/usr/include/linux/netfilter/xt_tcpudp.h, typeflag=0
+regular file
+
+/usr/include/linux/netfilter/xt_socket.h, typeflag=0
+regular file
+
+/usr/include/linux/netfilter/xt_LOG.h, typeflag=0
+regular file
+
+/usr/include/linux/netfilter/xt_CLASSIFY.h, typeflag=0
+regular file
+
+/usr/include/linux/netfilter/nf_conntrack_tcp.h, typeflag=0
+regular file
+
+/usr/include/linux/netfilter/xt_connmark.h, typeflag=0
+regular file
+
+/usr/include/linux/netfilter/nfnetlink_cthelper.h, typeflag=0
+regular file
+
+/usr/include/linux/netfilter/xt_MARK.h, typeflag=0
+regular file
+
+/usr/include/linux/netfilter/xt_sctp.h, typeflag=0
+regular file
+
+/usr/include/linux/netfilter/xt_TCPMSS.h, typeflag=0
+regular file
+
+/usr/include/linux/netfilter/nfnetlink_compat.h, typeflag=0
+regular file
+
+/usr/include/linux/netfilter/xt_dccp.h, typeflag=0
+regular file
+
+/usr/include/linux/netfilter/nf_conntrack_tuple_common.h, typeflag=0
+regular file
+
+/usr/include/linux/netfilter/xt_NFLOG.h, typeflag=0
+regular file
+
+/usr/include/linux/netfilter/nf_tables.h, typeflag=0
+regular file
+
+/usr/include/linux/netfilter/nf_nat.h, typeflag=0
+regular file
+
+/usr/include/linux/netfilter/xt_pkttype.h, typeflag=0
+regular file
+
+/usr/include/linux/netfilter/xt_ipvs.h, typeflag=0
+regular file
+
+/usr/include/linux/netfilter/xt_time.h, typeflag=0
+regular file
+
+/usr/include/linux/netfilter/nfnetlink_acct.h, typeflag=0
+regular file
+
+/usr/include/linux/netfilter/xt_LED.h, typeflag=0
+regular file
+
+/usr/include/linux/netfilter/xt_nfacct.h, typeflag=0
+regular file
+
+/usr/include/linux/netfilter/xt_TCPOPTSTRIP.h, typeflag=0
+regular file
+
+/usr/include/linux/netfilter/xt_cluster.h, typeflag=0
+regular file
+
+/usr/include/linux/netfilter/xt_NFQUEUE.h, typeflag=0
+regular file
+
+/usr/include/linux/netfilter/xt_connlimit.h, typeflag=0
+regular file
+
+/usr/include/linux/netfilter/xt_iprange.h, typeflag=0
+regular file
+
+/usr/include/linux/netfilter/xt_state.h, typeflag=0
+regular file
+
+/usr/include/linux/netfilter/nf_conntrack_sctp.h, typeflag=0
+regular file
+
+/usr/include/linux/netfilter/nfnetlink_log.h, typeflag=0
+regular file
+
+/usr/include/linux/netfilter/xt_TEE.h, typeflag=0
+regular file
+
+/usr/include/linux/atmbr2684.h, typeflag=0
+regular file
+
+/usr/include/linux/xfrm.h, typeflag=0
+regular file
+
+/usr/include/linux/atmdev.h, typeflag=0
+regular file
+
+/usr/include/linux/auxvec.h, typeflag=0
+regular file
+
+/usr/include/linux/rfkill.h, typeflag=0
+regular file
+
+/usr/include/linux/cciss_defs.h, typeflag=0
+regular file
+
+/usr/include/linux/psci.h, typeflag=0
+regular file
+
+/usr/include/linux/dvb, typeflag=1
+other file
+
+/usr/include/linux/dvb/audio.h, typeflag=0
+regular file
+
+/usr/include/linux/dvb/ca.h, typeflag=0
+regular file
+
+/usr/include/linux/dvb/net.h, typeflag=0
+regular file
+
+/usr/include/linux/dvb/frontend.h, typeflag=0
+regular file
+
+/usr/include/linux/dvb/video.h, typeflag=0
+regular file
+
+/usr/include/linux/dvb/version.h, typeflag=0
+regular file
+
+/usr/include/linux/dvb/osd.h, typeflag=0
+regular file
+
+/usr/include/linux/dvb/dmx.h, typeflag=0
+regular file
+
+/usr/include/linux/romfs_fs.h, typeflag=0
+regular file
+
+/usr/include/linux/jffs2.h, typeflag=0
+regular file
+
+/usr/include/linux/cycx_cfm.h, typeflag=0
+regular file
+
+/usr/include/linux/mei.h, typeflag=0
+regular file
+
+/usr/include/linux/if_infiniband.h, typeflag=0
+regular file
+
+/usr/include/linux/taskstats.h, typeflag=0
+regular file
+
+/usr/include/linux/ncp_no.h, typeflag=0
+regular file
+
+/usr/include/linux/ppp_defs.h, typeflag=0
+regular file
+
+/usr/include/linux/pkt_sched.h, typeflag=0
+regular file
+
+/usr/include/linux/dccp.h, typeflag=0
+regular file
+
+/usr/include/linux/ipv6.h, typeflag=0
+regular file
+
+/usr/include/linux/if_phonet.h, typeflag=0
+regular file
+
+/usr/include/linux/elf.h, typeflag=0
+regular file
+
+/usr/include/linux/wireless.h, typeflag=0
+regular file
+
+/usr/include/linux/baycom.h, typeflag=0
+regular file
+
+/usr/include/linux/elf-em.h, typeflag=0
+regular file
+
+/usr/include/linux/atmmpc.h, typeflag=0
+regular file
+
+/usr/include/linux/ax25.h, typeflag=0
+regular file
+
+/usr/include/linux/usbdevice_fs.h, typeflag=0
+regular file
+
+/usr/include/linux/if_arp.h, typeflag=0
+regular file
+
+/usr/include/linux/wait.h, typeflag=0
+regular file
+
+/usr/include/linux/pps.h, typeflag=0
+regular file
+
+/usr/include/linux/sockios.h, typeflag=0
+regular file
+
+/usr/include/linux/capability.h, typeflag=0
+regular file
+
+/usr/include/linux/mempolicy.h, typeflag=0
+regular file
+
+/usr/include/linux/errno.h, typeflag=0
+regular file
+
+/usr/include/linux/securebits.h, typeflag=0
+regular file
+
+/usr/include/linux/sched.h, typeflag=0
+regular file
+
+/usr/include/linux/ipc.h, typeflag=0
+regular file
+
+/usr/include/linux/reiserfs_fs.h, typeflag=0
+regular file
+
+/usr/include/linux/futex.h, typeflag=0
+regular file
+
+/usr/include/linux/fd.h, typeflag=0
+regular file
+
+/usr/include/linux/if_addr.h, typeflag=0
+regular file
+
+/usr/include/linux/capi.h, typeflag=0
+regular file
+
+/usr/include/linux/sonet.h, typeflag=0
+regular file
+
+/usr/include/linux/xattr.h, typeflag=0
+regular file
+
+/usr/include/linux/dlmconstants.h, typeflag=0
+regular file
+
+/usr/include/linux/i2c.h, typeflag=0
+regular file
+
+/usr/include/linux/if_cablemodem.h, typeflag=0
+regular file
+
+/usr/include/linux/media.h, typeflag=0
+regular file
+
+/usr/include/linux/fanotify.h, typeflag=0
+regular file
+
+/usr/include/linux/nfs2.h, typeflag=0
+regular file
+
+/usr/include/linux/fcntl.h, typeflag=0
+regular file
+
+/usr/include/linux/netfilter_ipv4.h, typeflag=0
+regular file
+
+/usr/include/linux/dlm_netlink.h, typeflag=0
+regular file
+
+/usr/include/linux/sunrpc, typeflag=1
+other file
+
+/usr/include/linux/sunrpc/debug.h, typeflag=0
+regular file
+
+/usr/include/linux/pg.h, typeflag=0
+regular file
+
+/usr/include/linux/if_alg.h, typeflag=0
+regular file
+
+/usr/include/linux/netfilter_decnet.h, typeflag=0
+regular file
+
+/usr/include/linux/telephony.h, typeflag=0
+regular file
+
+/usr/include/linux/phantom.h, typeflag=0
+regular file
+
+/usr/include/linux/mic_ioctl.h, typeflag=0
+regular file
+
+/usr/include/linux/oom.h, typeflag=0
+regular file
+
+/usr/include/linux/fsl_hypervisor.h, typeflag=0
+regular file
+
+/usr/include/linux/pmu.h, typeflag=0
+regular file
+
+/usr/include/linux/virtio_pci.h, typeflag=0
+regular file
+
+/usr/include/linux/nvme.h, typeflag=0
+regular file
+
+/usr/include/linux/scc.h, typeflag=0
+regular file
+
+/usr/include/linux/net.h, typeflag=0
+regular file
+
+/usr/include/linux/atm_eni.h, typeflag=0
+regular file
+
+/usr/include/linux/ioctl.h, typeflag=0
+regular file
+
+/usr/include/linux/prctl.h, typeflag=0
+regular file
+
+/usr/include/linux/resource.h, typeflag=0
+regular file
+
+/usr/include/linux/mroute6.h, typeflag=0
+regular file
+
+/usr/include/linux/bpqether.h, typeflag=0
+regular file
+
+/usr/include/linux/socket.h, typeflag=0
+regular file
+
+/usr/include/linux/isdn_ppp.h, typeflag=0
+regular file
+
+/usr/include/linux/fs.h, typeflag=0
+regular file
+
+/usr/include/linux/nl80211.h, typeflag=0
+regular file
+
+/usr/include/linux/v4l2-dv-timings.h, typeflag=0
+regular file
+
+/usr/include/linux/netfilter_ipv6.h, typeflag=0
+regular file
+
+/usr/include/linux/ipmi.h, typeflag=0
+regular file
+
+/usr/include/linux/isdn, typeflag=1
+other file
+
+/usr/include/linux/isdn/capicmd.h, typeflag=0
+regular file
+
+/usr/include/linux/dm-log-userspace.h, typeflag=0
+regular file
+
+/usr/include/linux/qnx4_fs.h, typeflag=0
+regular file
+
+/usr/include/linux/udp.h, typeflag=0
+regular file
+
+/usr/include/linux/if_arcnet.h, typeflag=0
+regular file
+
+/usr/include/linux/byteorder, typeflag=1
+other file
+
+/usr/include/linux/byteorder/big_endian.h, typeflag=0
+regular file
+
+/usr/include/linux/byteorder/little_endian.h, typeflag=0
+regular file
+
+/usr/include/linux/joystick.h, typeflag=0
+regular file
+
+/usr/include/linux/mic_common.h, typeflag=0
+regular file
+
+/usr/include/linux/virtio_net.h, typeflag=0
+regular file
+
+/usr/include/linux/ipmi_msgdefs.h, typeflag=0
+regular file
+
+/usr/include/linux/som.h, typeflag=0
+regular file
+
+/usr/include/linux/atmarp.h, typeflag=0
+regular file
+
+/usr/include/linux/ivtv.h, typeflag=0
+regular file
+
+/usr/include/linux/elfcore.h, typeflag=0
+regular file
+
+/usr/include/linux/libc-compat.h, typeflag=0
+regular file
+
+/usr/include/linux/tc_ematch, typeflag=1
+other file
+
+/usr/include/linux/tc_ematch/tc_em_cmp.h, typeflag=0
+regular file
+
+/usr/include/linux/tc_ematch/tc_em_text.h, typeflag=0
+regular file
+
+/usr/include/linux/tc_ematch/tc_em_meta.h, typeflag=0
+regular file
+
+/usr/include/linux/tc_ematch/tc_em_nbyte.h, typeflag=0
+regular file
+
+/usr/include/linux/mii.h, typeflag=0
+regular file
+
+/usr/include/linux/fuse.h, typeflag=0
+regular file
+
+/usr/include/linux/efs_fs_sb.h, typeflag=0
+regular file
+
+/usr/include/linux/serio.h, typeflag=0
+regular file
+
+/usr/include/linux/kdev_t.h, typeflag=0
+regular file
+
+/usr/include/linux/net_dropmon.h, typeflag=0
+regular file
+
+/usr/include/linux/mmtimer.h, typeflag=0
+regular file
+
+/usr/include/linux/btrfs.h, typeflag=0
+regular file
+
+/usr/include/linux/poll.h, typeflag=0
+regular file
+
+/usr/include/linux/netlink_diag.h, typeflag=0
+regular file
+
+/usr/include/linux/if_vlan.h, typeflag=0
+regular file
+
+/usr/include/linux/dqblk_xfs.h, typeflag=0
+regular file
+
+/usr/include/linux/a.out.h, typeflag=0
+regular file
+
+/usr/include/linux/mqueue.h, typeflag=0
+regular file
+
+/usr/include/linux/minix_fs.h, typeflag=0
+regular file
+
+/usr/include/linux/un.h, typeflag=0
+regular file
+
+/usr/include/linux/types.h, typeflag=0
+regular file
+
+/usr/include/linux/bfs_fs.h, typeflag=0
+regular file
+
+/usr/include/linux/blktrace_api.h, typeflag=0
+regular file
+
+/usr/include/linux/signal.h, typeflag=0
+regular file
+
+/usr/include/linux/dlm_plock.h, typeflag=0
+regular file
+
+/usr/include/linux/netfilter_arp.h, typeflag=0
+regular file
+
+/usr/include/linux/ptrace.h, typeflag=0
+regular file
+
+/usr/include/linux/atm_nicstar.h, typeflag=0
+regular file
+
+/usr/include/linux/pktcdvd.h, typeflag=0
+regular file
+
+/usr/include/linux/ixjuser.h, typeflag=0
+regular file
+
+/usr/include/linux/fadvise.h, typeflag=0
+regular file
+
+/usr/include/linux/netrom.h, typeflag=0
+regular file
+
+/usr/include/linux/quota.h, typeflag=0
+regular file
+
+/usr/include/linux/coda_psdev.h, typeflag=0
+regular file
+
+/usr/include/linux/ip6_tunnel.h, typeflag=0
+regular file
+
+/usr/include/linux/qnxtypes.h, typeflag=0
+regular file
+
+/usr/include/linux/netfilter_bridge.h, typeflag=0
+regular file
+
+/usr/include/linux/hpet.h, typeflag=0
+regular file
+
+/usr/include/linux/atm_zatm.h, typeflag=0
+regular file
+
+/usr/include/linux/pci_regs.h, typeflag=0
+regular file
+
+/usr/include/linux/seccomp.h, typeflag=0
+regular file
+
+/usr/include/linux/hidraw.h, typeflag=0
+regular file
+
+/usr/include/linux/if_tun.h, typeflag=0
+regular file
+
+/usr/include/linux/hysdn_if.h, typeflag=0
+regular file
+
+/usr/include/linux/cm4000_cs.h, typeflag=0
+regular file
+
+/usr/include/linux/firewire-constants.h, typeflag=0
+regular file
+
+/usr/include/linux/virtio_balloon.h, typeflag=0
+regular file
+
+/usr/include/linux/lp.h, typeflag=0
+regular file
+
+/usr/include/linux/mdio.h, typeflag=0
+regular file
+
+/usr/include/linux/igmp.h, typeflag=0
+regular file
+
+/usr/include/linux/matroxfb.h, typeflag=0
+regular file
+
+/usr/include/linux/radeonfb.h, typeflag=0
+regular file
+
+/usr/include/linux/const.h, typeflag=0
+regular file
+
+/usr/include/linux/serial_reg.h, typeflag=0
+regular file
+
+/usr/include/linux/filter.h, typeflag=0
+regular file
+
+/usr/include/linux/netfilter_arp, typeflag=1
+other file
+
+/usr/include/linux/netfilter_arp/arp_tables.h, typeflag=0
+regular file
+
+/usr/include/linux/netfilter_arp/arpt_mangle.h, typeflag=0
+regular file
+
+/usr/include/linux/rose.h, typeflag=0
+regular file
+
+/usr/include/linux/ptp_clock.h, typeflag=0
+regular file
+
+/usr/include/linux/atmapi.h, typeflag=0
+regular file
+
+/usr/include/linux/sem.h, typeflag=0
+regular file
+
+/usr/include/linux/iso_fs.h, typeflag=0
+regular file
+
+/usr/include/linux/hdlc, typeflag=1
+other file
+
+/usr/include/linux/hdlc/ioctl.h, typeflag=0
+regular file
+
+/usr/include/linux/in_route.h, typeflag=0
+regular file
+
+/usr/include/linux/if_ltalk.h, typeflag=0
+regular file
+
+/usr/include/linux/packet_diag.h, typeflag=0
+regular file
+
+/usr/include/linux/in.h, typeflag=0
+regular file
+
+/usr/include/linux/msg.h, typeflag=0
+regular file
+
+/usr/include/linux/ipsec.h, typeflag=0
+regular file
+
+/usr/include/linux/perf_event.h, typeflag=0
+regular file
+
+/usr/include/linux/cgroupstats.h, typeflag=0
+regular file
+
+/usr/include/linux/virtio_ring.h, typeflag=0
+regular file
+
+/usr/include/linux/if_fddi.h, typeflag=0
+regular file
+
+/usr/include/linux/fdreg.h, typeflag=0
+regular file
+
+/usr/include/linux/auto_fs.h, typeflag=0
+regular file
+
+/usr/include/linux/if_hippi.h, typeflag=0
+regular file
+
+/usr/include/linux/if_ppp.h, typeflag=0
+regular file
+
+/usr/include/linux/atalk.h, typeflag=0
+regular file
+
+/usr/include/linux/spi, typeflag=1
+other file
+
+/usr/include/linux/spi/spidev.h, typeflag=0
+regular file
+
+/usr/include/linux/omap3isp.h, typeflag=0
+regular file
+
+/usr/include/linux/termios.h, typeflag=0
+regular file
+
+/usr/include/linux/hw_breakpoint.h, typeflag=0
+regular file
+
+/usr/include/linux/keyctl.h, typeflag=0
+regular file
+
+/usr/include/linux/v4l2-common.h, typeflag=0
+regular file
+
+/usr/include/linux/netfilter_ipv6, typeflag=1
+other file
+
+/usr/include/linux/netfilter_ipv6/ip6t_ah.h, typeflag=0
+regular file
+
+/usr/include/linux/netfilter_ipv6/ip6t_mh.h, typeflag=0
+regular file
+
+/usr/include/linux/netfilter_ipv6/ip6t_rt.h, typeflag=0
+regular file
+
+/usr/include/linux/netfilter_ipv6/ip6t_NPT.h, typeflag=0
+regular file
+
+/usr/include/linux/netfilter_ipv6/ip6t_hl.h, typeflag=0
+regular file
+
+/usr/include/linux/netfilter_ipv6/ip6t_frag.h, typeflag=0
+regular file
+
+/usr/include/linux/netfilter_ipv6/ip6t_HL.h, typeflag=0
+regular file
+
+/usr/include/linux/netfilter_ipv6/ip6_tables.h, typeflag=0
+regular file
+
+/usr/include/linux/netfilter_ipv6/ip6t_ipv6header.h, typeflag=0
+regular file
+
+/usr/include/linux/netfilter_ipv6/ip6t_LOG.h, typeflag=0
+regular file
+
+/usr/include/linux/netfilter_ipv6/ip6t_opts.h, typeflag=0
+regular file
+
+/usr/include/linux/netfilter_ipv6/ip6t_REJECT.h, typeflag=0
+regular file
+
+/usr/include/linux/map_to_7segment.h, typeflag=0
+regular file
+
+/usr/include/linux/nfsacl.h, typeflag=0
+regular file
+
+/usr/include/linux/v4l2-subdev.h, typeflag=0
+regular file
+
+/usr/include/linux/virtio_blk.h, typeflag=0
+regular file
+
+/usr/include/linux/fib_rules.h, typeflag=0
+regular file
+
+/usr/include/linux/nfs_idmap.h, typeflag=0
+regular file
+
+/usr/include/linux/tipc_config.h, typeflag=0
+regular file
+
+/usr/include/linux/if_ether.h, typeflag=0
+regular file
+
+/usr/include/linux/if_pppox.h, typeflag=0
+regular file
+
+/usr/include/linux/connector.h, typeflag=0
+regular file
+
+/usr/include/linux/affs_hardblocks.h, typeflag=0
+regular file
+
+/usr/include/linux/uhid.h, typeflag=0
+regular file
+
+/usr/include/linux/if_plip.h, typeflag=0
+regular file
+
+/usr/include/linux/kd.h, typeflag=0
+regular file
+
+/usr/include/linux/snmp.h, typeflag=0
+regular file
+
+/usr/include/linux/wimax, typeflag=1
+other file
+
+/usr/include/linux/wimax/i2400m.h, typeflag=0
+regular file
+
+/usr/include/linux/virtio_9p.h, typeflag=0
+regular file
+
+/usr/include/linux/nfs3.h, typeflag=0
+regular file
+
+/usr/include/linux/nfs.h, typeflag=0
+regular file
+
+/usr/include/linux/vhost.h, typeflag=0
+regular file
+
+/usr/include/linux/stat.h, typeflag=0
+regular file
+
+/usr/include/linux/acct.h, typeflag=0
+regular file
+
+/usr/include/linux/icmp.h, typeflag=0
+regular file
+
+/usr/include/linux/mman.h, typeflag=0
+regular file
+
+/usr/include/linux/vfio.h, typeflag=0
+regular file
+
+/usr/include/linux/synclink.h, typeflag=0
+regular file
+
+/usr/include/linux/times.h, typeflag=0
+regular file
+
+/usr/include/linux/pkt_cls.h, typeflag=0
+regular file
+
+/usr/include/linux/in6.h, typeflag=0
+regular file
+
+/usr/include/linux/atmclip.h, typeflag=0
+regular file
+
+/usr/include/linux/i2c-dev.h, typeflag=0
+regular file
+
+/usr/include/linux/gameport.h, typeflag=0
+regular file
+
+/usr/include/linux/pci.h, typeflag=0
+regular file
+
+/usr/include/linux/if_slip.h, typeflag=0
+regular file
+
+/usr/include/linux/bsg.h, typeflag=0
+regular file
+
+/usr/include/linux/watchdog.h, typeflag=0
+regular file
+
+/usr/include/linux/can.h, typeflag=0
+regular file
+
+/usr/include/linux/if_team.h, typeflag=0
+regular file
+
+/usr/include/linux/patchkey.h, typeflag=0
+regular file
+
+/usr/include/linux/omapfb.h, typeflag=0
+regular file
+
+/usr/include/linux/keyboard.h, typeflag=0
+regular file
+
+/usr/include/linux/netlink.h, typeflag=0
+regular file
+
+/usr/include/linux/hiddev.h, typeflag=0
+regular file
+
+/usr/include/linux/mroute.h, typeflag=0
+regular file
+
+/usr/include/linux/hdreg.h, typeflag=0
+regular file
+
+/usr/include/linux/ppp-ioctl.h, typeflag=0
+regular file
+
+/usr/include/linux/ppdev.h, typeflag=0
+regular file
+
+/usr/include/linux/caif, typeflag=1
+other file
+
+/usr/include/linux/caif/if_caif.h, typeflag=0
+regular file
+
+/usr/include/linux/caif/caif_socket.h, typeflag=0
+regular file
+
+/usr/include/linux/rtnetlink.h, typeflag=0
+regular file
+
+/usr/include/linux/raw.h, typeflag=0
+regular file
+
+/usr/include/linux/atm_tcp.h, typeflag=0
+regular file
+
+/usr/include/linux/suspend_ioctls.h, typeflag=0
+regular file
+
+/usr/include/linux/auto_fs4.h, typeflag=0
+regular file
+
+/usr/include/linux/adb.h, typeflag=0
+regular file
+
+/usr/include/linux/ipx.h, typeflag=0
+regular file
+
+/usr/include/linux/dlm.h, typeflag=0
+regular file
+
+/usr/include/linux/fiemap.h, typeflag=0
+regular file
+
+/usr/include/linux/blkpg.h, typeflag=0
+regular file
+
+/usr/include/linux/if_packet.h, typeflag=0
+regular file
+
+/usr/include/linux/ivtvfb.h, typeflag=0
+regular file
+
+/usr/include/linux/netfilter_ipv4, typeflag=1
+other file
+
+/usr/include/linux/netfilter_ipv4/ipt_ah.h, typeflag=0
+regular file
+
+/usr/include/linux/netfilter_ipv4/ipt_ecn.h, typeflag=0
+regular file
+
+/usr/include/linux/netfilter_ipv4/ipt_REJECT.h, typeflag=0
+regular file
+
+/usr/include/linux/netfilter_ipv4/ipt_ULOG.h, typeflag=0
+regular file
+
+/usr/include/linux/netfilter_ipv4/ipt_CLUSTERIP.h, typeflag=0
+regular file
+
+/usr/include/linux/netfilter_ipv4/ip_tables.h, typeflag=0
+regular file
+
+/usr/include/linux/netfilter_ipv4/ipt_TTL.h, typeflag=0
+regular file
+
+/usr/include/linux/netfilter_ipv4/ipt_ECN.h, typeflag=0
+regular file
+
+/usr/include/linux/netfilter_ipv4/ipt_ttl.h, typeflag=0
+regular file
+
+/usr/include/linux/netfilter_ipv4/ipt_LOG.h, typeflag=0
+regular file
+
+/usr/include/linux/personality.h, typeflag=0
+regular file
+
+/usr/include/linux/atmsap.h, typeflag=0
+regular file
+
+/usr/include/linux/rds.h, typeflag=0
+regular file
+
+/usr/include/linux/openvswitch.h, typeflag=0
+regular file
+
+/usr/include/linux/cramfs_fs.h, typeflag=0
+regular file
+
+/usr/include/linux/tipc.h, typeflag=0
+regular file
+
+/usr/include/linux/cdrom.h, typeflag=0
+regular file
+
+/usr/include/linux/hdlcdrv.h, typeflag=0
+regular file
+
+/usr/include/linux/sysctl.h, typeflag=0
+regular file
+
+/usr/include/linux/virtio_ids.h, typeflag=0
+regular file
+
+/usr/include/linux/audit.h, typeflag=0
+regular file
+
+/usr/include/linux/apm_bios.h, typeflag=0
+regular file
+
+/usr/include/linux/agpgart.h, typeflag=0
+regular file
+
+/usr/include/linux/net_tstamp.h, typeflag=0
+regular file
+
+/usr/include/linux/raid, typeflag=1
+other file
+
+/usr/include/linux/raid/md_p.h, typeflag=0
+regular file
+
+/usr/include/linux/raid/md_u.h, typeflag=0
+regular file
+
+/usr/include/linux/reiserfs_xattr.h, typeflag=0
+regular file
+
+/usr/include/linux/serial.h, typeflag=0
+regular file
+
+/usr/include/linux/toshiba.h, typeflag=0
+regular file
+
+/usr/include/linux/i2o-dev.h, typeflag=0
+regular file
+
+/usr/include/linux/sonypi.h, typeflag=0
+regular file
+
+/usr/include/linux/if_tunnel.h, typeflag=0
+regular file
+
+/usr/include/linux/limits.h, typeflag=0
+regular file
+
+/usr/include/linux/netfilter.h, typeflag=0
+regular file
+
+/usr/include/linux/cciss_ioctl.h, typeflag=0
+regular file
+
+/usr/include/linux/if.h, typeflag=0
+regular file
+
+/usr/include/linux/uvcvideo.h, typeflag=0
+regular file
+
+/usr/include/linux/nfs4_mount.h, typeflag=0
+regular file
+
+/usr/include/linux/firewire-cdev.h, typeflag=0
+regular file
+
+/usr/include/linux/nfs_fs.h, typeflag=0
+regular file
+
+/usr/include/linux/atmlec.h, typeflag=0
+regular file
+
+/usr/include/linux/nbd.h, typeflag=0
+regular file
+
+/usr/include/linux/if_eql.h, typeflag=0
+regular file
+
+/usr/include/linux/virtio_config.h, typeflag=0
+regular file
+
+/usr/include/linux/aufs_type.h, typeflag=0
+regular file
+
+/usr/include/linux/irda.h, typeflag=0
+regular file
+
+/usr/include/linux/version.h, typeflag=0
+regular file
+
+/usr/include/linux/neighbour.h, typeflag=0
+regular file
+
+/usr/include/linux/phonet.h, typeflag=0
+regular file
+
+/usr/include/linux/atmioc.h, typeflag=0
+regular file
+
+/usr/include/linux/flat.h, typeflag=0
+regular file
+
+/usr/include/linux/gfs2_ondisk.h, typeflag=0
+regular file
+
+/usr/include/linux/time.h, typeflag=0
+regular file
+
+/usr/include/linux/i8k.h, typeflag=0
+regular file
+
+/usr/include/linux/can, typeflag=1
+other file
+
+/usr/include/linux/can/bcm.h, typeflag=0
+regular file
+
+/usr/include/linux/can/netlink.h, typeflag=0
+regular file
+
+/usr/include/linux/can/raw.h, typeflag=0
+regular file
+
+/usr/include/linux/can/error.h, typeflag=0
+regular file
+
+/usr/include/linux/can/gw.h, typeflag=0
+regular file
+
+/usr/include/linux/ip.h, typeflag=0
+regular file
+
+/usr/include/linux/n_r3964.h, typeflag=0
+regular file
+
+/usr/include/linux/atm_idt77105.h, typeflag=0
+regular file
+
+/usr/include/linux/atm_he.h, typeflag=0
+regular file
+
+/usr/include/linux/hid.h, typeflag=0
+regular file
+
+/usr/include/linux/videodev2.h, typeflag=0
+regular file
+
+/usr/include/linux/hyperv.h, typeflag=0
+regular file
+
+/usr/include/linux/l2tp.h, typeflag=0
+regular file
+
+/usr/include/linux/binfmts.h, typeflag=0
+regular file
+
+/usr/include/linux/screen_info.h, typeflag=0
+regular file
+
+/usr/include/linux/reboot.h, typeflag=0
+regular file
+
+/usr/include/linux/nfc.h, typeflag=0
+regular file
+
+/usr/include/linux/errqueue.h, typeflag=0
+regular file
+
+/usr/include/linux/netdevice.h, typeflag=0
+regular file
+
+/usr/include/linux/udf_fs_i.h, typeflag=0
+regular file
+
+/usr/include/linux/magic.h, typeflag=0
+regular file
+
+/usr/include/linux/tty_flags.h, typeflag=0
+regular file
+
+/usr/include/linux/swab.h, typeflag=0
+regular file
+
+/usr/include/linux/fmd, typeflag=1
+other file
+
+/usr/include/linux/fmd/ioctls.h, typeflag=0
+regular file
+
+/usr/include/linux/fmd/integrations, typeflag=1
+other file
+
+/usr/include/linux/fmd/integrations/integration_ioctls.h, typeflag=0
+regular file
+
+/usr/include/linux/fmd/net_ioctls.h, typeflag=0
+regular file
+
+/usr/include/linux/fmd/Peripherals, typeflag=1
+other file
+
+/usr/include/linux/fmd/Peripherals/fm_test_ioctls.h, typeflag=0
+regular file
+
+/usr/include/linux/fmd/Peripherals/fm_pcd_ioctls.h, typeflag=0
+regular file
+
+/usr/include/linux/fmd/Peripherals/fm_ioctls.h, typeflag=0
+regular file
+
+/usr/include/linux/fmd/Peripherals/fm_port_ioctls.h, typeflag=0
+regular file
+
+/usr/include/linux/wimax.h, typeflag=0
+regular file
+
+/usr/include/linux/soundcard.h, typeflag=0
+regular file
+
+/usr/include/linux/nfsd, typeflag=1
+other file
+
+/usr/include/linux/nfsd/nfsfh.h, typeflag=0
+regular file
+
+/usr/include/linux/nfsd/export.h, typeflag=0
+regular file
+
+/usr/include/linux/nfsd/stats.h, typeflag=0
+regular file
+
+/usr/include/linux/nfsd/cld.h, typeflag=0
+regular file
+
+/usr/include/linux/nfsd/debug.h, typeflag=0
+regular file
+
+/usr/include/linux/tc_act, typeflag=1
+other file
+
+/usr/include/linux/tc_act/tc_defact.h, typeflag=0
+regular file
+
+/usr/include/linux/tc_act/tc_nat.h, typeflag=0
+regular file
+
+/usr/include/linux/tc_act/tc_skbedit.h, typeflag=0
+regular file
+
+/usr/include/linux/tc_act/tc_gact.h, typeflag=0
+regular file
+
+/usr/include/linux/tc_act/tc_ipt.h, typeflag=0
+regular file
+
+/usr/include/linux/tc_act/tc_csum.h, typeflag=0
+regular file
+
+/usr/include/linux/tc_act/tc_pedit.h, typeflag=0
+regular file
+
+/usr/include/linux/tc_act/tc_mirred.h, typeflag=0
+regular file
+
+/usr/include/linux/nubus.h, typeflag=0
+regular file
+
+/usr/include/linux/uio.h, typeflag=0
+regular file
+
+/usr/include/linux/ncp_mount.h, typeflag=0
+regular file
+
+/usr/include/linux/elf-fdpic.h, typeflag=0
+regular file
+
+/usr/include/linux/dlm_device.h, typeflag=0
+regular file
+
+/usr/include/linux/usb, typeflag=1
+other file
+
+/usr/include/linux/usb/audio.h, typeflag=0
+regular file
+
+/usr/include/linux/usb/gadgetfs.h, typeflag=0
+regular file
+
+/usr/include/linux/usb/g_printer.h, typeflag=0
+regular file
+
+/usr/include/linux/usb/video.h, typeflag=0
+regular file
+
+/usr/include/linux/usb/midi.h, typeflag=0
+regular file
+
+/usr/include/linux/usb/ch9.h, typeflag=0
+regular file
+
+/usr/include/linux/usb/tmc.h, typeflag=0
+regular file
+
+/usr/include/linux/usb/cdc.h, typeflag=0
+regular file
+
+/usr/include/linux/usb/functionfs.h, typeflag=0
+regular file
+
+/usr/include/linux/usb/ch11.h, typeflag=0
+regular file
+
+/usr/include/linux/shm.h, typeflag=0
+regular file
+
+/usr/include/linux/meye.h, typeflag=0
+regular file
+
+/usr/include/linux/v4l2-mediabus.h, typeflag=0
+regular file
+
+/usr/include/linux/input.h, typeflag=0
+regular file
+
+/usr/include/linux/irqnr.h, typeflag=0
+regular file
+
+/usr/include/linux/eventpoll.h, typeflag=0
+regular file
+
+/usr/include/linux/stddef.h, typeflag=0
+regular file
+
+/usr/include/linux/x25.h, typeflag=0
+regular file
+
+/usr/include/linux/timex.h, typeflag=0
+regular file
+
+/usr/include/linux/dn.h, typeflag=0
+regular file
+
+/usr/include/linux/llc.h, typeflag=0
+regular file
+
+/usr/include/linux/if_fc.h, typeflag=0
+regular file
+
+/usr/include/linux/selinux_netlink.h, typeflag=0
+regular file
+
+/usr/include/linux/icmpv6.h, typeflag=0
+regular file
+
+/usr/include/linux/sctp.h, typeflag=0
+regular file
+
+/usr/include/linux/utsname.h, typeflag=0
+regular file
+
+/usr/include/linux/unistd.h, typeflag=0
+regular file
+
+/usr/include/linux/mtio.h, typeflag=0
+regular file
+
+/usr/include/linux/ethtool.h, typeflag=0
+regular file
+
+/usr/include/linux/veth.h, typeflag=0
+regular file
+
+/usr/include/linux/ncp.h, typeflag=0
+regular file
+
+/usr/include/linux/kexec.h, typeflag=0
+regular file
+
+/usr/include/linux/isdn_divertif.h, typeflag=0
+regular file
+
+/usr/include/linux/sysinfo.h, typeflag=0
+regular file
+
+/usr/include/linux/netconf.h, typeflag=0
+regular file
+
+/usr/include/linux/tiocl.h, typeflag=0
+regular file
+
+/usr/include/linux/unix_diag.h, typeflag=0
+regular file
+
+/usr/include/linux/ip_vs.h, typeflag=0
+regular file
+
+/usr/include/linux/gigaset_dev.h, typeflag=0
+regular file
+
+/usr/include/linux/falloc.h, typeflag=0
+regular file
+
+/usr/include/linux/dm-ioctl.h, typeflag=0
+regular file
+
+/usr/include/linux/sound.h, typeflag=0
+regular file
+
+/usr/include/linux/ipv6_route.h, typeflag=0
+regular file
+
+/usr/include/linux/isdnif.h, typeflag=0
+regular file
+
+/usr/include/linux/virtio_console.h, typeflag=0
+regular file
+
+/usr/include/linux/tcp_metrics.h, typeflag=0
+regular file
+
+/usr/include/linux/v4l2-controls.h, typeflag=0
+regular file
+
+/usr/include/linux/if_bridge.h, typeflag=0
+regular file
+
+/usr/include/linux/nfs_mount.h, typeflag=0
+regular file
+
+/usr/include/linux/vt.h, typeflag=0
+regular file
+
+/usr/include/linux/if_link.h, typeflag=0
+regular file
+
+/usr/include/linux/coda.h, typeflag=0
+regular file
+
+/usr/include/linux/sock_diag.h, typeflag=0
+regular file
+
+/usr/include/linux/wanrouter.h, typeflag=0
+regular file
+
+/usr/include/linux/route.h, typeflag=0
+regular file
+
+/usr/include/linux/bcm933xx_hcs.h, typeflag=0
+regular file
+
+/usr/include/linux/if_frad.h, typeflag=0
+regular file
+
+/usr/include/linux/if_addrlabel.h, typeflag=0
+regular file
+
+/usr/include/linux/if_bonding.h, typeflag=0
+regular file
+
+/usr/include/linux/uinput.h, typeflag=0
+regular file
+
+/usr/include/linux/kernelcapi.h, typeflag=0
+regular file
+
+/usr/include/linux/ultrasound.h, typeflag=0
+regular file
+
+/usr/include/linux/virtio_rng.h, typeflag=0
+regular file
+
+/usr/include/linux/coff.h, typeflag=0
+regular file
+
+/usr/include/linux/chio.h, typeflag=0
+regular file
+
+/usr/include/linux/gen_stats.h, typeflag=0
+regular file
+
+/usr/include/linux/hsi, typeflag=1
+other file
+
+/usr/include/linux/hsi/hsi_char.h, typeflag=0
+regular file
+
+/usr/include/linux/arcfb.h, typeflag=0
+regular file
+
+/usr/include/linux/edd.h, typeflag=0
+regular file
+
+/usr/include/linux/mmc, typeflag=1
+other file
+
+/usr/include/linux/mmc/ioctl.h, typeflag=0
+regular file
+
+/usr/include/linux/signalfd.h, typeflag=0
+regular file
+
+/usr/include/linux/uuid.h, typeflag=0
+regular file
+
+/usr/include/linux/b1lli.h, typeflag=0
+regular file
+
+/usr/include/linux/serial_core.h, typeflag=0
+regular file
+
+/usr/include/linux/pfkeyv2.h, typeflag=0
+regular file
+
+/usr/include/linux/dcbnl.h, typeflag=0
+regular file
+
+/usr/include/linux/atm.h, typeflag=0
+regular file
+
+/usr/include/linux/if_pppol2tp.h, typeflag=0
+regular file
+
+/usr/include/linux/posix_types.h, typeflag=0
+regular file
+
+/usr/include/linux/param.h, typeflag=0
+regular file
+
+/usr/include/linux/kvm_para.h, typeflag=0
+regular file
+
+/usr/include/linux/adfs_fs.h, typeflag=0
+regular file
+
+/usr/include/linux/cn_proc.h, typeflag=0
+regular file
+
+/usr/include/linux/cuda.h, typeflag=0
+regular file
+
+/usr/include/linux/sdla.h, typeflag=0
+regular file
+
+/usr/include/linux/cyclades.h, typeflag=0
+regular file
+
+/usr/include/linux/atmppp.h, typeflag=0
+regular file
+
+/usr/include/linux/random.h, typeflag=0
+regular file
+
+/usr/include/linux/tcp.h, typeflag=0
+regular file
+
+/usr/include/linux/genetlink.h, typeflag=0
+regular file
+
+/usr/include/linux/utime.h, typeflag=0
+regular file
+
+/usr/include/linux/kernel.h, typeflag=0
+regular file
+
+/usr/include/linux/if_x25.h, typeflag=0
+regular file
+
+/usr/include/linux/nvram.h, typeflag=0
+regular file
+
+/usr/include/linux/inet_diag.h, typeflag=0
+regular file
+
+/usr/include/linux/rtc.h, typeflag=0
+regular file
+
+/usr/include/linux/parport.h, typeflag=0
+regular file
+
+/usr/include/linux/ppp-comp.h, typeflag=0
+regular file
+
+/usr/include/linux/loop.h, typeflag=0
+regular file
+
+/usr/include/linux/isdn.h, typeflag=0
+regular file
+
+/usr/include/xlocale.h, typeflag=0
+regular file
+
+/usr/include/netax25, typeflag=1
+other file
+
+/usr/include/netax25/ax25.h, typeflag=0
+regular file
+
+/usr/include/syslog.h, typeflag=0
+regular file
+
+/usr/include/curses.h, typeflag=0
+regular file
+
+/usr/include/inttypes.h, typeflag=0
+regular file
+
+/usr/include/pwd.h, typeflag=0
+regular file
+
+/usr/include/assert.h, typeflag=0
+regular file
+
+/usr/include/aliases.h, typeflag=0
+regular file
+
+/usr/include/ar.h, typeflag=0
+regular file
+
+/usr/include/cifsidmap.h, typeflag=0
+regular file
+
+/usr/include/xen, typeflag=1
+other file
+
+/usr/include/xen/privcmd.h, typeflag=0
+regular file
+
+/usr/include/xen/evtchn.h, typeflag=0
+regular file
+
+/usr/include/pty.h, typeflag=0
+regular file
+
+/usr/include/cursslk.h, typeflag=0
+regular file
+
+/usr/include/utime.h, typeflag=0
+regular file
+
+/usr/include/form.h, typeflag=0
+regular file
+
+/usr/include/memory.h, typeflag=0
+regular file
+
+/usr/include/getopt.h, typeflag=0
+regular file
+
+ftw OK
