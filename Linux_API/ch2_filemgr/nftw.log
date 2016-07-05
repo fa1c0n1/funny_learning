@@ -1,0 +1,141 @@
+/home/suhao/github/funny_learning/Linux_API/ch2_filemgr
+other file
+the level:0, the base:44
+
+/home/suhao/github/funny_learning/Linux_API/ch2_filemgr/ftw
+regular file
+the level:1, the base:56
+
+/home/suhao/github/funny_learning/Linux_API/ch2_filemgr/ftw_log
+regular file
+the level:1, the base:56
+
+/home/suhao/github/funny_learning/Linux_API/ch2_filemgr/chroot.c
+regular file
+the level:1, the base:56
+
+/home/suhao/github/funny_learning/Linux_API/ch2_filemgr/lchown
+regular file
+the level:1, the base:56
+
+/home/suhao/github/funny_learning/Linux_API/ch2_filemgr/access.c
+regular file
+the level:1, the base:56
+
+/home/suhao/github/funny_learning/Linux_API/ch2_filemgr/test.txt
+regular file
+the level:1, the base:56
+
+/home/suhao/github/funny_learning/Linux_API/ch2_filemgr/chmod.c
+regular file
+the level:1, the base:56
+
+/home/suhao/github/funny_learning/Linux_API/ch2_filemgr/hardlink.c
+regular file
+the level:1, the base:56
+
+/home/suhao/github/funny_learning/Linux_API/ch2_filemgr/test2.txt
+regular file
+the level:1, the base:56
+
+/home/suhao/github/funny_learning/Linux_API/ch2_filemgr/alphasort.c
+regular file
+the level:1, the base:56
+
+/home/suhao/github/funny_learning/Linux_API/ch2_filemgr/getcwd
+regular file
+the level:1, the base:56
+
+/home/suhao/github/funny_learning/Linux_API/ch2_filemgr/chdir.c
+regular file
+the level:1, the base:56
+
+/home/suhao/github/funny_learning/Linux_API/ch2_filemgr/test_BAK2.txt
+regular file
+the level:1, the base:56
+
+/home/suhao/github/funny_learning/Linux_API/ch2_filemgr/nftw
+regular file
+the level:1, the base:56
+
+/home/suhao/github/funny_learning/Linux_API/ch2_filemgr/getcwd.c
+regular file
+the level:1, the base:56
+
+/home/suhao/github/funny_learning/Linux_API/ch2_filemgr/ftruncate
+regular file
+the level:1, the base:56
+
+/home/suhao/github/funny_learning/Linux_API/ch2_filemgr/fstat.c
+regular file
+the level:1, the base:56
+
+/home/suhao/github/funny_learning/Linux_API/ch2_filemgr/lstat
+regular file
+the level:1, the base:56
+
+/home/suhao/github/funny_learning/Linux_API/ch2_filemgr/nftw.c
+regular file
+the level:1, the base:56
+
+/home/suhao/github/funny_learning/Linux_API/ch2_filemgr/hard_link_test.txt
+regular file
+the level:1, the base:56
+
+/home/suhao/github/funny_learning/Linux_API/ch2_filemgr/test_BAK.txt
+regular file
+the level:1, the base:56
+
+/home/suhao/github/funny_learning/Linux_API/ch2_filemgr/ftruncate.c
+regular file
+the level:1, the base:56
+
+/home/suhao/github/funny_learning/Linux_API/ch2_filemgr/lchown.c
+regular file
+the level:1, the base:56
+
+/home/suhao/github/funny_learning/Linux_API/ch2_filemgr/chown.c
+regular file
+the level:1, the base:56
+
+/home/suhao/github/funny_learning/Linux_API/ch2_filemgr/AAA.log
+regular file
+the level:1, the base:56
+
+/home/suhao/github/funny_learning/Linux_API/ch2_filemgr/get_current_dir_name.c
+regular file
+the level:1, the base:56
+
+/home/suhao/github/funny_learning/Linux_API/ch2_filemgr/hardlink
+regular file
+the level:1, the base:56
+
+/home/suhao/github/funny_learning/Linux_API/ch2_filemgr/test3.txt
+regular file
+the level:1, the base:56
+
+/home/suhao/github/funny_learning/Linux_API/ch2_filemgr/h_test.txt
+regular file
+the level:1, the base:56
+
+/home/suhao/github/funny_learning/Linux_API/ch2_filemgr/lstat.c
+regular file
+the level:1, the base:56
+
+/home/suhao/github/funny_learning/Linux_API/ch2_filemgr/tags
+regular file
+the level:1, the base:56
+
+/home/suhao/github/funny_learning/Linux_API/ch2_filemgr/get_current_dir_name
+regular file
+the level:1, the base:56
+
+/home/suhao/github/funny_learning/Linux_API/ch2_filemgr/l_test.txt
+other file
+the level:1, the base:56
+
+/home/suhao/github/funny_learning/Linux_API/ch2_filemgr/ftw.c
+regular file
+the level:1, the base:56
+
+nftw OK
