@@ -43,6 +43,9 @@ arithmetic/aout/
 
 ###### Java.gitignore ########
 *.class
+bin/
+gen/
+obj/
 
 # Mobile Tools for Java (J2ME)
 .mtj.tmp/
