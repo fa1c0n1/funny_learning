@@ -8,27 +8,28 @@
 #include <dirent.h>
 #include <errno.h>
 
-#define STRINF_SIZE    128
+/*
+	setlinebuf(FILE *stream) 函数设置参数stream指定的流文件为行缓冲的类型，
+	一般文件的默认缓冲模式为页缓冲，设置为行缓冲后，对文件的读写都是以行为单位
+	进行
+*/
 
 int main(void)
 {
 	FILE *fp;
-	char str[STRINF_SIZE];
+	char str[80];
 
 	if((fp = fopen("test", "r")) == NULL) {
 		perror("fail to fopen");
 		exit(1);
 	}
 
-	memset(str, 0, sizeof(str));
-	if(fread(str, sizeof(char), STRINF_SIZE, fp) != STRINF_SIZE) {
-		if(!feof(fp)) {
-			printf("File read error. ");
-			exit(1);
-		}
+	setlinebuf(fp);
+	while(!feof(fp)) {
+		fgets(str, sizeof(str), fp);
+		fputs(str, stdout);
 	}
 
-	fwrite(str, sizeof(char), strlen(str), stdout);
 	fclose(fp);
 
 	return 0;
