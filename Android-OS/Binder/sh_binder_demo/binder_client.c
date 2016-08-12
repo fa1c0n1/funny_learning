@@ -73,12 +73,12 @@ int main(int argc, char **argv)
     g_bs = bs;
     handle = svcmgr_lookup(bs, svcmgr, "hello_world");
     if (!handle) {
-        printf( "failed to get hello service\n");
+        printf( "failed to get hello_world service\n");
         return -1;
     }
     g_hello_world_handle = handle;
 
-    ret = hello_world("abcdefg");
+    ret = hello_world("Hello Binder!");
 
     printf("hello_world = %d.\n", ret);
     return 0;
