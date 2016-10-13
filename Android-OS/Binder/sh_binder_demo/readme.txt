@@ -1,0 +1,1 @@
+该Demo是在Android源码目录下frameworks/native/cmds/servicemanager/ 下的bctest的基础上改的.
