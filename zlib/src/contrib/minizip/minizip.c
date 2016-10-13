@@ -264,6 +264,11 @@ void rm_first_dir_level(char *src_path, char *dest_path)
       dest_path[j+1] = '\0';
 }
 
+extern void zipToApk(const char *dir)
+{
+        
+}
+
 
 int main(argc,argv)
     int argc;
