@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<classpath>
+	<classpathentry kind="src" path="src"/>
+	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER/org.eclipse.jdt.internal.debug.ui.launcher.StandardVMType/JavaSE-1.7">
+		<accessrules>
+			<accessrule kind="accessible" pattern="**"/>
+		</accessrules>
+	</classpathentry>
+	<classpathentry kind="lib" path="lib/bcprov-jdk15on-1.49.jar" sourcepath="F:/old_Software/ToolsSoft/java加解密扩展包/bcprov-jdk15on-1.49-sources.jar"/>
+	<classpathentry kind="lib" path="lib/commons-codec-1.10.jar" sourcepath="F:/old_Software/ToolsSoft/java加解密扩展包/commons-codec-1.10-src.zip"/>
+	<classpathentry kind="output" path="bin"/>
+</classpath>
