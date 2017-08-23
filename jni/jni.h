@@ -24,7 +24,7 @@
 #ifndef JNI_H_
 #define JNI_H_
 
-#include <stdarg.h>
+//comment for IDA Pro: #include <stdarg.h>
 
 /*
  * Primitive types that match up with Java equivalents.
@@ -1049,15 +1049,15 @@ struct _JNIEnv {
  * JNI invocation interface.
  */
 struct JNIInvokeInterface {
-    void*       reserved0;
-    void*       reserved1;
-    void*       reserved2;
+    /*0*/void*       reserved0;
+    /*1*/void*       reserved1;
+    /*2*/void*       reserved2;
 
-    jint        (*DestroyJavaVM)(JavaVM*);
-    jint        (*AttachCurrentThread)(JavaVM*, JNIEnv**, void*);
-    jint        (*DetachCurrentThread)(JavaVM*);
-    jint        (*GetEnv)(JavaVM*, void**, jint);
-    jint        (*AttachCurrentThreadAsDaemon)(JavaVM*, JNIEnv**, void*);
+    /*3*/jint        (*DestroyJavaVM)(JavaVM*);
+    /*4*/jint        (*AttachCurrentThread)(JavaVM*, JNIEnv**, void*);
+    /*5*/jint        (*DetachCurrentThread)(JavaVM*);
+    /*6*/jint        (*GetEnv)(JavaVM*, void**, jint);
+    /*7*/jint        (*AttachCurrentThreadAsDaemon)(JavaVM*, JNIEnv**, void*);
 };
 
 /*
@@ -1119,7 +1119,7 @@ jint JNI_GetCreatedJavaVMs(JavaVM**, jsize, jsize*);
 #endif
 
 #define JNIIMPORT
-#define JNIEXPORT  __attribute__ ((visibility ("default")))
+#define JNIEXPORT  //comment for IDA Pro: __attribute__ ((visibility ("default")))
 #define JNICALL
 
 /*
