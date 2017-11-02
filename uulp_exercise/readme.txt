@@ -39,4 +39,23 @@ Chapter 3
 
 Chapter 4
 
+4.14    --> mkdir -p demodir/a demodir/c/d1 demodir/c/d2
+4.15    --> gcc mkdir01.c -o mkdir01
+4.16    --> gcc mv01.c -o mv01
+4.17
+    int link_based_rename(char *oldname, char *newname)
+    {
+        if (link(oldname, newname) != -1) {
+            if (unlink(oldname) == -1) {
+                unlink(newname); 
+                return -1;
+            } 
+            return 0;
+        }
+        return -1;
+    }
+
+4.18 (暂略)
+4.19 (暂略)
+4.20    --> gcc ls05.c -o ls05
 
