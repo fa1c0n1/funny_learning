@@ -59,3 +59,23 @@ Chapter 4
 4.19 (暂略)
 4.20    --> gcc ls05.c -o ls05
 
+
+Chapter 5
+
+5.22    --> gcc write01.c utmplib.c -o write01
+          then, execute flowing command:
+            sudo chgrp tty write01 && sudo chmod g+s write01
+5.23    --> gcc mesg01.c -o mesg01
+5.24 (暂略)
+5.25 (暂略)
+5.26 (暂略)
+5.27 (暂略)
+5.28    --> gcc uppercase.c -o uppercase
+5.29    --> gcc more02.c -o more02
+
+
+Chapter 6
+
+
+
+
