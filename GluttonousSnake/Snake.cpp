@@ -110,8 +110,24 @@ bool Snake::eatFood(Food &food)
 	Point snakeTail = this->m_dqSnake.back();
 	if (snakeHead.getX() == food.getX() && snakeHead.getY() == food.getY()) {
 		this->m_dqSnake.emplace_back(Point(snakeTail));
+		this->m_nScore += 10;
 		return true;
 	}
 
 	return false;
+}
+
+void Snake::setScore(int nScore)
+{
+	this->m_nScore = nScore;
+}
+
+void Snake::addScore(int nScore)
+{
+	this->m_nScore += nScore;
+}
+
+int Snake::getScore()
+{
+	return this->m_nScore;
 }

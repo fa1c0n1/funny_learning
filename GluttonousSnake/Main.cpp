@@ -8,6 +8,5 @@ int main(void)
 	Controller ctrl;
 	ctrl.launchGame();
 	
-	system("pause");
 	return 0;
 }

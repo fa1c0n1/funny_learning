@@ -20,7 +20,17 @@ private:
 	void initGame();
 	void playGame();
 	void prnOptionText(GameLevel glevel);
+	void drawInfoPanel();
+	void drawGameLevelInfo(GameLevel glevel);
+	void drawScoreInfo(Snake &snake);
+	void showSubMenu();
+	void prnSubOptionText(SubMenuOption opt);
+	void eraseSubMenu();
 
 	GameLevel m_eGLevel;
+	SubMenuOption m_eSubOpt;
+	bool m_bPause;
+	bool m_bExit;
+	bool m_bRestart;
 };
 

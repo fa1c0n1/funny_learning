@@ -22,6 +22,9 @@ public:
 	bool checkCrashWall();
 	deque<Point> getSnake();
 	bool eatFood(Food &food);
+	void setScore(int nScore);
+	void addScore(int nScore);
+	int getScore();
 
 	bool m_bDead;
 private:

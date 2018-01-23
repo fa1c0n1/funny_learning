@@ -15,6 +15,12 @@ typedef enum {
 	DRT_RIGHT
 } Direction;
 
+typedef enum {
+	SMOP_CONTINUE,
+	SMOP_RESTART,
+	SMOP_QUIT
+} SubMenuOption;
+
 //前景色
 #define FG_BLUE             0x0001
 #define FG_GREEN            0x0002
@@ -51,6 +57,7 @@ typedef enum {
 
 //按键值
 #define KEY_ENTER           13
+#define KEY_EXIT            27
 #define KEY_UP              72
 #define KEY_DOWN            80
 #define KEY_LEFT            75
