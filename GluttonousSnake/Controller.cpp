@@ -82,7 +82,8 @@ void Controller::showMenu()
 	DrawTool::SetCursorPosition(7, 28);
 	cout << "<使用上下键进行选择，回车确认>" << endl;
 
-	prnOptionText(GL_EASY);
+	this->m_eGLevel = GL_EASY;
+	prnOptionText(this->m_eGLevel);
 
 	while (true)
 	{
