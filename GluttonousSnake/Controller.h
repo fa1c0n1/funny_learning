@@ -3,6 +3,7 @@
 #include "Comm.h"
 #include "Food.h"
 #include "Snake.h"
+#include "GameMap.h"
 
 class Controller
 {
@@ -13,6 +14,7 @@ public:
 	
 	Snake *m_pSnake;
 	Food *m_pFood;
+	GameMap *m_pGMap;
 	
 private:
 	void showAnim();
@@ -34,6 +36,5 @@ private:
 	SubMenuOption m_eSubOpt;
 	bool m_bPause;
 	bool m_bExit;
-	bool m_bRestart;
 };
 

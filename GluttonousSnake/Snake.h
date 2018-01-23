@@ -3,6 +3,7 @@
 #include "Comm.h"
 #include "Point.h"
 #include "Food.h"
+#include "GameMap.h"
 
 #include <deque>
 
@@ -19,7 +20,7 @@ public:
 	Direction getDirection();
 	void move();
 	void show();
-	bool checkCrashWall();
+	bool checkCrashWall(GameMap &gMap);
 	deque<Point> getSnake();
 	bool eatFood(Food &food);
 	void setScore(int nScore);

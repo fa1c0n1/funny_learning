@@ -2,6 +2,7 @@
 
 #include "Point.h"
 #include "Comm.h"
+#include "Barrier.h"
 
 #include <vector>
 
@@ -13,8 +14,12 @@ public:
 	GameMap(GameLevel level);
 	~GameMap();
 	void prnMap();
+	Barrier *getBarrier();
 private:
+	void arrangeBarriers();
+
 	vector<Point> vtMap;
+	Barrier *m_pBarrier;
 	GameLevel m_eGLevel;
 	int m_nSideLen;
 };

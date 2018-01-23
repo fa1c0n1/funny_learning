@@ -18,9 +18,10 @@ Food::~Food()
 {
 }
 	
-void Food::show(Snake &snake)
+void Food::show(Snake &snake, GameMap &gMap)
 {
 	deque<Point> dqSnake = snake.getSnake();
+	vector<Point> vtBarrier = gMap.getBarrier()->getBarriers();
 	bool bConcident = false;
 	while (true) {
 		srand((unsigned int)time(NULL));
@@ -34,10 +35,22 @@ void Food::show(Snake &snake)
 			}
 		}
 
-		if (bConcident)
+		if (bConcident) {
 			continue;
-		else 
-			break;
+		}
+		else {
+			for (auto &point : vtBarrier) {
+				if (this->m_nX == point.getX() && this->m_nY == point.getY()) {
+					bConcident = true;
+					break;
+				}
+			}
+
+			if (bConcident)
+				continue;
+			else
+				break;
+		}
 	}
 
 	DrawTool::SetColor(FG_LIGHTPURPLE);

@@ -92,14 +92,20 @@ deque<Point> Snake::getSnake()
 	return this->m_dqSnake;
 }
 
-bool Snake::checkCrashWall()
+bool Snake::checkCrashWall(GameMap &gMap)
 {
 	Point snakeHead = this->m_dqSnake.front();
+	vector<Point> vtBarriers = gMap.getBarrier()->getBarriers();
 	int nX = snakeHead.getX();
 	int nY = snakeHead.getY();
 
 	if (nX <= 1 || nX >= 32 || nY <= 1 || nY >= 32)
 		return true;
+
+	for (auto &point : vtBarriers) {
+		if (nX == point.getX() && nY == point.getY())
+			return true;
+	}
 
 	return false;
 }

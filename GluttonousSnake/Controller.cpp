@@ -14,22 +14,14 @@
 using namespace std;
 
 Controller::Controller()
-	: m_pFood(nullptr), m_pSnake(nullptr), m_bPause(false), m_bExit(false),
-	m_eGLevel(GL_EASY), m_eSubOpt(SMOP_RESTART)
+	: m_pFood(nullptr), m_pSnake(nullptr), m_pGMap(nullptr), 
+	m_bPause(false), m_bExit(false), m_eGLevel(GL_EASY), m_eSubOpt(SMOP_RESTART)
 {
 }
 
 Controller::~Controller()
 {
-	if (this->m_pFood != nullptr) {
-		delete this->m_pFood;
-		this->m_pFood = nullptr;
-	}
-
-	if (this->m_pSnake != nullptr) {
-		delete this->m_pSnake;
-		this->m_pSnake = nullptr;
-	}
+	this->freeGameRes();
 }
 
 void Controller::freeGameRes()
@@ -42,6 +34,11 @@ void Controller::freeGameRes()
 	if (this->m_pSnake != nullptr) {
 		delete this->m_pSnake;
 		this->m_pSnake = nullptr;
+	}
+
+	if (this->m_pGMap != nullptr) {
+		delete this->m_pGMap;
+		this->m_pGMap = nullptr;
 	}
 }
 
@@ -121,9 +118,10 @@ void Controller::showMenu()
 				system("cls");
 				break;
 			}
-		} 
-
-		Sleep(50);
+		}
+		else {
+			Sleep(50);
+		}
 	}
 }
 
@@ -162,8 +160,8 @@ void Controller::initGame()
 {
 	this->m_bExit = this->m_bPause = false;
 
-	GameMap gMap(this->m_eGLevel);
-	gMap.prnMap();
+	this->m_pGMap = new GameMap(this->m_eGLevel);
+	this->m_pGMap->prnMap();
 
 	drawInfoPanel();
 }
@@ -229,7 +227,7 @@ void Controller::playGame()
 	this->m_pSnake->show();
 
 	this->m_pFood = new Food;
-	this->m_pFood->show(*this->m_pSnake);
+	this->m_pFood->show(*this->m_pSnake, *this->m_pGMap);
 
 	while (!this->m_pSnake->m_bDead && !this->m_bExit)
 	{
@@ -278,16 +276,16 @@ void Controller::playGame()
 			delete this->m_pFood;
 			this->m_pFood = nullptr;
 			this->m_pFood = new Food;
-			this->m_pFood->show(*this->m_pSnake);
+			this->m_pFood->show(*this->m_pSnake, *this->m_pGMap);
 		}
-		this->m_pSnake->m_bDead = this->m_pSnake->checkCrashWall();
 
+		this->m_pSnake->m_bDead = this->m_pSnake->checkCrashWall(*this->m_pGMap);
 		if (this->m_pSnake->m_bDead) {
 			showGameOverPrompt(*this->m_pSnake);
 			break;
 		}
 
-		Sleep(150);
+		Sleep((4 - (int)this->m_eGLevel) * 50);
 	}
 }
 
@@ -327,8 +325,10 @@ void Controller::showSubMenu()
 				break;
 			}
 		}
+		else {
+			Sleep(50);
+		}
 			
-		Sleep(50);
 	}
 }
 
@@ -433,10 +433,10 @@ void Controller::showGameOverPrompt(Snake &snake)
 				break;
 			}
 		}
-
-		Sleep(50);
+		else {
+			Sleep(50);
+		}
 	}
-
 }
 
 void Controller::prnGameOverOptionText(SubMenuOption opt)

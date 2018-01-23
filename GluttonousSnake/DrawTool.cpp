@@ -33,3 +33,11 @@ void DrawTool::SetBgColor()//设置文本背景色
 		BACKGROUND_GREEN |
 		BACKGROUND_RED);
 }
+
+void DrawTool::ShowCursor(bool bShow) //控制光标是否显示
+{
+	CONSOLE_CURSOR_INFO cci;
+	cci.dwSize = 1;
+	cci.bVisible = bShow;
+	SetConsoleCursorInfo(GetStdHandle(STD_OUTPUT_HANDLE), &cci);
+}

@@ -1,6 +1,7 @@
 #pragma once
 
 #include "Snake.h"
+#include "GameMap.h"
 
 class Snake;
 
@@ -11,7 +12,7 @@ public:
 	~Food();
 	int getX();
 	int getY();
-	void show(Snake &snake);
+	void show(Snake &snake, GameMap &gMap);
 private:
 	int m_nX, m_nY;
 };
