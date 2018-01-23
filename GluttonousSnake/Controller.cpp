@@ -82,19 +82,7 @@ void Controller::showMenu()
 	DrawTool::SetCursorPosition(7, 28);
 	cout << "<使用上下键进行选择，回车确认>" << endl;
 
-	DrawTool::SetBgColor();
-	DrawTool::SetCursorPosition(30, 28);
-	cout << "简单模式" << endl;
-
-	DrawTool::SetColor(FG_GREEN);
-	DrawTool::SetCursorPosition(30, 30);
-	cout << "普通模式" << endl;
-
-	DrawTool::SetCursorPosition(30, 32);
-	cout << "困难模式" << endl;
-
-	//DrawTool::SetCursorPosition(30, 34);
-	//cout << "退出游戏" << endl;
+	prnOptionText(GL_EASY);
 
 	while (true)
 	{
