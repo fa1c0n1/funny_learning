@@ -25,7 +25,10 @@ private:
 	void drawScoreInfo(Snake &snake);
 	void showSubMenu();
 	void prnSubOptionText(SubMenuOption opt);
+	void showGameOverPrompt(Snake &snake);
+	void prnGameOverOptionText(SubMenuOption opt);
 	void eraseSubMenu();
+	void freeGameRes();
 
 	GameLevel m_eGLevel;
 	SubMenuOption m_eSubOpt;

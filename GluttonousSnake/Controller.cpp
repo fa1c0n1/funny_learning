@@ -32,6 +32,19 @@ Controller::~Controller()
 	}
 }
 
+void Controller::freeGameRes()
+{
+	if (this->m_pFood != nullptr) {
+		delete this->m_pFood;
+		this->m_pFood = nullptr;
+	}
+
+	if (this->m_pSnake != nullptr) {
+		delete this->m_pSnake;
+		this->m_pSnake = nullptr;
+	}
+}
+
 void Controller::launchGame()
 {
 	this->showAnim();
@@ -41,6 +54,8 @@ void Controller::launchGame()
 		this->showMenu();
 		this->initGame();
 		this->playGame();
+		this->freeGameRes();
+		DrawTool::SetColor(0);
 		system("cls");
 	}
 }
@@ -61,6 +76,7 @@ void Controller::showAnim()
 
 void Controller::showMenu()
 {
+	DrawTool::SetColor(FG_GREEN);
 	DrawTool::SetCursorPosition(7, 27);
 	cout << "请选择游戏难度: " << endl;
 	DrawTool::SetCursorPosition(7, 28);
@@ -80,9 +96,7 @@ void Controller::showMenu()
 	//DrawTool::SetCursorPosition(30, 34);
 	//cout << "退出游戏" << endl;
 
-	this->m_bExit = this->m_bPause = false;
-
-	while (!this->m_bExit)
+	while (true)
 	{
 		if (_kbhit()) {
 			int key = _getch();
@@ -118,9 +132,9 @@ void Controller::showMenu()
 				system("cls");
 				break;
 			}
-		} else {
-			Sleep(50);
-		}
+		} 
+
+		Sleep(50);
 	}
 }
 
@@ -157,6 +171,8 @@ void Controller::prnOptionText(GameLevel glevel)
 
 void Controller::initGame()
 {
+	this->m_bExit = this->m_bPause = false;
+
 	GameMap gMap(this->m_eGLevel);
 	gMap.prnMap();
 
@@ -276,6 +292,12 @@ void Controller::playGame()
 			this->m_pFood->show(*this->m_pSnake);
 		}
 		this->m_pSnake->m_bDead = this->m_pSnake->checkCrashWall();
+
+		if (this->m_pSnake->m_bDead) {
+			showGameOverPrompt(*this->m_pSnake);
+			break;
+		}
+
 		Sleep(150);
 	}
 }
@@ -316,9 +338,8 @@ void Controller::showSubMenu()
 				break;
 			}
 		}
-		else {
-			Sleep(50);
-		}
+			
+		Sleep(50);
 	}
 }
 
@@ -363,6 +384,92 @@ void Controller::prnSubOptionText(SubMenuOption opt)
 		cout << "退出游戏" << endl;
 		break;
 	}
+}
 
+void Controller::showGameOverPrompt(Snake &snake)
+{
+	DrawTool::SetColor(FG_LIGHTRED);
+	DrawTool::SetCursorPosition(7, 7);
+	cout << "━━━━━━━━━━━━━━━━━━━━━━";
+	DrawTool::SetCursorPosition(7, 8);
+	cout << "┃               GAME OVER                ┃";
+	DrawTool::SetCursorPosition(7, 9);
+	cout << "┃                                        ┃";
+	DrawTool::SetCursorPosition(7, 10);
+	cout << "┃       胜败乃兵家常事, 请从头再来！     ┃";
+	DrawTool::SetCursorPosition(7, 11);
+	cout << "┃                                        ┃";
+	DrawTool::SetCursorPosition(7, 12);
+	cout << "┃          你的分数为： " << setw(8) << snake.getScore() << "         ┃";
+	DrawTool::SetCursorPosition(7, 13);
+	cout << "┃                                        ┃";
+	DrawTool::SetCursorPosition(7, 14);
+	cout << "┃     是否再次挑战？                     ┃";
+	DrawTool::SetCursorPosition(7, 15);
+	cout << "┃                                        ┃";
+	DrawTool::SetCursorPosition(7, 16);
+	cout << "┃                                        ┃";
+	DrawTool::SetCursorPosition(7, 17);
+	cout << "┃                                        ┃";
+	DrawTool::SetCursorPosition(7, 18);
+	cout << "┃                                        ┃";
+	DrawTool::SetCursorPosition(7, 19);
+	cout << "┃                                        ┃";
+	DrawTool::SetCursorPosition(7, 20);
+	cout << "┃━━━━━━━━━━━━━━━━━━━━┃";
+
+	this->m_eSubOpt = SMOP_RESTART;
+	prnGameOverOptionText(this->m_eSubOpt);
+	
+	while (true)
+	{
+		if (_kbhit()) {
+			int key = _getch();
+			if (key == KEY_DIRECTION) {
+				int op = _getch();
+				if (op == KEY_LEFT) {
+					if (this->m_eSubOpt == SMOP_QUIT) {
+						this->m_eSubOpt = SMOP_RESTART;
+						prnGameOverOptionText(SMOP_RESTART);
+					}
+				}
+				else if (op == KEY_RIGHT) {
+					if (this->m_eSubOpt == SMOP_RESTART) {
+						this->m_eSubOpt = SMOP_QUIT;
+						prnGameOverOptionText(SMOP_QUIT);
+					}
+				}
+			}
+			else if (key == KEY_ENTER) {
+				break;
+			}
+		}
+
+		Sleep(50);
+	}
+
+}
+
+void Controller::prnGameOverOptionText(SubMenuOption opt)
+{
+	DrawTool::SetColor(FG_LIGHTRED);
+	DrawTool::SetCursorPosition(11, 17);
+	cout << "是，继续挑战" << endl;
+	DrawTool::SetCursorPosition(19, 17);
+	cout << "否，退出游戏" << endl;
+
+	switch (opt)
+	{
+	case SMOP_RESTART:
+		DrawTool::SetBgColor();
+		DrawTool::SetCursorPosition(11, 17);
+		cout << "是，继续挑战" << endl;
+		break;
+	case SMOP_QUIT:
+		DrawTool::SetBgColor();
+		DrawTool::SetCursorPosition(19, 17);
+		cout << "否，退出游戏" << endl;
+		break;
+	}
 }
 

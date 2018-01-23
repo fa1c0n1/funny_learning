@@ -32,6 +32,6 @@ private:
 	int m_nScore;
 	Direction m_eDrt;
 	deque<Point> m_dqSnake;
-	Point *m_ptPrev;
+	Point *m_ptPrev; //用于遍历蛇身时指向前一个身体 Point
 };
 
