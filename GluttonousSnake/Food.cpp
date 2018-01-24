@@ -22,6 +22,8 @@ void Food::show(Snake &snake, GameMap &gMap)
 {
 	deque<Point> dqSnake = snake.getSnake();
 	vector<Point> vtBarrier = gMap.getBarrier()->getBarriers();
+	set<Point, PointLess> barrierSet = gMap.getBarrier()->getCustomBarriers();
+
 	while (true) 
 	{
 		bool bConcident = false;
@@ -40,10 +42,20 @@ void Food::show(Snake &snake, GameMap &gMap)
 			continue;
 		}
 		else {
-			for (auto &point : vtBarrier) {
-				if (this->m_nX == point.getX() && this->m_nY == point.getY()) {
-					bConcident = true;
-					break;
+			if (barrierSet.empty()) {
+				for (auto &point : vtBarrier) {
+					if (this->m_nX == point.getX() && this->m_nY == point.getY()) {
+						bConcident = true;
+						break;
+					}
+				}
+			}
+			else {
+				for (auto point : barrierSet) {
+					if (this->m_nX == point.getX() && this->m_nY == point.getY()) {
+						bConcident = true;
+						break;
+					}
 				}
 			}
 

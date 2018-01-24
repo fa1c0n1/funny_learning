@@ -3,8 +3,8 @@
 
 #include <windows.h>
 
-GameMap::GameMap(GameLevel level, bool bCustom)
-	: m_eGLevel(level), m_nSideLen(32), m_bCustom(bCustom)
+GameMap::GameMap(GameLevel level)
+	: m_eGLevel(level), m_nSideLen(32)
 {
 	// ×ó±ßµÄÇ½
 	for (int i = 1; i <= this->m_nSideLen; i++) {

@@ -89,28 +89,28 @@ void Controller::showMenu()
 			if (key == KEY_DIRECTION) {  //方向键
 				int op = _getch();
 				if (op == KEY_UP) { //按上键
-					if (this->m_eGLevel == GL_EASY)
-						continue;
+					if (this->m_eGLevel == GL_EASY) {
+						this->m_eGLevel = GL_HARD;
+					}
 					else if (this->m_eGLevel == GL_NORMAL) {
 						this->m_eGLevel = GL_EASY;
-						prnOptionText(GL_EASY);
 					}
 					else if (this->m_eGLevel == GL_HARD) {
 						this->m_eGLevel = GL_NORMAL;
-						prnOptionText(GL_NORMAL);
 					}
+					prnOptionText(this->m_eGLevel);
 				}
 				else if (op == KEY_DOWN) {
-					if (this->m_eGLevel == GL_HARD)
-						continue;
+					if (this->m_eGLevel == GL_HARD) {
+						this->m_eGLevel = GL_EASY;
+					}
 					else if (this->m_eGLevel == GL_EASY) {
 						this->m_eGLevel = GL_NORMAL;
-						prnOptionText(GL_NORMAL);
 					}
 					else if (this->m_eGLevel == GL_NORMAL) {
 						this->m_eGLevel = GL_HARD;
-						prnOptionText(GL_HARD);
 					}
+					prnOptionText(this->m_eGLevel);
 				}
 			}
 			else if (key == KEY_ENTER) { //回车键
@@ -152,16 +152,12 @@ bool Controller::customMapPrompt()
 			if (key == KEY_DIRECTION) {
 				int op = _getch();
 				if (op == KEY_LEFT) {
-					if (!bRet) {
-						bRet = true;
-						prnCustomMapOptionText(bRet);
-					}
+					bRet = !bRet;
+					prnCustomMapOptionText(bRet);
 				}
 				else if (op == KEY_RIGHT) {
-					if (bRet) {
-						bRet = false;
-						prnCustomMapOptionText(bRet);
-					}
+					bRet = !bRet;
+					prnCustomMapOptionText(bRet);
 				}
 			}
 			else if (key == KEY_ENTER) {
@@ -491,22 +487,26 @@ void Controller::showSubMenu()
 				if (op == KEY_UP) { //按上键
 					if (this->m_eSubOpt == SMOP_RESTART) {
 						this->m_eSubOpt = SMOP_CONTINUE;
-						prnSubOptionText(SMOP_CONTINUE);
 					}
 					else if (this->m_eSubOpt == SMOP_QUIT) {
 						this->m_eSubOpt = SMOP_RESTART;
-						prnSubOptionText(SMOP_RESTART);
 					}
+					else if (this->m_eSubOpt == SMOP_CONTINUE) {
+						this->m_eSubOpt = SMOP_QUIT;
+					}
+					prnSubOptionText(this->m_eSubOpt);
 				}
 				else if (op == KEY_DOWN) { //按下键
 					if (this->m_eSubOpt == SMOP_CONTINUE) {
 						this->m_eSubOpt = SMOP_RESTART;
-						prnSubOptionText(SMOP_RESTART);
 					}
 					else if (this->m_eSubOpt == SMOP_RESTART) {
 						this->m_eSubOpt = SMOP_QUIT;
-						prnSubOptionText(SMOP_QUIT);
 					}
+					else if (this->m_eSubOpt == SMOP_QUIT) {
+						this->m_eSubOpt = SMOP_CONTINUE;
+					}
+					prnSubOptionText(this->m_eSubOpt);
 				}
 			}
 			else if (key == KEY_ENTER) {
@@ -607,15 +607,20 @@ void Controller::showGameOverPrompt(Snake &snake)
 				if (op == KEY_LEFT) {
 					if (this->m_eSubOpt == SMOP_QUIT) {
 						this->m_eSubOpt = SMOP_RESTART;
-						prnGameOverOptionText(SMOP_RESTART);
+					}
+					else if (this->m_eSubOpt == SMOP_RESTART) {
+						this->m_eSubOpt = SMOP_QUIT;
 					}
 				}
 				else if (op == KEY_RIGHT) {
 					if (this->m_eSubOpt == SMOP_RESTART) {
 						this->m_eSubOpt = SMOP_QUIT;
-						prnGameOverOptionText(SMOP_QUIT);
+					}
+					else if (this->m_eSubOpt == SMOP_QUIT) {
+						this->m_eSubOpt = SMOP_RESTART;
 					}
 				}
+				prnGameOverOptionText(this->m_eSubOpt);
 			}
 			else if (key == KEY_ENTER) {
 				break;

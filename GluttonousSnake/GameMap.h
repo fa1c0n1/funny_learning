@@ -11,7 +11,7 @@ using namespace std;
 class GameMap
 {
 public:
-	GameMap(GameLevel level, bool bCustom = false);
+	GameMap(GameLevel level);
 	~GameMap();
 	void prnMap();
 	void prnOnlyWall();
@@ -23,6 +23,5 @@ private:
 	Barrier *m_pBarrier;
 	GameLevel m_eGLevel;
 	int m_nSideLen;
-	bool m_bCustom;
 };
 
