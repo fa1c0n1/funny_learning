@@ -3,8 +3,8 @@
 #include "DrawTool.h"
 
 Snake::Snake()
-	: m_nLifeVal(1), m_eDrt(DRT_UP), m_bDead(false), m_ptPrev(nullptr),
-	m_nScore(0)
+	: m_nLifeVal(SNAKE_INIT_LIFE), m_eDrt(DRT_UP), m_bDead(false), 
+	m_ptPrev(nullptr), m_nScore(0)
 {
 	this->m_dqSnake.emplace_back(Point(25, 28));
 	this->m_dqSnake.emplace_back(Point(25, 29));
@@ -92,19 +92,33 @@ deque<Point> Snake::getSnake()
 	return this->m_dqSnake;
 }
 
-bool Snake::checkCrashWall(GameMap &gMap)
+bool Snake::checkCrashWall()
 {
 	Point snakeHead = this->m_dqSnake.front();
-	vector<Point> vtBarriers = gMap.getBarrier()->getBarriers();
 	int nX = snakeHead.getX();
 	int nY = snakeHead.getY();
 
-	if (nX <= 1 || nX >= 32 || nY <= 1 || nY >= 32)
+	if (nX <= 1 || nX >= 32 || nY <= 1 || nY >= 32) {
+		this->m_nLifeVal = 0;
 		return true;
+	}
+
+
+	return false;
+}
+
+bool Snake::checkCrashBarrier(GameMap &gMap)
+{
+	vector<Point> vtBarriers = gMap.getBarrier()->getBarriers();
+	Point snakeHead = this->m_dqSnake.front();
+	int nX = snakeHead.getX();
+	int nY = snakeHead.getY();
 
 	for (auto &point : vtBarriers) {
-		if (nX == point.getX() && nY == point.getY())
+		if (nX == point.getX() && nY == point.getY()) {
+			this->m_nLifeVal -= 1;
 			return true;
+		}
 	}
 
 	return false;
@@ -136,4 +150,9 @@ void Snake::addScore(int nScore)
 int Snake::getScore()
 {
 	return this->m_nScore;
+}
+
+int Snake::getLifeVal()
+{
+	return this->m_nLifeVal;
 }

@@ -20,12 +20,14 @@ public:
 	Direction getDirection();
 	void move();
 	void show();
-	bool checkCrashWall(GameMap &gMap);
+	bool checkCrashWall();
+	bool checkCrashBarrier(GameMap &gMap);
 	deque<Point> getSnake();
 	bool eatFood(Food &food);
 	void setScore(int nScore);
 	void addScore(int nScore);
 	int getScore();
+	int getLifeVal();
 
 	bool m_bDead;
 private:

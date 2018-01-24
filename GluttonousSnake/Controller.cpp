@@ -173,19 +173,21 @@ void Controller::drawInfoPanel()
 	cout << "游戏信息" << endl;
 	
 	drawGameLevelInfo(this->m_eGLevel);
-	drawScoreInfo(*this->m_pSnake);
+	drawSnakeInfo(*this->m_pSnake);
 
-	DrawTool::SetCursorPosition(34, 8);
-	cout << "————— 操作提示 —————" << endl;
 	DrawTool::SetCursorPosition(34, 9);
-	cout << "┃                          ┃" << endl;
+	cout << "————— 操作提示 —————" << endl;
 	DrawTool::SetCursorPosition(34, 10);
-	cout << "┃使用上下左右四个方向键移动┃" << endl;
-	DrawTool::SetCursorPosition(34, 12);
-	cout << "┃    按 Esc 键暂停游戏     ┃" << endl;
-	DrawTool::SetCursorPosition(34, 11);
 	cout << "┃                          ┃" << endl;
+	DrawTool::SetCursorPosition(34, 12);
+	cout << "┃                          ┃" << endl;
+	DrawTool::SetCursorPosition(34, 11);
+	cout << "┃使用上下左右四个方向键移动┃" << endl;
 	DrawTool::SetCursorPosition(34, 13);
+	cout << "┃    按 Esc 键暂停游戏     ┃" << endl;
+	DrawTool::SetCursorPosition(34, 14);
+	cout << "┃                          ┃" << endl;
+	DrawTool::SetCursorPosition(34, 15);
 	cout << "┃__________________________┃" << endl;
 }
 
@@ -209,7 +211,7 @@ void Controller::drawGameLevelInfo(GameLevel glevel)
 	}
 }
 
-void Controller::drawScoreInfo(Snake &snake)
+void Controller::drawSnakeInfo(Snake &snake)
 {
 	DrawTool::SetColor(FG_LIGHTTURQUOISE);
 	DrawTool::SetCursorPosition(37, 5);
@@ -219,6 +221,13 @@ void Controller::drawScoreInfo(Snake &snake)
 		cout << setw(8) << 0 << endl;
 	else
 		cout << setw(8) << snake.getScore() << endl;
+
+	DrawTool::SetCursorPosition(37, 7);
+	cout << "生 命 值：";
+	if (&snake == nullptr)
+		cout << setw(8) << SNAKE_INIT_LIFE << endl;
+	else
+		cout << setw(8) << snake.getLifeVal() << endl;
 }
 
 void Controller::playGame()
@@ -272,15 +281,24 @@ void Controller::playGame()
 
 		this->m_pSnake->move();
 		if (this->m_pSnake->eatFood(*this->m_pFood)) {
-			drawScoreInfo(*this->m_pSnake);
+			drawSnakeInfo(*this->m_pSnake);
 			delete this->m_pFood;
 			this->m_pFood = nullptr;
 			this->m_pFood = new Food;
 			this->m_pFood->show(*this->m_pSnake, *this->m_pGMap);
 		}
 
-		this->m_pSnake->m_bDead = this->m_pSnake->checkCrashWall(*this->m_pGMap);
+		if (this->m_pSnake->checkCrashBarrier(*this->m_pGMap))
+			drawSnakeInfo(*this->m_pSnake);
+
+		this->m_pSnake->m_bDead = this->m_pSnake->getLifeVal() <= 0 ? true : false;
+		if (this->m_pSnake->m_bDead)
+			goto DEAD;
+		this->m_pSnake->m_bDead = this->m_pSnake->checkCrashWall();
+
+DEAD:
 		if (this->m_pSnake->m_bDead) {
+			drawSnakeInfo(*this->m_pSnake);
 			showGameOverPrompt(*this->m_pSnake);
 			break;
 		}

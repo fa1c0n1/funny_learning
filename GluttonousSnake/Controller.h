@@ -24,7 +24,7 @@ private:
 	void prnOptionText(GameLevel glevel);
 	void drawInfoPanel();
 	void drawGameLevelInfo(GameLevel glevel);
-	void drawScoreInfo(Snake &snake);
+	void drawSnakeInfo(Snake &snake);
 	void showSubMenu();
 	void prnSubOptionText(SubMenuOption opt);
 	void showGameOverPrompt(Snake &snake);

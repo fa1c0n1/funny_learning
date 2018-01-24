@@ -64,4 +64,6 @@ typedef enum {
 #define KEY_RIGHT           77
 #define KEY_DIRECTION       224
 
+// 蛇的初始生命值
+#define SNAKE_INIT_LIFE     5
 
