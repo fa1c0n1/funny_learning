@@ -103,18 +103,26 @@ bool Snake::checkCrashWall()
 		return true;
 	}
 
-
 	return false;
 }
 
 bool Snake::checkCrashBarrier(GameMap &gMap)
 {
 	vector<Point> vtBarriers = gMap.getBarrier()->getBarriers();
+	set<Point, PointLess> barrierSet = gMap.getBarrier()->getCustomBarriers();
+
 	Point snakeHead = this->m_dqSnake.front();
 	int nX = snakeHead.getX();
 	int nY = snakeHead.getY();
 
 	for (auto &point : vtBarriers) {
+		if (nX == point.getX() && nY == point.getY()) {
+			this->m_nLifeVal -= 1;
+			return true;
+		}
+	}
+
+	for (Point point : barrierSet) {
 		if (nX == point.getX() && nY == point.getY()) {
 			this->m_nLifeVal -= 1;
 			return true;

@@ -5,6 +5,8 @@
 #include "Snake.h"
 #include "GameMap.h"
 
+#include <windows.h>
+
 class Controller
 {
 public:
@@ -31,6 +33,11 @@ private:
 	void prnGameOverOptionText(SubMenuOption opt);
 	void eraseSubMenu();
 	void freeGameRes();
+	bool customMapPrompt();
+	void prnCustomMapOptionText(bool bCustome);
+	void gotoEditYourMap();
+	void mouseEventProc(MOUSE_EVENT_RECORD mer);
+	bool keyEventProc(KEY_EVENT_RECORD ker);
 
 	GameLevel m_eGLevel;
 	SubMenuOption m_eSubOpt;

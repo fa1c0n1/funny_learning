@@ -49,12 +49,12 @@ void Point::setY(int y)
 	this->m_nY = y;
 }
 
-int Point::getX()
+int Point::getX() const
 {
 	return this->m_nX;
 }
 
-int Point::getY()
+int Point::getY() const
 {
 	return this->m_nY;
 }
