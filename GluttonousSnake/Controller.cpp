@@ -48,8 +48,6 @@ void Controller::freeGameRes()
 
 void Controller::launchGame()
 {
-	//PlaySoundA("sound/lufeemg.wav", NULL, SND_ASYNC | SND_LOOP);
-
 	this->showAnim();
 
 	while (this->m_eSubOpt == SMOP_RESTART)
@@ -66,6 +64,8 @@ void Controller::launchGame()
 void Controller::showAnim()
 {
 	Animation anim;
+
+	PlaySoundA("sound/bgm_welcome.wav", NULL, SND_ASYNC | SND_LOOP);
 
 	DrawTool::SetWindowSize(50, 40);
 	DrawTool::SetColor(FG_GREEN);
@@ -566,6 +566,9 @@ void Controller::prnOptionText(GameLevel glevel)
 void Controller::initGame()
 {
 	this->m_bExit = this->m_bPause = false;
+
+	PlaySoundA(NULL, NULL, SND_ASYNC | SND_LOOP);
+	PlaySoundA("sound/bgm_play.wav", NULL, SND_ASYNC | SND_LOOP);
 
 	if (this->m_pGMap == nullptr)
 		this->m_pGMap = new GameMap(this->m_eGLevel);
