@@ -110,6 +110,8 @@ bool Snake::checkCrashWall()
 
 bool Snake::checkCrashBarrier(GameMap &gMap)
 {
+	bool bRet = false;
+
 	vector<Point> vtBarriers = gMap.getBarrier()->getBarriers();
 	set<Point, PointLess> barrierSet = gMap.getBarrier()->getCustomBarriers();
 
@@ -117,21 +119,37 @@ bool Snake::checkCrashBarrier(GameMap &gMap)
 	int nX = snakeHead.getX();
 	int nY = snakeHead.getY();
 
-	for (auto &point : vtBarriers) {
+	for (vector<Point>::iterator it = vtBarriers.begin(); it != vtBarriers.end();) {
+		Point point = *it;
 		if (nX == point.getX() && nY == point.getY()) {
 			this->m_nLifeVal -= 1;
-			return true;
+			gMap.getBarrier()->delBarrier(point);
+			bRet = true;
+			break;
+		}
+		else {
+			it++;
 		}
 	}
 
-	for (Point point : barrierSet) {
+	if (bRet)
+		return bRet;
+
+	for (set<Point, PointLess>::iterator it = barrierSet.begin(); it != barrierSet.end();) {
+		Point point = *it;
 		if (nX == point.getX() && nY == point.getY()) {
 			this->m_nLifeVal -= 1;
-			return true;
+			gMap.getBarrier()->delCustomBarrier(point);
+			bRet = true;
+			break;
+		}
+		else {
+			it++;
 		}
 	}
 
-	return false;
+
+	return bRet;
 }
 
 bool Snake::eatFood(Food &food)

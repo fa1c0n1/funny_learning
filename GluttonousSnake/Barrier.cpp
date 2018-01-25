@@ -19,6 +19,20 @@ void Barrier::addBarrier(Point &pobj)
 	this->m_vtBarriers.emplace_back(pobj);
 }
 
+void Barrier::delBarrier(Point &pobj)
+{
+	for (vector<Point>::iterator it = this->m_vtBarriers.begin(); it != this->m_vtBarriers.end();) {
+		Point point = *it;
+		if (point.getX() == pobj.getX() && point.getY() == pobj.getY()) {
+			it = this->m_vtBarriers.erase(it);
+			break;
+		}
+		else {
+			it++;
+		}
+	}
+}
+
 void Barrier::addCustomBarrier(Point &pobj)
 {
 	this->m_BarrierSet.insert(pobj);

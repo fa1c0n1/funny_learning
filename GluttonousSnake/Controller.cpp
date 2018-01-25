@@ -13,6 +13,8 @@
 #include <fstream>
 #include <exception>
 
+#pragma comment(lib, "winmm.lib")
+
 using namespace std;
 
 Controller::Controller()
@@ -46,6 +48,8 @@ void Controller::freeGameRes()
 
 void Controller::launchGame()
 {
+	//PlaySoundA("sound/lufeemg.wav", NULL, SND_ASYNC | SND_LOOP);
+
 	this->showAnim();
 
 	while (this->m_eSubOpt == SMOP_RESTART)
@@ -189,6 +193,11 @@ bool Controller::loadRecord()
 	int nTNum1 = 0, nTNum2 = 0;
 	// 读取默认障碍物的块数
 	infile.read((char *)&nTNum1, sizeof(int));
+
+	DrawTool::SetCursorPosition(15, 35);
+	cout << "load: nTNum1=" << nTNum1 << endl;
+	system("pause");
+
 	// 读取自定义障碍物的块数
 	infile.read((char *)&nTNum2, sizeof(int));
 
@@ -247,6 +256,10 @@ void Controller::saveRecord()
 	// 保存默认障碍物的块数
 	int nTNum1 = pBarrier->getBarrierLength();
 	outfile.write((const char *)&nTNum1, sizeof(int));
+
+	DrawTool::SetCursorPosition(15, 35);
+	cout << "nTNum1=" << nTNum1 << endl;
+	system("pause");
 
 	// 保存自定义障碍物的块数
 	int nTNum2 = pBarrier->getCustomBarrierLength();

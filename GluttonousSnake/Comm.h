@@ -6,7 +6,6 @@ typedef enum {
 	GL_NORMAL,
 	GL_HARD,
 	GL_RECORD,
-	GL_XXX
 } GameLevel;
 
 //ÒÆ¶¯·½Ïò

@@ -3,6 +3,7 @@
 
 #include <windows.h>
 
+
 GameMap::GameMap(GameLevel level)
 	: m_eGLevel(level), m_nSideLen(32)
 {
@@ -39,7 +40,7 @@ GameMap::~GameMap()
 
 void GameMap::arrangeBarriers()
 {
-	this->m_pBarrier->clearAll();
+	//this->m_pBarrier->clearAll();
 
 	if (this->m_pBarrier->getCustomBarrierLength() <= 0) {
 		if (this->m_pBarrier->getBarrierLength() <= 0) {

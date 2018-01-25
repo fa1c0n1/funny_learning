@@ -16,6 +16,7 @@ public:
 	vector<Point> getBarriers();
 	set<Point, PointLess> getCustomBarriers();
 	void addBarrier(Point &pobj);
+	void delBarrier(Point &pobj);
 	void addCustomBarrier(Point &pobj);
 	void delCustomBarrier(Point pobj);
 	int getBarrierLength();
