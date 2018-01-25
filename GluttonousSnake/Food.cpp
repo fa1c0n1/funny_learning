@@ -17,9 +17,21 @@ Food::Food(const int x, const int y)
 Food::~Food()
 {
 }
+
+void Food::show()
+{
+	DrawTool::SetColor(FG_LIGHTPURPLE);
+	DrawTool::SetCursorPosition(this->m_nX, this->m_nY);
+	cout << "бя";
+}
 	
 void Food::show(Snake &snake, GameMap &gMap)
 {
+	if (this->m_nX != 0 && this->m_nY != 0) {
+		show();
+		return;
+	}
+
 	deque<Point> dqSnake = snake.getSnake();
 	vector<Point> vtBarrier = gMap.getBarrier()->getBarriers();
 	set<Point, PointLess> barrierSet = gMap.getBarrier()->getCustomBarriers();

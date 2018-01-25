@@ -4,7 +4,9 @@
 typedef enum {
 	GL_EASY,
 	GL_NORMAL,
-	GL_HARD
+	GL_HARD,
+	GL_RECORD,
+	GL_XXX
 } GameLevel;
 
 //移动方向
@@ -74,3 +76,9 @@ typedef enum {
 // 蛇的初始生命值
 #define SNAKE_INIT_LIFE     5
 
+// 存档文件
+#define RECORD_FILE         "GameRecord.bin"
+
+
+// 存档缓冲区
+#define RDBUF_LEN           4096

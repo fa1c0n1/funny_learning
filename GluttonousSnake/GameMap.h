@@ -15,6 +15,9 @@ public:
 	~GameMap();
 	void prnMap();
 	void prnOnlyWall();
+	void setGameLevel(GameLevel level);
+	GameLevel getGameLevel();
+	void setBarrier(Barrier *pBarrier);
 	Barrier *getBarrier();
 private:
 	void arrangeBarriers();

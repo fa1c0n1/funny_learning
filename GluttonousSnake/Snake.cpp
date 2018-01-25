@@ -2,13 +2,15 @@
 #include "Point.h"
 #include "DrawTool.h"
 
-Snake::Snake()
-	: m_nLifeVal(SNAKE_INIT_LIFE), m_eDrt(DRT_UP), m_bDead(false), 
-	m_ptPrev(nullptr), m_nScore(0)
+Snake::Snake(bool bInitBody)
+	: m_nLifeVal(SNAKE_INIT_LIFE), m_eDrt(DRT_UP), m_bDead(false),
+	m_ptPrev(nullptr), m_nScore(0), m_nSnakeLen(3), m_bInitBody(bInitBody)
 {
-	this->m_dqSnake.emplace_back(Point(25, 28));
-	this->m_dqSnake.emplace_back(Point(25, 29));
-	this->m_dqSnake.emplace_back(Point(25, 30));
+	if (this->m_bInitBody) {
+		this->m_dqSnake.emplace_back(Point(25, 28));
+		this->m_dqSnake.emplace_back(Point(25, 29));
+		this->m_dqSnake.emplace_back(Point(25, 30));
+	}
 }
 
 Snake::~Snake()
@@ -160,7 +162,22 @@ int Snake::getScore()
 	return this->m_nScore;
 }
 
+void Snake::setLifeVal(int nLifeVal)
+{
+	this->m_nLifeVal = nLifeVal;
+}
+
 int Snake::getLifeVal()
 {
 	return this->m_nLifeVal;
+}
+
+int Snake::getSnakeLen()
+{
+	return this->m_dqSnake.size();
+}
+
+void Snake::addBody(Point &point)
+{
+	this->m_dqSnake.emplace_back(point);
 }

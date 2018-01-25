@@ -38,6 +38,10 @@ private:
 	void gotoEditYourMap();
 	void mouseEventProc(MOUSE_EVENT_RECORD mer);
 	bool keyEventProc(KEY_EVENT_RECORD ker);
+	bool loadRecord();
+	void saveRecord();
+	void showLoadErrMsg();
+	void showSaveMsg();
 
 	GameLevel m_eGLevel;
 	SubMenuOption m_eSubOpt;

@@ -10,6 +10,8 @@
 #include <iostream>
 #include <iomanip>
 #include <conio.h>
+#include <fstream>
+#include <exception>
 
 using namespace std;
 
@@ -79,7 +81,6 @@ bool Controller::showMenu()
 	DrawTool::SetCursorPosition(7, 28);
 	cout << "<使用上下键进行选择，回车确认>" << endl;
 
-	this->m_eGLevel = GL_EASY;
 	prnOptionText(this->m_eGLevel);
 
 	while (true)
@@ -90,7 +91,7 @@ bool Controller::showMenu()
 				int op = _getch();
 				if (op == KEY_UP) { //按上键
 					if (this->m_eGLevel == GL_EASY) {
-						this->m_eGLevel = GL_HARD;
+						this->m_eGLevel = GL_RECORD;
 					}
 					else if (this->m_eGLevel == GL_NORMAL) {
 						this->m_eGLevel = GL_EASY;
@@ -98,10 +99,13 @@ bool Controller::showMenu()
 					else if (this->m_eGLevel == GL_HARD) {
 						this->m_eGLevel = GL_NORMAL;
 					}
+					else if (this->m_eGLevel == GL_RECORD) {
+						this->m_eGLevel = GL_HARD;
+					}
 					prnOptionText(this->m_eGLevel);
 				}
 				else if (op == KEY_DOWN) {
-					if (this->m_eGLevel == GL_HARD) {
+					if (this->m_eGLevel == GL_RECORD) {
 						this->m_eGLevel = GL_EASY;
 					}
 					else if (this->m_eGLevel == GL_EASY) {
@@ -109,6 +113,9 @@ bool Controller::showMenu()
 					}
 					else if (this->m_eGLevel == GL_NORMAL) {
 						this->m_eGLevel = GL_HARD;
+					}
+					else if (this->m_eGLevel == GL_HARD) {
+						this->m_eGLevel = GL_RECORD;
 					}
 					prnOptionText(this->m_eGLevel);
 				}
@@ -122,18 +129,199 @@ bool Controller::showMenu()
 		}
 	}
 
-	////// 询问用户是否自定义地图 /////
-	MapOption mapOp = customMapPrompt();
-	switch (mapOp)
-	{
-	case MAPCUST_RET:
-		return true;
-	case MAPCUST_YES:
-		gotoEditYourMap();
-		return false;
-	case MAPCUST_NO:
+	if (this->m_eGLevel == GL_RECORD) {
+		//读取存档
+		return !loadRecord();
+	}
+	else {
+		////// 询问用户是否自定义地图 /////
+		MapOption mapOp = customMapPrompt();
+		switch (mapOp)
+		{
+		case MAPCUST_RET:
+			return true;
+		case MAPCUST_YES:
+			gotoEditYourMap();
+			return false;
+		case MAPCUST_NO:
+			return false;
+		}
+	}
+}
+
+bool Controller::loadRecord()
+{
+	ifstream infile(RECORD_FILE, ios::in | ios::binary);
+
+	if (!infile) { //ifstream重载了 ! 操作符，所以这里不是判断是否为空
+		showLoadErrMsg();
 		return false;
 	}
+
+	//1. 读取游戏级别
+	infile.read((char *)&this->m_eGLevel, sizeof(GameLevel));
+
+	//2. 读取 Snake (包括生命值, 分数, 蛇身, 方向)
+	int nTLifeVal = 0,  nTScore = 0, nTBodyLen = 0;
+	Direction eTDrt = DRT_UP;
+
+	infile.read((char *)&nTLifeVal, sizeof(int));
+	infile.read((char *)&nTScore, sizeof(int));
+	infile.read((char *)&nTBodyLen, sizeof(int));
+	infile.read((char *)&eTDrt, sizeof(Direction));
+	this->m_pSnake = new Snake(false);
+	this->m_pSnake->setLifeVal(nTLifeVal);
+	this->m_pSnake->setScore(nTScore);
+	this->m_pSnake->setDirection(eTDrt);
+
+	for (int i = 0; i < nTBodyLen; i++) {
+		Point tPoint(0, 0);
+		infile.read((char *)&tPoint, sizeof(Point));
+		this->m_pSnake->addBody(tPoint);
+	}
+
+	// 3. 读取食物
+	this->m_pFood = new Food;
+	infile.read((char *)this->m_pFood, sizeof(Food));
+
+	// 4. 读取地图(这里只有障碍物)
+
+	int nTNum1 = 0, nTNum2 = 0;
+	// 读取默认障碍物的块数
+	infile.read((char *)&nTNum1, sizeof(int));
+	// 读取自定义障碍物的块数
+	infile.read((char *)&nTNum2, sizeof(int));
+
+	Barrier *pBarrier = new Barrier;
+
+	for (int i = 0; i < nTNum1; i++) {
+		Point tPoint(0, 0);
+		infile.read((char *)&tPoint, sizeof(Point));
+		pBarrier->addBarrier(tPoint);
+	}
+
+	for (int i = 0; i < nTNum2; i++) {
+		Point tPoint(0, 0);
+		infile.read((char *)&tPoint, sizeof(Point));
+		pBarrier->addCustomBarrier(tPoint);
+	}
+
+	this->m_pGMap = new GameMap(this->m_eGLevel);
+	this->m_pGMap->setBarrier(pBarrier);
+
+	//读取完毕，关闭文件
+	infile.close();
+
+	return true;
+}
+
+void Controller::saveRecord()
+{
+	ofstream outfile(RECORD_FILE, ios::out | ios::binary);
+
+	//1. 保存游戏级别
+	outfile.write((const char *)&this->m_eGLevel, sizeof(GameLevel));
+
+	//2. 保存 Snake (包括生命值，分数, 蛇身, 方向)
+	int nTLifeVal = this->m_pSnake->getLifeVal();
+	int nTScore = this->m_pSnake->getScore();
+	int nTBodyLen = this->m_pSnake->getSnakeLen();
+	Direction eTDrt = this->m_pSnake->getDirection();
+	outfile.write((const char *)&nTLifeVal, sizeof(int));
+	outfile.write((const char *)&nTScore, sizeof(int));
+	outfile.write((const char *)&nTBodyLen, sizeof(int));
+	outfile.write((const char *)&eTDrt, sizeof(Direction));
+
+	deque<Point> dqSnake = this->m_pSnake->getSnake();
+	for (Point &point : dqSnake) {
+		outfile.write((const char *)&point, sizeof(Point));
+	}
+
+	//3. 保存食物
+	outfile.write((const char *)this->m_pFood, sizeof(Food));
+	
+	//4. 保存地图(只需保存障碍物, 因为墙是固定长宽的，故不用保存墙)
+
+	Barrier *pBarrier = this->m_pGMap->getBarrier();
+
+	// 保存默认障碍物的块数
+	int nTNum1 = pBarrier->getBarrierLength();
+	outfile.write((const char *)&nTNum1, sizeof(int));
+
+	// 保存自定义障碍物的块数
+	int nTNum2 = pBarrier->getCustomBarrierLength();
+	outfile.write((const char *)&nTNum2, sizeof(int));
+
+	// 保存默认的障碍物
+	vector<Point> vtBarriers = pBarrier->getBarriers();
+	for (Point &point : vtBarriers) {
+		outfile.write((const char *)&point, sizeof(Point));
+	}
+
+	// 保存自定义的障碍物
+	set<Point, PointLess> barrierSet = pBarrier->getCustomBarriers();
+	for (Point point : barrierSet) {
+		outfile.write((const char *)&point, sizeof(Point));
+	}
+
+	outfile.close();
+	showSaveMsg();
+}
+
+void Controller::showLoadErrMsg()
+{
+	DrawTool::SetColor(FG_LIGHTGREEN);
+	DrawTool::SetCursorPosition(7, 30);
+	cout << "————— 错误 —————" << endl;
+	DrawTool::SetCursorPosition(7, 31);
+	cout << "┃                      ┃" << endl;
+	DrawTool::SetCursorPosition(7, 32);
+	cout << "┃                      ┃" << endl;
+	DrawTool::SetCursorPosition(7, 33);
+	cout << "┃______________________┃" << endl;
+	DrawTool::SetCursorPosition(8, 32);
+	cout << "无存档或存档文件已损坏" << endl;
+
+	Sleep(1000);
+
+	DrawTool::SetColor(0);
+	DrawTool::SetCursorPosition(7, 30);
+	cout << "                         " << endl;
+	DrawTool::SetCursorPosition(7, 31);
+	cout << "                         " << endl;
+	DrawTool::SetCursorPosition(7, 32);
+	cout << "                         " << endl;
+	DrawTool::SetCursorPosition(7, 33);
+	cout << "                         " << endl;
+}
+
+void Controller::showSaveMsg()
+{
+	DrawTool::SetColor(FG_LIGHTTURQUOISE);
+	DrawTool::SetCursorPosition(7, 34);
+	cout << "————— 提示 —————" << endl;
+	DrawTool::SetCursorPosition(7, 35);
+	cout << "┃                      ┃" << endl;
+	DrawTool::SetCursorPosition(7, 36);
+	cout << "┃                      ┃" << endl;
+	DrawTool::SetCursorPosition(7, 37);
+	cout << "┃______________________┃" << endl;
+	DrawTool::SetCursorPosition(8, 36);
+	cout << "       保存成功    " << endl;
+
+	Sleep(1000);
+
+	DrawTool::SetColor(0);
+	DrawTool::SetCursorPosition(7, 34);
+	cout << "                          " << endl;
+	DrawTool::SetCursorPosition(7, 35);
+	cout << "                         " << endl;
+	DrawTool::SetCursorPosition(7, 36);
+	cout << "                         " << endl;
+	DrawTool::SetCursorPosition(7, 37);
+	cout << "                         " << endl;
+	DrawTool::SetCursorPosition(8, 36);
+	cout << "                " << endl;
 }
 
 MapOption Controller::customMapPrompt()  //子菜单可以选择使用返回数字值，根据数字选择是否取消子菜单
@@ -262,9 +450,6 @@ void Controller::mouseEventProc(MOUSE_EVENT_RECORD mer)
 bool Controller::keyEventProc(KEY_EVENT_RECORD ker)
 {
 	if (ker.bKeyDown) { //键盘按下
-		DrawTool::SetCursorPosition(10, 33);
-		cout << "key_a=" << ker.uChar.AsciiChar << endl;
-		system("pause");
 		if (ker.uChar.AsciiChar == 's') {
 			return true;
 		}
@@ -337,6 +522,8 @@ void Controller::prnOptionText(GameLevel glevel)
 	cout << "普通模式" << endl;
 	DrawTool::SetCursorPosition(30, 32);
 	cout << "困难模式" << endl;
+	DrawTool::SetCursorPosition(30, 34);
+	cout << "读取存档" << endl;
 
 	switch (glevel)
 	{
@@ -354,6 +541,11 @@ void Controller::prnOptionText(GameLevel glevel)
 		DrawTool::SetBgColor();
 		DrawTool::SetCursorPosition(30, 32);
 		cout << "困难模式" << endl;
+		break;
+	case GL_RECORD:
+		DrawTool::SetBgColor();
+		DrawTool::SetCursorPosition(30, 34);
+		cout << "读取存档" << endl;
 		break;
 	}
 }
@@ -435,10 +627,12 @@ void Controller::drawSnakeInfo(Snake &snake)
 
 void Controller::playGame()
 {
-	this->m_pSnake = new Snake;
+	if (this->m_pSnake == nullptr)
+		this->m_pSnake = new Snake;
 	this->m_pSnake->show();
 
-	this->m_pFood = new Food;
+	if (this->m_pFood == nullptr)
+		this->m_pFood = new Food;
 	this->m_pFood->show(*this->m_pSnake, *this->m_pGMap);
 
 	while (!this->m_pSnake->m_bDead && !this->m_bExit)
@@ -472,7 +666,12 @@ void Controller::playGame()
 
 					if (this->m_eSubOpt == SMOP_RESTART || this->m_eSubOpt == SMOP_QUIT) {
 						this->m_bExit = true;
-					} 
+					}
+					else if (this->m_eSubOpt == SMOP_SAVE) {
+						saveRecord();
+						this->m_bPause = true;
+						continue;
+					}
 					this->m_bPause = false;
 					eraseSubMenu();
 				}
@@ -512,7 +711,6 @@ DEAD:
 
 void Controller::showSubMenu()
 {
-	this->m_eSubOpt = SMOP_CONTINUE;
 	prnSubOptionText(this->m_eSubOpt);
 
 	while (true)
