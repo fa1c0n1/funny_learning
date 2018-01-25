@@ -194,6 +194,7 @@ Barrier *GameMap::getBarrier()
 
 void GameMap::prnMap()
 {
+	system("cls");
 	//先把四周的墙打印出来
 	DrawTool::SetColor(FG_LIGHTTURQUOISE);
 	for (auto &point : this->vtMap) {
@@ -208,6 +209,7 @@ void GameMap::prnMap()
 
 void GameMap::prnOnlyWall()
 {
+	system("cls");
 	for (auto &point : this->vtMap) {
 		point.print();
 		Sleep(10);

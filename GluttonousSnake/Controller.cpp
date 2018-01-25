@@ -48,7 +48,7 @@ void Controller::launchGame()
 
 	while (this->m_eSubOpt == SMOP_RESTART)
 	{
-		this->showMenu();
+		while (this->showMenu());
 		this->initGame();
 		this->playGame();
 		this->freeGameRes();
@@ -71,7 +71,7 @@ void Controller::showAnim()
 	cout << "                                " << endl;
 }
 
-void Controller::showMenu()
+bool Controller::showMenu()
 {
 	DrawTool::SetColor(FG_GREEN);
 	DrawTool::SetCursorPosition(7, 27);
@@ -123,15 +123,22 @@ void Controller::showMenu()
 	}
 
 	////// 询问用户是否自定义地图 /////
-	if (customMapPrompt())
+	MapOption mapOp = customMapPrompt();
+	switch (mapOp)
+	{
+	case MAPCUST_RET:
+		return true;
+	case MAPCUST_YES:
 		gotoEditYourMap();
-
-	system("cls");
+		return false;
+	case MAPCUST_NO:
+		return false;
+	}
 }
 
-bool Controller::customMapPrompt()
+MapOption Controller::customMapPrompt()  //子菜单可以选择使用返回数字值，根据数字选择是否取消子菜单
 {
-	bool bRet = false;
+	MapOption mapOp = MAPCUST_NO;
 
 	DrawTool::SetColor(FG_LIGHTGREEN);
 	DrawTool::SetCursorPosition(7, 30);
@@ -143,7 +150,7 @@ bool Controller::customMapPrompt()
 	DrawTool::SetCursorPosition(7, 33);
 	cout << "┃______________________┃" << endl;
 
-	prnCustomMapOptionText(bRet);
+	prnCustomMapOptionText(mapOp);
 
 	while (true)
 	{
@@ -152,16 +159,31 @@ bool Controller::customMapPrompt()
 			if (key == KEY_DIRECTION) {
 				int op = _getch();
 				if (op == KEY_LEFT) {
-					bRet = !bRet;
-					prnCustomMapOptionText(bRet);
+					if (mapOp == MAPCUST_YES) {
+						mapOp = MAPCUST_NO;
+					}
+					else if (mapOp == MAPCUST_NO) {
+						mapOp = MAPCUST_YES;
+					}
+					prnCustomMapOptionText(mapOp);
 				}
 				else if (op == KEY_RIGHT) {
-					bRet = !bRet;
-					prnCustomMapOptionText(bRet);
+					if (mapOp == MAPCUST_YES) {
+						mapOp = MAPCUST_NO;
+					}
+					else if (mapOp == MAPCUST_NO) {
+						mapOp = MAPCUST_YES;
+					}
+					prnCustomMapOptionText(mapOp);
 				}
 			}
 			else if (key == KEY_ENTER) {
 				DrawTool::SetColor(FG_LIGHTTURQUOISE);
+				break;
+			}
+			else if (key == KEY_EXIT) {
+				mapOp = MAPCUST_RET;
+				prnCustomMapOptionText(mapOp);
 				break;
 			}
 		}
@@ -170,10 +192,10 @@ bool Controller::customMapPrompt()
 		}
 	}
 
-	return bRet;
+	return mapOp;
 }
 
-void Controller::prnCustomMapOptionText(bool bCustome)
+void Controller::prnCustomMapOptionText(MapOption eMapOp)
 {
 	DrawTool::SetColor(FG_LIGHTGREEN);
 	DrawTool::SetCursorPosition(15, 32);
@@ -182,13 +204,27 @@ void Controller::prnCustomMapOptionText(bool bCustome)
 	cout << "是" << endl;
 
 	DrawTool::SetBgColor();
-	if (bCustome) {
-		DrawTool::SetCursorPosition(10, 32);
-		cout << "是" << endl;
-	}
-	else {
+	switch (eMapOp)
+	{
+	case MAPCUST_NO:
 		DrawTool::SetCursorPosition(15, 32);
 		cout << "否" << endl;
+		break;
+	case MAPCUST_YES:
+		DrawTool::SetCursorPosition(10, 32);
+		cout << "是" << endl;
+		break;
+	case MAPCUST_RET:
+		DrawTool::SetColor(0);
+		DrawTool::SetCursorPosition(7, 30);
+		cout << "                          " << endl;
+		DrawTool::SetCursorPosition(7, 31);
+		cout << "                          " << endl;
+		DrawTool::SetCursorPosition(7, 32);
+		cout << "                          " << endl;
+		DrawTool::SetCursorPosition(7, 33);
+		cout << "                          " << endl;
+		break;
 	}
 }
 
@@ -226,6 +262,9 @@ void Controller::mouseEventProc(MOUSE_EVENT_RECORD mer)
 bool Controller::keyEventProc(KEY_EVENT_RECORD ker)
 {
 	if (ker.bKeyDown) { //键盘按下
+		DrawTool::SetCursorPosition(10, 33);
+		cout << "key_a=" << ker.uChar.AsciiChar << endl;
+		system("pause");
 		if (ker.uChar.AsciiChar == 's') {
 			return true;
 		}
@@ -244,8 +283,6 @@ bool Controller::keyEventProc(KEY_EVENT_RECORD ker)
 
 void Controller::gotoEditYourMap()
 {
-	system("cls");
-
 	this->m_pGMap = new GameMap(this->m_eGLevel);
 	this->m_pGMap->prnOnlyWall();
 
@@ -435,7 +472,7 @@ void Controller::playGame()
 
 					if (this->m_eSubOpt == SMOP_RESTART || this->m_eSubOpt == SMOP_QUIT) {
 						this->m_bExit = true;
-					}
+					} 
 					this->m_bPause = false;
 					eraseSubMenu();
 				}
@@ -485,14 +522,17 @@ void Controller::showSubMenu()
 			if (key == KEY_DIRECTION) { //按下方向键
 				int op = _getch();
 				if (op == KEY_UP) { //按上键
-					if (this->m_eSubOpt == SMOP_RESTART) {
+					if (this->m_eSubOpt == SMOP_CONTINUE) {
+						this->m_eSubOpt = SMOP_QUIT;
+					}
+					else if (this->m_eSubOpt == SMOP_RESTART) {
 						this->m_eSubOpt = SMOP_CONTINUE;
 					}
-					else if (this->m_eSubOpt == SMOP_QUIT) {
+					else if (this->m_eSubOpt == SMOP_SAVE) {
 						this->m_eSubOpt = SMOP_RESTART;
 					}
-					else if (this->m_eSubOpt == SMOP_CONTINUE) {
-						this->m_eSubOpt = SMOP_QUIT;
+					else if (this->m_eSubOpt == SMOP_QUIT) {
+						this->m_eSubOpt = SMOP_SAVE;
 					}
 					prnSubOptionText(this->m_eSubOpt);
 				}
@@ -501,6 +541,9 @@ void Controller::showSubMenu()
 						this->m_eSubOpt = SMOP_RESTART;
 					}
 					else if (this->m_eSubOpt == SMOP_RESTART) {
+						this->m_eSubOpt = SMOP_SAVE;
+					}
+					else if (this->m_eSubOpt == SMOP_SAVE) {
 						this->m_eSubOpt = SMOP_QUIT;
 					}
 					else if (this->m_eSubOpt == SMOP_QUIT) {
@@ -523,6 +566,8 @@ void Controller::showSubMenu()
 void Controller::eraseSubMenu()
 {
 	DrawTool::SetColor(0);
+	DrawTool::SetCursorPosition(39, 23);
+	cout << "         " << endl;
 	DrawTool::SetCursorPosition(39, 25);
 	cout << "         " << endl;
 	DrawTool::SetCursorPosition(39, 27);
@@ -534,11 +579,14 @@ void Controller::eraseSubMenu()
 void Controller::prnSubOptionText(SubMenuOption opt)
 {
 	DrawTool::SetColor(FG_LIGHTGREEN);
-	DrawTool::SetCursorPosition(39, 25);
+	DrawTool::SetCursorPosition(39, 23);
 	cout << "继续游戏" << endl;
 
-	DrawTool::SetCursorPosition(39, 27);
+	DrawTool::SetCursorPosition(39, 25);
 	cout << "重新开始" << endl;
+
+	DrawTool::SetCursorPosition(39, 27);
+	cout << "保存游戏" << endl;
 
 	DrawTool::SetCursorPosition(39, 29);
 	cout << "退出游戏" << endl;
@@ -547,13 +595,18 @@ void Controller::prnSubOptionText(SubMenuOption opt)
 	{
 	case SMOP_CONTINUE:
 		DrawTool::SetBgColor();
-		DrawTool::SetCursorPosition(39, 25);
+		DrawTool::SetCursorPosition(39, 23);
 		cout << "继续游戏" << endl;
 		break;
 	case SMOP_RESTART:
 		DrawTool::SetBgColor();
-		DrawTool::SetCursorPosition(39, 27);
+		DrawTool::SetCursorPosition(39, 25);
 		cout << "重新开始" << endl;
+		break;
+	case SMOP_SAVE:
+		DrawTool::SetBgColor();
+		DrawTool::SetCursorPosition(39, 27);
+		cout << "保存游戏" << endl;
 		break;
 	case SMOP_QUIT:
 		DrawTool::SetBgColor();

@@ -18,8 +18,15 @@ typedef enum {
 typedef enum {
 	SMOP_CONTINUE,
 	SMOP_RESTART,
+	SMOP_SAVE,
 	SMOP_QUIT
 } SubMenuOption;
+
+typedef enum {
+	MAPCUST_RET,
+	MAPCUST_YES,
+	MAPCUST_NO
+} MapOption;
 
 //Ç°¾°É«
 #define FG_BLUE             0x0001

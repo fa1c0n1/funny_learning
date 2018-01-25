@@ -20,7 +20,7 @@ public:
 	
 private:
 	void showAnim();
-	void showMenu();
+	bool showMenu();
 	void initGame();
 	void playGame();
 	void prnOptionText(GameLevel glevel);
@@ -33,8 +33,8 @@ private:
 	void prnGameOverOptionText(SubMenuOption opt);
 	void eraseSubMenu();
 	void freeGameRes();
-	bool customMapPrompt();
-	void prnCustomMapOptionText(bool bCustome);
+	MapOption customMapPrompt();
+	void prnCustomMapOptionText(MapOption eMapOp);
 	void gotoEditYourMap();
 	void mouseEventProc(MOUSE_EVENT_RECORD mer);
 	bool keyEventProc(KEY_EVENT_RECORD ker);
