@@ -65,6 +65,7 @@ void Controller::showAnim()
 {
 	Animation anim;
 
+	DrawTool::ShowCursor(false);
 	PlaySoundA("sound/bgm_welcome.wav", NULL, SND_ASYNC | SND_LOOP);
 
 	DrawTool::SetWindowSize(50, 40);
