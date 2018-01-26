@@ -194,10 +194,6 @@ bool Controller::loadRecord()
 	// 读取默认障碍物的块数
 	infile.read((char *)&nTNum1, sizeof(int));
 
-	DrawTool::SetCursorPosition(15, 35);
-	cout << "load: nTNum1=" << nTNum1 << endl;
-	system("pause");
-
 	// 读取自定义障碍物的块数
 	infile.read((char *)&nTNum2, sizeof(int));
 
@@ -256,10 +252,6 @@ void Controller::saveRecord()
 	// 保存默认障碍物的块数
 	int nTNum1 = pBarrier->getBarrierLength();
 	outfile.write((const char *)&nTNum1, sizeof(int));
-
-	DrawTool::SetCursorPosition(15, 35);
-	cout << "nTNum1=" << nTNum1 << endl;
-	system("pause");
 
 	// 保存自定义障碍物的块数
 	int nTNum2 = pBarrier->getCustomBarrierLength();
@@ -716,6 +708,7 @@ void Controller::playGame()
 
 DEAD:
 		if (this->m_pSnake->m_bDead) {
+			PlaySoundA("sound/bgm_failed.wav", NULL, SND_ASYNC);
 			drawSnakeInfo(*this->m_pSnake);
 			showGameOverPrompt(*this->m_pSnake);
 			break;
