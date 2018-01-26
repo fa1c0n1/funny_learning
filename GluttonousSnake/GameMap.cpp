@@ -40,8 +40,6 @@ GameMap::~GameMap()
 
 void GameMap::arrangeBarriers()
 {
-	//this->m_pBarrier->clearAll();
-
 	if (this->m_pBarrier->getCustomBarrierLength() <= 0) {
 		if (this->m_pBarrier->getBarrierLength() <= 0) {
 			if (this->m_eGLevel == GL_NORMAL) {
@@ -184,6 +182,29 @@ void GameMap::arrangeBarriers()
 				this->m_pBarrier->addBarrier(Point(12, 4));
 				this->m_pBarrier->addBarrier(Point(13, 4));
 			}
+			else if (this->m_eGLevel == GL_EASY) {
+				this->m_pBarrier->addBarrier(Point(13, 5));
+				this->m_pBarrier->addBarrier(Point(14, 5));
+				this->m_pBarrier->addBarrier(Point(15, 5));
+				this->m_pBarrier->addBarrier(Point(16, 5));
+				this->m_pBarrier->addBarrier(Point(17, 5));
+				this->m_pBarrier->addBarrier(Point(18, 5));
+				this->m_pBarrier->addBarrier(Point(19, 5));
+				this->m_pBarrier->addBarrier(Point(20, 5));
+				this->m_pBarrier->addBarrier(Point(21, 5));
+				this->m_pBarrier->addBarrier(Point(22, 5));
+
+				this->m_pBarrier->addBarrier(Point(5, 25));
+				this->m_pBarrier->addBarrier(Point(6, 25));
+				this->m_pBarrier->addBarrier(Point(7, 25));
+				this->m_pBarrier->addBarrier(Point(8, 25));
+				this->m_pBarrier->addBarrier(Point(9, 25));
+				this->m_pBarrier->addBarrier(Point(10, 25));
+				this->m_pBarrier->addBarrier(Point(11, 25));
+				this->m_pBarrier->addBarrier(Point(12, 25));
+				this->m_pBarrier->addBarrier(Point(13, 25));
+				this->m_pBarrier->addBarrier(Point(14, 25));
+			}
 		}
 	}
 }
@@ -213,7 +234,7 @@ void GameMap::prnMap()
 		Sleep(10);
 	}
 	
-	//打印障碍物, 只有简单模式是没有障碍物的
+	//打印障碍物
 	this->arrangeBarriers();
 	this->m_pBarrier->display();
 }
