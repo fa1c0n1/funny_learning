@@ -499,6 +499,11 @@ void Controller::gotoEditYourMap()
 	cout << "┃___________________________┃" << endl;
 	//--------------------------------------------
 
+	// 切换输入法成英文输入状态
+	keybd_event(VK_SHIFT, 0, 0, 0);
+	Sleep(100);
+	keybd_event(VK_SHIFT, 0, KEYEVENTF_KEYUP, 0);
+
 	HANDLE hStdin = GetStdHandle(STD_INPUT_HANDLE);
 	INPUT_RECORD stcRecord = { 0 };
 	DWORD dwRead;

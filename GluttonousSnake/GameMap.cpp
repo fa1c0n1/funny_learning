@@ -38,6 +38,7 @@ GameMap::~GameMap()
 	}
 }
 
+// 布局障碍物
 void GameMap::arrangeBarriers()
 {
 	if (this->m_pBarrier->getCustomBarrierLength() <= 0) {
@@ -209,6 +210,7 @@ void GameMap::arrangeBarriers()
 	}
 }
 
+// 设置指针指向障碍物对象
 void GameMap::setBarrier(Barrier *pBarrier)
 {
 	if (this->m_pBarrier != nullptr) {
@@ -218,11 +220,13 @@ void GameMap::setBarrier(Barrier *pBarrier)
 	}
 }
 
+//获取指向障碍物对象的指针
 Barrier *GameMap::getBarrier()
 {
 	return this->m_pBarrier;
 }
 
+// 打印整个地图
 void GameMap::prnMap()
 {
 	DrawTool::SetColor(0);
@@ -239,6 +243,7 @@ void GameMap::prnMap()
 	this->m_pBarrier->display();
 }
 
+//仅打印墙壁
 void GameMap::prnOnlyWall()
 {
 	system("cls");
@@ -248,6 +253,7 @@ void GameMap::prnOnlyWall()
 	}
 }
 
+//设置游戏级别
 void GameMap::setGameLevel(GameLevel level)
 {
 	this->m_eGLevel = level;
