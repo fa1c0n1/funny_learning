@@ -38,6 +38,7 @@ typedef struct {
 	ObjType eType : 8;     //钢墙 土墙 草地 河流 沙地等, 坦克A 坦克B 敌军坦克等
 	uint nX : 8;          //对象左上角的横坐标
 	uint nY : 8;          //对象左上角的纵坐标
+	ObjType bulOwner : 8; //子弹属主
 	uint nBulletID : 16;  //子弹ID
 } Object;
 
