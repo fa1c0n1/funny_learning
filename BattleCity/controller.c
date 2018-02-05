@@ -6,7 +6,9 @@
 #include "player.h"
 #include "bullet.h"
 
+#include <stdlib.h>
 #include <conio.h>
+#include <time.h>
 
 void ShowMenu(void)
 {
@@ -54,53 +56,89 @@ void PlayGame_MsgLoop(Tank *pTank)
 	}
 }
 
+Tank *InitEnemies()
+{
+	g_nEnNum = ENEMY_NMAX;
+	Tank *pEnemies = (Tank *)calloc(ENEMY_NMAX, sizeof(Tank));
+	for (int i = 0; i < ENEMY_NMAX; i++) {
+		pEnemies[i].eDrt = DRT_DOWN;
+		pEnemies[i].eType = SIGN_TANK_E0;
+		pEnemies[i].nX = 5 + i * 5;
+		pEnemies[i].nY = 1;
+		pEnemies[i].bDead = 0;
+	}
+
+	return pEnemies;
+}
+
+void ShowEnemies(Tank *pEnemies)
+{
+	if (pEnemies == NULL)
+		return;
+
+	for (int i = 0; i < ENEMY_NMAX; i++) {
+		if (!pEnemies[i].bDead) {
+			ShowTank(pEnemies + i);
+		}
+	}
+}
+
+void RandomMoveEnemies()
+{
+	Direction drtArr[4] = { DRT_UP, DRT_DOWN, DRT_LEFT, DRT_RIGHT };
+	srand(time(NULL));
+	clock_t endTime;
+
+	for (int i = 0; i < ENEMY_NMAX; i++) {
+		if (!g_pEnemies[i].bDead) {
+			endTime = clock();
+			if ((endTime - g_startTime) % 150 + 150 > 200) {
+				MoveTank(&g_pEnemies[i], drtArr[rand() % 4]);
+			}
+		}
+	}
+}
+
+void DestroyEnemies(Tank *pEnemies)
+{
+	if (pEnemies != NULL) {
+		free(pEnemies);
+		pEnemies = NULL;
+	}
+}
+
 void StartGame(void)
 {
 	system("cls");
+	g_startTime = clock();
 
-	Tank *pTankA = CreateTank(SIGN_TANK_PA, 12, 36, DRT_UP);
+	ShowMap();
 
-	//显示四面固定的贴墙
-	for (int i = 0; i < 40; i++) {
-		if (i == 0 || i == 39) {
-			for (int j = 0; j < 40; j++) {
-				WriteChar(j, i, "■", FG_HIGHWHITE);
-			}
-		}
-		else {
-			WriteChar(0, i, "■", FG_HIGHWHITE);
-			WriteChar(39, i, "■", FG_HIGHWHITE);
-		}
-		Sleep(5);
-	}
-
-	ShowTank(pTankA);
-	g_BulletBox = InitBulletBox();
+	g_pTankA = CreatePlayer(SIGN_TANK_PA, 12, 36, DRT_UP);
+	ShowTank(g_pTankA);
+	g_pBulletBox = InitBulletBox();
+	g_pEnemies = InitEnemies();
+	ShowEnemies(g_pEnemies);
 
 	while (1) {
-
-		/*for (int i = 1; i < 39; i++) {
+		for (int i = 1; i < 39; i++) {
 			for (int j = 1; j < 39; j++) {
-			switch (g_Map[i][j])
-			{
-			case SIGN_WALL0:
-			WriteChar(j, i, "■", FG_HIGHWHITE);
-			break;
-			case SIGN_TANK_PA:
-			WriteChar(j, i, "■", FG_LIGHTTURQUOISE);
-			break;
-			case SIGN_BULLET:
-			WriteChar(j, i, "●", FG_LIGHTYELLOW);
-			break;
-			default:
-			break;
+				switch (g_Map[i][j])
+				{
+				/*case SIGN_WALL1: 
+					WriteChar(j, i, "■", FG_YELLOW);               
+					break;*/
+				case SIGN_GRASS:
+					WriteChar(j, i, "▓", FG_GREEN);
+					break;
+				}
 			}
-			}
-			}*/
+		}
 
-		PlayGame_MsgLoop(pTankA);
+		PlayGame_MsgLoop(g_pTankA);
 
 		MoveBullets();
+		RandomMoveEnemies();
 
 		Sleep(50);
 	}

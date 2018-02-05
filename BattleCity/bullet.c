@@ -1,67 +1,237 @@
 #include "bullet.h"
 #include "draw_tool.h"
 #include "map.h"
+#include "player.h"
 
 #include <stdlib.h>
 
 int GetBullet(void)
 {
 	for (int i = 0; i < BOX_CAPACITY; i++) {
-		if (g_BulletBox[i].bulValid)
-			return g_BulletBox[i].nBulletID;
+		if (g_pBulletBox[i].bulValid)
+			return g_pBulletBox[i].nBulletID;
 	}
 }
 
 void WipeBullet(int nBulletID)
 {
-	UpdateMapPoint(SIGN_EMPTY, g_BulletBox[nBulletID].nX, g_BulletBox[nBulletID].nY);
-	WriteChar(g_BulletBox[nBulletID].nX, g_BulletBox[nBulletID].nY, "  ", 0);
+	int nTX = g_pBulletBox[nBulletID].nX;
+	int nTY = g_pBulletBox[nBulletID].nY;
+
+	switch (g_Map[nTY][nTX])
+	{
+	case SIGN_GRASS:
+	case SIGN_RIVER:
+		break;
+	default:
+		UpdateMapPoint(SIGN_EMPTY, nTX, nTY);
+		WriteChar(nTX, nTY, "  ", 0);
+		break;
+	}
 }
 
 void ShowBullet(int nBulletID)
 {
-	UpdateMapPoint(SIGN_BULLET, g_BulletBox[nBulletID].nX, g_BulletBox[nBulletID].nY);
-	WriteChar(g_BulletBox[nBulletID].nX, g_BulletBox[nBulletID].nY, "●", FG_LIGHTYELLOW);
+	int nTX = g_pBulletBox[nBulletID].nX;
+	int nTY = g_pBulletBox[nBulletID].nY;
+
+	switch (g_Map[nTY][nTX])
+	{
+	case SIGN_GRASS:
+		WriteChar(nTX, nTY, "▓", FG_LIGHTGREEN);
+		break;
+	case SIGN_RIVER:
+		WriteChar(nTX, nTY, "▓", FG_LIGHTBLUE);
+		break;
+	default:
+		UpdateMapPoint(SIGN_BULLET, nTX, nTY);
+		WriteChar(nTX, nTY, "●", FG_LIGHTYELLOW);
+		break;
+	}
+}
+
+int CheckBulletCrash(int nBulletID)
+{
+	int bCrash = 0;
+
+	int nTX = g_pBulletBox[nBulletID].nX;
+	int nTY = g_pBulletBox[nBulletID].nY;
+
+	if (g_pBulletBox[nBulletID].bulOwner == SIGN_TANK_PA) {
+		switch (g_pBulletBox[nBulletID].eDrt)
+		{
+		case DRT_UP:
+			if (g_Map[nTY - 1][nTX] == SIGN_TANK_E0 || g_Map[nTY - 1][nTX] == SIGN_TANK_E1) { //子弹打中敌军
+				for (int i = 0; i < ENEMY_NMAX; i++) {
+					if (!g_pEnemies[i].bDead) {
+						for (int m = 0; m < 3; m++) {
+							for (int n = 0; n < 3; n++) {
+								if ((g_pEnemies[i].nX + m) == nTX && (g_pEnemies[i].nY + n) == nTY - 1) {
+									g_pEnemies[i].bDead = 1;
+									WipeTank(&g_pEnemies[i]);
+									bCrash = 1;
+									g_pBulletBox[nBulletID].bulValid = 1;
+									g_pBulletBox[nBulletID].bulOwner = SIGN_EMPTY;
+									goto END;
+								}
+							}
+						}
+					}
+				}
+			}
+			else if (g_Map[nTY - 1][nTX] == SIGN_WALL0) { //子弹打中钢墙
+				g_pBulletBox[nBulletID].bulValid = 1;
+				g_pBulletBox[nBulletID].bulOwner = SIGN_EMPTY;
+				bCrash = 1;
+				goto END;
+			}
+			else if (g_Map[nTY - 1][nTX] == SIGN_WALL1) { //子弹打中水泥墙
+				g_pBulletBox[nBulletID].bulValid = 1;
+				g_pBulletBox[nBulletID].bulOwner = SIGN_EMPTY;
+				g_Map[nTY - 1][nTX] = SIGN_EMPTY;
+				WriteChar(nTX, nTY - 1, "  ", 0);
+				bCrash = 1;
+				goto END;
+			}
+
+			break;
+		case DRT_DOWN:
+			if (g_Map[nTY + 1][nTX] == SIGN_TANK_E0 || g_Map[nTY + 1][nTX] == SIGN_TANK_E1) {
+				for (int i = 0; i < ENEMY_NMAX; i++) {
+					if (!g_pEnemies[i].bDead) {
+						for (int m = 0; m < 3; m++) {
+							for (int n = 0; n < 3; n++) {
+								if ((g_pEnemies[i].nX + m) == nTX && (g_pEnemies[i].nY + n) == nTY + 1) {
+									g_pEnemies[i].bDead = 1;
+									WipeTank(&g_pEnemies[i]);
+									bCrash = 1;
+									g_pBulletBox[nBulletID].bulValid = 1;
+									g_pBulletBox[nBulletID].bulOwner = SIGN_EMPTY;
+									goto END;
+								}
+							}
+						}
+					}
+				}
+			}
+			else if (g_Map[nTY + 1][nTX] == SIGN_WALL0) { //子弹打中钢墙
+				g_pBulletBox[nBulletID].bulValid = 1;
+				g_pBulletBox[nBulletID].bulOwner = SIGN_EMPTY;
+				bCrash = 1;
+				goto END;
+			}
+			else if (g_Map[nTY + 1][nTX] == SIGN_WALL1) { //子弹打中水泥墙
+				g_pBulletBox[nBulletID].bulValid = 1;
+				g_pBulletBox[nBulletID].bulOwner = SIGN_EMPTY;
+				g_Map[nTY + 1][nTX] = SIGN_EMPTY;
+				WriteChar(nTX, nTY + 1, "  ", 0);
+				bCrash = 1;
+				goto END;
+			}
+
+			break;
+		case DRT_LEFT:
+			if (g_Map[nTY][nTX - 1] == SIGN_TANK_E0 || g_Map[nTY][nTX - 1] == SIGN_TANK_E1) {
+				for (int i = 0; i < ENEMY_NMAX; i++) {
+					if (!g_pEnemies[i].bDead) {
+						for (int m = 0; m < 3; m++) {
+							for (int n = 0; n < 3; n++) {
+								if ((g_pEnemies[i].nX + m) == nTX - 1 && (g_pEnemies[i].nY + n) == nTY) {
+									g_pEnemies[i].bDead = 1;
+									WipeTank(&g_pEnemies[i]);
+									bCrash = 1;
+									g_pBulletBox[nBulletID].bulValid = 1;
+									g_pBulletBox[nBulletID].bulOwner = SIGN_EMPTY;
+									goto END;
+								}
+							}
+						}
+					}
+				}
+			}
+			else if (g_Map[nTY][nTX - 1] == SIGN_WALL0) {
+				g_pBulletBox[nBulletID].bulValid = 1;
+				g_pBulletBox[nBulletID].bulOwner = SIGN_EMPTY;
+				bCrash = 1;
+				goto END;
+			}
+			else if (g_Map[nTY][nTX - 1] == SIGN_WALL1) { //子弹打中水泥墙
+				g_pBulletBox[nBulletID].bulValid = 1;
+				g_pBulletBox[nBulletID].bulOwner = SIGN_EMPTY;
+				g_Map[nTY][nTX - 1] = SIGN_EMPTY;
+				WriteChar(nTX, nTY - 1, "  ", 0);
+				bCrash = 1;
+				goto END;
+			}
+
+			break;
+		case DRT_RIGHT:
+			if (g_Map[nTY][nTX + 1] == SIGN_TANK_E0 || g_Map[nTY][nTX + 1] == SIGN_TANK_E1) {
+				for (int i = 0; i < ENEMY_NMAX; i++) {
+					if (!g_pEnemies[i].bDead) {
+						for (int m = 0; m < 3; m++) {
+							for (int n = 0; n < 3; n++) {
+								if ((g_pEnemies[i].nX + m) == nTX + 1 && (g_pEnemies[i].nY + n) == nTY) {
+									g_pEnemies[i].bDead = 1;
+									WipeTank(&g_pEnemies[i]);
+									bCrash = 1;
+									g_pBulletBox[nBulletID].bulValid = 1;
+									g_pBulletBox[nBulletID].bulOwner = SIGN_EMPTY;
+									goto END;
+								}
+							}
+						}
+					}
+				}
+			}
+			else if (g_Map[nTY][nTX + 1] == SIGN_WALL0) {
+				g_pBulletBox[nBulletID].bulValid = 1;
+				g_pBulletBox[nBulletID].bulOwner = SIGN_EMPTY;
+				bCrash = 1;
+				goto END;
+			}
+			else if (g_Map[nTY][nTX + 1] == SIGN_WALL1) { //子弹打中水泥墙
+				g_pBulletBox[nBulletID].bulValid = 1;
+				g_pBulletBox[nBulletID].bulOwner = SIGN_EMPTY;
+				g_Map[nTY][nTX + 1] = SIGN_EMPTY;
+				WriteChar(nTX, nTX + 1, "  ", 0);
+				bCrash = 1;
+				goto END;
+			}
+
+			break;
+		}
+	}
+	else if (g_pBulletBox[nBulletID].bulOwner == SIGN_TANK_E0) {
+
+	}
+
+END:
+	return bCrash;
 }
 
 void MoveBullets(void)
 {
 	for (int i = 0; i < BOX_CAPACITY; i++) {
-		if (!g_BulletBox[i].bulValid) {
+		if (!g_pBulletBox[i].bulValid) {
 			WipeBullet(i);
-			switch (g_BulletBox[i].eDrt)
+
+			if (CheckBulletCrash(i))
+				continue;
+
+			switch (g_pBulletBox[i].eDrt)
 			{
 			case DRT_UP:
-				if (g_BulletBox[i].nY - 1 <= 0) {
-					g_BulletBox[i].bulValid = 1;
-					g_BulletBox[i].bulOwner = SIGN_EMPTY;
-					continue;
-				}
-				g_BulletBox[i].nY -= 1;
+				g_pBulletBox[i].nY -= 1;
 				break;
 			case DRT_DOWN:
-				if (g_BulletBox[i].nY + 1 >= 39) {
-					g_BulletBox[i].bulValid = 1;
-					g_BulletBox[i].bulOwner = SIGN_EMPTY;
-					continue;
-				}
-				g_BulletBox[i].nY += 1;
+				g_pBulletBox[i].nY += 1;
 				break;
 			case DRT_LEFT:
-				if (g_BulletBox[i].nX - 1 <= 0) {
-					g_BulletBox[i].bulValid = 1;
-					g_BulletBox[i].bulOwner = SIGN_EMPTY;
-					continue;
-				}
-				g_BulletBox[i].nX -= 1;
+				g_pBulletBox[i].nX -= 1;
 				break;
 			case DRT_RIGHT:
-				if (g_BulletBox[i].nX + 1 >= 39) {
-					g_BulletBox[i].bulValid = 1;
-					g_BulletBox[i].bulOwner = SIGN_EMPTY;
-					continue;
-				}
-				g_BulletBox[i].nX += 1;
+				g_pBulletBox[i].nX += 1;
 				break;
 			}
 
@@ -76,31 +246,31 @@ void FireBullet(Tank *pTank)
 		return;
 
 	int nBulletID = GetBullet();
-	g_BulletBox[nBulletID].eDrt = pTank->eDrt;
-	g_BulletBox[nBulletID].bulOwner = pTank->eType;
+	g_pBulletBox[nBulletID].eDrt = pTank->eDrt;
+	g_pBulletBox[nBulletID].bulOwner = pTank->eType;
 
 	switch (pTank->eDrt)
 	{
 	case DRT_UP:
-		g_BulletBox[nBulletID].nX = pTank->nX + 1;
-		g_BulletBox[nBulletID].nY = pTank->nY - 1;
+		g_pBulletBox[nBulletID].nX = pTank->nX + 1;
+		g_pBulletBox[nBulletID].nY = pTank->nY - 1;
 		break;
 	case DRT_DOWN:
-		g_BulletBox[nBulletID].nX = pTank->nX + 1;
-		g_BulletBox[nBulletID].nY = pTank->nY + 3;
+		g_pBulletBox[nBulletID].nX = pTank->nX + 1;
+		g_pBulletBox[nBulletID].nY = pTank->nY + 3;
 		break;
 	case DRT_LEFT:
-		g_BulletBox[nBulletID].nX = pTank->nX - 1;
-		g_BulletBox[nBulletID].nY = pTank->nY + 1;
+		g_pBulletBox[nBulletID].nX = pTank->nX - 1;
+		g_pBulletBox[nBulletID].nY = pTank->nY + 1;
 		break;
 	case DRT_RIGHT:
-		g_BulletBox[nBulletID].nX = pTank->nX + 3;
-		g_BulletBox[nBulletID].nY = pTank->nY + 1;
+		g_pBulletBox[nBulletID].nX = pTank->nX + 3;
+		g_pBulletBox[nBulletID].nY = pTank->nY + 1;
 		break;
 	}
 
 	ShowBullet(nBulletID);
-	g_BulletBox[nBulletID].bulValid = 0;
+	g_pBulletBox[nBulletID].bulValid = 0;
 }
 
 Bullet *InitBulletBox(void)

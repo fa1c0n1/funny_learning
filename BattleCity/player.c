@@ -5,7 +5,7 @@
 
 #include <stdlib.h>
 
-Tank *CreateTank(TankType eType, uint nX, uint nY, Direction eDrt)
+Tank *CreatePlayer(TankType eType, uint nX, uint nY, Direction eDrt)
 {
 	if (eType != SIGN_TANK_PA && eType != SIGN_TANK_PB
 		&& eType != SIGN_TANK_E0 && eType != SIGN_TANK_E1)
@@ -16,14 +16,7 @@ Tank *CreateTank(TankType eType, uint nX, uint nY, Direction eDrt)
 	pTank->nX = nX;
 	pTank->nY = nY;
 	pTank->eDrt = eDrt;
-
-	for (int i = 0; i < 3; i++) {
-		for (int j = 0; j < 3; j++) {
-			if (g_TankStatus[eDrt][i][j] == 1) {
-				UpdateMapPoint(eType, pTank->nX + j, pTank->nY + i);
-			}
-		}
-	}
+	pTank->bDead = 0;
 
 	return pTank;
 }
@@ -35,8 +28,10 @@ void WipeTank(Tank *pTank)
 
 	for (int i = 0; i < 3; i++) {
 		for (int j = 0; j < 3; j++) {
-			UpdateMapPoint(SIGN_EMPTY, pTank->nX + j, pTank->nY + i);
-			WriteChar(pTank->nX + j, pTank->nY + i, "  ", 0);
+			if (g_Map[pTank->nY + i][pTank->nX + j] != SIGN_GRASS) {
+				UpdateMapPoint(SIGN_EMPTY, pTank->nX + j, pTank->nY + i);
+				WriteChar(pTank->nX + j, pTank->nY + i, "  ", 0);
+			}
 		}
 	}
 }
@@ -52,17 +47,75 @@ void ShowTank(Tank *pTank)
 	case SIGN_TANK_PA:
 		wAttr = FG_LIGHTTURQUOISE;
 		break;
+	case SIGN_TANK_E0:
+		wAttr = FG_LIGHTRED;
+		break;
 	default:
 		break;
 	}
 
 	for (int i = 0; i < 3; i++) {
 		for (int j = 0; j < 3; j++) {
-			UpdateMapPoint(SIGN_TANK_PA, pTank->nX + j, pTank->nY + i);
-			if (g_TankStatus[pTank->eDrt][i][j] == 1)
-				WriteChar(pTank->nX + j, pTank->nY + i, "¡ö", wAttr);
+			if (g_Map[pTank->nY + i][pTank->nX+j] != SIGN_GRASS)
+				UpdateMapPoint(pTank->eType, pTank->nX + j, pTank->nY + i);
+			if (g_TankStatus[pTank->eDrt][i][j] == 1) {
+				if (g_Map[pTank->nY + i][pTank->nX + j] != SIGN_GRASS)
+					WriteChar(pTank->nX + j, pTank->nY + i, "¡ö", wAttr);
+				else
+					WriteChar(pTank->nX + j, pTank->nY + i, "¨ˆ", FG_GREEN);
+			}
 		}
 	}
+}
+
+int CheckTankCrash(Tank *pTank)
+{
+	int bCrash = 0;
+
+	if (pTank == NULL)
+		goto END;
+
+	int nTX = pTank->nX;
+	int nTY = pTank->nY;
+
+	switch (pTank->eDrt)
+	{
+	case DRT_UP:
+		for (int i = 0; i < 3; i++) {
+			if (g_Map[nTY - 1][nTX + i] != SIGN_EMPTY && g_Map[nTY - 1][nTX + i] != SIGN_GRASS) {
+				bCrash = 1;
+				goto END;
+			}
+		}
+		break;
+	case DRT_DOWN:
+		for (int i = 0; i < 3; i++) {
+			if (g_Map[nTY + 3][nTX + i] != SIGN_EMPTY && g_Map[nTY + 3][nTX + i] != SIGN_GRASS) {
+				bCrash = 1;
+				goto END;
+			}
+		}
+		break;
+	case DRT_LEFT:
+		for (int i = 0; i < 3; i++) {
+			if (g_Map[nTY + i][nTX - 1] != SIGN_EMPTY && g_Map[nTY + i][nTX - 1] != SIGN_GRASS) {
+				bCrash = 1;
+				goto END;
+			}
+		}
+		break;
+	case DRT_RIGHT:
+		for (int i = 0; i < 3; i++) {
+			if (g_Map[nTY + i][nTX + 3] != SIGN_EMPTY && g_Map[nTY + i][nTX + 3] != SIGN_GRASS) {
+				bCrash = 1;
+				goto END;
+			}
+		}
+		break;
+	}
+
+END:
+	return bCrash;
 }
 
 void MoveTank(Tank *pTank, Direction eDrt)
@@ -77,30 +130,22 @@ void MoveTank(Tank *pTank, Direction eDrt)
 		return;
 	}
 
+	if (CheckTankCrash(pTank))
+		return;
+
+	WipeTank(pTank);
 	switch (pTank->eDrt)
 	{
 	case DRT_UP:
-		if (pTank->nY - 1 <= 0)
-			return;
-		WipeTank(pTank);
 		pTank->nY -= 1;
 		break;
 	case DRT_DOWN:
-		if (pTank->nY + 3 >= 39)
-			return;
-		WipeTank(pTank);
 		pTank->nY += 1;
 		break;
 	case DRT_LEFT:
-		if (pTank->nX - 1 <= 0)
-			return;
-		WipeTank(pTank);
 		pTank->nX -= 1;
 		break;
 	case DRT_RIGHT:
-		if (pTank->nX + 3 >= 39)
-			return;
-		WipeTank(pTank);
 		pTank->nX += 1;
 		break;
 	}

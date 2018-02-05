@@ -3,7 +3,7 @@
 
 #include "data.h"
 
-extern Tank *CreateTank(TankType eType, uint nX, uint nY, Direction eDrt);
+extern Tank *CreatePlayer(TankType eType, uint nX, uint nY, Direction eDrt);
 extern void ShowTank(Tank *pTank);
 extern void DestroyTank(Tank *pTank);
 extern void WipeTank(Tank *pTank);

@@ -3,16 +3,20 @@
 
 #include "comm.h"
 
+#include <time.h>
+
 //地图上每个点的类型
 typedef enum {
 	SIGN_EMPTY,
-	SIGN_WALL0,       //铁墙(不可击毁)
+	SIGN_WALL0,       //钢墙(不可击毁)
 	SIGN_WALL1,       //水泥墙(可击毁)
 	SIGN_TANK_PA,     //玩家坦克A
 	SIGN_TANK_PB,     //玩家坦克B 
 	SIGN_TANK_E0,     //敌军坦克0
 	SIGN_TANK_E1,     //敌军坦克1
 	SIGN_BULLET,      //子弹
+	SIGN_GRASS,       //草地
+	SIGN_RIVER        //河流
 } ObjType;
 
 //方向
@@ -34,12 +38,14 @@ typedef struct {
 //地图上的对象
 typedef struct {
 	uint bulValid : 1;     //子弹是否有效
+	uint bDead : 1;        //坦克是否死亡
 	Direction eDrt : 4;    //方向
 	ObjType eType : 8;     //钢墙 土墙 草地 河流 沙地等, 坦克A 坦克B 敌军坦克等
 	uint nX : 8;          //对象左上角的横坐标
 	uint nY : 8;          //对象左上角的纵坐标
 	ObjType bulOwner : 8; //子弹属主
 	uint nBulletID : 16;  //子弹ID
+	uint nEnID : 16;  //敌军ID
 } Object;
 
 typedef Object Tank;
@@ -105,8 +111,16 @@ typedef struct {
 //BulletBox的容量
 #define BOX_CAPACITY        100
 
+//敌军的数量最大值
+#define ENEMY_NMAX           5
+
 extern int g_Map[40][40];
 extern int g_TankStatus[4][3][3];
-extern Bullet *g_BulletBox;
+extern Bullet *g_pBulletBox;
+extern Tank *g_pTankA;
+extern Tank *g_pEnemies;
+extern int g_nEnNum;
+
+extern clock_t g_startTime;
 
 #endif  // _DATA_H

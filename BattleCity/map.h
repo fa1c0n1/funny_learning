@@ -5,5 +5,6 @@
 #include "data.h"
 
 extern void UpdateMapPoint(ObjType eType, uint nX, uint nY);
+extern void ShowMap(void);
 
 #endif // _MAP_H
