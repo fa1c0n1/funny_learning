@@ -33,6 +33,7 @@ void ClearAllBarrier(void)
 	}
 }
 
+//初始化默认地图
 void InitDefaultMap(void)
 {
 	//布置水泥墙
@@ -96,11 +97,14 @@ void ShowMap(void)
 	}
 }
 
-void DestroyObject(Object *pObj)
+void DestroyObject(Object **pObj)
 {
-	if (pObj != NULL) {
-		free(pObj);
-		pObj = NULL;
+	if (pObj == NULL)
+		return;
+
+	if (*pObj != NULL) {
+		free(*pObj);
+		*pObj = NULL;
 	}
 }
 

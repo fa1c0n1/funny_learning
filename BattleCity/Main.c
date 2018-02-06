@@ -12,14 +12,15 @@ int main(void)
 	//printf("┃______________________┃");
 	//printf("▓");
 
-	//while (1) {
-	//	if (_kbhit()) {
-	//		int key = _getch();
-	//		printf("%d\n", key);
-	//	}
+	/*while (1) {
+		if (_kbhit()) {
+		int key = _getch();
+		if (key == '')
+		printf("%c, %d\n", key, key);
+		}
 
-	//	Sleep(50);
-	//}
+		Sleep(50);
+		}*/
 
 
 	LaunchGame();

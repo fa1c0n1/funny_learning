@@ -42,34 +42,61 @@ void ShowMenu(void)
 	}
 }
 
-void PlayGame_KeyDetect(Tank *pTank)
+//ÏÔÊ¾×Ó²Ëµ¥
+int ShowSubMenu(void)
 {
-	if (pTank->bDead)
-		return;
+	int nRet = 0;
 
-	switch (pTank->eType)
-	{
-	case SIGN_TANK_PA:
-		if (KEYDOWN('h') || KEYDOWN('H'))
-			MoveTank(pTank, DRT_LEFT);
-		else if (KEYDOWN('l') || KEYDOWN('L'))
-			MoveTank(pTank, DRT_RIGHT);
-		else if (KEYDOWN('k') || KEYDOWN('K'))
-			MoveTank(pTank, DRT_UP);
-		else if (KEYDOWN('j') || KEYDOWN('J'))
-			MoveTank(pTank, DRT_DOWN);
-		else if (KEYDOWN('a') || KEYDOWN('A'))
-			FireBullet(pTank);
+	MenuItem subMenu[3] = {
+		{ KEY_1, GoOnGame, "1.¼ÌÐøÓÎÏ·" },
+		{ KEY_2, SaveGame, "2.±£´æÓÎÏ·" },
+		{ KEY_3, RetMainMenu, "3.·µ¡¡¡¡»Ø" },
+	};
 
-		break;
-	default:
-		break;
+	for (int i = 0; i < _countof(subMenu); i++) {
+		WriteChar(42, 25 + 2 * i, subMenu[i].szText, FG_LIGHTGREEN);
 	}
+
+	while (1) {
+		if (_kbhit()) {
+			int key = _getch();
+			if (key >= KEY_1 && key <= KEY_3) {
+				nRet = subMenu[key - 48 - 1].func();
+				if (nRet != 2)
+					break;
+			}
+		}
+
+		Sleep(30);
+	}
+
+	for (int i = 0; i < _countof(subMenu); i++) {
+		WriteChar(42, 25 + 2 * i, "         ", 0);
+	}
+
+	return nRet;
 }
 
+int GoOnGame(void)
+{
+	return 1;
+}
+
+int SaveGame(void)
+{
+	return 2;
+}
+
+int RetMainMenu(void)
+{
+	return 3;
+}
+
+//½øÈëÓÎÏ·µÄÖ÷Âß¼­µÄÑ­»·
 void GoRun(void)
 {
 	g_startTime = clock();
+	int nSubRet = 0;
 
 	ShowMap();
 	ShowTank(g_pTankA);
@@ -88,12 +115,44 @@ void GoRun(void)
 			}
 		}
 
-		PlayGame_KeyDetect(g_pTankA);
+		if (!g_pTankA->bDead) {
+			//°´¼ü¼ì²â
+			switch (g_pTankA->eType)
+			{
+			case SIGN_TANK_PA:
+				if (KEYDOWN('a') || KEYDOWN('A'))
+					MoveTank(g_pTankA, DRT_LEFT);
+				else if (KEYDOWN('d') || KEYDOWN('D'))
+					MoveTank(g_pTankA, DRT_RIGHT);
+				else if (KEYDOWN('w') || KEYDOWN('W'))
+					MoveTank(g_pTankA, DRT_UP);
+				else if (KEYDOWN('s') || KEYDOWN('S'))
+					MoveTank(g_pTankA, DRT_DOWN);
+				else if (KEYDOWN('j') || KEYDOWN('J'))
+					FireBullet(g_pTankA);
+				else if (KEYDOWN('')) {
+					nSubRet = ShowSubMenu();
+					if (nSubRet == 3) {//3±íÊ¾Òª·µ»Øµ½Ö÷²Ëµ¥
+						ClearAllBarrier();
+						system("cls");
+						goto END;
+					}
+				}
+
+				break;
+			default:
+				break;
+			}
+		}
+
 		MoveBullets();
 		RandomMoveEnemies();
 
 		Sleep(50);
 	}
+
+END:
+	return;
 }
 
 //³õÊ¼»¯ÓÎÏ·½ÇÉ«(°üÀ¨Íæ¼Ò¡¢µÐ¾üºÍ×Óµ¯)
@@ -108,11 +167,10 @@ void InitGameRoles(void)
 int StartGame(void)
 {
 	system("cls");
-
 	InitGameRoles();
 	InitDefaultMap();
-
 	GoRun();
+	FreeGameRes();
 	return 0;
 }
 
@@ -250,6 +308,7 @@ int EditMap(void)
 	if (DrawMapResult()) {
 		InitGameRoles();
 		GoRun();
+		FreeGameRes();
 	}
 	else {
 		ClearAllBarrier();
@@ -266,12 +325,13 @@ int ExitGame(void)
 }
 
 
+//ÊÍ·ÅÓÎÏ·×ÊÔ´
 void FreeGameRes(void)
 {
-	DestroyObject(g_pTankA);
-	DestroyObject(g_pTankB);
-	DestroyObject(g_pEnemies);
-	DestroyObject(g_pBulletBox);
+	DestroyObject(&g_pTankA);
+	//DestroyObject(&g_pTankB);
+	DestroyObject(&g_pEnemies);
+	DestroyObject(&g_pBulletBox);
 }
 
 void LaunchGame(void)

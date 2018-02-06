@@ -12,5 +12,10 @@ int ExitGame(void);
 void GoRun(void);
 void FreeGameRes(void);
 void InitGameRoles(void);
+void ShowMenu(void);
+int ShowSubMenu(void);
+int GoOnGame(void);
+int SaveGame(void);
+int RetMainMenu(void);
 
 #endif  // _CONTROLLER_H
