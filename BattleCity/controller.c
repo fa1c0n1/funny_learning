@@ -104,17 +104,6 @@ void GoRun(void)
 	ShowEnemies(g_pEnemies);
 
 	while (1) {
-		for (int i = 1; i < 39; i++) {
-			for (int j = 1; j < 39; j++) {
-				switch (g_Map[i][j])
-				{
-				case SIGN_GRASS:
-					WriteChar(j, i, "¨ˆ", FG_GREEN);
-					break;
-				}
-			}
-		}
-
 		if (!g_pTankA->bDead) {
 			//°´¼ü¼ì²â
 			switch (g_pTankA->eType)

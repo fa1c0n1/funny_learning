@@ -97,6 +97,7 @@ void ShowMap(void)
 	}
 }
 
+//释放游戏中分配的动态内存
 void DestroyObject(Object **pObj)
 {
 	if (pObj == NULL)
