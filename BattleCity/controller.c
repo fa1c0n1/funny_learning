@@ -11,6 +11,7 @@
 #include <conio.h>
 #include <time.h>
 
+//显示主菜单
 void ShowMenu(void)
 {
 	int bExit = 0;
@@ -77,16 +78,20 @@ int ShowSubMenu(void)
 	return nRet;
 }
 
+//子菜单：继续游戏
 int GoOnGame(void)
 {
 	return 1;
 }
 
+//子菜单：保存游戏
 int SaveGame(void)
 {
+	//TODO:
 	return 2;
 }
 
+//子菜单：返回主菜单
 int RetMainMenu(void)
 {
 	return 3;
@@ -153,6 +158,7 @@ void InitGameRoles(void)
 	g_pEnemies = InitEnemies();
 }
 
+//主菜单：开始游戏
 int StartGame(void)
 {
 	system("cls");
@@ -163,11 +169,14 @@ int StartGame(void)
 	return 0;
 }
 
+//主菜单：继续游戏
 int LoadGame(void)
 {
+	//TODO:
 	return 0;
 }
 
+//编辑地图时的键盘检测处理
 int DrawMapKeyEventProc(KEY_EVENT_RECORD ker)
 {
 	int bRet = 0;
@@ -189,6 +198,7 @@ END:
 	return bRet;
 }
 
+//编辑地图时的鼠标检测处理
 void DrawMapMouseEventProc(MOUSE_EVENT_RECORD mer)
 {
 	int nX = mer.dwMousePosition.X / 2;
@@ -238,6 +248,7 @@ void DrawMapMouseEventProc(MOUSE_EVENT_RECORD mer)
 	}
 }
 
+//编辑地图
 int DrawMapResult(void)
 {
 	int bSave = 0;
@@ -287,6 +298,7 @@ int DrawMapResult(void)
 	return bSave;
 }
 
+//主菜单：编辑地图
 int EditMap(void)
 {
 	system("cls");
@@ -307,6 +319,7 @@ int EditMap(void)
 	return 0;
 }
 
+//主菜单：退出游戏
 int ExitGame(void)
 {
 	FreeGameRes();
@@ -323,14 +336,12 @@ void FreeGameRes(void)
 	DestroyObject(&g_pBulletBox);
 }
 
+//启动游戏(被main函数调用)
 void LaunchGame(void)
 {
 	//初始化窗口
 	SetWindowSize("Battle City", 100, 40);
 
-	//播放动画
 	WelcomeAnim();
-
-	//显示菜单
 	ShowMenu();
 }

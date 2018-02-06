@@ -2,6 +2,7 @@
 #include "animation.h"
 #include "data.h"
 
+//动态打印一辆坦克
 void prnStartTank(void)
 {
 	int dx1 = 0, dx2 = 0;
@@ -50,6 +51,7 @@ void prnStartTank(void)
 	}
 }
 
+//动态打印文字1: BATTLE
 void prnStartText1(void)
 {
 	while (g_text1[_countof(g_text1) - 1].nX < 40) {
@@ -68,8 +70,7 @@ void prnStartText1(void)
 	}
 }
 
-
-
+//动态打印文字2: CITY
 void prnStartText2(void)
 {
 	while (g_text2[_countof(g_text2) - 1].nX < 33) {
@@ -88,6 +89,7 @@ void prnStartText2(void)
 	}
 }
 
+//显示欢迎动画
 void WelcomeAnim(void)
 {
 	prnStartTank();

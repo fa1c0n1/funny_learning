@@ -5,6 +5,7 @@
 
 #include <stdlib.h>
 
+//从子弹仓库获取子弹
 int GetBullet(void)
 {
 	for (int i = 0; i < BOX_CAPACITY; i++) {
@@ -13,6 +14,7 @@ int GetBullet(void)
 	}
 }
 
+//擦除子弹
 void WipeBullet(int nBulletID)
 {
 	int nTX = g_pBulletBox[nBulletID].nX;
@@ -34,6 +36,7 @@ void WipeBullet(int nBulletID)
 	}
 }
 
+//显示子弹
 void ShowBullet(int nBulletID)
 {
 	int nTX = g_pBulletBox[nBulletID].nX;
@@ -61,6 +64,7 @@ void ShowBullet(int nBulletID)
 	}
 }
 
+//检测子弹所有的碰撞
 int CheckBulletCrash(int nBulletID)
 {
 	int bCrash = 0;
@@ -311,6 +315,7 @@ END:
 	return bCrash;
 }
 
+//移动所有已发射的子弹
 void MoveBullets(void)
 {
 	for (int i = 0; i < BOX_CAPACITY; i++) {
@@ -343,18 +348,21 @@ void MoveBullets(void)
 	}
 }
 
+//重置子弹
 void ResetBullet(int nBulletID)
 {
 	g_pBulletBox[nBulletID].bulValid = 1;
 	g_pBulletBox[nBulletID].bulOwner = SIGN_EMPTY;
 }
 
+//设置子弹在地图上的位置
 void SetBulletPosition(int nBulletID, int nX, int nY)
 {
 	g_pBulletBox[nBulletID].nX = nX;
 	g_pBulletBox[nBulletID].nY = nY;
 }
 
+//发射子弹
 void FireBullet(Tank *pTank)
 {
 	if (pTank == NULL)
@@ -395,6 +403,7 @@ void FireBullet(Tank *pTank)
 	ShowBullet(nBulletID);
 }
 
+//初始化子弹仓库
 Bullet *InitBulletBox(void)
 {
 	Bullet *bulletBox = (Bullet *)calloc(BOX_CAPACITY, sizeof(Bullet));
