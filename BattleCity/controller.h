@@ -5,10 +5,11 @@
 
 extern void LaunchGame(void);
 
-void StartGame(void);
-void LoadGame(void);
-void EditMap(void);
-void ExitGame(void);
+int StartGame(void);
+int LoadGame(void);
+int EditMap(void);
+int ExitGame(void);
+void GoRun(void);
 void FreeGameRes(void);
 
 #endif  // _CONTROLLER_H

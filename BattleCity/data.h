@@ -53,7 +53,7 @@ typedef Object Bullet;
 
 typedef struct {
 	uint nKey;         //对应的按键
-	void(*func)(void); //对应的函数
+	int(*func)(void); //对应的函数
 	char szText[64];   //对应的文字说明
 } MenuItem;
 
@@ -121,6 +121,7 @@ extern Tank *g_pTankA;             //玩家A
 extern Tank *g_pTankB;             //玩家B
 extern Tank *g_pEnemies;           //敌军
 extern int g_nEnNum;               //敌军数量
+extern ObjType g_eNodeType;        //表示地图上点的类型，编辑地图时用于切换类型
 
 extern clock_t g_startTime;        
 

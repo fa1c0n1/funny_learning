@@ -50,148 +50,150 @@ void prnStartTank(void)
 	}
 }
 
+#define DX      -32
+#define DY      -5
+static Point text1[] = {
+			{ 0 + DX, 12 + DY },
+			{ 0 + DX, 13 + DY },
+			{ 0 + DX, 14 + DY },
+			{ 0 + DX, 15 + DY },
+			{ 0 + DX, 16 + DY },
+			{ 1 + DX, 12 + DY },
+			{ 1 + DX, 14 + DY },
+			{ 1 + DX, 16 + DY },
+			{ 2 + DX, 12 + DY },
+			{ 2 + DX, 13 + DY },
+			{ 2 + DX, 15 + DY },
+			{ 2 + DX, 16 + DY }, //B
+
+			{ 4 + DX, 16 + DY },
+			{ 5 + DX, 15 + DY },
+			{ 6 + DX, 14 + DY },
+			{ 7 + DX, 13 + DY },
+			{ 7 + DX, 14 + DY },
+			{ 8 + DX, 12 + DY },
+			{ 8 + DX, 14 + DY },
+			{ 9 + DX, 13 + DY },
+			{ 9 + DX, 14 + DY },
+			{ 10 + DX, 14 + DY },
+			{ 11 + DX, 15 + DY },
+			{ 12 + DX, 16 + DY }, //A
+		
+			{ 14 + DX, 12 + DY },
+			{ 15 + DX, 12 + DY },
+			{ 16 + DX, 12 + DY },
+			{ 16 + DX, 13 + DY },
+			{ 16 + DX, 14 + DY },
+			{ 16 + DX, 15 + DY },
+			{ 16 + DX, 16 + DY },
+			{ 17 + DX, 12 + DY },
+			{ 18 + DX, 12 + DY }, //T
+
+			{ 20 + DX, 12 + DY },
+			{ 21 + DX, 12 + DY },
+			{ 22 + DX, 12 + DY },
+			{ 22 + DX, 13 + DY },
+			{ 22 + DX, 14 + DY },
+			{ 22 + DX, 15 + DY },
+			{ 22 + DX, 16 + DY }, 
+			{ 23 + DX, 12 + DY },
+			{ 24 + DX, 12 + DY }, //T
+
+			{ 26 + DX, 12 + DY },
+			{ 26 + DX, 13 + DY },
+			{ 26 + DX, 14 + DY },
+			{ 26 + DX, 15 + DY },
+			{ 26 + DX, 16 + DY },
+			{ 27 + DX, 16 + DY },
+			{ 28 + DX, 16 + DY }, //L
+
+			{ 30 + DX, 12 + DY },
+			{ 30 + DX, 13 + DY },
+			{ 30 + DX, 14 + DY },
+			{ 30 + DX, 15 + DY },
+			{ 30 + DX, 16 + DY },
+			{ 31 + DX, 12 + DY },
+			{ 31 + DX, 14 + DY },
+			{ 31 + DX, 16 + DY },
+			{ 32 + DX, 12 + DY },
+			{ 32 + DX, 14 + DY },
+			{ 32 + DX, 16 + DY }, //E
+	};
+#undef DX
+#undef DY
+
 void prnStartText1(void)
 {
-	int dx = -32;
-	int dy = -5;
-
-	Point text[] = {
-			{ 0 + dx, 12 + dy },
-			{ 0 + dx, 13 + dy },
-			{ 0 + dx, 14 + dy },
-			{ 0 + dx, 15 + dy },
-			{ 0 + dx, 16 + dy },
-			{ 1 + dx, 12 + dy },
-			{ 1 + dx, 14 + dy },
-			{ 1 + dx, 16 + dy },
-			{ 2 + dx, 12 + dy },
-			{ 2 + dx, 13 + dy },
-			{ 2 + dx, 15 + dy },
-			{ 2 + dx, 16 + dy }, //B
-
-			{ 4 + dx, 16 + dy },
-			{ 5 + dx, 15 + dy },
-			{ 6 + dx, 14 + dy },
-			{ 7 + dx, 13 + dy },
-			{ 7 + dx, 14 + dy },
-			{ 8 + dx, 12 + dy },
-			{ 8 + dx, 14 + dy },
-			{ 9 + dx, 13 + dy },
-			{ 9 + dx, 14 + dy },
-			{ 10 + dx, 14 + dy },
-			{ 11 + dx, 15 + dy },
-			{ 12 + dx, 16 + dy }, //A
-		
-			{ 14 + dx, 12 + dy },
-			{ 15 + dx, 12 + dy },
-			{ 16 + dx, 12 + dy },
-			{ 16 + dx, 13 + dy },
-			{ 16 + dx, 14 + dy },
-			{ 16 + dx, 15 + dy },
-			{ 16 + dx, 16 + dy },
-			{ 17 + dx, 12 + dy },
-			{ 18 + dx, 12 + dy }, //T
-
-			{ 20 + dx, 12 + dy },
-			{ 21 + dx, 12 + dy },
-			{ 22 + dx, 12 + dy },
-			{ 22 + dx, 13 + dy },
-			{ 22 + dx, 14 + dy },
-			{ 22 + dx, 15 + dy },
-			{ 22 + dx, 16 + dy }, 
-			{ 23 + dx, 12 + dy },
-			{ 24 + dx, 12 + dy }, //T
-
-			{ 26 + dx, 12 + dy },
-			{ 26 + dx, 13 + dy },
-			{ 26 + dx, 14 + dy },
-			{ 26 + dx, 15 + dy },
-			{ 26 + dx, 16 + dy },
-			{ 27 + dx, 16 + dy },
-			{ 28 + dx, 16 + dy }, //L
-
-			{ 30 + dx, 12 + dy },
-			{ 30 + dx, 13 + dy },
-			{ 30 + dx, 14 + dy },
-			{ 30 + dx, 15 + dy },
-			{ 30 + dx, 16 + dy },
-			{ 31 + dx, 12 + dy },
-			{ 31 + dx, 14 + dy },
-			{ 31 + dx, 16 + dy },
-			{ 32 + dx, 12 + dy },
-			{ 32 + dx, 14 + dy },
-			{ 32 + dx, 16 + dy }, //E
-	};
-
-	while (text[_countof(text) - 1].nX < 40) {
-		for (int i = 0; i < _countof(text); i++) {
-			if (text[i].nX >= 0)
-				WriteChar(text[i].nX, text[i].nY, "  ", 0);
-			text[i].nX += 1;
+	while (text1[_countof(text1) - 1].nX < 40) {
+		for (int i = 0; i < _countof(text1); i++) {
+			if (text1[i].nX >= 0)
+				WriteChar(text1[i].nX, text1[i].nY, "  ", 0);
+			text1[i].nX += 1;
 		}
 
-		for (int i = 0; i < _countof(text); i++) {
-			if (text[i].nX >= 0)
-				WriteChar(text[i].nX, text[i].nY, "■", FG_GREEN);
+		for (int i = 0; i < _countof(text1); i++) {
+			if (text1[i].nX >= 0)
+				WriteChar(text1[i].nX, text1[i].nY, "■", FG_GREEN);
 		}
 
 		Sleep(5);
 	}
 }
 
+#define DX    -20
+#define DY    -3
+static Point text2[] = {
+			{ 0 + DX, 18 + DY },
+			{ 0 + DX, 19 + DY },
+			{ 0 + DX, 20 + DY },
+			{ 1 + DX, 17 + DY },
+			{ 1 + DX, 21 + DY },
+			{ 2 + DX, 17 + DY },
+			{ 2 + DX, 21 + DY }, //C
+
+			{ 5 + DX, 17 + DY },
+			{ 5 + DX, 21 + DY },
+			{ 6 + DX, 17 + DY }, 
+			{ 6 + DX, 18 + DY }, 
+			{ 6 + DX, 19 + DY }, 
+			{ 6 + DX, 20 + DY }, 
+			{ 6 + DX, 21 + DY }, 
+			{ 7 + DX, 17 + DY },
+			{ 7 + DX, 21 + DY }, //I
+
+			{ 9 + DX, 17 + DY },
+			{ 10 + DX, 17 + DY },
+			{ 11 + DX, 17 + DY },
+			{ 11 + DX, 18 + DY },
+			{ 11 + DX, 19 + DY },
+			{ 11 + DX, 20 + DY },
+			{ 11 + DX, 21 + DY },
+			{ 12 + DX, 17 + DY }, 
+			{ 13 + DX, 17 + DY }, //T
+
+			{ 15 + DX, 17 + DY },
+			{ 16 + DX, 18 + DY },
+			{ 17 + DX, 19 + DY },
+			{ 17 + DX, 20 + DY },
+			{ 17 + DX, 21 + DY },
+			{ 18 + DX, 18 + DY },
+			{ 19 + DX, 17 + DY }, //Y
+	};
+#undef DX
+#undef DY
+
 void prnStartText2(void)
 {
-	int dx = -20;
-	int dy = -3;
-	
-	Point text[] = {
-			{ 0 + dx, 18 + dy },
-			{ 0 + dx, 19 + dy },
-			{ 0 + dx, 20 + dy },
-			{ 1 + dx, 17 + dy },
-			{ 1 + dx, 21 + dy },
-			{ 2 + dx, 17 + dy },
-			{ 2 + dx, 21 + dy }, //C
-
-			{ 5 + dx, 17 + dy },
-			{ 5 + dx, 21 + dy },
-			{ 6 + dx, 17 + dy }, 
-			{ 6 + dx, 18 + dy }, 
-			{ 6 + dx, 19 + dy }, 
-			{ 6 + dx, 20 + dy }, 
-			{ 6 + dx, 21 + dy }, 
-			{ 7 + dx, 17 + dy },
-			{ 7 + dx, 21 + dy }, //I
-
-			{ 9 + dx, 17 + dy },
-			{ 10 + dx, 17 + dy },
-			{ 11 + dx, 17 + dy },
-			{ 11 + dx, 18 + dy },
-			{ 11 + dx, 19 + dy },
-			{ 11 + dx, 20 + dy },
-			{ 11 + dx, 21 + dy },
-			{ 12 + dx, 17 + dy }, 
-			{ 13 + dx, 17 + dy }, //T
-
-			{ 15 + dx, 17 + dy },
-			{ 16 + dx, 18 + dy },
-			{ 17 + dx, 19 + dy },
-			{ 17 + dx, 20 + dy },
-			{ 17 + dx, 21 + dy },
-			{ 18 + dx, 18 + dy },
-			{ 19 + dx, 17 + dy }, //Y
-	};
-
-	while (text[_countof(text) - 1].nX < 33) {
-		for (int i = 0; i < _countof(text); i++) {
-			if (text[i].nX >= 0)
-				WriteChar(text[i].nX, text[i].nY, "  ", 0);
-			text[i].nX += 1;
+	while (text2[_countof(text2) - 1].nX < 33) {
+		for (int i = 0; i < _countof(text2); i++) {
+			if (text2[i].nX >= 0)
+				WriteChar(text2[i].nX, text2[i].nY, "  ", 0);
+			text2[i].nX += 1;
 		}
 
-		for (int i = 0; i < _countof(text); i++) {
-			if (text[i].nX >= 0)
-				WriteChar(text[i].nX, text[i].nY, "■", FG_GREEN);
+		for (int i = 0; i < _countof(text2); i++) {
+			if (text2[i].nX >= 0)
+				WriteChar(text2[i].nX, text2[i].nY, "■", FG_GREEN);
 		}
 
 		Sleep(5);
@@ -203,4 +205,18 @@ void WelcomeAnim(void)
 	prnStartTank();
 	prnStartText1();
 	prnStartText2();
+}
+
+//返回主菜单时显示
+void ShowStillText(void)
+{
+	for (int i = 0; i < _countof(text1); i++) {
+		if (text1[i].nX >= 0)
+			WriteChar(text1[i].nX, text1[i].nY, "■", FG_GREEN);
+	}
+
+	for (int i = 0; i < _countof(text2); i++) {
+		if (text2[i].nX >= 0)
+			WriteChar(text2[i].nX, text2[i].nY, "■", FG_GREEN);
+	}
 }

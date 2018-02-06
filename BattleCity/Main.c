@@ -51,6 +51,5 @@ END:
 		j += 4;
 	}*/
 
-	system("pause");
 	return 0;
 }
