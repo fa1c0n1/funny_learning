@@ -70,8 +70,6 @@ int CheckBulletCrash(int nBulletID)
 									g_pEnemies[i].bDead = 1;
 									WipeTank(&g_pEnemies[i]);
 									bCrash = 1;
-									g_pBulletBox[nBulletID].bulValid = 1;
-									g_pBulletBox[nBulletID].bulOwner = SIGN_EMPTY;
 									goto END;
 								}
 							}
@@ -80,14 +78,10 @@ int CheckBulletCrash(int nBulletID)
 				}
 			}
 			else if (g_Map[nTY - 1][nTX] == SIGN_WALL0) { //子弹打中钢墙
-				g_pBulletBox[nBulletID].bulValid = 1;
-				g_pBulletBox[nBulletID].bulOwner = SIGN_EMPTY;
 				bCrash = 1;
 				goto END;
 			}
 			else if (g_Map[nTY - 1][nTX] == SIGN_WALL1) { //子弹打中水泥墙
-				g_pBulletBox[nBulletID].bulValid = 1;
-				g_pBulletBox[nBulletID].bulOwner = SIGN_EMPTY;
 				g_Map[nTY - 1][nTX] = SIGN_EMPTY;
 				WriteChar(nTX, nTY - 1, "  ", 0);
 				bCrash = 1;
@@ -105,8 +99,6 @@ int CheckBulletCrash(int nBulletID)
 									g_pEnemies[i].bDead = 1;
 									WipeTank(&g_pEnemies[i]);
 									bCrash = 1;
-									g_pBulletBox[nBulletID].bulValid = 1;
-									g_pBulletBox[nBulletID].bulOwner = SIGN_EMPTY;
 									goto END;
 								}
 							}
@@ -114,15 +106,11 @@ int CheckBulletCrash(int nBulletID)
 					}
 				}
 			}
-			else if (g_Map[nTY + 1][nTX] == SIGN_WALL0) { //子弹打中钢墙
-				g_pBulletBox[nBulletID].bulValid = 1;
-				g_pBulletBox[nBulletID].bulOwner = SIGN_EMPTY;
+			else if (g_Map[nTY + 1][nTX] == SIGN_WALL0) {
 				bCrash = 1;
 				goto END;
 			}
-			else if (g_Map[nTY + 1][nTX] == SIGN_WALL1) { //子弹打中水泥墙
-				g_pBulletBox[nBulletID].bulValid = 1;
-				g_pBulletBox[nBulletID].bulOwner = SIGN_EMPTY;
+			else if (g_Map[nTY + 1][nTX] == SIGN_WALL1) {
 				g_Map[nTY + 1][nTX] = SIGN_EMPTY;
 				WriteChar(nTX, nTY + 1, "  ", 0);
 				bCrash = 1;
@@ -140,8 +128,6 @@ int CheckBulletCrash(int nBulletID)
 									g_pEnemies[i].bDead = 1;
 									WipeTank(&g_pEnemies[i]);
 									bCrash = 1;
-									g_pBulletBox[nBulletID].bulValid = 1;
-									g_pBulletBox[nBulletID].bulOwner = SIGN_EMPTY;
 									goto END;
 								}
 							}
@@ -150,14 +136,10 @@ int CheckBulletCrash(int nBulletID)
 				}
 			}
 			else if (g_Map[nTY][nTX - 1] == SIGN_WALL0) {
-				g_pBulletBox[nBulletID].bulValid = 1;
-				g_pBulletBox[nBulletID].bulOwner = SIGN_EMPTY;
 				bCrash = 1;
 				goto END;
 			}
-			else if (g_Map[nTY][nTX - 1] == SIGN_WALL1) { //子弹打中水泥墙
-				g_pBulletBox[nBulletID].bulValid = 1;
-				g_pBulletBox[nBulletID].bulOwner = SIGN_EMPTY;
+			else if (g_Map[nTY][nTX - 1] == SIGN_WALL1) {
 				g_Map[nTY][nTX - 1] = SIGN_EMPTY;
 				WriteChar(nTX-1, nTY, "  ", 0);
 				bCrash = 1;
@@ -175,8 +157,6 @@ int CheckBulletCrash(int nBulletID)
 									g_pEnemies[i].bDead = 1;
 									WipeTank(&g_pEnemies[i]);
 									bCrash = 1;
-									g_pBulletBox[nBulletID].bulValid = 1;
-									g_pBulletBox[nBulletID].bulOwner = SIGN_EMPTY;
 									goto END;
 								}
 							}
@@ -185,14 +165,10 @@ int CheckBulletCrash(int nBulletID)
 				}
 			}
 			else if (g_Map[nTY][nTX + 1] == SIGN_WALL0) {
-				g_pBulletBox[nBulletID].bulValid = 1;
-				g_pBulletBox[nBulletID].bulOwner = SIGN_EMPTY;
 				bCrash = 1;
 				goto END;
 			}
-			else if (g_Map[nTY][nTX + 1] == SIGN_WALL1) { //子弹打中水泥墙
-				g_pBulletBox[nBulletID].bulValid = 1;
-				g_pBulletBox[nBulletID].bulOwner = SIGN_EMPTY;
+			else if (g_Map[nTY][nTX + 1] == SIGN_WALL1) {
 				g_Map[nTY][nTX + 1] = SIGN_EMPTY;
 				WriteChar(nTX + 1, nTY, "  ", 0);
 				bCrash = 1;
@@ -216,8 +192,10 @@ void MoveBullets(void)
 		if (!g_pBulletBox[i].bulValid) {
 			WipeBullet(i);
 
-			if (CheckBulletCrash(i))
+			if (CheckBulletCrash(i)) {
+				ResetBullet(i);
 				continue;
+			}
 
 			switch (g_pBulletBox[i].eDrt)
 			{
@@ -240,6 +218,18 @@ void MoveBullets(void)
 	}
 }
 
+void ResetBullet(int nBulletID)
+{
+	g_pBulletBox[nBulletID].bulValid = 1;
+	g_pBulletBox[nBulletID].bulOwner = SIGN_EMPTY;
+}
+
+void SetBulletPosition(int nBulletID, int nX, int nY)
+{
+	g_pBulletBox[nBulletID].nX = nX;
+	g_pBulletBox[nBulletID].nY = nY;
+}
+
 void FireBullet(Tank *pTank)
 {
 	if (pTank == NULL)
@@ -255,26 +245,22 @@ void FireBullet(Tank *pTank)
 	case DRT_UP:
 		if (g_Map[nTY - 1][nTX + 1] == SIGN_WALL0) //炮口前面一个点就是钢墙则不发射
 			return;
-		g_pBulletBox[nBulletID].nX = nTX + 1;
-		g_pBulletBox[nBulletID].nY = nTY - 1;
+		SetBulletPosition(nBulletID, nTX + 1, nTY - 1);
 		break;
 	case DRT_DOWN:
 		if (g_Map[nTY + 3][nTX + 1] == SIGN_WALL0)
 			return;
-		g_pBulletBox[nBulletID].nX = nTX + 1;
-		g_pBulletBox[nBulletID].nY = nTY + 3;
+		SetBulletPosition(nBulletID, nTX + 1, nTY + 3);
 		break;
 	case DRT_LEFT:
 		if (g_Map[nTY + 1][nTX - 1] == SIGN_WALL0)
 			return;
-		g_pBulletBox[nBulletID].nX = nTX - 1;
-		g_pBulletBox[nBulletID].nY = nTY + 1;
+		SetBulletPosition(nBulletID, nTX - 1, nTY + 1);
 		break;
 	case DRT_RIGHT:
 		if (g_Map[nTY + 1][nTX + 3] == SIGN_WALL0)
 			return;
-		g_pBulletBox[nBulletID].nX = nTX + 3;
-		g_pBulletBox[nBulletID].nY = nTY + 1;
+		SetBulletPosition(nBulletID, nTX + 3, nTY + 1);
 		break;
 	}
 
