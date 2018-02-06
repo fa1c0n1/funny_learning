@@ -69,6 +69,7 @@ int g_TankStatus[4][3][3] = {
 Bullet *g_pBulletBox = NULL;
 Tank *g_pEnemies = NULL;
 Tank *g_pTankA = NULL;
+Tank *g_pTankB = NULL;
 int g_nEnNum = ENEMY_NMAX;
 
 clock_t g_startTime = 0;

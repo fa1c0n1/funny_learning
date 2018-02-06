@@ -114,13 +114,14 @@ typedef struct {
 //敌军的数量最大值
 #define ENEMY_NMAX           5
 
-extern int g_Map[40][40];
-extern int g_TankStatus[4][3][3];
-extern Bullet *g_pBulletBox;
-extern Tank *g_pTankA;
-extern Tank *g_pEnemies;
-extern int g_nEnNum;
+extern int g_Map[40][40];          //存放地图的各个点
+extern int g_TankStatus[4][3][3];  //坦克上下左右四个方向的状态
+extern Bullet *g_pBulletBox;       //子弹仓库
+extern Tank *g_pTankA;             //玩家A
+extern Tank *g_pTankB;             //玩家B
+extern Tank *g_pEnemies;           //敌军
+extern int g_nEnNum;               //敌军数量
 
-extern clock_t g_startTime;
+extern clock_t g_startTime;        
 
 #endif  // _DATA_H

@@ -11,6 +11,5 @@ extern void ShowBullet(int nBulletID);
 extern void MoveBullets(void);
 extern void FireBullet(Tank *pTank);
 extern Bullet *InitBulletBox(void);
-extern void DestroyBulletBox(Bullet *pBulletBox);
 
 #endif // _BULLET_H

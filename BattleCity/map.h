@@ -6,5 +6,6 @@
 
 extern void UpdateMapPoint(ObjType eType, uint nX, uint nY);
 extern void ShowMap(void);
+extern void DestroyObject(Object *pObj);
 
 #endif // _MAP_H

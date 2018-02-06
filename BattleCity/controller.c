@@ -5,6 +5,7 @@
 #include "map.h"
 #include "player.h"
 #include "bullet.h"
+#include "enemy.h"
 
 #include <stdlib.h>
 #include <conio.h>
@@ -36,6 +37,9 @@ void ShowMenu(void)
 
 void PlayGame_MsgLoop(Tank *pTank)
 {
+	if (pTank->bDead)
+		return;
+
 	switch (pTank->eType)
 	{
 	case SIGN_TANK_PA:
@@ -56,57 +60,6 @@ void PlayGame_MsgLoop(Tank *pTank)
 	}
 }
 
-Tank *InitEnemies()
-{
-	g_nEnNum = ENEMY_NMAX;
-	Tank *pEnemies = (Tank *)calloc(ENEMY_NMAX, sizeof(Tank));
-	for (int i = 0; i < ENEMY_NMAX; i++) {
-		pEnemies[i].eDrt = DRT_DOWN;
-		pEnemies[i].eType = SIGN_TANK_E0;
-		pEnemies[i].nX = 5 + i * 5;
-		pEnemies[i].nY = 1;
-		pEnemies[i].bDead = 0;
-	}
-
-	return pEnemies;
-}
-
-void ShowEnemies(Tank *pEnemies)
-{
-	if (pEnemies == NULL)
-		return;
-
-	for (int i = 0; i < ENEMY_NMAX; i++) {
-		if (!pEnemies[i].bDead) {
-			ShowTank(pEnemies + i);
-		}
-	}
-}
-
-void RandomMoveEnemies()
-{
-	Direction drtArr[4] = { DRT_UP, DRT_DOWN, DRT_LEFT, DRT_RIGHT };
-	srand(time(NULL));
-	clock_t endTime;
-
-	for (int i = 0; i < ENEMY_NMAX; i++) {
-		if (!g_pEnemies[i].bDead) {
-			endTime = clock();
-			if ((endTime - g_startTime) % 150 + 150 > 200) {
-				MoveTank(&g_pEnemies[i], drtArr[rand() % 4]);
-			}
-		}
-	}
-}
-
-void DestroyEnemies(Tank *pEnemies)
-{
-	if (pEnemies != NULL) {
-		free(pEnemies);
-		pEnemies = NULL;
-	}
-}
-
 void StartGame(void)
 {
 	system("cls");
@@ -115,7 +68,9 @@ void StartGame(void)
 	ShowMap();
 
 	g_pTankA = CreatePlayer(SIGN_TANK_PA, 12, 36, DRT_UP);
+	//g_pTankB = CreatePlayer(SIGN_TANK_PB, 27, 25, DRT_UP);
 	ShowTank(g_pTankA);
+	//ShowTank(g_pTankB);
 	g_pBulletBox = InitBulletBox();
 	g_pEnemies = InitEnemies();
 	ShowEnemies(g_pEnemies);
@@ -125,9 +80,6 @@ void StartGame(void)
 			for (int j = 1; j < 39; j++) {
 				switch (g_Map[i][j])
 				{
-				/*case SIGN_WALL1: 
-					WriteChar(j, i, "¡ö", FG_YELLOW);               
-					break;*/
 				case SIGN_GRASS:
 					WriteChar(j, i, "¨ˆ", FG_GREEN);
 					break;
@@ -136,7 +88,6 @@ void StartGame(void)
 		}
 
 		PlayGame_MsgLoop(g_pTankA);
-
 		MoveBullets();
 		RandomMoveEnemies();
 
@@ -156,7 +107,17 @@ void EditMap(void)
 
 void ExitGame(void)
 {
+	FreeGameRes();
 	exit(0);
+}
+
+
+void FreeGameRes(void)
+{
+	DestroyObject(g_pTankA);
+	DestroyObject(g_pTankB);
+	DestroyObject(g_pEnemies);
+	DestroyObject(g_pBulletBox);
 }
 
 void LaunchGame(void)

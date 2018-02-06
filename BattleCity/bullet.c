@@ -22,6 +22,10 @@ void WipeBullet(int nBulletID)
 	{
 	case SIGN_GRASS:
 	case SIGN_RIVER:
+	case SIGN_TANK_PA:
+	case SIGN_TANK_PB:
+	case SIGN_TANK_E0:
+	case SIGN_TANK_E1:
 		break;
 	default:
 		UpdateMapPoint(SIGN_EMPTY, nTX, nTY);
@@ -34,18 +38,25 @@ void ShowBullet(int nBulletID)
 {
 	int nTX = g_pBulletBox[nBulletID].nX;
 	int nTY = g_pBulletBox[nBulletID].nY;
+	WORD wAttr;
+
+	if (g_pBulletBox[nBulletID].bulOwner == SIGN_TANK_PA || g_pBulletBox[nBulletID].bulOwner == SIGN_TANK_PB)
+		wAttr = FG_LIGHTYELLOW;
+	else if (g_pBulletBox[nBulletID].bulOwner == SIGN_TANK_E0 || g_pBulletBox[nBulletID].bulOwner == SIGN_TANK_E1)
+		wAttr = FG_GRAY;
 
 	switch (g_Map[nTY][nTX])
 	{
 	case SIGN_GRASS:
-		//WriteChar(nTX, nTY, "▓", FG_LIGHTGREEN);
-		break;
 	case SIGN_RIVER:
-		//WriteChar(nTX, nTY, "▓", FG_LIGHTBLUE);
+	case SIGN_TANK_PA:
+	case SIGN_TANK_PB:
+	case SIGN_TANK_E0:
+	case SIGN_TANK_E1:
 		break;
 	default:
 		UpdateMapPoint(SIGN_BULLET, nTX, nTY);
-		WriteChar(nTX, nTY, "●", FG_LIGHTYELLOW);
+		WriteChar(nTX, nTY, "●", wAttr);
 		break;
 	}
 }
@@ -57,10 +68,41 @@ int CheckBulletCrash(int nBulletID)
 	int nTX = g_pBulletBox[nBulletID].nX;
 	int nTY = g_pBulletBox[nBulletID].nY;
 
-	if (g_pBulletBox[nBulletID].bulOwner == SIGN_TANK_PA) {
-		switch (g_pBulletBox[nBulletID].eDrt)
-		{
-		case DRT_UP:
+	//判断子弹之间的碰撞
+	for (int i = 0; i < BOX_CAPACITY; i++) {
+		if (i == nBulletID)
+			continue;
+		if (!g_pBulletBox[i].bulValid) {
+			if (g_pBulletBox[nBulletID].nX == g_pBulletBox[i].nX && g_pBulletBox[nBulletID].nY == g_pBulletBox[i].nY) {
+				switch (g_pBulletBox[nBulletID].bulOwner)
+				{
+				case SIGN_TANK_PA:
+				case SIGN_TANK_PB:
+					if (g_pBulletBox[i].bulOwner == SIGN_TANK_E0 || g_pBulletBox[i].bulOwner == SIGN_TANK_E1) {
+						WipeBullet(i);
+						ResetBullet(i);
+						bCrash = 1;
+						goto END;
+					}
+					break;
+				case SIGN_TANK_E0:
+				case SIGN_TANK_E1:
+					if (g_pBulletBox[i].bulOwner == SIGN_TANK_PA || g_pBulletBox[i].bulOwner == SIGN_TANK_PB) {
+						WipeBullet(i);
+						ResetBullet(i);
+						bCrash = 1;
+						goto END;
+					}
+					break;
+				}
+			}
+		}
+	}
+
+	switch (g_pBulletBox[nBulletID].eDrt)
+	{
+	case DRT_UP:
+		if (g_pBulletBox[nBulletID].bulOwner == SIGN_TANK_PA || g_pBulletBox[nBulletID].bulOwner == SIGN_TANK_PB) { //玩家的子弹
 			if (g_Map[nTY - 1][nTX] == SIGN_TANK_E0 || g_Map[nTY - 1][nTX] == SIGN_TANK_E1) { //子弹打中敌军
 				for (int i = 0; i < ENEMY_NMAX; i++) {
 					if (!g_pEnemies[i].bDead) {
@@ -77,20 +119,42 @@ int CheckBulletCrash(int nBulletID)
 					}
 				}
 			}
-			else if (g_Map[nTY - 1][nTX] == SIGN_WALL0) { //子弹打中钢墙
-				bCrash = 1;
-				goto END;
+		}
+		else if (g_pBulletBox[nBulletID].bulOwner == SIGN_TANK_E0 || g_pBulletBox[nBulletID].bulOwner == SIGN_TANK_E1) { //敌军的子弹
+			if (g_Map[nTY - 1][nTX] == SIGN_TANK_PA) { //子弹打中玩家A
+				if (!g_pTankA->bDead) {
+					for (int m = 0; m < 3; m++) {
+						for (int n = 0; n < 3; n++) {
+							if ((g_pTankA->nX + m) == nTX && (g_pTankA->nY + n) == nTY - 1) {
+								g_pTankA->bDead = 1;
+								WipeTank(g_pTankA);
+								bCrash = 1;
+								goto END;
+							}
+						}
+					}
+				}
 			}
-			else if (g_Map[nTY - 1][nTX] == SIGN_WALL1) { //子弹打中水泥墙
-				g_Map[nTY - 1][nTX] = SIGN_EMPTY;
-				WriteChar(nTX, nTY - 1, "  ", 0);
-				bCrash = 1;
-				goto END;
+			else if (g_Map[nTY - 1][nTX] == SIGN_TANK_PB) { //子弹打中玩家B
+				// TODO:
 			}
+		}
 
-			break;
-		case DRT_DOWN:
-			if (g_Map[nTY + 1][nTX] == SIGN_TANK_E0 || g_Map[nTY + 1][nTX] == SIGN_TANK_E1) {
+		if (g_Map[nTY - 1][nTX] == SIGN_WALL0) { //子弹打中钢墙
+			bCrash = 1;
+			goto END;
+		}
+		else if (g_Map[nTY - 1][nTX] == SIGN_WALL1) { //子弹打中水泥墙
+			g_Map[nTY - 1][nTX] = SIGN_EMPTY;
+			WriteChar(nTX, nTY - 1, "  ", 0);
+			bCrash = 1;
+			goto END;
+		}
+
+		break;
+	case DRT_DOWN:
+		if (g_pBulletBox[nBulletID].bulOwner == SIGN_TANK_PA || g_pBulletBox[nBulletID].bulOwner == SIGN_TANK_PB) { //玩家的子弹
+			if (g_Map[nTY + 1][nTX] == SIGN_TANK_E0 || g_Map[nTY + 1][nTX] == SIGN_TANK_E1) { //子弹打中敌军
 				for (int i = 0; i < ENEMY_NMAX; i++) {
 					if (!g_pEnemies[i].bDead) {
 						for (int m = 0; m < 3; m++) {
@@ -106,20 +170,42 @@ int CheckBulletCrash(int nBulletID)
 					}
 				}
 			}
-			else if (g_Map[nTY + 1][nTX] == SIGN_WALL0) {
-				bCrash = 1;
-				goto END;
+		}
+		else if (g_pBulletBox[nBulletID].bulOwner == SIGN_TANK_E0 || g_pBulletBox[nBulletID].bulOwner == SIGN_TANK_E1) { //敌军的子弹
+			if (g_Map[nTY + 1][nTX] == SIGN_TANK_PA) { //子弹打中玩家A
+				if (!g_pTankA->bDead) {
+					for (int m = 0; m < 3; m++) {
+						for (int n = 0; n < 3; n++) {
+							if ((g_pTankA->nX + m) == nTX && (g_pTankA->nY + n) == nTY + 1) {
+								g_pTankA->bDead = 1;
+								WipeTank(g_pTankA);
+								bCrash = 1;
+								goto END;
+							}
+						}
+					}
+				}
 			}
-			else if (g_Map[nTY + 1][nTX] == SIGN_WALL1) {
-				g_Map[nTY + 1][nTX] = SIGN_EMPTY;
-				WriteChar(nTX, nTY + 1, "  ", 0);
-				bCrash = 1;
-				goto END;
+			else if (g_Map[nTY + 1][nTX] == SIGN_TANK_PB) { //子弹打中玩家B
+				// TODO:
 			}
+		}
+		
+		if (g_Map[nTY + 1][nTX] == SIGN_WALL0) {
+			bCrash = 1;
+			goto END;
+		}
+		else if (g_Map[nTY + 1][nTX] == SIGN_WALL1) {
+			g_Map[nTY + 1][nTX] = SIGN_EMPTY;
+			WriteChar(nTX, nTY + 1, "  ", 0);
+			bCrash = 1;
+			goto END;
+		}
 
-			break;
-		case DRT_LEFT:
-			if (g_Map[nTY][nTX - 1] == SIGN_TANK_E0 || g_Map[nTY][nTX - 1] == SIGN_TANK_E1) {
+		break;
+	case DRT_LEFT:
+		if (g_pBulletBox[nBulletID].bulOwner == SIGN_TANK_PA || g_pBulletBox[nBulletID].bulOwner == SIGN_TANK_PB) { //玩家的子弹
+			if (g_Map[nTY][nTX - 1] == SIGN_TANK_E0 || g_Map[nTY][nTX - 1] == SIGN_TANK_E1) { //子弹打中敌军
 				for (int i = 0; i < ENEMY_NMAX; i++) {
 					if (!g_pEnemies[i].bDead) {
 						for (int m = 0; m < 3; m++) {
@@ -135,20 +221,42 @@ int CheckBulletCrash(int nBulletID)
 					}
 				}
 			}
-			else if (g_Map[nTY][nTX - 1] == SIGN_WALL0) {
-				bCrash = 1;
-				goto END;
+		}
+		else if (g_pBulletBox[nBulletID].bulOwner == SIGN_TANK_E0 || g_pBulletBox[nBulletID].bulOwner == SIGN_TANK_E1) { //敌军的子弹
+			if (g_Map[nTY][nTX - 1] == SIGN_TANK_PA) { //子弹打中玩家A
+				if (!g_pTankA->bDead) {
+					for (int m = 0; m < 3; m++) {
+						for (int n = 0; n < 3; n++) {
+							if ((g_pTankA->nX + m) == nTX - 1 && (g_pTankA->nY + n) == nTY) {
+								g_pTankA->bDead = 1;
+								WipeTank(g_pTankA);
+								bCrash = 1;
+								goto END;
+							}
+						}
+					}
+				}
 			}
-			else if (g_Map[nTY][nTX - 1] == SIGN_WALL1) {
-				g_Map[nTY][nTX - 1] = SIGN_EMPTY;
-				WriteChar(nTX-1, nTY, "  ", 0);
-				bCrash = 1;
-				goto END;
+			else if (g_Map[nTY][nTX - 1] == SIGN_TANK_PB) {
+				//TODO:
 			}
+		}
+		
+		if (g_Map[nTY][nTX - 1] == SIGN_WALL0) {
+			bCrash = 1;
+			goto END;
+		}
+		else if (g_Map[nTY][nTX - 1] == SIGN_WALL1) {
+			g_Map[nTY][nTX - 1] = SIGN_EMPTY;
+			WriteChar(nTX - 1, nTY, "  ", 0);
+			bCrash = 1;
+			goto END;
+		}
 
-			break;
-		case DRT_RIGHT:
-			if (g_Map[nTY][nTX + 1] == SIGN_TANK_E0 || g_Map[nTY][nTX + 1] == SIGN_TANK_E1) {
+		break;
+	case DRT_RIGHT:
+		if (g_pBulletBox[nBulletID].bulOwner == SIGN_TANK_PA || g_pBulletBox[nBulletID].bulOwner == SIGN_TANK_PB) { //玩家的子弹
+			if (g_Map[nTY][nTX + 1] == SIGN_TANK_E0 || g_Map[nTY][nTX + 1] == SIGN_TANK_E1) { //子弹打中敌军
 				for (int i = 0; i < ENEMY_NMAX; i++) {
 					if (!g_pEnemies[i].bDead) {
 						for (int m = 0; m < 3; m++) {
@@ -164,22 +272,39 @@ int CheckBulletCrash(int nBulletID)
 					}
 				}
 			}
-			else if (g_Map[nTY][nTX + 1] == SIGN_WALL0) {
-				bCrash = 1;
-				goto END;
-			}
-			else if (g_Map[nTY][nTX + 1] == SIGN_WALL1) {
-				g_Map[nTY][nTX + 1] = SIGN_EMPTY;
-				WriteChar(nTX + 1, nTY, "  ", 0);
-				bCrash = 1;
-				goto END;
-			}
-
-			break;
 		}
-	}
-	else if (g_pBulletBox[nBulletID].bulOwner == SIGN_TANK_E0) {
+		else if (g_pBulletBox[nBulletID].bulOwner == SIGN_TANK_E0 || g_pBulletBox[nBulletID].bulOwner == SIGN_TANK_E1) { //敌军的子弹
+			if (g_Map[nTY][nTX + 1] == SIGN_TANK_PA) { //子弹打中玩家A
+				if (!g_pTankA->bDead) {
+					for (int m = 0; m < 3; m++) {
+						for (int n = 0; n < 3; n++) {
+							if ((g_pTankA->nX + m) == nTX + 1 && (g_pTankA->nY + n) == nTY) {
+								g_pTankA->bDead = 1;
+								WipeTank(g_pTankA);
+								bCrash = 1;
+								goto END;
+							}
+						}
+					}
+				}
+			}
+			else if (g_Map[nTY][nTX + 1] == SIGN_TANK_PB) {
+				//TODO:
+			}
+		}
 
+		if (g_Map[nTY][nTX + 1] == SIGN_WALL0) {
+			bCrash = 1;
+			goto END;
+		}
+		else if (g_Map[nTY][nTX + 1] == SIGN_WALL1) {
+			g_Map[nTY][nTX + 1] = SIGN_EMPTY;
+			WriteChar(nTX + 1, nTY, "  ", 0);
+			bCrash = 1;
+			goto END;
+		}
+
+		break;
 	}
 
 END:
@@ -284,12 +409,4 @@ Bullet *InitBulletBox(void)
 	}
 
 	return bulletBox;
-}
-
-void DestroyBulletBox(Bullet *pBulletBox)
-{
-	if (pBulletBox != NULL) {
-		free(pBulletBox);
-		pBulletBox = NULL;
-	}
 }

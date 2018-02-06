@@ -7,8 +7,7 @@
 
 Tank *CreatePlayer(TankType eType, uint nX, uint nY, Direction eDrt)
 {
-	if (eType != SIGN_TANK_PA && eType != SIGN_TANK_PB
-		&& eType != SIGN_TANK_E0 && eType != SIGN_TANK_E1)
+	if (eType != SIGN_TANK_PA && eType != SIGN_TANK_PB)
 		return NULL;
 
 	Tank *pTank = (Tank *)calloc(1, sizeof(Tank));
@@ -46,6 +45,9 @@ void ShowTank(Tank *pTank)
 	{
 	case SIGN_TANK_PA:
 		wAttr = FG_LIGHTTURQUOISE;
+		break;
+	case SIGN_TANK_PB:
+		wAttr = FG_LIGHTGREEN;
 		break;
 	case SIGN_TANK_E0:
 		wAttr = FG_LIGHTRED;
@@ -151,13 +153,4 @@ void MoveTank(Tank *pTank, Direction eDrt)
 	}
 
 	ShowTank(pTank);
-}
-
-void DestroyTank(Tank *pTank)
-{
-	if (pTank != NULL) {
-		WipeTank(pTank);
-		free(pTank);
-		pTank = NULL;
-	}
 }

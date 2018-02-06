@@ -30,4 +30,11 @@ void ShowMap(void)
 	}
 }
 
+void DestroyObject(Object *pObj)
+{
+	if (pObj != NULL) {
+		free(pObj);
+		pObj = NULL;
+	}
+}
 
