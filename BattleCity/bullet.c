@@ -38,10 +38,10 @@ void ShowBullet(int nBulletID)
 	switch (g_Map[nTY][nTX])
 	{
 	case SIGN_GRASS:
-		WriteChar(nTX, nTY, "▓", FG_LIGHTGREEN);
+		//WriteChar(nTX, nTY, "▓", FG_LIGHTGREEN);
 		break;
 	case SIGN_RIVER:
-		WriteChar(nTX, nTY, "▓", FG_LIGHTBLUE);
+		//WriteChar(nTX, nTY, "▓", FG_LIGHTBLUE);
 		break;
 	default:
 		UpdateMapPoint(SIGN_BULLET, nTX, nTY);
@@ -159,7 +159,7 @@ int CheckBulletCrash(int nBulletID)
 				g_pBulletBox[nBulletID].bulValid = 1;
 				g_pBulletBox[nBulletID].bulOwner = SIGN_EMPTY;
 				g_Map[nTY][nTX - 1] = SIGN_EMPTY;
-				WriteChar(nTX, nTY - 1, "  ", 0);
+				WriteChar(nTX-1, nTY, "  ", 0);
 				bCrash = 1;
 				goto END;
 			}
@@ -194,7 +194,7 @@ int CheckBulletCrash(int nBulletID)
 				g_pBulletBox[nBulletID].bulValid = 1;
 				g_pBulletBox[nBulletID].bulOwner = SIGN_EMPTY;
 				g_Map[nTY][nTX + 1] = SIGN_EMPTY;
-				WriteChar(nTX, nTX + 1, "  ", 0);
+				WriteChar(nTX + 1, nTY, "  ", 0);
 				bCrash = 1;
 				goto END;
 			}
@@ -245,32 +245,43 @@ void FireBullet(Tank *pTank)
 	if (pTank == NULL)
 		return;
 
+	int nTX = pTank->nX;
+	int nTY = pTank->nY;
+
 	int nBulletID = GetBullet();
-	g_pBulletBox[nBulletID].eDrt = pTank->eDrt;
-	g_pBulletBox[nBulletID].bulOwner = pTank->eType;
 
 	switch (pTank->eDrt)
 	{
 	case DRT_UP:
-		g_pBulletBox[nBulletID].nX = pTank->nX + 1;
-		g_pBulletBox[nBulletID].nY = pTank->nY - 1;
+		if (g_Map[nTY - 1][nTX + 1] == SIGN_WALL0) //炮口前面一个点就是钢墙则不发射
+			return;
+		g_pBulletBox[nBulletID].nX = nTX + 1;
+		g_pBulletBox[nBulletID].nY = nTY - 1;
 		break;
 	case DRT_DOWN:
-		g_pBulletBox[nBulletID].nX = pTank->nX + 1;
-		g_pBulletBox[nBulletID].nY = pTank->nY + 3;
+		if (g_Map[nTY + 3][nTX + 1] == SIGN_WALL0)
+			return;
+		g_pBulletBox[nBulletID].nX = nTX + 1;
+		g_pBulletBox[nBulletID].nY = nTY + 3;
 		break;
 	case DRT_LEFT:
-		g_pBulletBox[nBulletID].nX = pTank->nX - 1;
-		g_pBulletBox[nBulletID].nY = pTank->nY + 1;
+		if (g_Map[nTY + 1][nTX - 1] == SIGN_WALL0)
+			return;
+		g_pBulletBox[nBulletID].nX = nTX - 1;
+		g_pBulletBox[nBulletID].nY = nTY + 1;
 		break;
 	case DRT_RIGHT:
-		g_pBulletBox[nBulletID].nX = pTank->nX + 3;
-		g_pBulletBox[nBulletID].nY = pTank->nY + 1;
+		if (g_Map[nTY + 1][nTX + 3] == SIGN_WALL0)
+			return;
+		g_pBulletBox[nBulletID].nX = nTX + 3;
+		g_pBulletBox[nBulletID].nY = nTY + 1;
 		break;
 	}
 
-	ShowBullet(nBulletID);
+	g_pBulletBox[nBulletID].eDrt = pTank->eDrt;
+	g_pBulletBox[nBulletID].bulOwner = pTank->eType;
 	g_pBulletBox[nBulletID].bulValid = 0;
+	ShowBullet(nBulletID);
 }
 
 Bullet *InitBulletBox(void)
