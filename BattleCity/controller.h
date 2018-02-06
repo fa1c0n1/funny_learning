@@ -11,5 +11,6 @@ int EditMap(void);
 int ExitGame(void);
 void GoRun(void);
 void FreeGameRes(void);
+void InitGameRoles(void);
 
 #endif  // _CONTROLLER_H

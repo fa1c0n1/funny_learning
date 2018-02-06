@@ -96,14 +96,20 @@ void GoRun(void)
 	}
 }
 
-int StartGame(void)
+//初始化游戏角色(包括玩家、敌军和子弹)
+void InitGameRoles(void)
 {
-	system("cls");
-
 	g_pTankA = CreatePlayer(SIGN_TANK_PA, 12, 36, DRT_UP);
 	//g_pTankB = CreatePlayer(SIGN_TANK_PB, 27, 25, DRT_UP);
 	g_pBulletBox = InitBulletBox();
 	g_pEnemies = InitEnemies();
+}
+
+int StartGame(void)
+{
+	system("cls");
+
+	InitGameRoles();
 	InitDefaultMap();
 
 	GoRun();
@@ -242,11 +248,7 @@ int EditMap(void)
 	ShowOnlyFourWall0();
 
 	if (DrawMapResult()) {
-		g_pTankA = CreatePlayer(SIGN_TANK_PA, 12, 36, DRT_UP);
-		//g_pTankB = CreatePlayer(SIGN_TANK_PB, 27, 25, DRT_UP);
-		g_pBulletBox = InitBulletBox();
-		g_pEnemies = InitEnemies();
-
+		InitGameRoles();
 		GoRun();
 	}
 	else {

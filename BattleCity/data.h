@@ -123,6 +123,9 @@ extern Tank *g_pEnemies;           //敌军
 extern int g_nEnNum;               //敌军数量
 extern ObjType g_eNodeType;        //表示地图上点的类型，编辑地图时用于切换类型
 
+extern Point g_text1[60];          //主菜单的文字1: Battle
+extern Point g_text2[32];          //主菜单的文字2: City
+
 extern clock_t g_startTime;        
 
 #endif  // _DATA_H
