@@ -2,6 +2,7 @@
 #include "draw_tool.h"
 #include "map.h"
 #include "player.h"
+#include "pillbox.h"
 
 #include <stdlib.h>
 
@@ -105,7 +106,7 @@ int CheckBulletCrash(int nBulletID)
 
 	switch (g_pBulletBox[nBulletID].eDrt)
 	{
-	case DRT_UP:
+	case DRT_UP:  //子弹向上走是，不需要判断与碉堡的碰撞，因为碉堡就在最下方
 		if (g_pBulletBox[nBulletID].bulOwner == SIGN_TANK_PA || g_pBulletBox[nBulletID].bulOwner == SIGN_TANK_PB) { //玩家的子弹
 			if (g_Map[nTY - 1][nTX] == SIGN_TANK_E0 || g_Map[nTY - 1][nTX] == SIGN_TANK_E1) { //子弹打中敌军
 				for (int i = 0; i < ENEMY_NMAX; i++) {
@@ -144,11 +145,11 @@ int CheckBulletCrash(int nBulletID)
 			}
 		}
 
-		if (g_Map[nTY - 1][nTX] == SIGN_WALL0) { //子弹打中钢墙
+		if (g_Map[nTY - 1][nTX] == SIGN_WALL0) { //上: 子弹打中钢墙
 			bCrash = 1;
 			goto END;
 		}
-		else if (g_Map[nTY - 1][nTX] == SIGN_WALL1) { //子弹打中水泥墙
+		else if (g_Map[nTY - 1][nTX] == SIGN_WALL1) { //上: 子弹打中水泥墙
 			g_Map[nTY - 1][nTX] = SIGN_EMPTY;
 			WriteChar(nTX, nTY - 1, "  ", 0);
 			bCrash = 1;
@@ -195,13 +196,19 @@ int CheckBulletCrash(int nBulletID)
 			}
 		}
 		
-		if (g_Map[nTY + 1][nTX] == SIGN_WALL0) {
+		if (g_Map[nTY + 1][nTX] == SIGN_WALL0) { //下：子弹打中钢墙
 			bCrash = 1;
 			goto END;
 		}
-		else if (g_Map[nTY + 1][nTX] == SIGN_WALL1) {
+		else if (g_Map[nTY + 1][nTX] == SIGN_WALL1) { //下：子弹打中水泥墙
 			g_Map[nTY + 1][nTX] = SIGN_EMPTY;
 			WriteChar(nTX, nTY + 1, "  ", 0);
+			bCrash = 1;
+			goto END;
+		}
+		else if (g_Map[nTY + 1][nTX] == SIGN_PILLBOX) { //下：子弹打中碉堡
+			g_pPillbox->bDead = 1;
+			ShowPillbox(g_pPillbox);
 			bCrash = 1;
 			goto END;
 		}
@@ -246,13 +253,19 @@ int CheckBulletCrash(int nBulletID)
 			}
 		}
 		
-		if (g_Map[nTY][nTX - 1] == SIGN_WALL0) {
+		if (g_Map[nTY][nTX - 1] == SIGN_WALL0) { //左：子弹打中钢墙
 			bCrash = 1;
 			goto END;
 		}
-		else if (g_Map[nTY][nTX - 1] == SIGN_WALL1) {
+		else if (g_Map[nTY][nTX - 1] == SIGN_WALL1) { //左：子弹打中水泥墙
 			g_Map[nTY][nTX - 1] = SIGN_EMPTY;
 			WriteChar(nTX - 1, nTY, "  ", 0);
+			bCrash = 1;
+			goto END;
+		}
+		else if (g_Map[nTY][nTX - 1] == SIGN_PILLBOX) { //左：子弹打中碉堡
+			g_pPillbox->bDead = 1;
+			ShowPillbox(g_pPillbox);
 			bCrash = 1;
 			goto END;
 		}
@@ -297,13 +310,19 @@ int CheckBulletCrash(int nBulletID)
 			}
 		}
 
-		if (g_Map[nTY][nTX + 1] == SIGN_WALL0) {
+		if (g_Map[nTY][nTX + 1] == SIGN_WALL0) { //右：子弹打中钢墙
 			bCrash = 1;
 			goto END;
 		}
-		else if (g_Map[nTY][nTX + 1] == SIGN_WALL1) {
+		else if (g_Map[nTY][nTX + 1] == SIGN_WALL1) { //右：子弹打中水泥墙
 			g_Map[nTY][nTX + 1] = SIGN_EMPTY;
 			WriteChar(nTX + 1, nTY, "  ", 0);
+			bCrash = 1;
+			goto END;
+		}
+		else if (g_Map[nTY][nTX + 1] == SIGN_PILLBOX) { //右：子弹打中碉堡
+			g_pPillbox->bDead = 1;
+			ShowPillbox(g_pPillbox);
 			bCrash = 1;
 			goto END;
 		}

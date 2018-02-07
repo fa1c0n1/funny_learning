@@ -16,7 +16,8 @@ typedef enum {
 	SIGN_TANK_E1,     //敌军坦克1
 	SIGN_BULLET,      //子弹
 	SIGN_GRASS,       //草地
-	SIGN_RIVER        //河流
+	SIGN_RIVER,       //河流
+	SIGN_PILLBOX      //玩家碉堡
 } ObjType;
 
 //方向
@@ -49,7 +50,8 @@ typedef struct {
 } Object;
 
 typedef Object Tank;
-typedef Object Bullet;
+typedef Object Bullet;  
+typedef Object Pillbox;  //表示玩家要守护的碉堡  
 
 typedef struct {
 	uint nKey;         //对应的按键
@@ -116,10 +118,12 @@ typedef struct {
 
 extern int g_Map[40][40];          //存放地图的各个点
 extern int g_TankStatus[4][3][3];  //坦克上下左右四个方向的状态
+extern int g_PboxStatus[3][3];     //碉堡的状态
 extern Bullet *g_pBulletBox;       //子弹仓库
 extern Tank *g_pTankA;             //玩家A
 extern Tank *g_pTankB;             //玩家B
 extern Tank *g_pEnemies;           //敌军
+extern Pillbox *g_pPillbox;        //玩家碉堡
 extern int g_nEnNum;               //敌军数量
 extern ObjType g_eNodeType;        //表示地图上点的类型，编辑地图时用于切换类型
 

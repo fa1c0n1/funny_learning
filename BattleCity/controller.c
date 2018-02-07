@@ -6,6 +6,7 @@
 #include "player.h"
 #include "bullet.h"
 #include "enemy.h"
+#include "pillbox.h"
 
 #include <stdlib.h>
 #include <conio.h>
@@ -104,12 +105,13 @@ void GoRun(void)
 	int nSubRet = 0;
 
 	ShowMap();
+	ShowPillbox(g_pPillbox);
 	ShowTank(g_pTankA);
 	//ShowTank(g_pTankB);
 	ShowEnemies(g_pEnemies);
 
 	while (1) {
-		if (!g_pTankA->bDead) {
+		if (!g_pTankA->bDead && !g_pPillbox->bDead) {
 			//按键检测
 			switch (g_pTankA->eType)
 			{
@@ -138,6 +140,12 @@ void GoRun(void)
 				break;
 			}
 		}
+		else {
+			ShowFailedNotice();
+			Sleep(3000);
+			system("cls");
+			goto END;
+		}
 
 		MoveBullets();
 		RandomMoveEnemies();
@@ -149,9 +157,20 @@ END:
 	return;
 }
 
+void ShowFailedNotice(void)
+{
+	WriteChar(7, 7, "━━━━━━━━━━━━━━━━━━━━━━", FG_LIGHTRED);
+	WriteChar(7, 8, "┃               GAME OVER                ┃", FG_LIGHTRED);
+	WriteChar(7, 9, "┃                                        ┃", FG_LIGHTRED);
+	WriteChar(7, 10, "┃       胜败乃兵家常事, 请从头再来！     ┃", FG_LIGHTRED);
+	WriteChar(7, 11, "┃                                        ┃", FG_LIGHTRED);
+	WriteChar(7, 12, "┃━━━━━━━━━━━━━━━━━━━━┃", FG_LIGHTRED);
+}
+
 //初始化游戏角色(包括玩家、敌军和子弹)
 void InitGameRoles(void)
 {
+	g_pPillbox = InitPillbox();
 	g_pTankA = CreatePlayer(SIGN_TANK_PA, 12, 36, DRT_UP);
 	//g_pTankB = CreatePlayer(SIGN_TANK_PB, 27, 25, DRT_UP);
 	g_pBulletBox = InitBulletBox();
@@ -207,7 +226,7 @@ void DrawMapMouseEventProc(MOUSE_EVENT_RECORD mer)
 	switch (mer.dwEventFlags)
 	{
 	case 0:
-		if (nX == 46) {
+		if (nX == 46) {  //点击障碍物切换区域
 			if (nY == 1)
 				g_eNodeType = SIGN_WALL0;
 			else if (nY == 3)
@@ -216,9 +235,16 @@ void DrawMapMouseEventProc(MOUSE_EVENT_RECORD mer)
 				g_eNodeType = SIGN_RIVER;
 			else if (nY == 7)
 				g_eNodeType = SIGN_GRASS;
+
+			return;
 		}
 
 		if (nX >= 1 && nX <= 38 && nY >= 1 && nY <= 38) {
+			if (nX >= 15 && nX <= 21) { //碉堡区域不能编辑
+				if (nY >= 34 && nY <= 38)
+					return;
+			}
+
 			if (mer.dwButtonState == FROM_LEFT_1ST_BUTTON_PRESSED) { //按下鼠标左键
 				switch (g_eNodeType)
 				{
@@ -304,7 +330,7 @@ int EditMap(void)
 	system("cls");
 
 	ClearAllBarrier();
-	ShowOnlyFourWall0();
+	ShowMap();
 
 	if (DrawMapResult()) {
 		InitGameRoles();
@@ -334,6 +360,7 @@ void FreeGameRes(void)
 	//DestroyObject(&g_pTankB);
 	DestroyObject(&g_pEnemies);
 	DestroyObject(&g_pBulletBox);
+	DestroyObject(&g_pPillbox);
 }
 
 //启动游戏(被main函数调用)

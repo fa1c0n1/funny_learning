@@ -17,5 +17,6 @@ int ShowSubMenu(void);
 int GoOnGame(void);
 int SaveGame(void);
 int RetMainMenu(void);
+void ShowFailedNotice(void);
 
 #endif  // _CONTROLLER_H

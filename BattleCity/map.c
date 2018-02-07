@@ -5,27 +5,31 @@ void UpdateMapPoint(ObjType eType, uint nX, uint nY)
 	g_Map[nY][nX] = eType;
 }
 
-void ShowOnlyFourWall0(void)
-{
-	for (int i = 0; i < 40; i++) {
-		for (int j = 0; j < 40; j++) {
-			if (i == 0 || i == 39) {
-				WriteChar(j, i, "■", FG_HIGHWHITE);
-			}
-			else {
-				if (j == 0 || j == 39) {
-					WriteChar(j, i, "■", FG_HIGHWHITE);
-				}
-			}
-		}
-	}
-}
-
 //清除地图上所有的障碍物
 void ClearAllBarrier(void)
 {
+	//恢复碉堡周围的水泥墙
+	for (int i = 34; i <= 35; i++) {
+		for (int j = 15; j <= 21; j++) {
+			UpdateMapPoint(SIGN_WALL1, j, i);
+		}
+	}
+
+	for (int i = 36; i <= 38; i++) {
+		for (int j = 15; j <= 21; j++) {
+			if (j < 17 || j > 19) {
+				UpdateMapPoint(SIGN_WALL1, j, i);
+			}
+		}
+	}
+
 	for (int i = 1; i < 39; i++) {
 		for (int j = 1; j < 39; j++) {
+			if (j >= 15 && j <= 21) {
+				if (i >= 34 && i <= 38)
+					continue;
+			}
+
 			if (g_Map[i][j] != SIGN_EMPTY) {
 				g_Map[i][j] = SIGN_EMPTY;
 			}
