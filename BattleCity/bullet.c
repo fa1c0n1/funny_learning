@@ -128,17 +128,9 @@ int CheckBulletCrash(int nBulletID)
 		}
 		else if (g_pBulletBox[nBulletID].bulOwner == SIGN_TANK_E0 || g_pBulletBox[nBulletID].bulOwner == SIGN_TANK_E1) { //敌军的子弹
 			if (g_Map[nTY - 1][nTX] == SIGN_TANK_PA) { //子弹打中玩家A
-				if (!g_pTankA->bDead) {
-					for (int m = 0; m < 3; m++) {
-						for (int n = 0; n < 3; n++) {
-							if ((g_pTankA->nX + m) == nTX && (g_pTankA->nY + n) == nTY - 1) {
-								g_pTankA->bDead = 1;
-								WipeTank(g_pTankA);
-								bCrash = 1;
-								goto END;
-							}
-						}
-					}
+				if (DoWhenPlayerBeated(g_pTankA, nTX, nTY - 1)) {
+					bCrash = 1;
+					goto END;
 				}
 			}
 			else if (g_Map[nTY - 1][nTX] == SIGN_TANK_PB) { //子弹打中玩家B
@@ -180,17 +172,9 @@ int CheckBulletCrash(int nBulletID)
 		}
 		else if (g_pBulletBox[nBulletID].bulOwner == SIGN_TANK_E0 || g_pBulletBox[nBulletID].bulOwner == SIGN_TANK_E1) { //敌军的子弹
 			if (g_Map[nTY + 1][nTX] == SIGN_TANK_PA) { //子弹打中玩家A
-				if (!g_pTankA->bDead) {
-					for (int m = 0; m < 3; m++) {
-						for (int n = 0; n < 3; n++) {
-							if ((g_pTankA->nX + m) == nTX && (g_pTankA->nY + n) == nTY + 1) {
-								g_pTankA->bDead = 1;
-								WipeTank(g_pTankA);
-								bCrash = 1;
-								goto END;
-							}
-						}
-					}
+				if (DoWhenPlayerBeated(g_pTankA, nTX, nTY + 1)) {
+					bCrash = 1;
+					goto END;
 				}
 			}
 			else if (g_Map[nTY + 1][nTX] == SIGN_TANK_PB) { //子弹打中玩家B
@@ -238,17 +222,9 @@ int CheckBulletCrash(int nBulletID)
 		}
 		else if (g_pBulletBox[nBulletID].bulOwner == SIGN_TANK_E0 || g_pBulletBox[nBulletID].bulOwner == SIGN_TANK_E1) { //敌军的子弹
 			if (g_Map[nTY][nTX - 1] == SIGN_TANK_PA) { //子弹打中玩家A
-				if (!g_pTankA->bDead) {
-					for (int m = 0; m < 3; m++) {
-						for (int n = 0; n < 3; n++) {
-							if ((g_pTankA->nX + m) == nTX - 1 && (g_pTankA->nY + n) == nTY) {
-								g_pTankA->bDead = 1;
-								WipeTank(g_pTankA);
-								bCrash = 1;
-								goto END;
-							}
-						}
-					}
+				if (DoWhenPlayerBeated(g_pTankA, nTX - 1, nTY)) {
+					bCrash = 1;
+					goto END;
 				}
 			}
 			else if (g_Map[nTY][nTX - 1] == SIGN_TANK_PB) {
@@ -296,17 +272,9 @@ int CheckBulletCrash(int nBulletID)
 		}
 		else if (g_pBulletBox[nBulletID].bulOwner == SIGN_TANK_E0 || g_pBulletBox[nBulletID].bulOwner == SIGN_TANK_E1) { //敌军的子弹
 			if (g_Map[nTY][nTX + 1] == SIGN_TANK_PA) { //子弹打中玩家A
-				if (!g_pTankA->bDead) {
-					for (int m = 0; m < 3; m++) {
-						for (int n = 0; n < 3; n++) {
-							if ((g_pTankA->nX + m) == nTX + 1 && (g_pTankA->nY + n) == nTY) {
-								g_pTankA->bDead = 1;
-								WipeTank(g_pTankA);
-								bCrash = 1;
-								goto END;
-							}
-						}
-					}
+				if (DoWhenPlayerBeated(g_pTankA, nTX + 1, nTY)) {
+					bCrash = 1;
+					goto END;
 				}
 			}
 			else if (g_Map[nTY][nTX + 1] == SIGN_TANK_PB) {
@@ -336,6 +304,31 @@ int CheckBulletCrash(int nBulletID)
 
 END:
 	return bCrash;
+}
+
+//当玩家被敌军子弹打中时的处理
+int DoWhenPlayerBeated(Tank *pPlayer, int nX, int nY)
+{
+	int bRet = 0;
+
+	if (pPlayer == NULL)
+		return bRet;
+
+	if (!pPlayer->bDead) {
+		for (int m = 0; m < 3; m++) {
+			for (int n = 0; n < 3; n++) {
+				if ((pPlayer->nX + m) == nX && (pPlayer->nY + n) == nY) {
+					pPlayer->bDead = 1;
+					WipeTank(pPlayer);
+					bRet = 1;
+					goto END;
+				}
+			}
+		}
+	}
+
+END:
+	return bRet;
 }
 
 //移动所有已发射的子弹
