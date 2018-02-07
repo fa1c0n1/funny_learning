@@ -13,5 +13,6 @@ extern void FireBullet(Tank *pTank);
 extern Bullet *InitBulletBox(void);
 int DoWhenPlayerBeated(Tank *pPlayer, int nX, int nY);
 int DoWhenEnemyBeated(int nX, int nY);
+int DoWhenBarrierBeated(int nX, int nY);
 
 #endif // _BULLET_H

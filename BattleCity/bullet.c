@@ -106,7 +106,7 @@ int CheckBulletCrash(int nBulletID)
 
 	switch (g_pBulletBox[nBulletID].eDrt)
 	{
-	case DRT_UP:  //子弹向上走是，不需要判断与碉堡的碰撞，因为碉堡就在最下方
+	case DRT_UP:  //子弹向上走时，不需要判断与碉堡的碰撞，因为碉堡就在最下方
 		if (g_pBulletBox[nBulletID].bulOwner == SIGN_TANK_PA || g_pBulletBox[nBulletID].bulOwner == SIGN_TANK_PB) { //玩家的子弹
 			if (g_Map[nTY - 1][nTX] == SIGN_TANK_E0 || g_Map[nTY - 1][nTX] == SIGN_TANK_E1) { //子弹打中敌军
 				if (DoWhenEnemyBeated(nTX, nTY - 1)) {
@@ -127,13 +127,7 @@ int CheckBulletCrash(int nBulletID)
 			}
 		}
 
-		if (g_Map[nTY - 1][nTX] == SIGN_WALL0) { //上: 子弹打中钢墙
-			bCrash = 1;
-			goto END;
-		}
-		else if (g_Map[nTY - 1][nTX] == SIGN_WALL1) { //上: 子弹打中水泥墙
-			g_Map[nTY - 1][nTX] = SIGN_EMPTY;
-			WriteChar(nTX, nTY - 1, "  ", 0);
+		if (DoWhenBarrierBeated(nTX, nTY - 1)) {
 			bCrash = 1;
 			goto END;
 		}
@@ -160,19 +154,7 @@ int CheckBulletCrash(int nBulletID)
 			}
 		}
 		
-		if (g_Map[nTY + 1][nTX] == SIGN_WALL0) { //下：子弹打中钢墙
-			bCrash = 1;
-			goto END;
-		}
-		else if (g_Map[nTY + 1][nTX] == SIGN_WALL1) { //下：子弹打中水泥墙
-			g_Map[nTY + 1][nTX] = SIGN_EMPTY;
-			WriteChar(nTX, nTY + 1, "  ", 0);
-			bCrash = 1;
-			goto END;
-		}
-		else if (g_Map[nTY + 1][nTX] == SIGN_PILLBOX) { //下：子弹打中碉堡
-			g_pPillbox->bDead = 1;
-			ShowPillbox(g_pPillbox);
+		if (DoWhenBarrierBeated(nTX, nTY + 1)) {
 			bCrash = 1;
 			goto END;
 		}
@@ -199,19 +181,7 @@ int CheckBulletCrash(int nBulletID)
 			}
 		}
 		
-		if (g_Map[nTY][nTX - 1] == SIGN_WALL0) { //左：子弹打中钢墙
-			bCrash = 1;
-			goto END;
-		}
-		else if (g_Map[nTY][nTX - 1] == SIGN_WALL1) { //左：子弹打中水泥墙
-			g_Map[nTY][nTX - 1] = SIGN_EMPTY;
-			WriteChar(nTX - 1, nTY, "  ", 0);
-			bCrash = 1;
-			goto END;
-		}
-		else if (g_Map[nTY][nTX - 1] == SIGN_PILLBOX) { //左：子弹打中碉堡
-			g_pPillbox->bDead = 1;
-			ShowPillbox(g_pPillbox);
+		if (DoWhenBarrierBeated(nTX - 1, nTY)) {
 			bCrash = 1;
 			goto END;
 		}
@@ -238,19 +208,7 @@ int CheckBulletCrash(int nBulletID)
 			}
 		}
 
-		if (g_Map[nTY][nTX + 1] == SIGN_WALL0) { //右：子弹打中钢墙
-			bCrash = 1;
-			goto END;
-		}
-		else if (g_Map[nTY][nTX + 1] == SIGN_WALL1) { //右：子弹打中水泥墙
-			g_Map[nTY][nTX + 1] = SIGN_EMPTY;
-			WriteChar(nTX + 1, nTY, "  ", 0);
-			bCrash = 1;
-			goto END;
-		}
-		else if (g_Map[nTY][nTX + 1] == SIGN_PILLBOX) { //右：子弹打中碉堡
-			g_pPillbox->bDead = 1;
-			ShowPillbox(g_pPillbox);
+		if (DoWhenBarrierBeated(nTX + 1, nTY)) {
 			bCrash = 1;
 			goto END;
 		}
@@ -309,6 +267,28 @@ int DoWhenEnemyBeated(int nX, int nY)
 	}
 
 END:
+	return bRet;
+}
+
+//子弹打中障碍物时
+int DoWhenBarrierBeated(int nX, int nY)
+{
+	int bRet = 0;
+
+	if (g_Map[nY][nX] == SIGN_WALL0) { //子弹打中钢墙
+		bRet = 1;
+	}
+	else if (g_Map[nY][nX] == SIGN_WALL1) { //子弹打中水泥墙
+		g_Map[nY][nX] = SIGN_EMPTY;
+		WriteChar(nX, nY, "  ", 0);
+		bRet = 1;
+	}
+	else if (g_Map[nY][nX] == SIGN_PILLBOX) { //子弹打中碉堡
+		g_pPillbox->bDead = 1;
+		ShowPillbox(g_pPillbox);
+		bRet = 1;
+	}
+
 	return bRet;
 }
 
