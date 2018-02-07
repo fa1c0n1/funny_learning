@@ -270,7 +270,7 @@ END:
 	return bRet;
 }
 
-//子弹打中障碍物时
+//子弹打中障碍物时的处理
 int DoWhenBarrierBeated(int nX, int nY)
 {
 	int bRet = 0;
