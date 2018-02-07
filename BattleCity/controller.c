@@ -89,6 +89,7 @@ int GoOnGame(void)
 int SaveGame(void)
 {
 	//TODO:
+	ShowTODO();
 	return 2;
 }
 
@@ -112,6 +113,14 @@ void GoRun(void)
 
 	while (1) {
 		if (!g_pTankA->bDead && !g_pPillbox->bDead) {
+			if (g_nEnNum <= 0) { //敌军被全灭
+				ShowWinNotice();
+				Sleep(3000);
+				ClearAllBarrier();
+				system("cls");
+				goto END;
+			}
+
 			//按键检测
 			switch (g_pTankA->eType)
 			{
@@ -140,7 +149,8 @@ void GoRun(void)
 				break;
 			}
 		}
-		else {
+		else { //玩家被灭或碉堡被击毁
+			ClearAllBarrier();
 			ShowFailedNotice();
 			Sleep(3000);
 			system("cls");
@@ -157,6 +167,19 @@ END:
 	return;
 }
 
+//显示胜利提示
+void ShowWinNotice(void)
+{
+
+	WriteChar(7, 7, "━━━━━━━━━━━━━━━━━━━━━━", FG_LIGHTRED);
+	WriteChar(7, 8, "┃               YOU WIN                  ┃", FG_LIGHTRED);
+	WriteChar(7, 9, "┃                                        ┃", FG_LIGHTRED);
+	WriteChar(7, 10, "┃       恭喜你！战胜了敌人！！！         ┃", FG_LIGHTRED);
+	WriteChar(7, 11, "┃                                        ┃", FG_LIGHTRED);
+	WriteChar(7, 12, "┃━━━━━━━━━━━━━━━━━━━━┃", FG_LIGHTRED);
+}
+
+//显示失败提示
 void ShowFailedNotice(void)
 {
 	WriteChar(7, 7, "━━━━━━━━━━━━━━━━━━━━━━", FG_LIGHTRED);
@@ -165,6 +188,22 @@ void ShowFailedNotice(void)
 	WriteChar(7, 10, "┃       胜败乃兵家常事, 请从头再来！     ┃", FG_LIGHTRED);
 	WriteChar(7, 11, "┃                                        ┃", FG_LIGHTRED);
 	WriteChar(7, 12, "┃━━━━━━━━━━━━━━━━━━━━┃", FG_LIGHTRED);
+}
+
+//显示功能未完成
+void ShowTODO(void)
+{
+	WriteChar(41, 32, " ━━━━━━ ", FG_LIGHTTURQUOISE);
+	WriteChar(41, 33, "┃功能未完成┃", FG_LIGHTTURQUOISE);
+	WriteChar(41, 34, "┃          ┃", FG_LIGHTTURQUOISE);
+	WriteChar(41, 35, "┃ 敬请期待 ┃", FG_LIGHTTURQUOISE);
+	WriteChar(41, 36, "┃__________┃", FG_LIGHTTURQUOISE);
+	Sleep(1000);
+	WriteChar(41, 32, "             ", FG_LIGHTTURQUOISE);
+	WriteChar(41, 33, "              ", FG_LIGHTTURQUOISE);
+	WriteChar(41, 34, "              ", FG_LIGHTTURQUOISE);
+	WriteChar(41, 35, "              ", FG_LIGHTTURQUOISE);
+	WriteChar(41, 36, "              ", FG_LIGHTTURQUOISE);
 }
 
 //初始化游戏角色(包括玩家、敌军和子弹)
@@ -192,6 +231,7 @@ int StartGame(void)
 int LoadGame(void)
 {
 	//TODO:
+	ShowTODO();
 	return 0;
 }
 

@@ -2,6 +2,7 @@
 #include "draw_tool.h"
 #include "map.h"
 
+//œ‘ æµÔ±§
 void ShowPillbox(Pillbox *pPillbox)
 {
 	if (pPillbox == NULL)
@@ -24,6 +25,7 @@ void ShowPillbox(Pillbox *pPillbox)
 	}
 }
 
+//≥ı ºªØµÔ±§
 Pillbox *InitPillbox(void)
 {
 	Pillbox *pPillbox = (Pillbox *)calloc(1, sizeof(Pillbox));

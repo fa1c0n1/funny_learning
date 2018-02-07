@@ -18,5 +18,7 @@ int GoOnGame(void);
 int SaveGame(void);
 int RetMainMenu(void);
 void ShowFailedNotice(void);
+void ShowWinNotice(void);
+void ShowTODO(void);
 
 #endif  // _CONTROLLER_H

@@ -5,6 +5,7 @@
 
 #include <stdlib.h>
 
+//创建玩家坦克
 Tank *CreatePlayer(TankType eType, uint nX, uint nY, Direction eDrt)
 {
 	if (eType != SIGN_TANK_PA && eType != SIGN_TANK_PB)
@@ -20,6 +21,7 @@ Tank *CreatePlayer(TankType eType, uint nX, uint nY, Direction eDrt)
 	return pTank;
 }
 
+//擦除坦克
 void WipeTank(Tank *pTank)
 {
 	if (pTank == NULL)
@@ -35,6 +37,7 @@ void WipeTank(Tank *pTank)
 	}
 }
 
+//显示坦克
 void ShowTank(Tank *pTank)
 {
 	if (pTank == NULL)
@@ -51,6 +54,9 @@ void ShowTank(Tank *pTank)
 		break;
 	case SIGN_TANK_E0:
 		wAttr = FG_LIGHTRED;
+		break;
+	case SIGN_TANK_E1:
+		wAttr = FG_LIGHTPURPLE;
 		break;
 	default:
 		break;
@@ -70,6 +76,7 @@ void ShowTank(Tank *pTank)
 	}
 }
 
+//检测坦克所有的碰撞
 int CheckTankCrash(Tank *pTank)
 {
 	int bCrash = 0;
@@ -120,6 +127,7 @@ END:
 	return bCrash;
 }
 
+//移动坦克
 void MoveTank(Tank *pTank, Direction eDrt)
 {
 	if (pTank == NULL)

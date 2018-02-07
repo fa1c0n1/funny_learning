@@ -79,7 +79,7 @@ int CheckBulletCrash(int nBulletID)
 			continue;
 		if (!g_pBulletBox[i].bulValid) {
 			if (g_pBulletBox[nBulletID].nX == g_pBulletBox[i].nX && g_pBulletBox[nBulletID].nY == g_pBulletBox[i].nY) {
-				switch (g_pBulletBox[nBulletID].bulOwner)
+				switch (g_pBulletBox[nBulletID].bulOwner) //根据子弹属主分别处理
 				{
 				case SIGN_TANK_PA:
 				case SIGN_TANK_PB:
@@ -116,6 +116,7 @@ int CheckBulletCrash(int nBulletID)
 								if ((g_pEnemies[i].nX + m) == nTX && (g_pEnemies[i].nY + n) == nTY - 1) {
 									g_pEnemies[i].bDead = 1;
 									WipeTank(&g_pEnemies[i]);
+									g_nEnNum--;
 									bCrash = 1;
 									goto END;
 								}
@@ -167,6 +168,7 @@ int CheckBulletCrash(int nBulletID)
 								if ((g_pEnemies[i].nX + m) == nTX && (g_pEnemies[i].nY + n) == nTY + 1) {
 									g_pEnemies[i].bDead = 1;
 									WipeTank(&g_pEnemies[i]);
+									g_nEnNum--;
 									bCrash = 1;
 									goto END;
 								}
@@ -224,6 +226,7 @@ int CheckBulletCrash(int nBulletID)
 								if ((g_pEnemies[i].nX + m) == nTX - 1 && (g_pEnemies[i].nY + n) == nTY) {
 									g_pEnemies[i].bDead = 1;
 									WipeTank(&g_pEnemies[i]);
+									g_nEnNum--;
 									bCrash = 1;
 									goto END;
 								}
@@ -281,6 +284,7 @@ int CheckBulletCrash(int nBulletID)
 								if ((g_pEnemies[i].nX + m) == nTX + 1 && (g_pEnemies[i].nY + n) == nTY) {
 									g_pEnemies[i].bDead = 1;
 									WipeTank(&g_pEnemies[i]);
+									g_nEnNum--;
 									bCrash = 1;
 									goto END;
 								}
