@@ -71,6 +71,16 @@ void CBullet::setType(int nType)
 {
 	m_nType = nType;
 }
+
+void CBullet::setOwner(int nOwner)
+{
+	m_nOwner = nOwner;
+}
+
+void CBullet::setAtk(int nAtk)
+{
+	m_nAtk = nAtk;
+}
 	
 void CBullet::setValid(bool bValid)
 {
@@ -105,6 +115,16 @@ int CBullet::getPosY()
 int CBullet::getType()
 {
 	return m_nType;
+}
+
+int CBullet::getOwner()
+{
+	return m_nOwner;
+}
+
+int CBullet::getAtk()
+{
+	return m_nAtk;
 }
 
 CGameMap *CBullet::getGameMap()
@@ -147,6 +167,7 @@ void CBullet::fireBullet(vector<CBullet*> &vtBulletbox, CTank &tank)
 			pNewBullet->setPosY(nTY);
 			pNewBullet->setValid(false);
 			pNewBullet->setDirection(tank.getDirection());
+			pNewBullet->setOwner(tank.getType());
 
 			switch (tank.getType())
 			{
@@ -155,7 +176,11 @@ void CBullet::fireBullet(vector<CBullet*> &vtBulletbox, CTank &tank)
 				pNewBullet->setType(SIGN_BULLET0);
 				break;
 			case SIGN_TANK_E0:
+				pNewBullet->setAtk(1);
+				pNewBullet->setType(SIGN_BULLET1);
+				break;
 			case SIGN_TANK_E1:
+				pNewBullet->setAtk(2);
 				pNewBullet->setType(SIGN_BULLET1);
 				break;
 			}
@@ -166,11 +191,11 @@ void CBullet::fireBullet(vector<CBullet*> &vtBulletbox, CTank &tank)
 	}
 }
 
-void CBullet::moveBullet(vector<CBullet*> &vtBulletBox, vector<CTank> &vtTanks, CPillbox &pillbox)
+void CBullet::moveBullet(vector<CBullet*> &vtBulletBox, vector<CTank> &vtTanks, CPillbox &pillbox, int *pEAliveNum)
 {
 	clearObject();
 
-	if (bulletCollision(vtBulletBox, vtTanks, pillbox)) {
+	if (bulletCollision(vtBulletBox, vtTanks, pillbox, pEAliveNum)) {
 		clearObject();
 		m_bValid = true;
 		return;
@@ -195,7 +220,7 @@ void CBullet::moveBullet(vector<CBullet*> &vtBulletBox, vector<CTank> &vtTanks, 
 	drawObject();
 }
 
-bool CBullet::bulletCollision(vector<CBullet*> &vtBulletBox, vector<CTank> &vtTanks, CPillbox &pillbox)
+bool CBullet::bulletCollision(vector<CBullet*> &vtBulletBox, vector<CTank> &vtTanks, CPillbox &pillbox, int *pEAliveNum)
 {
 	bool bRet = false;
 
@@ -206,6 +231,7 @@ bool CBullet::bulletCollision(vector<CBullet*> &vtBulletBox, vector<CTank> &vtTa
 		if (!vtBulletBox[i]->isValid()) {
 			if (m_nX == vtBulletBox[i]->getPosX() && m_nY == vtBulletBox[i]->getPosY()) {
 				if (m_nType != vtBulletBox[i]->getType()) { //我方子弹与敌方子弹碰撞
+					vtBulletBox[i]->setValid(true);
 					bRet = true;
 					goto END;
 				}
@@ -234,19 +260,19 @@ bool CBullet::bulletCollision(vector<CBullet*> &vtBulletBox, vector<CTank> &vtTa
 		break;
 	}
 
-	bRet = bulletCollisionWithOthers(nTX, nTY, vtTanks, pillbox);
+	bRet = bulletCollisionWithOthers(nTX, nTY, vtTanks, pillbox, pEAliveNum);
 END:
 	return bRet;
 }
 
-bool CBullet::bulletCollisionWithOthers(int nX, int nY, vector<CTank> &vtTanks, CPillbox &pillbox)
+bool CBullet::bulletCollisionWithOthers(int nX, int nY, vector<CTank> &vtTanks, CPillbox &pillbox, int *pEAliveNum)
 {
 	bool bRet = false;
 
 	if (m_nType == SIGN_BULLET0) { //我方的子弹
 		if (m_pMap->getMapValue(nX, nY) == SIGN_TANK_E0 || m_pMap->getMapValue(nX, nY) == SIGN_TANK_E1) {
 			//子弹打中敌军
-			doWhenEnemyBeated(nX, nY, vtTanks);
+			doWhenEnemyBeated(nX, nY, vtTanks, pEAliveNum);
 			bRet = true;
 			goto END;
 		}
@@ -269,21 +295,47 @@ END:
 	return bRet;
 }
 
-void CBullet::doWhenEnemyBeated(int nX, int nY, vector<CTank> &vtTanks)
+void CBullet::doWhenEnemyBeated(int nX, int nY, vector<CTank> &vtTanks, int *pEAliveNum)
 {
 	for (int i = 0; i < ENEMY_NMAX; i++) {
 		if (!vtTanks[i + 2].isDead()) {
 			for (int m = 0; m < 3; m++) {
 				for (int n = 0; n < 3; n++) {
 					if (vtTanks[i + 2].getPosX() + m == nX && vtTanks[i + 2].getPosY() + n == nY) {
-						vtTanks[i + 2].setDead(true);
-						vtTanks[i + 2].clearObject();
-						break;
+
+						//减去被打中的敌方坦克的生命值, 判断是否死亡并作相应处理
+						vtTanks[i + 2].setBlood(vtTanks[i + 2].getBlood() - 1);
+						if (vtTanks[i + 2].getBlood() <= 0) {
+							//血量为0，被灭, 敌军数量减1
+							vtTanks[i + 2].setDead(true);
+							vtTanks[i + 2].clearObject();
+							*pEAliveNum -= 1;
+						}
+						else {
+							//减血量并重生
+							vtTanks[i + 2].clearObject();
+							Sleep(200);
+							vtTanks[i + 2].drawObject();
+						}
+
+						//根据打中不同类型的敌方坦克，来给我方相应玩家增加分数
+						int nDeltaScore = 10;
+						if (vtTanks[i + 2].getType() == SIGN_TANK_E1)
+							nDeltaScore = 20;
+						
+						if (m_nOwner == SIGN_TANK_PA)
+							vtTanks[0].setScore(vtTanks[0].getScore() + nDeltaScore);
+						else if (m_nOwner == SIGN_TANK_PB)
+							vtTanks[1].setScore(vtTanks[1].getScore() + nDeltaScore);
+
+						goto END;
 					}
 				}
 			}
 		}
 	}
+END:
+	return;
 }
 
 void CBullet::doWhenPlayerBeated(int nX, int nY, vector<CTank> &vtTanks)
@@ -293,8 +345,21 @@ void CBullet::doWhenPlayerBeated(int nX, int nY, vector<CTank> &vtTanks)
 			for (int m = 0; m < 3; m++) {
 				for (int n = 0; n < 3; n++) {
 					if (vtTanks[i].getPosX() + m == nX && vtTanks[i].getPosY() + n == nY) {
-						vtTanks[i].setDead(true);
-						vtTanks[i].clearObject();
+						//玩家减血量
+						vtTanks[i].setBlood(vtTanks[i].getBlood() - m_nAtk);
+						if (vtTanks[i].getBlood() <= 0) {
+							//血量为0, 玩家被灭
+							vtTanks[i].setDead(true);
+							vtTanks[i].setBlood(0);
+							vtTanks[i].clearObject();
+						}
+						else {
+							//玩家减血量并重生
+							vtTanks[i].clearObject();
+							Sleep(200);
+							vtTanks[i].drawObject();
+						}
+
 						goto END;
 					}
 				}

@@ -91,12 +91,14 @@ CTank &CTank::getTankBirthPlace(int nType, int nEnemyNo)
 		m_nX = 12;
 		m_nY = 36;
 		m_nType = SIGN_TANK_PA;
+		m_nScore = 0;
 		break;
 	case SIGN_TANK_PB:
 		m_nDrt = DRT_UP;
 		m_nX = 22;
 		m_nY = 36;
 		m_nType = SIGN_TANK_PB;
+		m_nScore = 0;
 		break;
 	case SIGN_TANK_E0:
 	case SIGN_TANK_E1:
@@ -205,6 +207,16 @@ bool CTank::isDead()
 	return m_bDead;
 }
 
+void CTank::setBlood(int nBlood)
+{
+	m_nBlood = nBlood;
+}
+
+void CTank::setScore(int nScore)
+{
+	m_nScore = nScore;
+}
+
 int CTank::getDirection()
 {
 	return m_nDrt;
@@ -223,4 +235,14 @@ int CTank::getPosY()
 int CTank::getType()
 {
 	return m_nType;
+}
+
+int CTank::getBlood()
+{
+	return m_nBlood;
+}
+
+int CTank::getScore()
+{
+	return m_nScore;
 }

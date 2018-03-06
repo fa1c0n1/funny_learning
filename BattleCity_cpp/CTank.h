@@ -26,10 +26,14 @@ public:
 	void setMapObj(CGameMap *pGMap);
 	void setDead(bool bDead);
 	bool isDead();
+	void setBlood(int nBlood);
+	void setScore(int nScore);
 	int getDirection();
 	int getPosX();
 	int getPosY();
 	int getType();
+	int getBlood();
+	int getScore();
 
 private:
 	bool m_bDead;

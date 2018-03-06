@@ -35,7 +35,7 @@ void CGameMap::loadMap()
 	switch (m_nLevel)
 	{
 	case 1:
-		loadFile(MAP_FILE3);
+		loadFile(MAP_FILE1);
 		break;
 	case 2:
 		loadFile(MAP_FILE2);
