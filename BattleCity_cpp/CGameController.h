@@ -35,14 +35,17 @@ public:
 	int showPauseMenu();
 	//显示功能未完成的提示框
 	void showTODO();
+	//显示新敌军来袭的提示框
+	void showNewEnemiesComeNotice();
 
 private:
-	int m_nGameLevel;
-	int m_nE0Num;
-	int m_nE1Num;
-	int m_nEAliveNum;
-	CGameMap m_gMap;
-	CPillbox m_gPillbox;
+	bool m_bEnemyCanRevive;
+	int m_nGameLevel;                 //游戏关卡
+	int m_nE0Num;                     //敌军E0坦克的数量
+	int m_nE1Num;                     //敌军E1坦克的数量
+	int m_nEAliveNum;                 //敌军坦克存活数
+	CGameMap m_gMap;                  //地图, 所有坦克对象和子弹对象共用
+	CPillbox m_gPillbox;              //碉堡
 	vector<CBullet *> m_vtBulletbox;  //子弹盒
 	vector<CTank> m_vtTanks;          //坦克群,包含我方坦克和敌方坦克
 };

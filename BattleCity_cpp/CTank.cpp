@@ -89,6 +89,7 @@ void CTank::clearObject()
 
 CTank &CTank::getTankBirthPlace(int nType, int nEnemyNo)
 {
+	m_bDead = false;
 	switch (nType)
 	{
 	case SIGN_TANK_PA:
@@ -97,6 +98,7 @@ CTank &CTank::getTankBirthPlace(int nType, int nEnemyNo)
 		m_nY = 36;
 		m_nType = SIGN_TANK_PA;
 		m_nScore = 0;
+		m_nBlood = 2;
 		break;
 	case SIGN_TANK_PB:
 		m_nDrt = DRT_UP;
@@ -104,14 +106,21 @@ CTank &CTank::getTankBirthPlace(int nType, int nEnemyNo)
 		m_nY = 36;
 		m_nType = SIGN_TANK_PB;
 		m_nScore = 0;
-
+		m_nBlood = 1;
 		break;
 	case SIGN_TANK_E0:
+		m_nDrt = DRT_DOWN;
+		m_nX = 5 + nEnemyNo * 5;
+		m_nY = 1;
+		m_nType = nType;
+		m_nBlood = 1;
+		break;
 	case SIGN_TANK_E1:
 		m_nDrt = DRT_DOWN;
 		m_nX = 5 + nEnemyNo * 5;
 		m_nY = 1;
 		m_nType = nType;
+		m_nBlood = 2;
 		break;
 	}
 
@@ -143,7 +152,8 @@ bool CTank::isCollision()
 	{
 	case DRT_UP:
 		for (int i = 0; i < 3; i++) {
-			if (m_pMap->getMapValue(m_nX + i, m_nY - 1) != SIGN_EMPTY && m_pMap->getMapValue(m_nX + i, m_nY - 1) != SIGN_GRASS) {
+			if (m_pMap->getMapValue(m_nX + i, m_nY - 1) != SIGN_EMPTY && m_pMap->getMapValue(m_nX + i, m_nY - 1) != SIGN_GRASS
+				&& m_pMap->getMapValue(m_nX + i, m_nY - 1) != SIGN_BULLET0 && m_pMap->getMapValue(m_nX + i, m_nY -1) != SIGN_BULLET1) {
 				bRet = true;
 				break;
 			}
@@ -156,7 +166,8 @@ bool CTank::isCollision()
 		break;
 	case DRT_DOWN:
 		for (int i = 0; i < 3; i++) {
-			if (m_pMap->getMapValue(m_nX + i, m_nY + 3) != SIGN_EMPTY && m_pMap->getMapValue(m_nX + i, m_nY + 3) != SIGN_GRASS) {
+			if (m_pMap->getMapValue(m_nX + i, m_nY + 3) != SIGN_EMPTY && m_pMap->getMapValue(m_nX + i, m_nY + 3) != SIGN_GRASS 
+				&& m_pMap->getMapValue(m_nX + i, m_nY + 3) != SIGN_BULLET0 && m_pMap->getMapValue(m_nX + i, m_nY + 3) != SIGN_BULLET1) {
 				bRet = true;
 				break;
 			}
@@ -169,7 +180,8 @@ bool CTank::isCollision()
 		break;
 	case DRT_LEFT:
 		for (int i = 0; i < 3; i++) {
-			if (m_pMap->getMapValue(m_nX - 1, m_nY + i) != SIGN_EMPTY && m_pMap->getMapValue(m_nX - 1, m_nY + i) != SIGN_GRASS) {
+			if (m_pMap->getMapValue(m_nX - 1, m_nY + i) != SIGN_EMPTY && m_pMap->getMapValue(m_nX - 1, m_nY + i) != SIGN_GRASS
+				&& m_pMap->getMapValue(m_nX - 1, m_nY + i) != SIGN_BULLET0 && m_pMap->getMapValue(m_nX - 1, m_nY + i) != SIGN_BULLET1) {
 				bRet = true;
 				break;
 			}
@@ -182,7 +194,8 @@ bool CTank::isCollision()
 		break;
 	case DRT_RIGHT:
 		for (int i = 0; i < 3; i++) {
-			if (m_pMap->getMapValue(m_nX + 3, m_nY + i) != SIGN_EMPTY && m_pMap->getMapValue(m_nX + 3, m_nY + i) != SIGN_GRASS) {
+			if (m_pMap->getMapValue(m_nX + 3, m_nY + i) != SIGN_EMPTY && m_pMap->getMapValue(m_nX + 3, m_nY + i) != SIGN_GRASS
+				&& m_pMap->getMapValue(m_nX + 3, m_nY + i) != SIGN_BULLET0 && m_pMap->getMapValue(m_nX + 3, m_nY + i) != SIGN_BULLET1) {
 				bRet = true;
 				break;
 			}

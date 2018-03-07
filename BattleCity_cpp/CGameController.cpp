@@ -10,7 +10,7 @@
 
 using std::string;
 
-CGameController::CGameController() : m_nGameLevel(1)
+CGameController::CGameController() : m_nGameLevel(1), m_bEnemyCanRevive(true)
 {
 }
 
@@ -119,6 +119,15 @@ START_GAME:
 				m_nGameLevel += 1;
 				goto START_GAME;
 			}
+		}
+		else if (m_nEAliveNum == 5 && m_bEnemyCanRevive) { //敌军复活
+			showNewEnemiesComeNotice();
+			for (int i = 0; i < ENEMY_NMAX; i++) {
+				m_vtTanks[i + 2].getTankBirthPlace(m_vtTanks[i+2].getType(), i);
+			}
+
+			//只能复活一次
+			m_bEnemyCanRevive = false;
 		}
 
 		if (!m_vtTanks[0].isDead()) {
@@ -234,6 +243,23 @@ void CGameController::showTODO()
 	DrawTool::drawText(41, 35, "              ", FG_LIGHTTURQUOISE);
 	DrawTool::drawText(41, 36, "              ", FG_LIGHTTURQUOISE);
 }
+
+void CGameController::showNewEnemiesComeNotice()
+{
+	DrawTool::drawText(41, 21, "━━━━━━━━━━━━━━", FG_LIGHTRED);
+	DrawTool::drawText(41, 22, "┃     敌情预警！！！     ┃", FG_LIGHTRED);
+	DrawTool::drawText(41, 23, "┃                        ┃", FG_LIGHTRED);
+	DrawTool::drawText(41, 24, "┃ 新一波敌方大军正在袭来 ┃", FG_LIGHTRED);
+	DrawTool::drawText(41, 25, "┃                        ┃", FG_LIGHTRED);
+	DrawTool::drawText(41, 26, "┃━━━━━━━━━━━━┃", FG_LIGHTRED);
+	Sleep(1500);
+	DrawTool::drawText(41, 21, "                           ", 0);
+	DrawTool::drawText(41, 22, "                           ", 0);
+	DrawTool::drawText(41, 23, "                           ", 0);
+	DrawTool::drawText(41, 24, "                           ", 0);
+	DrawTool::drawText(41, 25, "                           ", 0);
+	DrawTool::drawText(41, 26, "                           ", 0);
+}
 	
 void CGameController::initTanks()
 {
@@ -241,10 +267,8 @@ void CGameController::initTanks()
 	
 	//创建我方坦克
 	tmpTank = tmpTank.getTankBirthPlace(SIGN_TANK_PA);
-	tmpTank.setBlood(2);
 	m_vtTanks.push_back(tmpTank);
 	tmpTank = tmpTank.getTankBirthPlace(SIGN_TANK_PB);
-	tmpTank.setBlood(1);
 	m_vtTanks.push_back(tmpTank);
 
 	//创建敌军坦克
@@ -253,19 +277,19 @@ void CGameController::initTanks()
 	else if (m_nGameLevel == 3)
 		m_nE0Num = 3;
 
-	m_nEAliveNum = ENEMY_NMAX;
+	m_nEAliveNum = ENEMY_NMAX * 2;
 	m_nE1Num = ENEMY_NMAX - m_nE0Num;
 	for (int i = 0; i < m_nE0Num; i++) {
 		tmpTank = tmpTank.getTankBirthPlace(SIGN_TANK_E0, i);
-		tmpTank.setBlood(1);
 		m_vtTanks.push_back(tmpTank);
 	}
 
 	for (int i = m_nE0Num; i < ENEMY_NMAX; i++) {
 		tmpTank = tmpTank.getTankBirthPlace(SIGN_TANK_E1, i);
-		tmpTank.setBlood(2);
 		m_vtTanks.push_back(tmpTank);
 	}
+
+	m_bEnemyCanRevive = true;
 }
 
 void CGameController::initBulletbox()
@@ -341,7 +365,7 @@ void CGameController::updateGameInfo()
 	DrawTool::drawText(45, 15, buf, FG_LIGHTTURQUOISE);
 
 	//敌军
-	sprintf_s(buf, _countof(buf), "%d", m_nEAliveNum);
+	sprintf_s(buf, _countof(buf), "%d  ", m_nEAliveNum);
 	DrawTool::drawText(48, 19, buf, FG_LIGHTTURQUOISE);
 }
 

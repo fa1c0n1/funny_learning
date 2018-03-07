@@ -79,7 +79,7 @@ typedef enum {
 #define KEY_RIGHT           77
 #define KEY_DIRECTION       224
 
-//同时存活的敌军的数量最大值
+//同时在场的敌军的数量最大值
 #define ENEMY_NMAX           5
 
 //BulletBox的容量

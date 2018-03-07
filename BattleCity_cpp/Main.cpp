@@ -1,5 +1,6 @@
 #include "CGameController.h"
 #include "Data.h"
+#include "DrawTool.h"
 #include <iostream>
 #include <windows.h>
 #include <fstream>
@@ -11,7 +12,7 @@ using namespace std;
 int main()
 {
 	CGameController ctrller;
-	ctrller.launchGame();
+	ctrller.launchGame();	
 
 	return 0;
 }
