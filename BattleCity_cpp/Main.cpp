@@ -2,6 +2,7 @@
 #include "Data.h"
 #include <iostream>
 #include <windows.h>
+#include <fstream>
 
 #include <conio.h>
 

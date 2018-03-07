@@ -89,4 +89,7 @@ typedef enum {
 #define MAP_FILE1           "map1.txt"
 #define MAP_FILE2           "map2.txt"
 #define MAP_FILE3           "map3.txt"
+#define MAP_FILE1_NEW       "map1_new.txt"
+#define MAP_FILE2_NEW       "map2_new.txt"
+#define MAP_FILE3_NEW       "map3_new.txt"
 

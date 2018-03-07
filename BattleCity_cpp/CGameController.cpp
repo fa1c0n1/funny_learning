@@ -48,16 +48,21 @@ MAIN_MENUE:
 			case KEY_1:
 				system("cls");
 				goto START_GAME;
-				break;
 			case KEY_2:
 				break;
 			case KEY_3:
-				break;
+				system("cls");
+				m_gMap.editMap();
+				system("cls");
+				goto MAIN_MENUE;
+			case KEY_4:
+				goto END;
 			default:
 				continue;
 			}
 		}
 	}
+
 START_GAME:
 	//³õÊ¼»¯Ì¹¿Ë
 	initTanks();
