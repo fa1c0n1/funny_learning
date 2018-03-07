@@ -49,6 +49,7 @@ MAIN_MENUE:
 				system("cls");
 				goto START_GAME;
 			case KEY_2:
+				showTODO();
 				break;
 			case KEY_3:
 				system("cls");
@@ -96,6 +97,8 @@ START_GAME:
 		if (m_gPillbox.isDead() || (m_vtTanks[0].isDead() && m_vtTanks[1].isDead())) {
 			showFailedNotice();
 			Sleep(3000);
+			m_nGameLevel = 1;
+			m_gMap.setLevel(m_nGameLevel);
 			freeResources();
 			system("cls");
 			goto MAIN_MENUE;
@@ -109,6 +112,7 @@ START_GAME:
 			system("cls");
 			if (m_nGameLevel == 3) {
 				m_nGameLevel = 1;
+				m_gMap.setLevel(m_nGameLevel);
 				goto MAIN_MENUE;
 			}
 			else {
@@ -149,6 +153,20 @@ START_GAME:
 			}
 		}
 
+		int nPauseRet;
+		if (KEYDOWN('')) {
+			//ÔÝÍ£ÓÎÏ·
+			nPauseRet = showPauseMenu();
+			if (nPauseRet == KEY_3) {
+				//·µ»ØÖ÷²Ëµ¥
+				system("cls");
+				m_nGameLevel = 1;
+				m_gMap.setLevel(m_nGameLevel);
+				freeResources();
+				goto MAIN_MENUE;
+			}
+		}
+
 		//Ëæ»úÒÆ¶¯µÐ¾üÌ¹¿Ë
 		randomMoveEnemies();
 		//ÒÆ¶¯ËùÓÐ·¢Éä³öÈ¥µÄ×Óµ¯
@@ -169,6 +187,52 @@ void CGameController::showMenu()
 	for (int i = 0; i < _countof(menuStr); i++) {
 		DrawTool::drawText(20, 22 + 2 * i, menuStr[i], FG_LIGHTGREEN);
 	}
+}
+
+int CGameController::showPauseMenu()
+{
+	int nRet = KEY_3;
+	char *menuStr[3] = { "1.¼ÌÐøÓÎÏ·", "2.±£´æÓÎÏ·", "3.·µ¡¡¡¡»Ø" };
+	for (int i = 0; i < _countof(menuStr); i++) {
+		DrawTool::drawText(42, 25 + 2 * i, menuStr[i], FG_LIGHTGREEN);
+	}
+
+	while (true) {
+		if (_kbhit()) {
+			int key = _getch();
+			if (key == KEY_2) {
+				//±£´æÓÎÏ·: TODO
+				showTODO();
+			} else if (key == KEY_1 || key == KEY_3) {
+				nRet = key;
+				break;
+			}
+		}
+		else {
+			Sleep(30);
+		}
+	}
+
+	for (int i = 0; i < _countof(menuStr); i++) {
+		DrawTool::drawText(42, 25 + 2 * i, "         ", 0);
+	}
+
+	return nRet;
+}
+
+void CGameController::showTODO()
+{
+	DrawTool::drawText(41, 32, " ©¥©¥©¥©¥©¥©¥ ", FG_LIGHTTURQUOISE);
+	DrawTool::drawText(41, 33, "©§¹¦ÄÜÎ´Íê³É©§", FG_LIGHTTURQUOISE);
+	DrawTool::drawText(41, 34, "©§          ©§", FG_LIGHTTURQUOISE);
+	DrawTool::drawText(41, 35, "©§ ¾´ÇëÆÚ´ý ©§", FG_LIGHTTURQUOISE);
+	DrawTool::drawText(41, 36, "©§__________©§", FG_LIGHTTURQUOISE);
+	Sleep(500);
+	DrawTool::drawText(41, 32, "             ", FG_LIGHTTURQUOISE);
+	DrawTool::drawText(41, 33, "              ", FG_LIGHTTURQUOISE);
+	DrawTool::drawText(41, 34, "              ", FG_LIGHTTURQUOISE);
+	DrawTool::drawText(41, 35, "              ", FG_LIGHTTURQUOISE);
+	DrawTool::drawText(41, 36, "              ", FG_LIGHTTURQUOISE);
 }
 	
 void CGameController::initTanks()
@@ -215,11 +279,6 @@ void CGameController::initBulletbox()
 	}
 }
 
-void CGameController::setGameLevel(int nLevel)
-{
-	m_nGameLevel = nLevel;
-}
-	
 void CGameController::randomMoveEnemies()
 {
 	int nDrtArr[4] = { DRT_UP, DRT_DOWN, DRT_LEFT, DRT_RIGHT };

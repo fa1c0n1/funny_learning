@@ -18,7 +18,6 @@ public:
 	void freeResources();
 	void initTanks();
 	void initBulletbox();
-	void setGameLevel(int nLevel);
 	void randomMoveEnemies();
 	void moveBullets(vector<CBullet*> &vtBulletBox, vector<CTank> &vtTanks, CPillbox &pillbox, int *pEAliveNum);
 
@@ -32,6 +31,10 @@ public:
 	void showFailedNotice();
 	//显示我方胜利的提示
 	void showWinNotice();
+	//显示子菜单: 暂停游戏时显示
+	int showPauseMenu();
+	//显示功能未完成的提示框
+	void showTODO();
 
 private:
 	int m_nGameLevel;

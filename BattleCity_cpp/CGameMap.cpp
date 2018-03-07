@@ -100,16 +100,16 @@ bool CGameMap::editMapMouseEventProc(MOUSE_EVENT_RECORD mer)
 	switch (mer.dwEventFlags)
 	{
 	case 0:
-		if (nY == 1 && nX == 46) { //切换为钢墙
+		if (nY == 1 && nX == 46) { //编辑触点切换为钢墙
 			m_nEditNodeType = SIGN_WALL0;
 		}
-		else if (nY == 3 && nX == 46) { //切换为水泥墙
+		else if (nY == 3 && nX == 46) { //编辑触点切换为水泥墙
 			m_nEditNodeType = SIGN_WALL1;
 		}
-		else if (nY == 5 && nX == 46) {//切换为河流
+		else if (nY == 5 && nX == 46) {//编辑触点切换为河流
 			m_nEditNodeType = SIGN_RIVER; 
 		}
-		else if (nY == 7 && nX == 46) { //切换为草地
+		else if (nY == 7 && nX == 46) { //编辑触点切换为草地
 			m_nEditNodeType = SIGN_GRASS;
 		}
 		else if (nY == 11) {
