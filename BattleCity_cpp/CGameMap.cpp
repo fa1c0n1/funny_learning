@@ -25,6 +25,11 @@ int CGameMap::getMapValue(int nX, int nY)
 	return m_nArrMap[nY][nX];
 }
 
+int CGameMap::getMapGrassRiverValue(int nX, int nY)
+{
+	return m_nArrGrass[nY][nX];
+}
+
 void CGameMap::setLevel(int nLevel)
 {
 	m_nLevel = nLevel;
@@ -246,6 +251,10 @@ void CGameMap::loadFile(const char *pszFileName)
 		infile.getline(buf, _countof(buf));
 		for (int j = 0; j < 40; j++) {
 			m_nArrMap[i][j] = buf[j] - 48;
+			if (m_nArrMap[i][j] == SIGN_GRASS || m_nArrMap[i][j] == SIGN_RIVER)
+				m_nArrGrass[i][j] = m_nArrMap[i][j];
+			else
+				m_nArrGrass[i][j] = SIGN_EMPTY;
 		}
 	}
 

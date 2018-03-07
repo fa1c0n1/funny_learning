@@ -2,9 +2,6 @@
 #include "DrawTool.h"
 #include "Data.h"
 #include "CGameMap.h"
-#include <vector>
-
-using std::vector;
 
 int CTank::m_nTankShape[4][3][3] = {
 		{ //UP
@@ -58,23 +55,31 @@ void CTank::drawObject()
 
 	for (int i = 0; i < 3; i++) {
 		for (int j = 0; j < 3; j++) {
-			if (m_pMap->getMapValue(m_nX+j, m_nY+i) != SIGN_GRASS)
-				m_pMap->setMapValue(m_nX + j, m_nY + i, m_nType);
+			m_pMap->setMapValue(m_nX + j, m_nY + i, m_nType);
 			if (m_nTankShape[m_nDrt][i][j] == 1) {
-				if (m_pMap->getMapValue(m_nX+j, m_nY+i) != SIGN_GRASS)
-					DrawTool::drawPattern(m_nX + j, m_nY + i, m_nType);
-				else
+				DrawTool::drawPattern(m_nX + j, m_nY + i, m_nType);
+			}
+			else {
+				if (m_pMap->getMapGrassRiverValue(m_nX + j, m_nY + i) == SIGN_GRASS)
 					DrawTool::drawPattern(m_nX + j, m_nY + i, SIGN_GRASS);
+				else
+					DrawTool::drawPattern(m_nX + j, m_nY + i, SIGN_EMPTY);
 			}
 		}
 	}
+
+	
 }
 
 void CTank::clearObject()
 {
 	for (int i = 0; i < 3; i++) {
 		for (int j = 0; j < 3; j++) {
-			if (m_pMap->getMapValue(m_nX + j, m_nY + i) != SIGN_GRASS) {
+			if (m_pMap->getMapGrassRiverValue(m_nX + j, m_nY + i) == SIGN_GRASS) {
+				m_pMap->setMapValue(m_nX + j, m_nY + i, SIGN_GRASS);
+				DrawTool::drawPattern(m_nX + j, m_nY + i, SIGN_GRASS);
+			}
+			else {
 				m_pMap->setMapValue(m_nX + j, m_nY + i, SIGN_EMPTY);
 				DrawTool::drawPattern(m_nX + j, m_nY + i, SIGN_EMPTY);
 			}
@@ -99,6 +104,7 @@ CTank &CTank::getTankBirthPlace(int nType, int nEnemyNo)
 		m_nY = 36;
 		m_nType = SIGN_TANK_PB;
 		m_nScore = 0;
+
 		break;
 	case SIGN_TANK_E0:
 	case SIGN_TANK_E1:

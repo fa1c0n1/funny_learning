@@ -14,8 +14,6 @@ void CBullet::drawObject()
 {
 	switch (m_pMap->getMapValue(m_nX, m_nY))
 	{
-	case SIGN_GRASS:
-	case SIGN_RIVER:
 	case SIGN_TANK_PA:
 	case SIGN_TANK_PB:
 	case SIGN_TANK_E0:
@@ -32,16 +30,21 @@ void CBullet::clearObject()
 {
 	switch (m_pMap->getMapValue(m_nX, m_nY))
 	{
-	case SIGN_GRASS:
-	case SIGN_RIVER:
 	case SIGN_TANK_PA:
 	case SIGN_TANK_PB:
 	case SIGN_TANK_E0:
 	case SIGN_TANK_E1:
 		break;
 	default:
-		m_pMap->setMapValue(m_nX, m_nY, SIGN_EMPTY);
-		DrawTool::drawPattern(m_nX, m_nY, SIGN_EMPTY);
+		int nGrassOrRiver = m_pMap->getMapGrassRiverValue(m_nX, m_nY);
+		if (nGrassOrRiver == SIGN_GRASS || nGrassOrRiver == SIGN_RIVER) {
+			m_pMap->setMapValue(m_nX, m_nY, nGrassOrRiver);
+			DrawTool::drawPattern(m_nX, m_nY, nGrassOrRiver);
+		}
+		else {
+			m_pMap->setMapValue(m_nX, m_nY, SIGN_EMPTY);
+			DrawTool::drawPattern(m_nX, m_nY, SIGN_EMPTY);
+		}
 		break;
 	} 
 }

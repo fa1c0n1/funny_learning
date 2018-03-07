@@ -12,6 +12,7 @@ public:
 	void loadMap();
 	void setMapValue(int nX, int nY, int nVal);
 	int getMapValue(int nX, int nY);
+	int getMapGrassRiverValue(int nX, int nY);
 	void drawMap();
 	void editMap();
 
@@ -28,6 +29,7 @@ private:
 	bool m_bUseDefault;
 	int m_nLevel;
 	int m_nEditNodeType;
+	int m_nArrGrass[40][40];
 	int m_nArrMap[40][40];
 };
 

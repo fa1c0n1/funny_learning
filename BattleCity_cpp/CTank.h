@@ -2,9 +2,6 @@
 
 #include "CBase.h"
 #include "CGameMap.h"
-#include <vector>
-
-using std::vector;
 
 class CTank : public CBase
 {
