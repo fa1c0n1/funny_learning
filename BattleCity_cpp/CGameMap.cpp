@@ -145,6 +145,7 @@ bool CGameMap::editMapMouseEventProc(MOUSE_EVENT_RECORD mer)
 		}
 		else if (nY == 17 && nX >= 42 && nX <= 45) { //按钮"保存地图"
 			saveMapToFile();
+			showSaveMapNotice();
 		}
 		else if (nY == 19 && nX >= 42 && nX <= 45) { //按钮"返回"
 			bRet = true;
@@ -249,4 +250,15 @@ void CGameMap::loadFile(const char *pszFileName)
 	}
 
 	infile.close();
+}
+
+void CGameMap::showSaveMapNotice()
+{
+	DrawTool::drawText(41, 32, " ━━━━━━━", FG_LIGHTTURQUOISE);
+	DrawTool::drawText(41, 33, "┃保存地图成功┃", FG_LIGHTTURQUOISE);
+	DrawTool::drawText(41, 34, "┃____________┃", FG_LIGHTTURQUOISE);
+	Sleep(500);
+	DrawTool::drawText(41, 32, "               ", FG_LIGHTTURQUOISE);
+	DrawTool::drawText(41, 33, "               ", FG_LIGHTTURQUOISE);
+	DrawTool::drawText(41, 34, "               ", FG_LIGHTTURQUOISE);
 }

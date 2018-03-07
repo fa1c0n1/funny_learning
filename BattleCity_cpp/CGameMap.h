@@ -21,6 +21,7 @@ private:
 	void updateEditorInfo();
 	void clearEditableArea();
 	void saveMapToFile();
+	void showSaveMapNotice();
 	bool isFileExist(const char *pszFileName);
 	void loadFile(const char *pszFileName);
 
