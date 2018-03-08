@@ -2,7 +2,7 @@
 #include "DrawTool.h"
 #include "Data.h"
 #include "CGameMap.h"
-
+#include "CAnimation.h"
 #include <cstdlib>
 #include <conio.h>
 #include <ctime>
@@ -35,8 +35,13 @@ void CGameController::launchGame()
 	//初始化窗口
 	DrawTool::setWindowSize("Battle City", 116, 40);
 
+	//欢迎动画
+	CAnimation anim;
+	anim.welcomeAnim();
+
 MAIN_MENUE:
 	//主菜单:
+	anim.showStillText();
 	showMenu();
 
 	//处理菜单的按键事件
@@ -194,7 +199,7 @@ void CGameController::showMenu()
 	char *menuStr[4] = { "1. 开 始 游 戏", "2. 继 续 游 戏", "3. 编 辑 地 图", "4. 退 出 游 戏" };
 
 	for (int i = 0; i < _countof(menuStr); i++) {
-		DrawTool::drawText(20, 22 + 2 * i, menuStr[i], FG_LIGHTGREEN);
+		DrawTool::drawText(23, 22 + 2 * i, menuStr[i], FG_LIGHTGREEN);
 	}
 }
 

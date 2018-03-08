@@ -32,6 +32,7 @@ public:
 	int getBlood();
 	int getScore();
 
+	static int m_nTankShape[4][3][3];
 private:
 	bool m_bDead;
 	int m_nX;
@@ -41,7 +42,6 @@ private:
 	int m_nBlood;
 	int m_nScore;
 	CGameMap *m_pMap;
-	static int m_nTankShape[4][3][3];
 };
 
 
