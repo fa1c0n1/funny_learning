@@ -3,29 +3,6 @@
 #include "Data.h"
 #include "CGameMap.h"
 
-int CTank::m_nTankShape[4][3][3] = {
-		{ //UP
-			{ 0, 1, 0 },
-			{ 1, 1, 1 },
-			{ 1, 0, 1 }
-		},
-		{ //DOWN
-			{ 1, 0, 1 },
-			{ 1, 1, 1 },
-			{ 0, 1, 0 }
-		},
-		{ //LEFT
-			{ 0, 1, 1 },
-			{ 1, 1, 0 },
-			{ 0, 1, 1 }
-		},
-		{ //RIGHT
-			{ 1, 1, 0 },
-			{ 0, 1, 1 },
-			{ 1, 1, 0 }
-		}
-};
-
 CTank::CTank()
 {
 }
@@ -67,8 +44,6 @@ void CTank::drawObject()
 			}
 		}
 	}
-
-	
 }
 
 void CTank::clearObject()
@@ -138,13 +113,13 @@ void CTank::moveTank(int nDrt)
 	}
 
 	//ÅÐ¶ÏÌ¹¿ËµÄÅö×²
-	if (isCollision())
+	if (tankCollision())
 		return;
 
 	drawObject();
 }
 
-bool CTank::isCollision()
+bool CTank::tankCollision()
 {
 	bool bRet = false;
 
@@ -152,8 +127,7 @@ bool CTank::isCollision()
 	{
 	case DRT_UP:
 		for (int i = 0; i < 3; i++) {
-			if (m_pMap->getMapValue(m_nX + i, m_nY - 1) != SIGN_EMPTY && m_pMap->getMapValue(m_nX + i, m_nY - 1) != SIGN_GRASS
-				&& m_pMap->getMapValue(m_nX + i, m_nY - 1) != SIGN_BULLET0 && m_pMap->getMapValue(m_nX + i, m_nY -1) != SIGN_BULLET1) {
+			if (tankCollision(m_nX + i, m_nY - 1)) {
 				bRet = true;
 				break;
 			}
@@ -166,8 +140,7 @@ bool CTank::isCollision()
 		break;
 	case DRT_DOWN:
 		for (int i = 0; i < 3; i++) {
-			if (m_pMap->getMapValue(m_nX + i, m_nY + 3) != SIGN_EMPTY && m_pMap->getMapValue(m_nX + i, m_nY + 3) != SIGN_GRASS 
-				&& m_pMap->getMapValue(m_nX + i, m_nY + 3) != SIGN_BULLET0 && m_pMap->getMapValue(m_nX + i, m_nY + 3) != SIGN_BULLET1) {
+			if (tankCollision(m_nX + i, m_nY + 3)) {
 				bRet = true;
 				break;
 			}
@@ -180,8 +153,7 @@ bool CTank::isCollision()
 		break;
 	case DRT_LEFT:
 		for (int i = 0; i < 3; i++) {
-			if (m_pMap->getMapValue(m_nX - 1, m_nY + i) != SIGN_EMPTY && m_pMap->getMapValue(m_nX - 1, m_nY + i) != SIGN_GRASS
-				&& m_pMap->getMapValue(m_nX - 1, m_nY + i) != SIGN_BULLET0 && m_pMap->getMapValue(m_nX - 1, m_nY + i) != SIGN_BULLET1) {
+			if (tankCollision(m_nX - 1, m_nY + i)) {
 				bRet = true;
 				break;
 			}
@@ -194,8 +166,7 @@ bool CTank::isCollision()
 		break;
 	case DRT_RIGHT:
 		for (int i = 0; i < 3; i++) {
-			if (m_pMap->getMapValue(m_nX + 3, m_nY + i) != SIGN_EMPTY && m_pMap->getMapValue(m_nX + 3, m_nY + i) != SIGN_GRASS
-				&& m_pMap->getMapValue(m_nX + 3, m_nY + i) != SIGN_BULLET0 && m_pMap->getMapValue(m_nX + 3, m_nY + i) != SIGN_BULLET1) {
+			if (tankCollision(m_nX + 3, m_nY + i)) {
 				bRet = true;
 				break;
 			}
@@ -209,6 +180,12 @@ bool CTank::isCollision()
 	}
 
 	return bRet;
+}
+
+bool CTank::tankCollision(int nX, int nY)
+{
+	int nType = m_pMap->getMapValue(nX, nY);
+	return nType != SIGN_EMPTY && nType != SIGN_GRASS && nType != SIGN_BULLET0 && nType != SIGN_BULLET1;
 }
 
 void CTank::setMapObj(CGameMap *pGMap)
@@ -265,3 +242,26 @@ int CTank::getScore()
 {
 	return m_nScore;
 }
+
+int CTank::m_nTankShape[4][3][3] = {
+		{ //UP
+			{ 0, 1, 0 },
+			{ 1, 1, 1 },
+			{ 1, 0, 1 }
+		},
+		{ //DOWN
+			{ 1, 0, 1 },
+			{ 1, 1, 1 },
+			{ 0, 1, 0 }
+		},
+		{ //LEFT
+			{ 0, 1, 1 },
+			{ 1, 1, 0 },
+			{ 0, 1, 1 }
+		},
+		{ //RIGHT
+			{ 1, 1, 0 },
+			{ 0, 1, 1 },
+			{ 1, 1, 0 }
+		}
+};

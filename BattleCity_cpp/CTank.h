@@ -17,8 +17,6 @@ public:
 	CTank &getTankBirthPlace(int nType, int nEnemyNo=0);
 	//移动坦克
 	void moveTank(int nDrt);
-	//判断碰撞
-	bool isCollision();
 	//设置地图对象
 	void setMapObj(CGameMap *pGMap);
 	void setDead(bool bDead);
@@ -34,6 +32,10 @@ public:
 
 	static int m_nTankShape[4][3][3];
 private:
+	//判断坦克碰撞
+	bool tankCollision();
+	bool tankCollision(int nX, int nY);
+
 	bool m_bDead;
 	int m_nX;
 	int m_nY;
