@@ -29,6 +29,7 @@ public:
 	int getType();
 	int getBlood();
 	int getScore();
+	CGameMap *getMapObj();
 
 	static int m_nTankShape[4][3][3];
 private:

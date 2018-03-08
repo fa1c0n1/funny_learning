@@ -3,6 +3,7 @@
 #include "Data.h"
 #include "CGameMap.h"
 #include "CAnimation.h"
+#include "CAstar.h"
 #include <cstdlib>
 #include <conio.h>
 #include <ctime>
@@ -38,6 +39,9 @@ void CGameController::launchGame()
 	//欢迎动画
 	CAnimation anim;
 	anim.welcomeAnim();
+
+	//创建A星对象
+	m_gAStar.initMapInfo(40, 40);
 
 MAIN_MENUE:
 	//主菜单:
@@ -315,15 +319,48 @@ void CGameController::randomMoveEnemies()
 	clock_t endTime;
 
 	CBullet tmpBullet;
-	for (int i = 0; i < ENEMY_NMAX; i++) {
+	for (int i = 0; i < ENEMY_NMAX - 1; i++) {
 		if (!m_vtTanks[i + 2].isDead()) {
 			endTime = clock();
 			if (endTime % 150 + 150 > 200)
 				m_vtTanks[i + 2].moveTank(nDrtArr[rand() % 4]);
-			
-			if (endTime % 150 + 150 > (296 - m_nGameLevel))
+
+			if (endTime % 150 + 150 > (296 - m_nGameLevel * 2))
 				tmpBullet.fireBullet(m_vtBulletbox, m_vtTanks[i + 2]);
 		}
+	}
+
+	//最后一个坦克以A星寻路算法去移动
+	CTank &aStarTank = m_vtTanks.back();
+	if (!aStarTank.isDead()) {
+		bool bFind = false;
+		if (!m_vtTanks[0].isDead())
+			bFind = m_gAStar.findPath(aStarTank, m_vtTanks[0]);
+		else if (!m_vtTanks[1].isDead())
+			bFind = m_gAStar.findPath(aStarTank, m_vtTanks[1]);
+
+		if (bFind) {
+			vector<CAstar::MY_COORD> vtAStarPath = m_gAStar.getPath();
+			for (int i = vtAStarPath.size() - 1; i >= 0; i--) {
+				if (vtAStarPath[i].X > aStarTank.getPosX())
+					aStarTank.moveTank(DRT_RIGHT);
+				else if (vtAStarPath[i].X < aStarTank.getPosX())
+					aStarTank.moveTank(DRT_LEFT);
+
+				if (vtAStarPath[i].Y > aStarTank.getPosY())
+					aStarTank.moveTank(DRT_DOWN);
+				else if (vtAStarPath[i].Y < aStarTank.getPosY())
+					aStarTank.moveTank(DRT_UP);
+
+				break;
+			}
+		}
+		else {
+			aStarTank.moveTank(nDrtArr[rand() % 4]);
+		}
+
+		if (endTime % 150 + 150 > (290 - m_nGameLevel * 2))
+			tmpBullet.fireBullet(m_vtBulletbox, aStarTank);
 	}
 }
 

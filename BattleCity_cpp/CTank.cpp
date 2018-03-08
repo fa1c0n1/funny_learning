@@ -81,7 +81,7 @@ CTank &CTank::getTankBirthPlace(int nType, int nEnemyNo)
 		m_nY = 36;
 		m_nType = SIGN_TANK_PB;
 		m_nScore = 0;
-		m_nBlood = 1;
+		m_nBlood = 2;
 		break;
 	case SIGN_TANK_E0:
 		m_nDrt = DRT_DOWN;
@@ -241,6 +241,11 @@ int CTank::getBlood()
 int CTank::getScore()
 {
 	return m_nScore;
+}
+
+CGameMap *CTank::getMapObj()
+{
+	return m_pMap;
 }
 
 int CTank::m_nTankShape[4][3][3] = {

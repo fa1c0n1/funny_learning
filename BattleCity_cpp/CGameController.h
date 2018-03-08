@@ -4,6 +4,7 @@
 #include "CBullet.h"
 #include "CTank.h"
 #include "CPillbox.h"
+#include "CAstar.h"
 #include <vector>
 
 using std::vector;
@@ -46,6 +47,7 @@ private:
 	int m_nEAliveNum;                 //敌军坦克存活数
 	CGameMap m_gMap;                  //地图, 所有坦克对象和子弹对象共用
 	CPillbox m_gPillbox;              //碉堡
+	CAstar m_gAStar;                  //A星对象
 	vector<CBullet *> m_vtBulletbox;  //子弹盒
 	vector<CTank> m_vtTanks;          //坦克群,包含我方坦克和敌方坦克
 };

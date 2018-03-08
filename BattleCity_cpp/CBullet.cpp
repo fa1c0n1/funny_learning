@@ -84,7 +84,7 @@ void CBullet::setAtk(int nAtk)
 {
 	m_nAtk = nAtk;
 }
-	
+
 void CBullet::setValid(bool bValid)
 {
 	m_bValid = bValid;
@@ -357,7 +357,7 @@ void CBullet::doWhenPlayerBeated(int nX, int nY, vector<CTank> &vtTanks)
 							vtTanks[i].clearObject();
 						}
 						else {
-							//玩家减血量并重生
+							//玩家减血量并擦掉重绘，实现闪烁效果
 							vtTanks[i].clearObject();
 							Sleep(200);
 							vtTanks[i].drawObject();
