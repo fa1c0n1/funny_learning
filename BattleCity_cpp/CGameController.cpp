@@ -9,6 +9,8 @@
 #include <ctime>
 #include <string>
 
+#pragma comment(lib, "winmm.lib")
+
 using std::string;
 
 CGameController::CGameController() : m_nGameLevel(1), m_bEnemyCanRevive(true)
@@ -35,6 +37,9 @@ void CGameController::launchGame()
 {
 	//初始化窗口
 	DrawTool::setWindowSize("Battle City", 116, 40);
+
+	//播放开头音乐
+	PlaySoundA("sound/bgm_welcome.wav", NULL, SND_ASYNC | SND_LOOP);
 
 	//欢迎动画
 	CAnimation anim;
@@ -74,6 +79,11 @@ MAIN_MENUE:
 	}
 
 START_GAME:
+	//停止开头音乐, 并播放游戏进行音乐
+	PlaySoundA(NULL, NULL, SND_ASYNC | SND_LOOP);
+	PlaySoundA("sound/90tank.wav", NULL, SND_ASYNC);
+
+	
 	//初始化坦克
 	initTanks();
 
@@ -104,6 +114,7 @@ START_GAME:
 	while (true) {
 		//碉堡被击毁，或者玩家坦克被全灭,结束游戏
 		if (m_gPillbox.isDead() || (m_vtTanks[0].isDead() && m_vtTanks[1].isDead())) {
+			PlaySoundA("sound/bgm_failed.wav", NULL, SND_ASYNC);
 			showFailedNotice();
 			Sleep(3000);
 			m_nGameLevel = 1;
@@ -115,6 +126,7 @@ START_GAME:
 
 		//敌方被全灭
 		if (m_nEAliveNum == 0) {
+			PlaySoundA("sound/pal_win.wav", NULL, SND_ASYNC);
 			showWinNotice();
 			Sleep(3000);
 			freeResources();

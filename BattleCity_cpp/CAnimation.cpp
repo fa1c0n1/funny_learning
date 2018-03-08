@@ -7,7 +7,6 @@ CAnimation::CAnimation()
 {
 }
 
-
 CAnimation::~CAnimation()
 {
 }
