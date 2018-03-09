@@ -7,6 +7,9 @@
 
 using std::vector;
 
+/************************************************************************/
+/* CAstar类：A星寻路算法
+/************************************************************************/
 class CAstar
 {
 public:
@@ -26,7 +29,7 @@ public:
 			Y = cod.Y;
 		}
 
-		int nDrt;
+		int nDrt;           
 	} MY_COORD;
 
 	//结点的结构
@@ -62,7 +65,7 @@ private:
 
 	int m_nMapWidth;              //地图的宽度
 	int m_nMapHeight;             //地图的高度
-	CGameMap *m_pMap;
+	CGameMap *m_pMap;             //地图对象
 	PVIR_INFO m_pVir;             //指向虚拟地图的首地址
 	COORD m_codStart;             //起点坐标
 	COORD m_codEnd;               //终点坐标

@@ -86,10 +86,10 @@ typedef enum {
 #define BOX_CAPACITY        100
 
 //地图文件
-#define MAP_FILE1           "map1.txt"
-#define MAP_FILE2           "map2.txt"
-#define MAP_FILE3           "map3.txt"
-#define MAP_FILE1_NEW       "map1_new.txt"
-#define MAP_FILE2_NEW       "map2_new.txt"
-#define MAP_FILE3_NEW       "map3_new.txt"
+#define MAP_FILE1           "map1.txt"              //关卡1默认地图文件
+#define MAP_FILE2           "map2.txt"              //关卡2默认地图文件
+#define MAP_FILE3           "map3.txt"              //关卡3默认地图文件
+#define MAP_FILE1_NEW       "map1_new.txt"          //关卡1当前的地图文件
+#define MAP_FILE2_NEW       "map2_new.txt"          //关卡2当前的地图文件
+#define MAP_FILE3_NEW       "map3_new.txt"          //关卡3当前的地图文件
 

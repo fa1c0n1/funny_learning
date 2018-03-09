@@ -9,17 +9,26 @@
 
 using std::vector;
 
+/************************************************************************/
+/* CGameController类：游戏主逻辑控制
+/************************************************************************/
 class CGameController
 {
 public:
 	CGameController();
 	~CGameController();
 
+	//进入游戏逻辑主循环
 	void launchGame();
+	//释放游戏资源
 	void freeResources();
+	//初始化坦克对象
 	void initTanks();
+	//初始化子弹盒
 	void initBulletbox();
+	//处理所有的敌军坦克的移动和发弹
 	void randomMoveEnemies();
+	//移动所有发出去的子弹
 	void moveBullets(vector<CBullet*> &vtBulletBox, vector<CTank> &vtTanks, CPillbox &pillbox, int *pEAliveNum);
 
 	//显示主菜单
@@ -42,7 +51,7 @@ public:
 	void clearKeyBuffer();
 
 private:
-	bool m_bEnemyCanRevive;
+	bool m_bEnemyCanRevive;           //敌军是否可以重生
 	int m_nGameLevel;                 //游戏关卡
 	int m_nE0Num;                     //敌军E0坦克的数量
 	int m_nE1Num;                     //敌军E1坦克的数量
