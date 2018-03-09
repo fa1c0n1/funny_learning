@@ -17,7 +17,6 @@ public:
 	void drawObject();
 	void clearObject();
 
-	void fireBullet(vector<CBullet*> &vtBulletbox, CTank &tank);
 	void resetBullet();
 	void moveBullet(vector<CBullet*> &vtBulletBox, vector<CTank> &vtTanks, CPillbox &pillbox, int *pEnemyNum);
 	void setPosX(int nX);
@@ -36,6 +35,8 @@ public:
 	int getOwner();
 	int getAtk();
 	CGameMap *getGameMap();
+
+	static void fireBullet(vector<CBullet*> &vtBulletbox, CTank &tank);
 
 private:
 	bool bulletCollision(vector<CBullet*> &vtBulletBox, vector<CTank> &vtTanks, CPillbox &pillbox, int *pEAliveNum);

@@ -73,7 +73,7 @@ CTank &CTank::getTankBirthPlace(int nType, int nEnemyNo)
 		m_nY = 36;
 		m_nType = SIGN_TANK_PA;
 		m_nScore = 0;
-		m_nBlood = 2;
+		m_nBlood = 3;
 		break;
 	case SIGN_TANK_PB:
 		m_nDrt = DRT_UP;
@@ -81,7 +81,7 @@ CTank &CTank::getTankBirthPlace(int nType, int nEnemyNo)
 		m_nY = 36;
 		m_nType = SIGN_TANK_PB;
 		m_nScore = 0;
-		m_nBlood = 2;
+		m_nBlood = 3;
 		break;
 	case SIGN_TANK_E0:
 		m_nDrt = DRT_DOWN;

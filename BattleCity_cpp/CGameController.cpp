@@ -79,11 +79,9 @@ MAIN_MENUE:
 	}
 
 START_GAME:
-	//停止开头音乐, 并播放游戏进行音乐
-	PlaySoundA(NULL, NULL, SND_ASYNC | SND_LOOP);
+	//播放游戏进行音乐
 	PlaySoundA("sound/90tank.wav", NULL, SND_ASYNC);
 
-	
 	//初始化坦克
 	initTanks();
 
@@ -121,6 +119,7 @@ START_GAME:
 			m_gMap.setLevel(m_nGameLevel);
 			freeResources();
 			system("cls");
+			clearKeyBuffer();
 			goto MAIN_MENUE;
 		}
 
@@ -134,6 +133,7 @@ START_GAME:
 			if (m_nGameLevel == 3) {
 				m_nGameLevel = 1;
 				m_gMap.setLevel(m_nGameLevel);
+				clearKeyBuffer();
 				goto MAIN_MENUE;
 			}
 			else {
@@ -144,7 +144,7 @@ START_GAME:
 		else if (m_nEAliveNum == 5 && m_bEnemyCanRevive) { //敌军复活
 			showNewEnemiesComeNotice();
 			for (int i = 0; i < ENEMY_NMAX; i++) {
-				m_vtTanks[i + 2].getTankBirthPlace(m_vtTanks[i+2].getType(), i);
+				m_vtTanks[i + 2].getTankBirthPlace(m_vtTanks[i + 2].getType(), i);
 			}
 
 			//只能复活一次
@@ -161,10 +161,8 @@ START_GAME:
 				m_vtTanks[0].moveTank(DRT_UP);
 			else if (KEYDOWN('S')) //按键S
 				m_vtTanks[0].moveTank(DRT_DOWN);
-			else if (KEYDOWN('J')) { //按键J, 玩家A发射子弹
-				CBullet tmpBullet;
-				tmpBullet.fireBullet(m_vtBulletbox, m_vtTanks[0]);
-			}
+			else if (KEYDOWN('J')) //按键J, 玩家A发射子弹
+				CBullet::fireBullet(m_vtBulletbox, m_vtTanks[0]);
 		}
 
 		if (!m_vtTanks[1].isDead()) {
@@ -178,8 +176,7 @@ START_GAME:
 			else if (KEYDOWN(VK_NUMPAD5)) //小键盘数字5
 				m_vtTanks[1].moveTank(DRT_DOWN);
 			else if (KEYDOWN(VK_NUMPAD0)) { //小键盘数字0, 玩家B发射坦克
-				CBullet tmpBullet;
-				tmpBullet.fireBullet(m_vtBulletbox, m_vtTanks[1]);
+				CBullet::fireBullet(m_vtBulletbox, m_vtTanks[1]);
 			}
 		}
 
@@ -188,6 +185,7 @@ START_GAME:
 			//暂停游戏
 			nPauseRet = showPauseMenu();
 			if (nPauseRet == KEY_3) {
+				PlaySoundA(NULL, NULL, SND_ASYNC | SND_LOOP);
 				//返回主菜单
 				system("cls");
 				m_nGameLevel = 1;
@@ -330,7 +328,6 @@ void CGameController::randomMoveEnemies()
 	srand(time(NULL));
 	clock_t endTime;
 
-	CBullet tmpBullet;
 	for (int i = 0; i < ENEMY_NMAX - 1; i++) {
 		if (!m_vtTanks[i + 2].isDead()) {
 			endTime = clock();
@@ -338,7 +335,7 @@ void CGameController::randomMoveEnemies()
 				m_vtTanks[i + 2].moveTank(nDrtArr[rand() % 4]);
 
 			if (endTime % 150 + 150 > (296 - m_nGameLevel * 2))
-				tmpBullet.fireBullet(m_vtBulletbox, m_vtTanks[i + 2]);
+				CBullet::fireBullet(m_vtBulletbox, m_vtTanks[i + 2]);
 		}
 	}
 
@@ -372,7 +369,7 @@ void CGameController::randomMoveEnemies()
 		}
 
 		if (endTime % 150 + 150 > (290 - m_nGameLevel * 2))
-			tmpBullet.fireBullet(m_vtBulletbox, aStarTank);
+			CBullet::fireBullet(m_vtBulletbox, aStarTank);
 	}
 }
 
@@ -444,4 +441,10 @@ void CGameController::showWinNotice()
 		DrawTool::drawText(7, 10, "┃     胜利！即将开启下一关！！！         ┃", FG_LIGHTRED);
 	DrawTool::drawText(7, 11, "┃                                        ┃", FG_LIGHTRED);
 	DrawTool::drawText(7, 12, "┃━━━━━━━━━━━━━━━━━━━━┃", FG_LIGHTRED);
+}
+
+void CGameController::clearKeyBuffer()
+{
+	while (_kbhit())
+		_getch();
 }

@@ -38,6 +38,8 @@ public:
 	void showTODO();
 	//显示新敌军来袭的提示框
 	void showNewEnemiesComeNotice();
+	//清空键盘缓冲区中的键值
+	void clearKeyBuffer();
 
 private:
 	bool m_bEnemyCanRevive;
