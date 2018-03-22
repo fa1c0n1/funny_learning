@@ -14,6 +14,7 @@ class CTaskManagerDlg : public CDialogEx
 // Construction
 public:
 	CTaskManagerDlg(CWnd* pParent = NULL);	// standard constructor
+	virtual ~CTaskManagerDlg();
 
 // Dialog Data
 	enum { IDD = IDD_TASKMANAGER_DIALOG };
@@ -34,7 +35,7 @@ protected:
 	DECLARE_MESSAGE_MAP()
 public:
 	CTabCtrl m_tabAllWnd;
-	CDialogEx *m_childTab[2];
+	CDialogEx *m_childTab[4];
 
 	afx_msg void OnSize(UINT nType, int cx, int cy);
 

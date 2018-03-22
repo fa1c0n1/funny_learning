@@ -6,6 +6,8 @@
 #include "TaskManager.h"
 #include "TaskManagerDlg.h"
 #include "afxdialogex.h"
+#include "FileDlg.h"
+#include "CleanVSPrjDlg.h"
 
 #ifdef _DEBUG
 #define new DEBUG_NEW
@@ -51,6 +53,14 @@ CTaskManagerDlg::CTaskManagerDlg(CWnd* pParent /*=NULL*/)
 	: CDialogEx(CTaskManagerDlg::IDD, pParent)
 {
 	m_hIcon = AfxGetApp()->LoadIcon(IDR_MAINFRAME);
+}
+
+CTaskManagerDlg::~CTaskManagerDlg()
+{
+	for (int i = 0; i < _countof(m_childTab); i++) {
+		delete m_childTab[i];
+		m_childTab[i] = nullptr;
+	}
 }
 
 void CTaskManagerDlg::DoDataExchange(CDataExchange* pDX)
@@ -154,8 +164,6 @@ HCURSOR CTaskManagerDlg::OnQueryDragIcon()
 	return static_cast<HCURSOR>(m_hIcon);
 }
 
-
-
 void CTaskManagerDlg::OnSize(UINT nType, int cx, int cy)
 {
 	CDialogEx::OnSize(nType, cx, cy);
@@ -171,19 +179,23 @@ void CTaskManagerDlg::OnSize(UINT nType, int cx, int cy)
 
 	if (m_tabAllWnd)
 		m_tabAllWnd.MoveWindow(&clientRect);
-
-
 }
 
 void CTaskManagerDlg::InitTabCtrl()
 {
 	m_tabAllWnd.InsertItem(0, _T("进程"));
 	m_tabAllWnd.InsertItem(1, _T("窗口"));
+	m_tabAllWnd.InsertItem(2, _T("文件"));
+	m_tabAllWnd.InsertItem(3, _T("清理VS工程"));
 
 	m_childTab[0] = new CProcessDlg;
 	m_childTab[1] = new CWindowDlg;
+	m_childTab[2] = new CFileDlg;
+	m_childTab[3] = new CCleanVSPrjDlg;
 	m_childTab[0]->Create(IDD_PROCESS_DIALOG, &m_tabAllWnd);
 	m_childTab[1]->Create(IDD_WINDOW_DIALOG, &m_tabAllWnd);
+	m_childTab[2]->Create(IDD_FILE_DIALOG, &m_tabAllWnd);
+	m_childTab[3]->Create(IDD_CLEANVS_DIALOG, &m_tabAllWnd);
 
 	CRect tabRect;
 	m_tabAllWnd.GetClientRect(&tabRect);
@@ -192,7 +204,6 @@ void CTaskManagerDlg::InitTabCtrl()
 	m_childTab[0]->MoveWindow(&tabRect);
 	m_childTab[0]->ShowWindow(SW_SHOW);
 }
-
 
 void CTaskManagerDlg::OnTcnSelchangeTab1(NMHDR *pNMHDR, LRESULT *pResult)
 {
@@ -210,6 +221,7 @@ void CTaskManagerDlg::OnTcnSelchangeTab1(NMHDR *pNMHDR, LRESULT *pResult)
 	rect.DeflateRect(1, 21, -1, -1);
 	m_childTab[nSel]->MoveWindow(&rect);
 	m_childTab[nSel]->ShowWindow(SW_SHOW);
+	m_childTab[nSel]->UpdateData();
 }
 
 

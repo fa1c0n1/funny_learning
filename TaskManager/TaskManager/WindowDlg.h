@@ -25,6 +25,8 @@ public:
 private:
 	void InitControl();
 	void ListWindow();
+	void RefreshSelf();
+
 public:
 	CMyListCtrl m_wndListCtrl;
 	afx_msg void OnSize(UINT nType, int cx, int cy);

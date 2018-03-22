@@ -20,7 +20,7 @@ protected:
 
 	DECLARE_MESSAGE_MAP()
 public:
-	CMyListCtrl m_heapListCtrl;
+	CMyListCtrl m_listCtrlHeap;
 	DWORD m_dwPid;
 	CString m_processName;
 	int m_nHeapNum;

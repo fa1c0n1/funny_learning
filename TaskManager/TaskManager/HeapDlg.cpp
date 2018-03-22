@@ -25,7 +25,7 @@ CHeapDlg::~CHeapDlg()
 void CHeapDlg::DoDataExchange(CDataExchange* pDX)
 {
 	CDialogEx::DoDataExchange(pDX);
-	DDX_Control(pDX, IDC_HEAP_LIST, m_heapListCtrl);
+	DDX_Control(pDX, IDC_HEAP_LIST, m_listCtrlHeap);
 }
 
 
@@ -39,10 +39,10 @@ void CHeapDlg::InitControl()
 {
 	CRect rect;
 
-	m_heapListCtrl.SetExtendedStyle(m_heapListCtrl.GetExtendedStyle() | LVS_EX_FULLROWSELECT
+	m_listCtrlHeap.SetExtendedStyle(m_listCtrlHeap.GetExtendedStyle() | LVS_EX_FULLROWSELECT
 		| LVS_EX_GRIDLINES);
-	m_heapListCtrl.GetClientRect(&rect);
-	m_heapListCtrl.AddColumns(3,
+	m_listCtrlHeap.GetClientRect(&rect);
+	m_listCtrlHeap.AddColumns(3,
 		_T("∂—ID"), rect.Width() / 3,
 		_T("µÿ÷∑"), rect.Width() / 3,
 		_T("øÈ¥Û–°"), rect.Width() / 3);
@@ -77,7 +77,7 @@ void CHeapDlg::ListProcessHeap(DWORD dwPid)
 					StringCchPrintf(szHeapID, _countof(szHeapID), _T("%d"), he.th32HeapID);
 					StringCchPrintf(szHeapAddr, _countof(szHeapAddr), _T("0x%016X"), he.dwAddress);
 					StringCchPrintf(szHeapSize, _countof(szHeapSize), _T("0x%016X"), he.dwBlockSize);
-					m_heapListCtrl.AddItems(i, 3, szHeapID, szHeapAddr, szHeapSize);
+					m_listCtrlHeap.AddItems(i, 3, szHeapID, szHeapAddr, szHeapSize);
 					he.dwSize = sizeof(HEAPENTRY32);
 					i++;
 				} while (Heap32Next(&he));

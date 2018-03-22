@@ -26,7 +26,7 @@ CModuleDlg::~CModuleDlg()
 void CModuleDlg::DoDataExchange(CDataExchange* pDX)
 {
 	CDialogEx::DoDataExchange(pDX);
-	DDX_Control(pDX, IDC_MODULE_LIST, m_moduleListCtrl);
+	DDX_Control(pDX, IDC_MODULE_LIST, m_listCtrlModule);
 }
 
 
@@ -62,7 +62,7 @@ void CModuleDlg::ListProcessModule(DWORD dwPid)
 			StringCchPrintf(szModuleBaseAddr, _countof(szModuleBaseAddr), _T("0x%016X"), (LONG64)me32.modBaseAddr);
 			StringCchPrintf(szModuleSize, _countof(szModuleSize), _T("0x%016X"), me32.modBaseSize);
 			int n = sizeof(LONG64);
-			m_moduleListCtrl.AddItems(i, 3, me32.szExePath, szModuleBaseAddr, szModuleSize);
+			m_listCtrlModule.AddItems(i, 3, me32.szExePath, szModuleBaseAddr, szModuleSize);
 			i++;
 		} while (Module32Next(hModuleSnap, &me32));
 
@@ -93,10 +93,10 @@ void CModuleDlg::InitControl()
 {
 	CRect rect;
 
-	m_moduleListCtrl.SetExtendedStyle(m_moduleListCtrl.GetExtendedStyle() | LVS_EX_FULLROWSELECT
+	m_listCtrlModule.SetExtendedStyle(m_listCtrlModule.GetExtendedStyle() | LVS_EX_FULLROWSELECT
 		| LVS_EX_GRIDLINES);
-	m_moduleListCtrl.GetClientRect(&rect);
-	m_moduleListCtrl.AddColumns(3,
+	m_listCtrlModule.GetClientRect(&rect);
+	m_listCtrlModule.AddColumns(3,
 		_T("模块路径"), rect.Width() / 3,
 		_T("基地址"), rect.Width() / 3, 
 		_T("大小"), rect.Width() / 3);

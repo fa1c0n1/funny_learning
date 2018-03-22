@@ -25,6 +25,8 @@ void CWindowDlg::DoDataExchange(CDataExchange* pDX)
 {
 	CDialogEx::DoDataExchange(pDX);
 	DDX_Control(pDX, IDC_WINDOW_LIST, m_wndListCtrl);
+
+	RefreshSelf();
 }
 
 
@@ -81,7 +83,6 @@ void CWindowDlg::ListWindow()
 	EnumWindows(&EnumWndProc, (LPARAM)&m_wndListCtrl);
 }
 
-
 void CWindowDlg::OnSize(UINT nType, int cx, int cy)
 {
 	CDialogEx::OnSize(nType, cx, cy);
@@ -97,4 +98,10 @@ void CWindowDlg::OnSize(UINT nType, int cx, int cy)
 
 	if (m_wndListCtrl)
 		m_wndListCtrl.MoveWindow(&clientRect);
+}
+
+void CWindowDlg::RefreshSelf()
+{
+	m_wndListCtrl.DeleteAllItems();
+	ListWindow();
 }

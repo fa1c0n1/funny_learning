@@ -54,6 +54,12 @@
     <ClInclude Include="HeapDlg.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="FileDlg.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="CleanVSPrjDlg.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="TaskManager.cpp">
@@ -81,6 +87,12 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="HeapDlg.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="FileDlg.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="CleanVSPrjDlg.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>

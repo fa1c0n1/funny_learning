@@ -20,10 +20,8 @@ protected:
 
 	DECLARE_MESSAGE_MAP()
 public:
-	CMyListCtrl m_processListCtrl;
+	CMyListCtrl m_listCtrlProcess;
 
-	void InitControl();
-	void ListProcess();
 	virtual BOOL OnInitDialog();
 	afx_msg void OnSize(UINT nType, int cx, int cy);
 	afx_msg void OnNMRClickProcessList(NMHDR *pNMHDR, LRESULT *pResult);
@@ -31,4 +29,9 @@ public:
 	afx_msg void OnSubmenuEnumThread();
 	afx_msg void OnSubmenuEnumHeap();
 	afx_msg void OnSubmenuRefreshProcess();
+
+private:
+	void RefreshSelf();
+	void InitControl();
+	void ListProcess();
 };

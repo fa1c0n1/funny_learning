@@ -184,7 +184,9 @@
     <Text Include="ReadMe.txt" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="CleanVSPrjDlg.h" />
     <ClInclude Include="Comm.h" />
+    <ClInclude Include="FileDlg.h" />
     <ClInclude Include="HeapDlg.h" />
     <ClInclude Include="ModuleDlg.h" />
     <ClInclude Include="MyListCtrl.h" />
@@ -198,6 +200,8 @@
     <ClInclude Include="WindowDlg.h" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="CleanVSPrjDlg.cpp" />
+    <ClCompile Include="FileDlg.cpp" />
     <ClCompile Include="HeapDlg.cpp" />
     <ClCompile Include="ModuleDlg.cpp" />
     <ClCompile Include="MyListCtrl.cpp" />

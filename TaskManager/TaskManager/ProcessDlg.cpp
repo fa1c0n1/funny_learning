@@ -28,7 +28,9 @@ CProcessDlg::~CProcessDlg()
 void CProcessDlg::DoDataExchange(CDataExchange* pDX)
 {
 	CDialogEx::DoDataExchange(pDX);
-	DDX_Control(pDX, IDC_LIST1, m_processListCtrl);
+	DDX_Control(pDX, IDC_LIST1, m_listCtrlProcess);
+
+	RefreshSelf();
 }
 
 
@@ -48,10 +50,10 @@ void CProcessDlg::InitControl()
 {
 	CRect rect;
 
-	m_processListCtrl.SetExtendedStyle(m_processListCtrl.GetExtendedStyle() | LVS_EX_FULLROWSELECT
+	m_listCtrlProcess.SetExtendedStyle(m_listCtrlProcess.GetExtendedStyle() | LVS_EX_FULLROWSELECT
 		| LVS_EX_GRIDLINES);
-	m_processListCtrl.GetClientRect(&rect);
-	m_processListCtrl.AddColumns(2,
+	m_listCtrlProcess.GetClientRect(&rect);
+	m_listCtrlProcess.AddColumns(2,
 		_T("Ó³ÏñÃû³Æ"), rect.Width() / 2,
 		_T("PID"), rect.Width() / 2);
 }
@@ -79,7 +81,7 @@ void CProcessDlg::ListProcess()
 	else {
 		do {
 			StringCchPrintf(szPidBuf, _countof(szPidBuf), _T("%d"), pe32.th32ProcessID);
-			m_processListCtrl.AddItems(i, 2, pe32.szExeFile, szPidBuf);
+			m_listCtrlProcess.AddItems(i, 2, pe32.szExeFile, szPidBuf);
 			i++;
 		} while (Process32Next(hProcessSnap, &pe32));
 
@@ -114,8 +116,8 @@ void CProcessDlg::OnSize(UINT nType, int cx, int cy)
 	clientRect.left += 10;
 	clientRect.right -= 10;
 
-	if (m_processListCtrl)
-		m_processListCtrl.MoveWindow(&clientRect);
+	if (m_listCtrlProcess)
+		m_listCtrlProcess.MoveWindow(&clientRect);
 }
 
 
@@ -141,15 +143,15 @@ void CProcessDlg::OnNMRClickProcessList(NMHDR *pNMHDR, LRESULT *pResult)
 void CProcessDlg::OnSubmenuEnumModules()
 {
 	// TODO: Add your command handler code here
-	int nSelRowIdx = m_processListCtrl.GetSelectionMark();
+	int nSelRowIdx = m_listCtrlProcess.GetSelectionMark();
 	TCHAR buf[32] = {};
 
-	CString strPid = m_processListCtrl.GetItemText(nSelRowIdx, 1);
+	CString strPid = m_listCtrlProcess.GetItemText(nSelRowIdx, 1);
 	DWORD dwPid = _ttol(strPid);
 
 	CModuleDlg moduleDlg;
 	moduleDlg.m_dwPid = dwPid;
-	moduleDlg.m_processName = m_processListCtrl.GetItemText(nSelRowIdx, 0);
+	moduleDlg.m_processName = m_listCtrlProcess.GetItemText(nSelRowIdx, 0);
 	INT_PTR nRet = moduleDlg.DoModal();
 
 	if (nRet == IDCANCEL)
@@ -159,15 +161,15 @@ void CProcessDlg::OnSubmenuEnumModules()
 void CProcessDlg::OnSubmenuEnumThread()
 {
 	// TODO: Add your command handler code here
-	int nSelRowIdx = m_processListCtrl.GetSelectionMark();
+	int nSelRowIdx = m_listCtrlProcess.GetSelectionMark();
 	TCHAR buf[32] = {};
 
-	CString strPid = m_processListCtrl.GetItemText(nSelRowIdx, 1);
+	CString strPid = m_listCtrlProcess.GetItemText(nSelRowIdx, 1);
 	DWORD dwPid = _ttol(strPid);
 
 	CThreadDlg threadDlg;
 	threadDlg.m_dwOwnerPid = dwPid;
-	threadDlg.m_processName = m_processListCtrl.GetItemText(nSelRowIdx, 0);
+	threadDlg.m_processName = m_listCtrlProcess.GetItemText(nSelRowIdx, 0);
 	INT_PTR nRet = threadDlg.DoModal();
 
 	if (nRet == IDCANCEL)
@@ -178,15 +180,15 @@ void CProcessDlg::OnSubmenuEnumThread()
 void CProcessDlg::OnSubmenuEnumHeap()
 {
 	// TODO: Add your command handler code here
-	int nSelRowIdx = m_processListCtrl.GetSelectionMark();
+	int nSelRowIdx = m_listCtrlProcess.GetSelectionMark();
 	TCHAR buf[32] = {};
 
-	CString strPid = m_processListCtrl.GetItemText(nSelRowIdx, 1);
+	CString strPid = m_listCtrlProcess.GetItemText(nSelRowIdx, 1);
 	DWORD dwPid = _ttol(strPid);
 
 	CHeapDlg heapDlg;
 	heapDlg.m_dwPid = dwPid;
-	heapDlg.m_processName = m_processListCtrl.GetItemText(nSelRowIdx, 0);
+	heapDlg.m_processName = m_listCtrlProcess.GetItemText(nSelRowIdx, 0);
 	INT_PTR nRet = heapDlg.DoModal();
 
 	if (nRet == IDCANCEL)
@@ -197,6 +199,11 @@ void CProcessDlg::OnSubmenuEnumHeap()
 void CProcessDlg::OnSubmenuRefreshProcess()
 {
 	// TODO: Add your command handler code here
-	m_processListCtrl.DeleteAllItems();
+	RefreshSelf();
+}
+
+void CProcessDlg::RefreshSelf()
+{
+	m_listCtrlProcess.DeleteAllItems();
 	ListProcess();
 }
