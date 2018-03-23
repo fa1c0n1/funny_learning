@@ -1,9 +1,9 @@
 #pragma once
 
-
+#include "BaseDialog.h"
 // CFileDlg dialog
 
-class CFileDlg : public CDialogEx
+class CFileDlg : public CBaseDialog
 {
 	DECLARE_DYNAMIC(CFileDlg)
 
@@ -18,4 +18,7 @@ protected:
 	virtual void DoDataExchange(CDataExchange* pDX);    // DDX/DDV support
 
 	DECLARE_MESSAGE_MAP()
+
+public:
+	virtual void RefreshSelf();
 };

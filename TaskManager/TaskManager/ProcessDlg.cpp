@@ -5,18 +5,19 @@
 #include "TaskManager.h"
 #include "ProcessDlg.h"
 #include "afxdialogex.h"
-#include "strsafe.h"
 #include "ModuleDlg.h"
 #include "ThreadDlg.h"
 #include "HeapDlg.h"
+#include "BaseDialog.h"
+#include <strsafe.h>
 #include <TlHelp32.h>
 
 // CProcessDlg dialog
 
-IMPLEMENT_DYNAMIC(CProcessDlg, CDialogEx)
+IMPLEMENT_DYNAMIC(CProcessDlg, CBaseDialog)
 
-CProcessDlg::CProcessDlg(CWnd* pParent /*=NULL*/)
-	: CDialogEx(CProcessDlg::IDD, pParent)
+CProcessDlg::CProcessDlg(CWnd* pParent /*=NULL*/) 
+: CBaseDialog(CProcessDlg::IDD, pParent)
 {
 
 }
@@ -27,14 +28,12 @@ CProcessDlg::~CProcessDlg()
 
 void CProcessDlg::DoDataExchange(CDataExchange* pDX)
 {
-	CDialogEx::DoDataExchange(pDX);
+	CBaseDialog::DoDataExchange(pDX);
 	DDX_Control(pDX, IDC_LIST1, m_listCtrlProcess);
-
-	RefreshSelf();
 }
 
 
-BEGIN_MESSAGE_MAP(CProcessDlg, CDialogEx)
+BEGIN_MESSAGE_MAP(CProcessDlg, CBaseDialog)
 	ON_WM_SIZE()
 	ON_NOTIFY(NM_RCLICK, IDC_LIST1, &CProcessDlg::OnNMRClickProcessList)
 	ON_COMMAND(ID_SUBMENU_ENUM_MODULES, &CProcessDlg::OnSubmenuEnumModules)
@@ -92,11 +91,11 @@ void CProcessDlg::ListProcess()
 
 BOOL CProcessDlg::OnInitDialog()
 {
-	CDialogEx::OnInitDialog();
+	CBaseDialog::OnInitDialog();
 
 	// TODO:  Add extra initialization here
 	InitControl();
-	ListProcess();
+	ListProcess(); 
 
 	return TRUE;  // return TRUE unless you set the focus to a control
 	// EXCEPTION: OCX Property Pages should return FALSE
@@ -105,7 +104,7 @@ BOOL CProcessDlg::OnInitDialog()
 
 void CProcessDlg::OnSize(UINT nType, int cx, int cy)
 {
-	CDialogEx::OnSize(nType, cx, cy);
+	CBaseDialog::OnSize(nType, cx, cy);
 
 	// TODO: Add your message handler code here
 	CRect clientRect;
@@ -126,8 +125,6 @@ void CProcessDlg::OnNMRClickProcessList(NMHDR *pNMHDR, LRESULT *pResult)
 	LPNMITEMACTIVATE pNMItemActivate = reinterpret_cast<LPNMITEMACTIVATE>(pNMHDR);
 	// TODO: Add your control notification handler code here
 	*pResult = 0;
-
-	//int nSelRowIdx = pNMItemActivate->iItem;	
 
 	CPoint point;
 	DWORD dwPos = GetCursorPos(&point);

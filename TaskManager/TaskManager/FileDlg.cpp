@@ -9,10 +9,10 @@
 
 // CFileDlg dialog
 
-IMPLEMENT_DYNAMIC(CFileDlg, CDialogEx)
+IMPLEMENT_DYNAMIC(CFileDlg, CBaseDialog)
 
 CFileDlg::CFileDlg(CWnd* pParent /*=NULL*/)
-	: CDialogEx(CFileDlg::IDD, pParent)
+	: CBaseDialog(CFileDlg::IDD, pParent)
 {
 
 }
@@ -23,12 +23,18 @@ CFileDlg::~CFileDlg()
 
 void CFileDlg::DoDataExchange(CDataExchange* pDX)
 {
-	CDialogEx::DoDataExchange(pDX);
+	CBaseDialog::DoDataExchange(pDX);
 }
 
 
-BEGIN_MESSAGE_MAP(CFileDlg, CDialogEx)
+BEGIN_MESSAGE_MAP(CFileDlg, CBaseDialog)
 END_MESSAGE_MAP()
 
 
 // CFileDlg message handlers
+
+
+void CFileDlg::RefreshSelf()
+{
+	//TODO:
+}

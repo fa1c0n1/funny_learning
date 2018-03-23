@@ -9,10 +9,10 @@
 
 // CWindowDlg dialog
 
-IMPLEMENT_DYNAMIC(CWindowDlg, CDialogEx)
+IMPLEMENT_DYNAMIC(CWindowDlg, CBaseDialog)
 
 CWindowDlg::CWindowDlg(CWnd* pParent /*=NULL*/)
-	: CDialogEx(CWindowDlg::IDD, pParent)
+	: CBaseDialog(CWindowDlg::IDD, pParent)
 {
 
 }
@@ -23,14 +23,12 @@ CWindowDlg::~CWindowDlg()
 
 void CWindowDlg::DoDataExchange(CDataExchange* pDX)
 {
-	CDialogEx::DoDataExchange(pDX);
+	CBaseDialog::DoDataExchange(pDX);
 	DDX_Control(pDX, IDC_WINDOW_LIST, m_wndListCtrl);
-
-	RefreshSelf();
 }
 
 
-BEGIN_MESSAGE_MAP(CWindowDlg, CDialogEx)
+BEGIN_MESSAGE_MAP(CWindowDlg, CBaseDialog)
 	ON_WM_SIZE()
 END_MESSAGE_MAP()
 
@@ -40,7 +38,7 @@ END_MESSAGE_MAP()
 
 BOOL CWindowDlg::OnInitDialog()
 {
-	CDialogEx::OnInitDialog();
+	CBaseDialog::OnInitDialog();
 
 	// TODO:  Add extra initialization here
 	InitControl();
@@ -85,7 +83,7 @@ void CWindowDlg::ListWindow()
 
 void CWindowDlg::OnSize(UINT nType, int cx, int cy)
 {
-	CDialogEx::OnSize(nType, cx, cy);
+	CBaseDialog::OnSize(nType, cx, cy);
 
 	// TODO: Add your message handler code here
 	CRect clientRect;

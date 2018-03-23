@@ -6,6 +6,8 @@
 #include "TaskManager.h"
 #include "TaskManagerDlg.h"
 #include "afxdialogex.h"
+#include "ProcessDlg.h"
+#include "WindowDlg.h"
 #include "FileDlg.h"
 #include "CleanVSPrjDlg.h"
 
@@ -221,7 +223,7 @@ void CTaskManagerDlg::OnTcnSelchangeTab1(NMHDR *pNMHDR, LRESULT *pResult)
 	rect.DeflateRect(1, 21, -1, -1);
 	m_childTab[nSel]->MoveWindow(&rect);
 	m_childTab[nSel]->ShowWindow(SW_SHOW);
-	m_childTab[nSel]->UpdateData();
+	m_childTab[nSel]->RefreshSelf();
 }
 
 

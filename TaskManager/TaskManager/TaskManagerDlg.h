@@ -4,9 +4,7 @@
 
 #pragma once
 #include "afxcmn.h"
-#include "ProcessDlg.h"
-#include "WindowDlg.h"
-
+#include "BaseDialog.h"
 
 // CTaskManagerDlg dialog
 class CTaskManagerDlg : public CDialogEx
@@ -35,7 +33,7 @@ protected:
 	DECLARE_MESSAGE_MAP()
 public:
 	CTabCtrl m_tabAllWnd;
-	CDialogEx *m_childTab[4];
+	CBaseDialog *m_childTab[4];
 
 	afx_msg void OnSize(UINT nType, int cx, int cy);
 

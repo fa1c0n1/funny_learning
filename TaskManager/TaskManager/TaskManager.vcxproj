@@ -184,6 +184,7 @@
     <Text Include="ReadMe.txt" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="BaseDialog.h" />
     <ClInclude Include="CleanVSPrjDlg.h" />
     <ClInclude Include="Comm.h" />
     <ClInclude Include="FileDlg.h" />
@@ -200,6 +201,7 @@
     <ClInclude Include="WindowDlg.h" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="BaseDialog.cpp" />
     <ClCompile Include="CleanVSPrjDlg.cpp" />
     <ClCompile Include="FileDlg.cpp" />
     <ClCompile Include="HeapDlg.cpp" />

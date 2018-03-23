@@ -1,10 +1,11 @@
 #pragma once
 #include "afxcmn.h"
 #include "MyListCtrl.h"
+#include "BaseDialog.h"
 
 // CProcessDlg dialog
 
-class CProcessDlg : public CDialogEx
+class CProcessDlg : public CBaseDialog
 {
 	DECLARE_DYNAMIC(CProcessDlg)
 
@@ -30,8 +31,9 @@ public:
 	afx_msg void OnSubmenuEnumHeap();
 	afx_msg void OnSubmenuRefreshProcess();
 
+	virtual void RefreshSelf();
+
 private:
-	void RefreshSelf();
 	void InitControl();
 	void ListProcess();
 };

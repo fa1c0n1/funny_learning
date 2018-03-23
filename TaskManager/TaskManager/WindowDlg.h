@@ -1,10 +1,11 @@
 #pragma once
 #include "afxcmn.h"
 #include "MyListCtrl.h"
+#include "BaseDialog.h"
 
 // CWindowDlg dialog
 
-class CWindowDlg : public CDialogEx
+class CWindowDlg : public CBaseDialog
 {
 	DECLARE_DYNAMIC(CWindowDlg)
 
@@ -21,11 +22,11 @@ protected:
 	DECLARE_MESSAGE_MAP()
 public:
 	virtual BOOL OnInitDialog();
+	virtual void RefreshSelf();
 
 private:
 	void InitControl();
 	void ListWindow();
-	void RefreshSelf();
 
 public:
 	CMyListCtrl m_wndListCtrl;
