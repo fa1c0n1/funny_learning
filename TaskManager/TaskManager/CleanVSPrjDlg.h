@@ -3,16 +3,12 @@
 #include "MyListCtrl.h"
 #include "afxwin.h"
 #include "BaseDialog.h"
+#include "Comm.h"
 #include <vector>
 
 using std::vector;
 
 // CCleanVSPrjDlg dialog
-
-#define WM_GETINFO_REFRESH  (WM_USER+1)
-#define WM_GETINFO_FINISH   (WM_USER+2)
-#define WM_DELFILE_REFRESH  (WM_USER+3)
-#define WM_DELFILE_FINISH   (WM_USER+4)
 
 typedef struct _INFOPARAM {
 	HWND hWnd;

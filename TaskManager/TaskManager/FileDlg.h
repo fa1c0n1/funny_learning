@@ -21,4 +21,7 @@ protected:
 
 public:
 	virtual void RefreshSelf();
+
+private:
+	void InitControl();
 };

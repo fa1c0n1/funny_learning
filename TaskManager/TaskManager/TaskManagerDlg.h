@@ -31,12 +31,25 @@ protected:
 	afx_msg void OnPaint();
 	afx_msg HCURSOR OnQueryDragIcon();
 	DECLARE_MESSAGE_MAP()
+
 public:
+	CStatusBar m_wndStatusBar;
 	CTabCtrl m_tabAllWnd;
 	CBaseDialog *m_childTab[4];
 
 	afx_msg void OnSize(UINT nType, int cx, int cy);
-
-	void InitTabCtrl();
 	afx_msg void OnTcnSelchangeTab1(NMHDR *pNMHDR, LRESULT *pResult);
+
+	void InitControl();
+
+private:
+	static UINT BASED_CODE indicators[2];
+
+	static double FILETIME2Double(const _FILETIME &fileTime);
+	static int GetCpuUsage();
+	static DWORD WINAPI UsageProc(LPVOID lpParam);
+
+
+protected:
+	afx_msg LRESULT OnUserUpdateCpuUsage(WPARAM wParam, LPARAM lParam);
 };

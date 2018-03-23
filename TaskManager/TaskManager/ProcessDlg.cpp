@@ -101,7 +101,6 @@ BOOL CProcessDlg::OnInitDialog()
 	// EXCEPTION: OCX Property Pages should return FALSE
 }
 
-
 void CProcessDlg::OnSize(UINT nType, int cx, int cy)
 {
 	CBaseDialog::OnSize(nType, cx, cy);

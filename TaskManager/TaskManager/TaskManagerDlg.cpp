@@ -10,6 +10,8 @@
 #include "WindowDlg.h"
 #include "FileDlg.h"
 #include "CleanVSPrjDlg.h"
+#include "Comm.h"
+#include <strsafe.h>
 
 #ifdef _DEBUG
 #define new DEBUG_NEW
@@ -77,6 +79,8 @@ BEGIN_MESSAGE_MAP(CTaskManagerDlg, CDialogEx)
 	ON_WM_QUERYDRAGICON()
 	ON_WM_SIZE()
 	ON_NOTIFY(TCN_SELCHANGE, IDC_TAB1, &CTaskManagerDlg::OnTcnSelchangeTab1)
+	ON_WM_TIMER()
+	ON_MESSAGE(WM_USER_UPDATE_CPUUSAGE, &CTaskManagerDlg::OnUserUpdateCpuUsage)
 END_MESSAGE_MAP()
 
 
@@ -112,7 +116,8 @@ BOOL CTaskManagerDlg::OnInitDialog()
 	SetIcon(m_hIcon, FALSE);		// Set small icon
 
 	// TODO: Add extra initialization here
-	InitTabCtrl();
+	CreateThread(NULL, 0, UsageProc, (LPVOID)this, 0, NULL);
+	InitControl();
 
 	return TRUE;  // return TRUE  unless you set the focus to a control
 }
@@ -183,7 +188,7 @@ void CTaskManagerDlg::OnSize(UINT nType, int cx, int cy)
 		m_tabAllWnd.MoveWindow(&clientRect);
 }
 
-void CTaskManagerDlg::InitTabCtrl()
+void CTaskManagerDlg::InitControl()
 {
 	m_tabAllWnd.InsertItem(0, _T("进程"));
 	m_tabAllWnd.InsertItem(1, _T("窗口"));
@@ -205,6 +210,18 @@ void CTaskManagerDlg::InitTabCtrl()
 
 	m_childTab[0]->MoveWindow(&tabRect);
 	m_childTab[0]->ShowWindow(SW_SHOW);
+
+	m_wndStatusBar.Create(this);
+
+	m_wndStatusBar.SetIndicators(indicators, sizeof(indicators) / sizeof(UINT)); //设置状态栏数目
+
+	CRect rect;
+	GetClientRect(&rect);
+	//设置各栏长度
+	m_wndStatusBar.SetPaneInfo(0, ID_INDICATOR_CPU_USAGE, SBPS_NORMAL, 100);
+	m_wndStatusBar.SetPaneInfo(1, ID_INDICATOR_MEM_USAGE, SBPS_NORMAL, 150);
+	//绘制状态栏
+	RepositionBars(AFX_IDW_CONTROLBAR_FIRST, AFX_IDW_CONTROLBAR_LAST, 0);
 }
 
 void CTaskManagerDlg::OnTcnSelchangeTab1(NMHDR *pNMHDR, LRESULT *pResult)
@@ -226,4 +243,63 @@ void CTaskManagerDlg::OnTcnSelchangeTab1(NMHDR *pNMHDR, LRESULT *pResult)
 	m_childTab[nSel]->RefreshSelf();
 }
 
+UINT BASED_CODE CTaskManagerDlg::indicators[] =
+{
+	ID_INDICATOR_CPU_USAGE,
+	ID_INDICATOR_MEM_USAGE
+};
 
+double CTaskManagerDlg::FILETIME2Double(const _FILETIME &fileTime)
+{
+	return double(fileTime.dwHighDateTime * 4.294967296e9)
+		+ double(fileTime.dwLowDateTime);
+}
+
+int CTaskManagerDlg::GetCpuUsage()
+{
+	_FILETIME idleTime, kernelTime, userTime;   //空闲时间，内核时间，用户时间
+	
+	//获取时间
+	GetSystemTimes(&idleTime, &kernelTime, &userTime);
+
+	//等待 1000 毫秒, 使用内核对象等待会更精确
+	HANDLE hEvent = CreateEvent(NULL, FALSE, FALSE, NULL);
+	WaitForSingleObject(hEvent, 1000);
+
+	//获取新时间
+	_FILETIME newIdleTime, newKernelTime, newUserTime;
+	GetSystemTimes(&newIdleTime, &newKernelTime, &newUserTime);
+
+	//将各个时间转换
+	double dOldIdleTime = FILETIME2Double(idleTime);
+	double dNewIdleTime = FILETIME2Double(newIdleTime);
+	double dOldKernelTime = FILETIME2Double(kernelTime);
+	double dNewKernelTime = FILETIME2Double(newKernelTime);
+	double dOldUserTime = FILETIME2Double(userTime);
+	double dNewUserTime = FILETIME2Double(newUserTime);
+
+	//计算出使用率
+	return int(100.0 - (dNewIdleTime - dOldIdleTime) / 
+		(dNewKernelTime - dOldKernelTime + dNewUserTime - dOldUserTime) * 100.0);
+}
+
+DWORD WINAPI CTaskManagerDlg::UsageProc(LPVOID lpParam)
+{
+	CTaskManagerDlg *pCurDlg = (CTaskManagerDlg *)lpParam;
+	int nCpuUsage = 0;
+	while (true) {
+		nCpuUsage = GetCpuUsage();
+		::PostMessage(pCurDlg->m_hWnd, WM_USER_UPDATE_CPUUSAGE, NULL, (LPARAM)nCpuUsage);
+		Sleep(1000);
+	}
+
+	return 0;
+}
+
+afx_msg LRESULT CTaskManagerDlg::OnUserUpdateCpuUsage(WPARAM wParam, LPARAM lParam)
+{
+	TCHAR szCpuUsage[32] = {};
+	StringCchPrintf(szCpuUsage, _countof(szCpuUsage), _T("CPU Usage: %d%%"), lParam);
+	m_wndStatusBar.SetPaneText(0, szCpuUsage);
+	return 0;
+}

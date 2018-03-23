@@ -42,16 +42,18 @@ void CHeapDlg::InitControl()
 	m_listCtrlHeap.SetExtendedStyle(m_listCtrlHeap.GetExtendedStyle() | LVS_EX_FULLROWSELECT
 		| LVS_EX_GRIDLINES);
 	m_listCtrlHeap.GetClientRect(&rect);
-	m_listCtrlHeap.AddColumns(3,
-		_T("堆ID"), rect.Width() / 3,
-		_T("地址"), rect.Width() / 3,
-		_T("块大小"), rect.Width() / 3);
+	m_listCtrlHeap.AddColumns(4,
+		_T("堆ID"), rect.Width() / 4,
+		_T("PID"), rect.Width() / 4,
+		_T("地址"), rect.Width() / 4,
+		_T("块大小"), rect.Width() / 4);
 }
 
 void CHeapDlg::ListProcessHeap(DWORD dwPid)
 {
 	HEAPLIST32 heapList = {};
 	TCHAR szHeapID[32] = {};
+	TCHAR szPID[32] = {};
 	TCHAR szHeapAddr[32] = {};
 	TCHAR szHeapSize[64] = {};
 
@@ -71,13 +73,12 @@ void CHeapDlg::ListProcessHeap(DWORD dwPid)
 			he.dwSize = sizeof(HEAPENTRY32);
 
 			if (Heap32First(&he, dwPid, heapList.th32HeapID)) {
-				//printf("\nHeap ID: %d\n", heapList.th32HeapID);
 				do {
-					//printf("Block size: %d\n", he.dwBlockSize);
 					StringCchPrintf(szHeapID, _countof(szHeapID), _T("%d"), he.th32HeapID);
+					StringCchPrintf(szPID, _countof(szPID), _T("%d"), he.th32ProcessID);
 					StringCchPrintf(szHeapAddr, _countof(szHeapAddr), _T("0x%016X"), he.dwAddress);
 					StringCchPrintf(szHeapSize, _countof(szHeapSize), _T("0x%016X"), he.dwBlockSize);
-					m_listCtrlHeap.AddItems(i, 3, szHeapID, szHeapAddr, szHeapSize);
+					m_listCtrlHeap.AddItems(i, 4, szHeapID, szPID, szHeapAddr, szHeapSize);
 					he.dwSize = sizeof(HEAPENTRY32);
 					i++;
 				} while (Heap32Next(&he));
