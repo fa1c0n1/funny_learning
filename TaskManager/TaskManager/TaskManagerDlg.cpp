@@ -51,10 +51,7 @@ void CAboutDlg::DoDataExchange(CDataExchange* pDX)
 BEGIN_MESSAGE_MAP(CAboutDlg, CDialogEx)
 END_MESSAGE_MAP()
 
-
 // CTaskManagerDlg dialog
-
-
 
 CTaskManagerDlg::CTaskManagerDlg(CWnd* pParent /*=NULL*/)
 	: CDialogEx(CTaskManagerDlg::IDD, pParent)
@@ -93,7 +90,6 @@ BEGIN_MESSAGE_MAP(CTaskManagerDlg, CDialogEx)
 	ON_COMMAND(ID_SUBMENU_SHUTDOWN, &CTaskManagerDlg::OnSubmenuShutdown)
 END_MESSAGE_MAP()
 
-
 // CTaskManagerDlg message handlers
 
 BOOL CTaskManagerDlg::OnInitDialog()
@@ -125,7 +121,7 @@ BOOL CTaskManagerDlg::OnInitDialog()
 	SetIcon(m_hIcon, TRUE);			// Set big icon
 	SetIcon(m_hIcon, FALSE);		// Set small icon
 
-	// TODO: Add extra initialization here
+	// TODO: Add extra initialization here	
 	CreateThread(NULL, 0, UsageProc, (LPVOID)this, 0, NULL);
 	InitControl();
 	SetHotKey();
@@ -361,7 +357,7 @@ void CTaskManagerDlg::OnSubmenueLockscreen()
 void CTaskManagerDlg::OnSubmenuLogoff()
 {
 	// TODO: Add your command handler code here
-	int nRet = MessageBox(_T("确定要注销吗?"), _T("确认"), MB_OKCANCEL | MB_ICONQUESTION);
+	int nRet = MessageBox(_T("确定要注销吗?"), _T("询问"), MB_OKCANCEL | MB_ICONQUESTION);
 	if (nRet == IDOK) {
 		PrivilegeEscalation();
 		ExitWindowsEx(EWX_LOGOFF | EWX_FORCE, 0);
@@ -371,7 +367,7 @@ void CTaskManagerDlg::OnSubmenuLogoff()
 void CTaskManagerDlg::OnSubmenuHibernate()
 {
 	// TODO: Add your command handler code here
-	int nRet = MessageBox(_T("确定要休眠吗?"), _T("确认"), MB_OKCANCEL | MB_ICONQUESTION);
+	int nRet = MessageBox(_T("确定要休眠吗?"), _T("询问"), MB_OKCANCEL | MB_ICONQUESTION);
 	if (nRet == IDOK) {
 		PrivilegeEscalation();
 		SetSuspendState(TRUE, FALSE, FALSE);
@@ -382,7 +378,7 @@ void CTaskManagerDlg::OnSubmenuHibernate()
 void CTaskManagerDlg::OnSubMenuSleep()
 {
 	// TODO: Add your command handler code here
-	int nRet = MessageBox(_T("确定要睡眠吗?"), _T("确认"), MB_OKCANCEL | MB_ICONQUESTION);
+	int nRet = MessageBox(_T("确定要睡眠吗?"), _T("询问"), MB_OKCANCEL | MB_ICONQUESTION);
 	if (nRet == IDOK) {
 		PrivilegeEscalation();
 		SetSuspendState(FALSE, FALSE, FALSE);
@@ -393,7 +389,7 @@ void CTaskManagerDlg::OnSubMenuSleep()
 void CTaskManagerDlg::OnSubmenuRestart()
 {
 	// TODO: Add your command handler code here
-	int nRet = MessageBox(_T("确定要重启电脑吗?"), _T("确认"), MB_OKCANCEL | MB_ICONQUESTION);
+	int nRet = MessageBox(_T("确定要重启电脑吗?"), _T("询问"), MB_OKCANCEL | MB_ICONQUESTION);
 	if (nRet == IDOK) {
 		PrivilegeEscalation();
 		ExitWindowsEx(EWX_REBOOT | EWX_FORCE, 0);
@@ -403,7 +399,7 @@ void CTaskManagerDlg::OnSubmenuRestart()
 void CTaskManagerDlg::OnSubmenuShutdown()
 {
 	// TODO: Add your command handler code here
-	int nRet = MessageBox(_T("确定要关机吗?"), _T("确认"), MB_OKCANCEL | MB_ICONQUESTION);
+	int nRet = MessageBox(_T("确定要关机吗?"), _T("询问"), MB_OKCANCEL | MB_ICONQUESTION);
 	if (nRet == IDOK) {
 		PrivilegeEscalation();
 		ExitWindowsEx(EWX_POWEROFF | EWX_FORCE, 0);

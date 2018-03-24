@@ -36,4 +36,6 @@ public:
 private:
 	void InitControl();
 	void ListProcess();
+public:
+	afx_msg void OnSubmenuEndProcess();
 };

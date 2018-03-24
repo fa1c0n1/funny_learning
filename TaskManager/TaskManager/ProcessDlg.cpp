@@ -40,6 +40,7 @@ BEGIN_MESSAGE_MAP(CProcessDlg, CBaseDialog)
 	ON_COMMAND(ID_SUBMENU_ENUM_THREAD, &CProcessDlg::OnSubmenuEnumThread)
 	ON_COMMAND(ID_SUBMENU_ENUM_HEAP, &CProcessDlg::OnSubmenuEnumHeap)
 	ON_COMMAND(ID_SUBMENU_REFRESH_PROCESS, &CProcessDlg::OnSubmenuRefreshProcess)
+	ON_COMMAND(ID_SUBMENU_END_PROCESS, &CProcessDlg::OnSubmenuEndProcess)
 END_MESSAGE_MAP()
 
 
@@ -79,6 +80,9 @@ void CProcessDlg::ListProcess()
 	}
 	else {
 		do {
+			if (pe32.th32ProcessID == GetCurrentProcessId())
+				continue;
+
 			StringCchPrintf(szPidBuf, _countof(szPidBuf), _T("%d"), pe32.th32ProcessID);
 			m_listCtrlProcess.AddItems(i, 2, pe32.szExeFile, szPidBuf);
 			i++;
@@ -135,7 +139,6 @@ void CProcessDlg::OnNMRClickProcessList(NMHDR *pNMHDR, LRESULT *pResult)
 	popSubMenu->TrackPopupMenu(TPM_LEFTALIGN, point.x, point.y, this);
 }
 
-
 void CProcessDlg::OnSubmenuEnumModules()
 {
 	// TODO: Add your command handler code here
@@ -172,7 +175,6 @@ void CProcessDlg::OnSubmenuEnumThread()
 		return;
 }
 
-
 void CProcessDlg::OnSubmenuEnumHeap()
 {
 	// TODO: Add your command handler code here
@@ -196,6 +198,36 @@ void CProcessDlg::OnSubmenuRefreshProcess()
 {
 	// TODO: Add your command handler code here
 	RefreshSelf();
+}
+
+void CProcessDlg::OnSubmenuEndProcess()
+{
+	// TODO: Add your command handler code here
+	int nSelRowIdx = m_listCtrlProcess.GetSelectionMark();
+	CString strBuf(_T('\0', 512)); 
+	strBuf = _T("确定要结束 '");
+	strBuf += m_listCtrlProcess.GetItemText(nSelRowIdx, 0);
+	strBuf += _T("' 吗? ");
+
+	if (MessageBox(strBuf, _T("询问"), MB_OKCANCEL | MB_ICONQUESTION) == IDCANCEL)
+		return;
+
+	TCHAR buf[32] = {};
+	CString strPid = m_listCtrlProcess.GetItemText(nSelRowIdx, 1);
+	DWORD dwPid = _ttol(strPid);
+
+	HANDLE hProcess = OpenProcess(PROCESS_TERMINATE, NULL, dwPid);
+	if (hProcess) { //
+		if (TerminateProcess(hProcess, 0)) {
+			m_listCtrlProcess.DeleteItem(nSelRowIdx);
+		}
+		else {
+			MessageBox(_T("结束进程失败"), NULL, MB_OK | MB_ICONERROR);
+		}
+	}
+	else {
+		MessageBox(_T("结束进程失败"), NULL, MB_OK | MB_ICONERROR);
+	}
 }
 
 void CProcessDlg::RefreshSelf()

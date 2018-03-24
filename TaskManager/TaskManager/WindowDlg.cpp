@@ -56,7 +56,7 @@ void CWindowDlg::InitControl()
 		| LVS_EX_GRIDLINES);
 	m_wndListCtrl.GetClientRect(&rect);
 	m_wndListCtrl.AddColumns(1,
-		_T("窗口名"), rect.Width());
+		_T("窗口标题"), rect.Width());
 }
 
 BOOL CALLBACK EnumWndProc(_In_ HWND hwnd, _In_ LPARAM lParam)

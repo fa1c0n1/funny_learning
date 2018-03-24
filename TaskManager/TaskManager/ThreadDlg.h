@@ -20,7 +20,7 @@ protected:
 
 	DECLARE_MESSAGE_MAP()
 public:
-	CMyListCtrl m_threadListCtrl;
+	CMyListCtrl m_listCtrlThread;
 	DWORD m_dwOwnerPid;
 	CString m_processName;
 	int m_nThreadNum;
@@ -29,4 +29,11 @@ public:
 private:
 	void InitControl();
 	void ListProcessThread(DWORD dwOwnerPid);
+	void RefreshSelf();
+public:
+	afx_msg void OnNMRClickModuleList(NMHDR *pNMHDR, LRESULT *pResult);
+	afx_msg void OnSubmenuThreadRefresh();
+	afx_msg void OnSubmenuThreadEnd();
+	afx_msg void OnSubmenuThreadSuspend();
+	afx_msg void OnSubmenuThreadResume();
 };

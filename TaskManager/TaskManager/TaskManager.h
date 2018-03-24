@@ -27,6 +27,9 @@ public:
 // Implementation
 
 	DECLARE_MESSAGE_MAP()
+
+private:
+	HANDLE m_hMutex;
 };
 
 extern CTaskManagerApp theApp;

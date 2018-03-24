@@ -38,7 +38,12 @@ CTaskManagerApp theApp;
 // CTaskManagerApp initialization
 
 BOOL CTaskManagerApp::InitInstance()
-{
+{	
+	if (OpenMutex(SYNCHRONIZE, NULL, _T("Task_Manager_fa1c0n1_1107"))) {
+		return FALSE;
+	}
+	m_hMutex = CreateMutex(NULL, NULL, _T("Task_Manager_fa1c0n1_1107"));
+
 	// InitCommonControlsEx() is required on Windows XP if an application
 	// manifest specifies use of ComCtl32.dll version 6 or later to enable
 	// visual styles.  Otherwise, any window creation will fail.
