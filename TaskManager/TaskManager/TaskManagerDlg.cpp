@@ -81,6 +81,7 @@ BEGIN_MESSAGE_MAP(CTaskManagerDlg, CDialogEx)
 	ON_NOTIFY(TCN_SELCHANGE, IDC_TAB1, &CTaskManagerDlg::OnTcnSelchangeTab1)
 	ON_WM_TIMER()
 	ON_MESSAGE(WM_USER_UPDATE_CPUUSAGE, &CTaskManagerDlg::OnUserUpdateCpuUsage)
+	ON_MESSAGE(WM_USER_UPDATE_MEMUSAGE, &CTaskManagerDlg::OnUserUpdateMemUsage)
 END_MESSAGE_MAP()
 
 
@@ -184,8 +185,8 @@ void CTaskManagerDlg::OnSize(UINT nType, int cx, int cy)
 	clientRect.left += 10;
 	clientRect.right -= 10;
 
-	if (m_tabAllWnd)
-		m_tabAllWnd.MoveWindow(&clientRect);
+	if (m_tabAllWnd);
+		//m_tabAllWnd.MoveWindow(&clientRect);
 }
 
 void CTaskManagerDlg::InitControl()
@@ -212,7 +213,6 @@ void CTaskManagerDlg::InitControl()
 	m_childTab[0]->ShowWindow(SW_SHOW);
 
 	m_wndStatusBar.Create(this);
-
 	m_wndStatusBar.SetIndicators(indicators, sizeof(indicators) / sizeof(UINT)); //ÉèÖÃ×´Ì¬À¸ÊýÄ¿
 
 	CRect rect;
@@ -283,14 +283,25 @@ int CTaskManagerDlg::GetCpuUsage()
 		(dNewKernelTime - dOldKernelTime + dNewUserTime - dOldUserTime) * 100.0);
 }
 
+DWORD CTaskManagerDlg::GetMemoryUsage()
+{
+	MEMORYSTATUS memStatus;
+	::GlobalMemoryStatus(&memStatus);
+	return memStatus.dwMemoryLoad;
+}
+
+
 DWORD WINAPI CTaskManagerDlg::UsageProc(LPVOID lpParam)
 {
 	CTaskManagerDlg *pCurDlg = (CTaskManagerDlg *)lpParam;
 	int nCpuUsage = 0;
+	DWORD dwMemLoad = 0;
 	while (true) {
 		nCpuUsage = GetCpuUsage();
 		::PostMessage(pCurDlg->m_hWnd, WM_USER_UPDATE_CPUUSAGE, NULL, (LPARAM)nCpuUsage);
-		Sleep(1000);
+		Sleep(100);
+		dwMemLoad = GetMemoryUsage();
+		::PostMessage(pCurDlg->m_hWnd, WM_USER_UPDATE_MEMUSAGE, NULL, (LPARAM)dwMemLoad);
 	}
 
 	return 0;
@@ -301,5 +312,14 @@ afx_msg LRESULT CTaskManagerDlg::OnUserUpdateCpuUsage(WPARAM wParam, LPARAM lPar
 	TCHAR szCpuUsage[32] = {};
 	StringCchPrintf(szCpuUsage, _countof(szCpuUsage), _T("CPU Usage: %d%%"), lParam);
 	m_wndStatusBar.SetPaneText(0, szCpuUsage);
+	return 0;
+}
+
+
+afx_msg LRESULT CTaskManagerDlg::OnUserUpdateMemUsage(WPARAM wParam, LPARAM lParam)
+{
+	TCHAR szMemUsage[32] = {};
+	StringCchPrintf(szMemUsage, _countof(szMemUsage), _T("Physical Memory: %d%%"), lParam);
+	m_wndStatusBar.SetPaneText(1, szMemUsage);
 	return 0;
 }

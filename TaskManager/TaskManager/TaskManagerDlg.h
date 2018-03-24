@@ -47,9 +47,11 @@ private:
 
 	static double FILETIME2Double(const _FILETIME &fileTime);
 	static int GetCpuUsage();
+	static DWORD GetMemoryUsage();
 	static DWORD WINAPI UsageProc(LPVOID lpParam);
 
 
 protected:
 	afx_msg LRESULT OnUserUpdateCpuUsage(WPARAM wParam, LPARAM lParam);
+	afx_msg LRESULT OnUserUpdateMemUsage(WPARAM wParam, LPARAM lParam);
 };

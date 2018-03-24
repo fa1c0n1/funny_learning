@@ -6,6 +6,7 @@
 #define WM_DELFILE_REFRESH			(WM_USER+3)
 #define WM_DELFILE_FINISH			(WM_USER+4)
 #define WM_USER_UPDATE_CPUUSAGE     (WM_USER+5)
+#define WM_USER_UPDATE_MEMUSAGE     (WM_USER+6) 
 
 #define WCHAR_TO_CHAR(lpW_Char, lpChar, nCharSize) \
     WideCharToMultiByte(CP_ACP, NULL, lpW_Char, -1, lpChar, nCharSize, NULL, FALSE);
