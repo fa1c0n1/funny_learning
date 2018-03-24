@@ -12,6 +12,9 @@
 #include "CleanVSPrjDlg.h"
 #include "Comm.h"
 #include <strsafe.h>
+#include <PowrProf.h>
+
+#pragma comment(lib, "PowrProf.lib")
 
 #ifdef _DEBUG
 #define new DEBUG_NEW
@@ -82,6 +85,12 @@ BEGIN_MESSAGE_MAP(CTaskManagerDlg, CDialogEx)
 	ON_WM_TIMER()
 	ON_MESSAGE(WM_USER_UPDATE_CPUUSAGE, &CTaskManagerDlg::OnUserUpdateCpuUsage)
 	ON_MESSAGE(WM_USER_UPDATE_MEMUSAGE, &CTaskManagerDlg::OnUserUpdateMemUsage)
+	ON_COMMAND(ID_SUBMENUE_LOCKSCREEN, &CTaskManagerDlg::OnSubmenueLockscreen)
+	ON_COMMAND(ID_SUBMENU_LOGOFF, &CTaskManagerDlg::OnSubmenuLogoff)
+	ON_COMMAND(ID_SUBMENU_HIBERNATE, &CTaskManagerDlg::OnSubmenuHibernate)
+	ON_COMMAND(ID_SUBMENU_SLEEP, &CTaskManagerDlg::OnSubMenuSleep)
+	ON_COMMAND(ID_SUBMENU_RESTART, &CTaskManagerDlg::OnSubmenuRestart)
+	ON_COMMAND(ID_SUBMENU_SHUTDOWN, &CTaskManagerDlg::OnSubmenuShutdown)
 END_MESSAGE_MAP()
 
 
@@ -119,6 +128,7 @@ BOOL CTaskManagerDlg::OnInitDialog()
 	// TODO: Add extra initialization here
 	CreateThread(NULL, 0, UsageProc, (LPVOID)this, 0, NULL);
 	InitControl();
+	SetHotKey();
 
 	return TRUE;  // return TRUE  unless you set the focus to a control
 }
@@ -191,6 +201,10 @@ void CTaskManagerDlg::OnSize(UINT nType, int cx, int cy)
 
 void CTaskManagerDlg::InitControl()
 {
+	m_menuMain.LoadMenu(IDR_MENU2);
+	this->SetMenu(&m_menuMain);
+	m_menuMain.Detach();
+
 	m_tabAllWnd.InsertItem(0, _T("进程"));
 	m_tabAllWnd.InsertItem(1, _T("窗口"));
 	m_tabAllWnd.InsertItem(2, _T("文件"));
@@ -322,4 +336,102 @@ afx_msg LRESULT CTaskManagerDlg::OnUserUpdateMemUsage(WPARAM wParam, LPARAM lPar
 	StringCchPrintf(szMemUsage, _countof(szMemUsage), _T("Physical Memory: %d%%"), lParam);
 	m_wndStatusBar.SetPaneText(1, szMemUsage);
 	return 0;
+}
+
+void CTaskManagerDlg::PrivilegeEscalation()
+{
+	// TODO: Add your command handler code here
+	HANDLE hToken = NULL;
+	HANDLE hProcess = GetCurrentProcess();  //获取该进程的伪句柄
+	OpenProcessToken(hProcess, TOKEN_ADJUST_PRIVILEGES | TOKEN_QUERY, &hToken);
+	TOKEN_PRIVILEGES tp = {};
+	LookupPrivilegeValue(0, SE_SHUTDOWN_NAME, &tp.Privileges[0].Luid);
+	tp.PrivilegeCount = 1;
+	tp.Privileges[0].Attributes = SE_PRIVILEGE_ENABLED;
+	//调用函数提升权限
+	AdjustTokenPrivileges(hToken, FALSE, &tp, sizeof(tp), NULL, NULL);
+}
+
+void CTaskManagerDlg::OnSubmenueLockscreen()
+{
+	PrivilegeEscalation();
+	LockWorkStation();
+}
+
+void CTaskManagerDlg::OnSubmenuLogoff()
+{
+	// TODO: Add your command handler code here
+	int nRet = MessageBox(_T("确定要注销吗?"), _T("确认"), MB_OKCANCEL | MB_ICONQUESTION);
+	if (nRet == IDOK) {
+		PrivilegeEscalation();
+		ExitWindowsEx(EWX_LOGOFF | EWX_FORCE, 0);
+	}
+}
+
+void CTaskManagerDlg::OnSubmenuHibernate()
+{
+	// TODO: Add your command handler code here
+	int nRet = MessageBox(_T("确定要休眠吗?"), _T("确认"), MB_OKCANCEL | MB_ICONQUESTION);
+	if (nRet == IDOK) {
+		PrivilegeEscalation();
+		SetSuspendState(TRUE, FALSE, FALSE);
+	}
+}
+
+
+void CTaskManagerDlg::OnSubMenuSleep()
+{
+	// TODO: Add your command handler code here
+	int nRet = MessageBox(_T("确定要睡眠吗?"), _T("确认"), MB_OKCANCEL | MB_ICONQUESTION);
+	if (nRet == IDOK) {
+		PrivilegeEscalation();
+		SetSuspendState(FALSE, FALSE, FALSE);
+	}
+}
+
+
+void CTaskManagerDlg::OnSubmenuRestart()
+{
+	// TODO: Add your command handler code here
+	int nRet = MessageBox(_T("确定要重启电脑吗?"), _T("确认"), MB_OKCANCEL | MB_ICONQUESTION);
+	if (nRet == IDOK) {
+		PrivilegeEscalation();
+		ExitWindowsEx(EWX_REBOOT | EWX_FORCE, 0);
+	}
+}
+
+void CTaskManagerDlg::OnSubmenuShutdown()
+{
+	// TODO: Add your command handler code here
+	int nRet = MessageBox(_T("确定要关机吗?"), _T("确认"), MB_OKCANCEL | MB_ICONQUESTION);
+	if (nRet == IDOK) {
+		PrivilegeEscalation();
+		ExitWindowsEx(EWX_POWEROFF | EWX_FORCE, 0);
+	}
+}
+
+void CTaskManagerDlg::SetHotKey()
+{
+	//设置当前窗口的"控制"菜单的子菜单快捷键
+	m_hAccel = ::LoadAccelerators(AfxGetInstanceHandle(), MAKEINTRESOURCE(IDR_MENU2));
+
+	//设置全局的隐藏/显示的热键
+	//最后一个参数，字母的话一定要大写，可参见帮助文档，字母键就是对应的大写字母的ASCII码
+	::RegisterHotKey(m_hWnd, 0x1412, MOD_CONTROL | MOD_ALT | MOD_SHIFT, 'H'); 
+}
+
+BOOL CTaskManagerDlg::PreTranslateMessage(MSG* pMsg)
+{
+	// TODO: Add your specialized code here and/or call the base class
+	if (::TranslateAccelerator(m_hWnd, m_hAccel, pMsg))
+		return TRUE;
+
+	if (pMsg->message == WM_HOTKEY && pMsg->wParam == 0x1412) {
+		if (IsWindowVisible())
+			ShowWindow(SW_HIDE);
+		else
+			ShowWindow(SW_SHOW);
+	}
+
+	return CDialogEx::PreTranslateMessage(pMsg);
 }

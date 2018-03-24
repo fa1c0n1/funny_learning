@@ -33,6 +33,8 @@ protected:
 	DECLARE_MESSAGE_MAP()
 
 public:
+	CMenu m_menuMain;
+	HACCEL m_hAccel;
 	CStatusBar m_wndStatusBar;
 	CTabCtrl m_tabAllWnd;
 	CBaseDialog *m_childTab[4];
@@ -50,8 +52,18 @@ private:
 	static DWORD GetMemoryUsage();
 	static DWORD WINAPI UsageProc(LPVOID lpParam);
 
+	void PrivilegeEscalation();
+	void SetHotKey();
 
 protected:
 	afx_msg LRESULT OnUserUpdateCpuUsage(WPARAM wParam, LPARAM lParam);
 	afx_msg LRESULT OnUserUpdateMemUsage(WPARAM wParam, LPARAM lParam);
+public:
+	afx_msg void OnSubmenueLockscreen();
+	afx_msg void OnSubmenuLogoff();
+	afx_msg void OnSubmenuHibernate();
+	afx_msg void OnSubMenuSleep();
+	afx_msg void OnSubmenuRestart();
+	afx_msg void OnSubmenuShutdown();
+	virtual BOOL PreTranslateMessage(MSG* pMsg);
 };
