@@ -119,5 +119,8 @@
     <Image Include="F:\old_Media\图片素材\SystemMonitor.ico">
       <Filter>Resource Files</Filter>
     </Image>
+    <Image Include="res\SystemMonitor.ico">
+      <Filter>Resource Files</Filter>
+    </Image>
   </ItemGroup>
 </Project>

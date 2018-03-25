@@ -228,6 +228,7 @@
   </ItemGroup>
   <ItemGroup>
     <Image Include="F:\old_Media\图片素材\SystemMonitor.ico" />
+    <Image Include="res\SystemMonitor.ico" />
     <Image Include="res\TaskManager.ico" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />

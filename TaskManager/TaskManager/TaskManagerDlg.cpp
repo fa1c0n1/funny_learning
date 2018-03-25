@@ -56,7 +56,7 @@ END_MESSAGE_MAP()
 CTaskManagerDlg::CTaskManagerDlg(CWnd* pParent /*=NULL*/)
 	: CDialogEx(CTaskManagerDlg::IDD, pParent)
 {
-	m_hIcon = AfxGetApp()->LoadIcon(IDI_ICON1);
+	m_hIcon = AfxGetApp()->LoadIcon(IDR_MAINFRAME);
 }
 
 CTaskManagerDlg::~CTaskManagerDlg()
@@ -342,6 +342,7 @@ void CTaskManagerDlg::PrivilegeEscalation()
 	AdjustTokenPrivileges(hToken, FALSE, &tp, sizeof(tp), NULL, NULL);
 }
 
+//处理"控制"子菜单的事件
 void CTaskManagerDlg::OnSubmenuManage(UINT uID)
 {
 	int nRet = 0;
