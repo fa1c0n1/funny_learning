@@ -38,6 +38,7 @@ END_MESSAGE_MAP()
 
 // CFileDlg message handlers
 
+//初始化控件
 void CFileDlg::InitControl()
 {
 	CRect rect;
@@ -53,7 +54,6 @@ void CFileDlg::InitControl()
 		_T("创建时间"), rect.Width() / 5);
 
 	//m_mfcShellTreeCtrl.Expand(m_mfcShellTreeCtrl.GetRootItem(), TVE_EXPAND);
-	//TraverseDirectory(_T("D:\\美剧"));
 }
 
 void CFileDlg::RefreshSelf()
@@ -72,6 +72,7 @@ BOOL CFileDlg::OnInitDialog()
 	// EXCEPTION: OCX Property Pages should return FALSE
 }
 
+//处理 Tree 控件的选中事件
 void CFileDlg::OnTvnSelchangedMfcshelltree(NMHDR *pNMHDR, LRESULT *pResult)
 {
 	LPNMTREEVIEW pNMTreeView = reinterpret_cast<LPNMTREEVIEW>(pNMHDR);
@@ -89,6 +90,7 @@ void CFileDlg::OnTvnSelchangedMfcshelltree(NMHDR *pNMHDR, LRESULT *pResult)
 	TraverseDirectory(strFullPath);
 }
 
+//遍历指定目录(不递归遍历)
 void CFileDlg::TraverseDirectory(CString strPath)
 {
 	m_listCtrlFiles.DeleteAllItems();
@@ -111,11 +113,14 @@ void CFileDlg::TraverseDirectory(CString strPath)
 		CTime ctLastModifyTime;
 
 		if (!finder.IsDots()) {
+			//获取创建时间
 			finder.GetCreationTime(ctCreateTime);
+			//获取修改时间
 			finder.GetLastWriteTime(ctLastModifyTime);
 			strCreateTime = ctCreateTime.Format(_T("%Y/%m/%d %H:%M"));
 			strLastModifyTime = ctLastModifyTime.Format(_T("%Y/%m/%d %H:%M"));
 
+			//判断目录，这里仅简单区分目录和文件
 			if (finder.IsDirectory()) {
 				strFileType = _T("目录");
 			}

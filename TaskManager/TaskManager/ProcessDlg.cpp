@@ -42,6 +42,7 @@ END_MESSAGE_MAP()
 
 // CProcessDlg message handlers
 
+//初始化控件
 void CProcessDlg::InitControl()
 {
 	CRect rect;
@@ -56,6 +57,7 @@ void CProcessDlg::InitControl()
 	m_listCtrlProcess.InsertColumn(4, _T("路径"), LVCFMT_LEFT, rect.Width() / 4 * 3, 4);
 }
 
+//遍历进程，并显示在列表控件
 void CProcessDlg::ListProcess()
 {
 	HANDLE hProcessSnap = 0;
@@ -130,12 +132,14 @@ BOOL CProcessDlg::OnInitDialog()
 	// EXCEPTION: OCX Property Pages should return FALSE
 }
 
+//刷新数据
 void CProcessDlg::RefreshSelf()
 {
 	m_listCtrlProcess.DeleteAllItems();
 	ListProcess();
 }
 
+//对窗口最小化，然后恢复窗口的处理
 void CProcessDlg::OnSize(UINT nType, int cx, int cy)
 {
 	CBaseDialog::OnSize(nType, cx, cy);
@@ -153,6 +157,7 @@ void CProcessDlg::OnSize(UINT nType, int cx, int cy)
 		m_listCtrlProcess.MoveWindow(&clientRect);
 }
 
+//处理列表控件里的右键事件
 void CProcessDlg::OnNMRClickProcessList(NMHDR *pNMHDR, LRESULT *pResult)
 {
 	LPNMITEMACTIVATE pNMItemActivate = reinterpret_cast<LPNMITEMACTIVATE>(pNMHDR);
@@ -176,6 +181,7 @@ void CProcessDlg::OnNMRClickProcessList(NMHDR *pNMHDR, LRESULT *pResult)
 	popSubMenu->TrackPopupMenu(TPM_LEFTALIGN, point.x, point.y, this);
 }
 
+//处理子菜单的点击事件
 void CProcessDlg::OnSubmenuProcess(UINT uID)
 {
 	int nSelRowIdx = m_listCtrlProcess.GetSelectionMark();
@@ -224,6 +230,8 @@ void CProcessDlg::OnSubmenuProcess(UINT uID)
 	}
 }
 
+//处理右键子菜单中"结束进程"的点击事件，因为跟前面的子菜单功能逻辑不太一样,
+//所以单独处理了
 void CProcessDlg::OnSubmenuEndProcess()
 {
 	// TODO: Add your command handler code here

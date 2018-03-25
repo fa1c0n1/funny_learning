@@ -36,6 +36,7 @@ END_MESSAGE_MAP()
 
 // CModuleDlg message handlers
 
+//遍历进程的模块，并显示在列表
 void CModuleDlg::ListProcessModule(DWORD dwPid)
 {
 	HANDLE hModuleSnap = INVALID_HANDLE_VALUE;
@@ -89,6 +90,7 @@ BOOL CModuleDlg::OnInitDialog()
 	// EXCEPTION: OCX Property Pages should return FALSE
 }
 
+//初始化控件
 void CModuleDlg::InitControl()
 {
 	CRect rect;

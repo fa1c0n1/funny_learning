@@ -5,7 +5,7 @@
 #include "TaskManager.h"
 #include "MyListCtrl.h"
 
-// CMyListCtrl
+// CMyListCtrl: 对 CListCtrl 的增强(用了可变参数)
 
 IMPLEMENT_DYNAMIC(CMyListCtrl, CListCtrl)
 

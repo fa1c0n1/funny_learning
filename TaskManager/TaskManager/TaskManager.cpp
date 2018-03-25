@@ -39,6 +39,7 @@ CTaskManagerApp theApp;
 
 BOOL CTaskManagerApp::InitInstance()
 {	
+	//使用互斥体实现程序的防多开
 	if (OpenMutex(SYNCHRONIZE, NULL, _T("Task_Manager_fa1c0n1_1107"))) {
 		return FALSE;
 	}

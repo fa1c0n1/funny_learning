@@ -117,6 +117,7 @@ BOOL CTaskManagerDlg::OnInitDialog()
 	SetIcon(m_hIcon, FALSE);		// Set small icon
 
 	// TODO: Add extra initialization here	
+	//创建子线程去获取CPU、内存的使用率，并通过while循环，每隔一秒就刷新底部状态栏
 	CreateThread(NULL, 0, UsageProc, (LPVOID)this, 0, NULL);
 	InitControl();
 	SetHotKey();
@@ -190,6 +191,7 @@ void CTaskManagerDlg::OnSize(UINT nType, int cx, int cy)
 		//m_tabAllWnd.MoveWindow(&clientRect);
 }
 
+//初始化控件
 void CTaskManagerDlg::InitControl()
 {
 	m_menuMain.LoadMenu(IDR_MENU2);
@@ -229,6 +231,7 @@ void CTaskManagerDlg::InitControl()
 	RepositionBars(AFX_IDW_CONTROLBAR_FIRST, AFX_IDW_CONTROLBAR_LAST, 0);
 }
 
+//处理Tab控件标签的点击切换事件
 void CTaskManagerDlg::OnTcnSelchangeTab1(NMHDR *pNMHDR, LRESULT *pResult)
 {
 	// TODO: Add your control notification handler code here
@@ -260,6 +263,7 @@ double CTaskManagerDlg::FILETIME2Double(const _FILETIME &fileTime)
 		+ double(fileTime.dwLowDateTime);
 }
 
+//获取CPU的使用率
 int CTaskManagerDlg::GetCpuUsage()
 {
 	_FILETIME idleTime, kernelTime, userTime;   //空闲时间，内核时间，用户时间
@@ -288,6 +292,7 @@ int CTaskManagerDlg::GetCpuUsage()
 		(dNewKernelTime - dOldKernelTime + dNewUserTime - dOldUserTime) * 100.0);
 }
 
+//获取物理内存使用率
 DWORD CTaskManagerDlg::GetMemoryUsage()
 {
 	MEMORYSTATUS memStatus;
@@ -295,7 +300,7 @@ DWORD CTaskManagerDlg::GetMemoryUsage()
 	return memStatus.dwMemoryLoad;
 }
 
-
+//子线程处理函数
 DWORD WINAPI CTaskManagerDlg::UsageProc(LPVOID lpParam)
 {
 	CTaskManagerDlg *pCurDlg = (CTaskManagerDlg *)lpParam;
@@ -306,12 +311,14 @@ DWORD WINAPI CTaskManagerDlg::UsageProc(LPVOID lpParam)
 		::PostMessage(pCurDlg->m_hWnd, WM_USER_UPDATE_CPUUSAGE, NULL, (LPARAM)nCpuUsage);
 		Sleep(100);
 		dwMemLoad = GetMemoryUsage();
+		//投递数据到消息队列，让主线程更新底部状态栏
 		::PostMessage(pCurDlg->m_hWnd, WM_USER_UPDATE_MEMUSAGE, NULL, (LPARAM)dwMemLoad);
 	}
 
 	return 0;
 }
 
+//更新底部状态栏中的CPU使用率
 afx_msg LRESULT CTaskManagerDlg::OnUserUpdateCpuUsage(WPARAM wParam, LPARAM lParam)
 {
 	TCHAR szCpuUsage[32] = {};
@@ -320,6 +327,7 @@ afx_msg LRESULT CTaskManagerDlg::OnUserUpdateCpuUsage(WPARAM wParam, LPARAM lPar
 	return 0;
 }
 
+//更新底部状态栏中的内存使用率
 afx_msg LRESULT CTaskManagerDlg::OnUserUpdateMemUsage(WPARAM wParam, LPARAM lParam)
 {
 	TCHAR szMemUsage[32] = {};
@@ -328,6 +336,7 @@ afx_msg LRESULT CTaskManagerDlg::OnUserUpdateMemUsage(WPARAM wParam, LPARAM lPar
 	return 0;
 }
 
+//提升权限
 void CTaskManagerDlg::PrivilegeEscalation()
 {
 	// TODO: Add your command handler code here
@@ -349,30 +358,30 @@ void CTaskManagerDlg::OnSubmenuManage(UINT uID)
 	PrivilegeEscalation();
 	switch (uID)
 	{
-	case ID_SUBMENU_LOCKSCREEN:
+	case ID_SUBMENU_LOCKSCREEN: //锁屏
 		LockWorkStation();
 		break;
-	case ID_SUBMENU_LOGOFF:
+	case ID_SUBMENU_LOGOFF:     //注销
 		nRet = MessageBox(_T("确定要注销吗?"), _T("询问"), MB_OKCANCEL | MB_ICONQUESTION);
 		if (nRet == IDOK)
 			ExitWindowsEx(EWX_LOGOFF | EWX_FORCE, 0);
 		break;
-	case ID_SUBMENU_HIBERNATE:
+	case ID_SUBMENU_HIBERNATE:   //休眠
 		nRet = MessageBox(_T("确定要休眠吗?"), _T("询问"), MB_OKCANCEL | MB_ICONQUESTION);
 		if (nRet == IDOK)
 			SetSuspendState(TRUE, FALSE, FALSE);
 		break;
-	case ID_SUBMENU_SLEEP:
+	case ID_SUBMENU_SLEEP:       //睡眠
 		nRet = MessageBox(_T("确定要睡眠吗?"), _T("询问"), MB_OKCANCEL | MB_ICONQUESTION);
 		if (nRet == IDOK)
 			SetSuspendState(FALSE, FALSE, FALSE);
 		break;
-	case ID_SUBMENU_RESTART:
+	case ID_SUBMENU_RESTART:      //重启
 		nRet = MessageBox(_T("确定要重启电脑吗?"), _T("询问"), MB_OKCANCEL | MB_ICONQUESTION);
 		if (nRet == IDOK)
 			ExitWindowsEx(EWX_REBOOT | EWX_FORCE, 0);
 		break;
-	case ID_SUBMENU_SHUTDOWN:
+	case ID_SUBMENU_SHUTDOWN:     //关机
 		nRet = MessageBox(_T("确定要关机吗?"), _T("询问"), MB_OKCANCEL | MB_ICONQUESTION);
 		if (nRet == IDOK)
 			ExitWindowsEx(EWX_POWEROFF | EWX_FORCE, 0);
@@ -382,6 +391,7 @@ void CTaskManagerDlg::OnSubmenuManage(UINT uID)
 	}
 }
 
+//设置菜单快捷键和全局热键
 void CTaskManagerDlg::SetHotKey()
 {
 	//设置当前窗口的"控制"菜单的子菜单快捷键
@@ -392,6 +402,7 @@ void CTaskManagerDlg::SetHotKey()
 	::RegisterHotKey(m_hWnd, 0x1412, MOD_CONTROL | MOD_ALT | MOD_SHIFT, 'H'); 
 }
 
+//响应前面设置的全局热键
 BOOL CTaskManagerDlg::PreTranslateMessage(MSG* pMsg)
 {
 	// TODO: Add your specialized code here and/or call the base class

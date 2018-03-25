@@ -51,6 +51,7 @@ BOOL CThreadDlg::OnInitDialog()
 	// EXCEPTION: OCX Property Pages should return FALSE
 }
 
+//初始化控件
 void CThreadDlg::InitControl()
 {
 	CRect rect;
@@ -64,6 +65,7 @@ void CThreadDlg::InitControl()
 		_T("状态"), rect.Width() / 3);
 }
 
+//遍历指定进程的线程
 void CThreadDlg::ListProcessThread(DWORD dwOwnerPid)
 {
 	HANDLE hThreadSnap = INVALID_HANDLE_VALUE;
@@ -98,21 +100,22 @@ void CThreadDlg::ListProcessThread(DWORD dwOwnerPid)
 
 			hThread = OpenThread(THREAD_SUSPEND_RESUME, NULL, te32.th32ThreadID);
 			if (hThread) {
+				//通过SuspendThread函数的返回值(挂起次数)来判断线程的状态
 				int nSuspendCnt = SuspendThread(hThread);
 				if (nSuspendCnt == 0) {
 					ResumeThread(hThread);
-					strThreadState = _T("等待");
+					strThreadState = _T("运行");
 				}
 				else if (nSuspendCnt > 0) {
 					ResumeThread(hThread);
 					strThreadState = _T("挂起");
 				}
 				else {
-					strThreadState = _T("等待");
+					strThreadState = _T("运行");
 				}
 			}
 			else {
-				strThreadState = _T("等待");
+				strThreadState = _T("运行");
 			}
 			m_listCtrlThread.AddItems(i, 3, szThreadID, szThreadPri, strThreadState);
 			i++;
@@ -123,12 +126,14 @@ void CThreadDlg::ListProcessThread(DWORD dwOwnerPid)
 	CloseHandle(hThreadSnap);
 }
 
+//更新数据
 void CThreadDlg::RefreshSelf()
 {
 	m_listCtrlThread.DeleteAllItems();
 	ListProcessThread(m_dwOwnerPid);
 }
 
+//更新窗口标题
 void CThreadDlg::UpdateTitle()
 {
 	TCHAR szTitle[128] = {};
@@ -136,6 +141,7 @@ void CThreadDlg::UpdateTitle()
 	SetWindowText(szTitle);
 }
 
+//线程列表响应右键，弹出子菜单
 void CThreadDlg::OnNMRClickModuleList(NMHDR *pNMHDR, LRESULT *pResult)
 {
 	LPNMITEMACTIVATE pNMItemActivate = reinterpret_cast<LPNMITEMACTIVATE>(pNMHDR);
@@ -152,7 +158,7 @@ void CThreadDlg::OnNMRClickModuleList(NMHDR *pNMHDR, LRESULT *pResult)
 	popSubMenu->TrackPopupMenu(TPM_LEFTALIGN, point.x, point.y, this);
 }
 
-//响应右键菜单的事件
+//响应右键子菜单的各种点击事件
 void CThreadDlg::OnSubmenuThread(UINT uID)
 {
 	TCHAR buf[32] = {};

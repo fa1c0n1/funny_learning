@@ -38,6 +38,7 @@ END_MESSAGE_MAP()
 
 // CHeapDlg message handlers
 
+//初始化控件
 void CHeapDlg::InitControl()
 {
 	CRect rect;
@@ -53,10 +54,12 @@ void CHeapDlg::InitControl()
 
 	SetWindowText(_T("该进程堆数目较多，正在加速获取中， 等稍后..."));
 
+	//将窗口关闭按钮设置为无效状态
 	CMenu *pMenu = GetSystemMenu(FALSE);
 	pMenu->EnableMenuItem(SC_CLOSE, MF_DISABLED);
 }
 
+//遍历指定进程的堆,并显示在列表控件
 void CHeapDlg::ListProcessHeap(HWND hWnd, DWORD dwPid, CMyListCtrl &listCtrl)
 {
 	HEAPLIST32 heapList = {};
@@ -98,6 +101,7 @@ void CHeapDlg::ListProcessHeap(HWND hWnd, DWORD dwPid, CMyListCtrl &listCtrl)
 		} while (Heap32ListNext(hHeapSnap, &heapList) && i <= 1000);
 	}
 	
+	//结束后，向消息队列投递自定义消息
 	::PostMessage(hWnd, WM_USER_TRAVERSEHEAP_FINISH, 0, (LPARAM)i);
 	CloseHandle(hHeapSnap);
 }
@@ -109,21 +113,26 @@ BOOL CHeapDlg::OnInitDialog()
 	// TODO:  Add extra initialization here
 
 	InitControl();
+
+	//填充要传入线程的数据
 	PHEAPPROCINFO pHeapProcInfo = new HEAPPROCINFO{};
 	pHeapProcInfo->hwnd = m_hWnd;
 	pHeapProcInfo->pListCtrl = &m_listCtrlHeap;
 	pHeapProcInfo->dwPid = m_dwPid;
+	//开启子线程去遍历进程的堆
 	AfxBeginThread(TraverseHeapProc, (LPVOID)pHeapProcInfo);
 
 	return TRUE;  // return TRUE unless you set the focus to a control
 	// EXCEPTION: OCX Property Pages should return FALSE
 }
 
+//子线程处理函数
 UINT __cdecl CHeapDlg::TraverseHeapProc(LPVOID pParam)
 {
 	PHEAPPROCINFO pProcInfo = (PHEAPPROCINFO)pParam;
 	ListProcessHeap(pProcInfo->hwnd, pProcInfo->dwPid, *pProcInfo->pListCtrl);
 
+	//遍历结束后，释放前面创建的堆内存,并结束掉当前线程
 	if (pProcInfo) {
 		delete pProcInfo;
 		pProcInfo = nullptr;

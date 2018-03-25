@@ -48,7 +48,7 @@ END_MESSAGE_MAP()
 // CCleanVSPrjDlg message handlers
 
 
-
+//初始化控件
 void CCleanVSPrjDlg::InitControl()
 {
 	CRect rect;
@@ -61,7 +61,7 @@ void CCleanVSPrjDlg::InitControl()
 	m_btnStartDel.EnableWindow(FALSE);
 }
 
-//递推遍历并显示(并删除)要删除的文件
+//根据最后一个参数来决定是遍历获取信息，还是要删除获取到的文件.
 void CCleanVSPrjDlg::ShowDelFilePathList(CString strDir, HWND hWnd, CEdit &editCtrl, 
 	CString &strEditCtrl, vector<CString> &vtToDelFiles, bool bDelete)
 {
@@ -119,6 +119,7 @@ void CCleanVSPrjDlg::ShowDelFilePathList(CString strDir, HWND hWnd, CEdit &editC
 	}
 }
 
+//以下后缀的文件是要获取/删除的文件
 //.obj\.tlog\.lastbuildstate\.idb\.pdb\.pch\.res\.ilk\.exe\.sdf\.ipch\.log
 TCHAR *CCleanVSPrjDlg::m_szDelSuffix[] = {
 	_T(".obj"), _T(".tlog"), _T(".lastbuildstate"), _T(".idb"), _T(".pdb"),
@@ -184,11 +185,13 @@ void CCleanVSPrjDlg::OnBnClickedGetInfoButton()
 {
 	// TODO: Add your control notification handler code here
 	m_vtToDelFiles.clear();
+	//将"获取信息"按钮和"开始删除"按钮设为 Diable 状态
 	m_btnGetInfo.EnableWindow(FALSE);
 	m_btnStartDel.EnableWindow(FALSE);
 	UpdateData(TRUE);
 	m_strToDelFiles = _T("");
 
+	//填充要传入线程的数据
 	PINFOPARAM pInfoParam = new INFOPARAM {};
 	pInfoParam->hWnd = m_hWnd;
 	pInfoParam->pListCtrl = &m_listCtrlFilePath;
@@ -198,17 +201,20 @@ void CCleanVSPrjDlg::OnBnClickedGetInfoButton()
 	pInfoParam->bDelete = false;
 	pInfoParam->uMsgFinish = WM_GETINFO_FINISH;
 
+	//开启子线程去处理
 	HANDLE hThread = CreateThread(NULL, 0, GetInfoThreadProc, (LPVOID)pInfoParam, 0, NULL);
 }
 
 //开始删除，并显示出来
 void CCleanVSPrjDlg::OnBnClickedStartDelButton()
 {
+	//将"获取信息"按钮和"开始删除"按钮设为 Diable 状态
 	m_btnGetInfo.EnableWindow(FALSE);
 	m_btnStartDel.EnableWindow(FALSE);
 	UpdateData(TRUE);
 	m_strDelFiles = _T("");
 
+	//填充要传入线程的数据
 	PINFOPARAM pInfoParam = new INFOPARAM{};
 	pInfoParam->hWnd = m_hWnd;
 	pInfoParam->pListCtrl = &m_listCtrlFilePath;
@@ -218,9 +224,11 @@ void CCleanVSPrjDlg::OnBnClickedStartDelButton()
 	pInfoParam->bDelete = true;
 	pInfoParam->uMsgFinish = WM_DELFILE_FINISH;
 
+	//开启子线程去处理
 	HANDLE hThread = CreateThread(NULL, 0, GetInfoThreadProc, (LPVOID)pInfoParam, 0, NULL);
 }
 
+//子线程处理函数
 DWORD WINAPI CCleanVSPrjDlg::GetInfoThreadProc(LPVOID lpParam)
 {
 	PINFOPARAM pInfoParam = (PINFOPARAM)lpParam;
@@ -251,6 +259,7 @@ DWORD WINAPI CCleanVSPrjDlg::GetInfoThreadProc(LPVOID lpParam)
 	return 0;
 }
 
+//响应"获取文件信息结束"的自定义消息
 afx_msg LRESULT CCleanVSPrjDlg::OnGetinfoFinish(WPARAM wParam, LPARAM lParam)
 {
 	if (m_vtToDelFiles.size() > 0) {
@@ -268,6 +277,7 @@ afx_msg LRESULT CCleanVSPrjDlg::OnGetinfoFinish(WPARAM wParam, LPARAM lParam)
 	return 0;
 }
 
+//获取"删除文件结束"的自定义消息
 afx_msg LRESULT CCleanVSPrjDlg::OnDelfileFinish(WPARAM wParam, LPARAM lParam)
 {
 	m_strDelFiles += _T("\r\n删除完成.");
