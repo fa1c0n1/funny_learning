@@ -116,5 +116,8 @@
     <Image Include="res\TaskManager.ico">
       <Filter>Resource Files</Filter>
     </Image>
+    <Image Include="F:\old_Media\图片素材\SystemMonitor.ico">
+      <Filter>Resource Files</Filter>
+    </Image>
   </ItemGroup>
 </Project>

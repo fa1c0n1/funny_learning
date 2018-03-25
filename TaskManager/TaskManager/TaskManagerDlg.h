@@ -59,11 +59,12 @@ protected:
 	afx_msg LRESULT OnUserUpdateCpuUsage(WPARAM wParam, LPARAM lParam);
 	afx_msg LRESULT OnUserUpdateMemUsage(WPARAM wParam, LPARAM lParam);
 public:
-	afx_msg void OnSubmenueLockscreen();
-	afx_msg void OnSubmenuLogoff();
-	afx_msg void OnSubmenuHibernate();
-	afx_msg void OnSubMenuSleep();
-	afx_msg void OnSubmenuRestart();
-	afx_msg void OnSubmenuShutdown();
+	afx_msg void OnSubmenuManage(UINT uID);
+	//afx_msg void OnSubmenueLockscreen();
+	//afx_msg void OnSubmenuLogoff();
+	//afx_msg void OnSubmenuHibernate();
+	//afx_msg void OnSubMenuSleep();
+	//afx_msg void OnSubmenuRestart();
+	//afx_msg void OnSubmenuShutdown();
 	virtual BOOL PreTranslateMessage(MSG* pMsg);
 };

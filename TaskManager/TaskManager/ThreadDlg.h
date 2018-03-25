@@ -30,10 +30,12 @@ private:
 	void InitControl();
 	void ListProcessThread(DWORD dwOwnerPid);
 	void RefreshSelf();
+	void UpdateTitle();
 public:
 	afx_msg void OnNMRClickModuleList(NMHDR *pNMHDR, LRESULT *pResult);
-	afx_msg void OnSubmenuThreadRefresh();
+	afx_msg void OnSubmenuThread(UINT uID);
+	/*afx_msg void OnSubmenuThreadRefresh();
 	afx_msg void OnSubmenuThreadEnd();
 	afx_msg void OnSubmenuThreadSuspend();
-	afx_msg void OnSubmenuThreadResume();
+	afx_msg void OnSubmenuThreadResume();*/
 };

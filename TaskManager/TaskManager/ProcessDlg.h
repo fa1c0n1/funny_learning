@@ -24,14 +24,12 @@ public:
 	CMyListCtrl m_listCtrlProcess;
 
 	virtual BOOL OnInitDialog();
+	virtual void RefreshSelf();
+
 	afx_msg void OnSize(UINT nType, int cx, int cy);
 	afx_msg void OnNMRClickProcessList(NMHDR *pNMHDR, LRESULT *pResult);
-	afx_msg void OnSubmenuEnumModules();
-	afx_msg void OnSubmenuEnumThread();
-	afx_msg void OnSubmenuEnumHeap();
-	afx_msg void OnSubmenuRefreshProcess();
+	afx_msg void OnSubmenuProcess(UINT uID);
 
-	virtual void RefreshSelf();
 
 private:
 	void InitControl();

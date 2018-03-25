@@ -28,6 +28,9 @@ private:
 	void InitControl();
 	void ListWindow();
 
+	static int m_nWndCnt;
+	static BOOL CALLBACK EnumWndProc(HWND hwnd, LPARAM lParam);
+
 public:
 	CMyListCtrl m_wndListCtrl;
 	afx_msg void OnSize(UINT nType, int cx, int cy);

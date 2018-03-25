@@ -56,7 +56,7 @@ END_MESSAGE_MAP()
 CTaskManagerDlg::CTaskManagerDlg(CWnd* pParent /*=NULL*/)
 	: CDialogEx(CTaskManagerDlg::IDD, pParent)
 {
-	m_hIcon = AfxGetApp()->LoadIcon(IDR_MAINFRAME);
+	m_hIcon = AfxGetApp()->LoadIcon(IDI_ICON1);
 }
 
 CTaskManagerDlg::~CTaskManagerDlg()
@@ -82,12 +82,7 @@ BEGIN_MESSAGE_MAP(CTaskManagerDlg, CDialogEx)
 	ON_WM_TIMER()
 	ON_MESSAGE(WM_USER_UPDATE_CPUUSAGE, &CTaskManagerDlg::OnUserUpdateCpuUsage)
 	ON_MESSAGE(WM_USER_UPDATE_MEMUSAGE, &CTaskManagerDlg::OnUserUpdateMemUsage)
-	ON_COMMAND(ID_SUBMENUE_LOCKSCREEN, &CTaskManagerDlg::OnSubmenueLockscreen)
-	ON_COMMAND(ID_SUBMENU_LOGOFF, &CTaskManagerDlg::OnSubmenuLogoff)
-	ON_COMMAND(ID_SUBMENU_HIBERNATE, &CTaskManagerDlg::OnSubmenuHibernate)
-	ON_COMMAND(ID_SUBMENU_SLEEP, &CTaskManagerDlg::OnSubMenuSleep)
-	ON_COMMAND(ID_SUBMENU_RESTART, &CTaskManagerDlg::OnSubmenuRestart)
-	ON_COMMAND(ID_SUBMENU_SHUTDOWN, &CTaskManagerDlg::OnSubmenuShutdown)
+	ON_COMMAND_RANGE(ID_SUBMENU_LOCKSCREEN, ID_SUBMENU_SHUTDOWN, &CTaskManagerDlg::OnSubmenuManage)
 END_MESSAGE_MAP()
 
 // CTaskManagerDlg message handlers
@@ -325,7 +320,6 @@ afx_msg LRESULT CTaskManagerDlg::OnUserUpdateCpuUsage(WPARAM wParam, LPARAM lPar
 	return 0;
 }
 
-
 afx_msg LRESULT CTaskManagerDlg::OnUserUpdateMemUsage(WPARAM wParam, LPARAM lParam)
 {
 	TCHAR szMemUsage[32] = {};
@@ -348,61 +342,42 @@ void CTaskManagerDlg::PrivilegeEscalation()
 	AdjustTokenPrivileges(hToken, FALSE, &tp, sizeof(tp), NULL, NULL);
 }
 
-void CTaskManagerDlg::OnSubmenueLockscreen()
+void CTaskManagerDlg::OnSubmenuManage(UINT uID)
 {
+	int nRet = 0;
 	PrivilegeEscalation();
-	LockWorkStation();
-}
-
-void CTaskManagerDlg::OnSubmenuLogoff()
-{
-	// TODO: Add your command handler code here
-	int nRet = MessageBox(_T("确定要注销吗?"), _T("询问"), MB_OKCANCEL | MB_ICONQUESTION);
-	if (nRet == IDOK) {
-		PrivilegeEscalation();
-		ExitWindowsEx(EWX_LOGOFF | EWX_FORCE, 0);
-	}
-}
-
-void CTaskManagerDlg::OnSubmenuHibernate()
-{
-	// TODO: Add your command handler code here
-	int nRet = MessageBox(_T("确定要休眠吗?"), _T("询问"), MB_OKCANCEL | MB_ICONQUESTION);
-	if (nRet == IDOK) {
-		PrivilegeEscalation();
-		SetSuspendState(TRUE, FALSE, FALSE);
-	}
-}
-
-
-void CTaskManagerDlg::OnSubMenuSleep()
-{
-	// TODO: Add your command handler code here
-	int nRet = MessageBox(_T("确定要睡眠吗?"), _T("询问"), MB_OKCANCEL | MB_ICONQUESTION);
-	if (nRet == IDOK) {
-		PrivilegeEscalation();
-		SetSuspendState(FALSE, FALSE, FALSE);
-	}
-}
-
-
-void CTaskManagerDlg::OnSubmenuRestart()
-{
-	// TODO: Add your command handler code here
-	int nRet = MessageBox(_T("确定要重启电脑吗?"), _T("询问"), MB_OKCANCEL | MB_ICONQUESTION);
-	if (nRet == IDOK) {
-		PrivilegeEscalation();
-		ExitWindowsEx(EWX_REBOOT | EWX_FORCE, 0);
-	}
-}
-
-void CTaskManagerDlg::OnSubmenuShutdown()
-{
-	// TODO: Add your command handler code here
-	int nRet = MessageBox(_T("确定要关机吗?"), _T("询问"), MB_OKCANCEL | MB_ICONQUESTION);
-	if (nRet == IDOK) {
-		PrivilegeEscalation();
-		ExitWindowsEx(EWX_POWEROFF | EWX_FORCE, 0);
+	switch (uID)
+	{
+	case ID_SUBMENU_LOCKSCREEN:
+		LockWorkStation();
+		break;
+	case ID_SUBMENU_LOGOFF:
+		nRet = MessageBox(_T("确定要注销吗?"), _T("询问"), MB_OKCANCEL | MB_ICONQUESTION);
+		if (nRet == IDOK)
+			ExitWindowsEx(EWX_LOGOFF | EWX_FORCE, 0);
+		break;
+	case ID_SUBMENU_HIBERNATE:
+		nRet = MessageBox(_T("确定要休眠吗?"), _T("询问"), MB_OKCANCEL | MB_ICONQUESTION);
+		if (nRet == IDOK)
+			SetSuspendState(TRUE, FALSE, FALSE);
+		break;
+	case ID_SUBMENU_SLEEP:
+		nRet = MessageBox(_T("确定要睡眠吗?"), _T("询问"), MB_OKCANCEL | MB_ICONQUESTION);
+		if (nRet == IDOK)
+			SetSuspendState(FALSE, FALSE, FALSE);
+		break;
+	case ID_SUBMENU_RESTART:
+		nRet = MessageBox(_T("确定要重启电脑吗?"), _T("询问"), MB_OKCANCEL | MB_ICONQUESTION);
+		if (nRet == IDOK)
+			ExitWindowsEx(EWX_REBOOT | EWX_FORCE, 0);
+		break;
+	case ID_SUBMENU_SHUTDOWN:
+		nRet = MessageBox(_T("确定要关机吗?"), _T("询问"), MB_OKCANCEL | MB_ICONQUESTION);
+		if (nRet == IDOK)
+			ExitWindowsEx(EWX_POWEROFF | EWX_FORCE, 0);
+		break;
+	default:
+		break;
 	}
 }
 
@@ -419,9 +394,11 @@ void CTaskManagerDlg::SetHotKey()
 BOOL CTaskManagerDlg::PreTranslateMessage(MSG* pMsg)
 {
 	// TODO: Add your specialized code here and/or call the base class
+	//处理"控制"子菜单的快捷键
 	if (::TranslateAccelerator(m_hWnd, m_hAccel, pMsg))
 		return TRUE;
 
+	//处理全局热键: Ctrl+Alt+Shift+H  --> 隐藏/显示窗口
 	if (pMsg->message == WM_HOTKEY && pMsg->wParam == 0x1412) {
 		if (IsWindowVisible())
 			ShowWindow(SW_HIDE);

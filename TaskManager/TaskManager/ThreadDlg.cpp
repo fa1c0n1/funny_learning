@@ -31,10 +31,7 @@ void CThreadDlg::DoDataExchange(CDataExchange* pDX)
 
 BEGIN_MESSAGE_MAP(CThreadDlg, CDialogEx)
 	ON_NOTIFY(NM_RCLICK, IDC_MODULE_LIST, &CThreadDlg::OnNMRClickModuleList)
-	ON_COMMAND(ID_SUBMENU_THREAD_REFRESH, &CThreadDlg::OnSubmenuThreadRefresh)
-	ON_COMMAND(ID_SUBMENU_THREAD_END, &CThreadDlg::OnSubmenuThreadEnd)
-	ON_COMMAND(ID_SUBMENU_THREAD_SUSPEND, &CThreadDlg::OnSubmenuThreadSuspend)
-	ON_COMMAND(ID_SUBMENU_THREAD_RESUME, &CThreadDlg::OnSubmenuThreadResume)
+	ON_COMMAND_RANGE(ID_SUBMENU_THREAD_REFRESH, ID_SUBMENU_THREAD_END, &CThreadDlg::OnSubmenuThread)
 END_MESSAGE_MAP()
 
 
@@ -46,12 +43,9 @@ BOOL CThreadDlg::OnInitDialog()
 	CDialogEx::OnInitDialog();
 
 	// TODO:  Add extra initialization here
-	TCHAR szTitle[128] = {};
-
 	InitControl();
 	ListProcessThread(m_dwOwnerPid);
-	StringCchPrintf(szTitle, _countof(szTitle), _T("[%s]进程线程(%d)"), m_processName, m_nThreadNum);
-	SetWindowText(szTitle);
+	UpdateTitle();
 
 	return TRUE;  // return TRUE unless you set the focus to a control
 	// EXCEPTION: OCX Property Pages should return FALSE
@@ -64,17 +58,20 @@ void CThreadDlg::InitControl()
 	m_listCtrlThread.SetExtendedStyle(m_listCtrlThread.GetExtendedStyle() | LVS_EX_FULLROWSELECT
 		| LVS_EX_GRIDLINES);
 	m_listCtrlThread.GetClientRect(&rect);
-	m_listCtrlThread.AddColumns(2,
-		_T("线程ID"), rect.Width() / 2,
-		_T("优先级"), rect.Width() / 2);
+	m_listCtrlThread.AddColumns(3,
+		_T("线程ID"), rect.Width() / 3,
+		_T("优先级"), rect.Width() / 3,
+		_T("状态"), rect.Width() / 3);
 }
 
 void CThreadDlg::ListProcessThread(DWORD dwOwnerPid)
 {
 	HANDLE hThreadSnap = INVALID_HANDLE_VALUE;
+	HANDLE hThread;
 	THREADENTRY32 te32 = {};
 	TCHAR szThreadID[32] = {};
 	TCHAR szThreadPri[32] = {};
+	CString strThreadState(_T('\0'), 256);
 
 	hThreadSnap = CreateToolhelp32Snapshot(TH32CS_SNAPTHREAD, 0);
 	if (hThreadSnap == INVALID_HANDLE_VALUE) {
@@ -98,7 +95,26 @@ void CThreadDlg::ListProcessThread(DWORD dwOwnerPid)
 		if (te32.th32OwnerProcessID == dwOwnerPid) {
 			StringCchPrintf(szThreadID, _countof(szThreadID), _T("%d"), te32.th32ThreadID);
 			StringCchPrintf(szThreadPri, _countof(szThreadPri), _T("%d"), te32.tpBasePri);
-			m_listCtrlThread.AddItems(i, 2, szThreadID, szThreadPri);
+
+			hThread = OpenThread(THREAD_SUSPEND_RESUME, NULL, te32.th32ThreadID);
+			if (hThread) {
+				int nSuspendCnt = SuspendThread(hThread);
+				if (nSuspendCnt == 0) {
+					ResumeThread(hThread);
+					strThreadState = _T("等待");
+				}
+				else if (nSuspendCnt > 0) {
+					ResumeThread(hThread);
+					strThreadState = _T("挂起");
+				}
+				else {
+					strThreadState = _T("等待");
+				}
+			}
+			else {
+				strThreadState = _T("等待");
+			}
+			m_listCtrlThread.AddItems(i, 3, szThreadID, szThreadPri, strThreadState);
 			i++;
 		}
 	} while (Thread32Next(hThreadSnap, &te32));
@@ -111,6 +127,13 @@ void CThreadDlg::RefreshSelf()
 {
 	m_listCtrlThread.DeleteAllItems();
 	ListProcessThread(m_dwOwnerPid);
+}
+
+void CThreadDlg::UpdateTitle()
+{
+	TCHAR szTitle[128] = {};
+	StringCchPrintf(szTitle, _countof(szTitle), _T("[%s]进程线程(%d)"), m_processName, m_nThreadNum);
+	SetWindowText(szTitle);
 }
 
 void CThreadDlg::OnNMRClickModuleList(NMHDR *pNMHDR, LRESULT *pResult)
@@ -129,84 +152,78 @@ void CThreadDlg::OnNMRClickModuleList(NMHDR *pNMHDR, LRESULT *pResult)
 	popSubMenu->TrackPopupMenu(TPM_LEFTALIGN, point.x, point.y, this);
 }
 
-//刷新线程信息
-void CThreadDlg::OnSubmenuThreadRefresh()
+//响应右键菜单的事件
+void CThreadDlg::OnSubmenuThread(UINT uID)
 {
-	// TODO: Add your command handler code here
-	RefreshSelf();
-}
-
-void CThreadDlg::OnSubmenuThreadEnd()
-{
-	// TODO: Add your command handler code here
-	int nSelRowIdx = m_listCtrlThread.GetSelectionMark();
-	CString strBuf(_T('\0', 512)); 
-	CString strTid = m_listCtrlThread.GetItemText(nSelRowIdx, 0);
-	strBuf = _T("确定要结束ID号为 '");
-	strBuf += strTid;
-	strBuf += _T("' 的线程吗? ");
-
-	if (MessageBox(strBuf, _T("询问"), MB_OKCANCEL | MB_ICONQUESTION) == IDCANCEL)
-		return;
-
-	TCHAR buf[32] = {};
-	DWORD dwTid = _ttol(strTid);
-
-	HANDLE hThread = OpenThread(THREAD_TERMINATE, NULL, dwTid);
-	if (hThread) {
-		if (TerminateThread(hThread, 0)) {
-			RefreshSelf();
-		}
-		else {
-			MessageBox(_T("结束线程失败"), NULL, MB_OK | MB_ICONERROR);
-		}
-	}
-	else {
-		MessageBox(_T("结束线程失败"), NULL, MB_OK | MB_ICONERROR);
-	}
-}
-
-void CThreadDlg::OnSubmenuThreadSuspend()
-{
-	// TODO: Add your command handler code here
 	TCHAR buf[32] = {};
 	int nSelRowIdx = m_listCtrlThread.GetSelectionMark();
 	CString strTid = m_listCtrlThread.GetItemText(nSelRowIdx, 0);
 	DWORD dwTid = _ttol(strTid);
+	HANDLE hThread;
 
-	HANDLE hThread = OpenThread(THREAD_TERMINATE, NULL, dwTid);
-	if (hThread) {
-		if (SuspendThread(hThread) != -1) {
-			RefreshSelf();
+	switch (uID)
+	{
+	case ID_SUBMENU_THREAD_REFRESH:
+		RefreshSelf();
+		break;
+	case ID_SUBMENU_THREAD_SUSPEND: {
+		hThread = OpenThread(THREAD_SUSPEND_RESUME, NULL, dwTid);
+		if (hThread) {
+			if (SuspendThread(hThread) != -1)
+				RefreshSelf();
+			else
+				MessageBox(_T("挂起线程失败"), NULL, MB_OK | MB_ICONERROR);
+			CloseHandle(hThread);
 		}
 		else {
 			MessageBox(_T("挂起线程失败"), NULL, MB_OK | MB_ICONERROR);
 		}
+		break;
 	}
-	else {
-		MessageBox(_T("挂起线程失败"), NULL, MB_OK | MB_ICONERROR);
-	}
-}
-
-
-void CThreadDlg::OnSubmenuThreadResume()
-{
-	// TODO: Add your command handler code here
-	TCHAR buf[32] = {};
-	int nSelRowIdx = m_listCtrlThread.GetSelectionMark();
-	CString strTid = m_listCtrlThread.GetItemText(nSelRowIdx, 0);
-	DWORD dwTid = _ttol(strTid);
-
-	HANDLE hThread = OpenThread(THREAD_TERMINATE, NULL, dwTid);
-	if (hThread) {
-		if (ResumeThread(hThread) != -1) {
-			RefreshSelf();
+	case ID_SUBMENU_THREAD_RESUME: {
+		hThread = OpenThread(THREAD_SUSPEND_RESUME, NULL, dwTid);
+		if (hThread) {
+			if (ResumeThread(hThread) != -1) {
+				RefreshSelf();
+			}
+			else {
+				MessageBox(_T("恢复线程失败"), NULL, MB_OK | MB_ICONERROR);
+			}
+			CloseHandle(hThread);
 		}
 		else {
 			MessageBox(_T("恢复线程失败"), NULL, MB_OK | MB_ICONERROR);
 		}
+		break;
 	}
-	else {
-		MessageBox(_T("恢复线程失败"), NULL, MB_OK | MB_ICONERROR);
+	case ID_SUBMENU_THREAD_END: {
+		CString strBuf(_T('\0', 512));
+		CString strTid = m_listCtrlThread.GetItemText(nSelRowIdx, 0);
+		strBuf = _T("确定要结束ID号为 '");
+		strBuf += strTid;
+		strBuf += _T("' 的线程吗? ");
+
+		if (MessageBox(strBuf, _T("询问"), MB_OKCANCEL | MB_ICONQUESTION) == IDCANCEL)
+			return;
+
+		hThread = OpenThread(THREAD_TERMINATE, NULL, dwTid);
+		if (hThread) {
+			if (TerminateThread(hThread, 0)) {
+				m_nThreadNum--;
+				UpdateTitle();
+				RefreshSelf();
+			}
+			else
+				MessageBox(_T("结束线程失败"), NULL, MB_OK | MB_ICONERROR);
+			CloseHandle(hThread);
+		}
+		else {
+			MessageBox(_T("结束线程失败"), NULL, MB_OK | MB_ICONERROR);
+		}
+		break;
+	}
+	default:
+		break;
 	}
 }
+
