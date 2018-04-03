@@ -16,7 +16,8 @@ typedef enum {
 	SEARCHUSER,
 	FILETRANS,
 	MSGRECORD,
-	UPDATEUSER
+	UPDATEUSER,
+	UPDATEFRIEND
 } CHATPURPOSE;
 
 //--- 聊天内容
@@ -54,8 +55,10 @@ typedef struct _CHATLOGIN {
 
 //添加好友结构体
 typedef struct _CHATADDFRIEND {
+	bool bRetAdd;       //服务器的添加结果
 	char szName[64];
 	char szFriendName[64];
+	char buf[1024];     //服务器的返回信息
 } CHATADDFRIEND;
 
 //搜索用户结构体
@@ -82,6 +85,11 @@ typedef struct _CHATUPDATEUSER {
 	char buf[64];
 } CHATUPDATEUSER;
 
+typedef struct _CHATUPDATEFRIEND {
+	bool bAdd;
+	char szFriendName[64];
+} CHATUPDATEFRIEND;
+
 //--- 发送内容
 typedef struct _CHATSEND {
 	CHATPURPOSE m_type;
@@ -97,6 +105,7 @@ typedef struct _CHATSEND {
 		CHATFILETRANS trs;
 		CHATMSGRECORD rec;
 		CHATUPDATEUSER upd;
+		CHATUPDATEFRIEND updf;
 	} m_content;
 } CHATSEND;
 

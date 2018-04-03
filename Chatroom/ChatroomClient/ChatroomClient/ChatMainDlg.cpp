@@ -37,6 +37,7 @@ void CChatMainDlg::DoDataExchange(CDataExchange* pDX)
 	DDX_Control(pDX, IDC_ONLINE_LIST, m_listCtrlUser);
 	DDX_Text(pDX, IDC_CHAT_HISTORY_EDIT, m_strShow);
 	DDX_Text(pDX, IDC_CHAT_MSG_EDIT, m_strSend);
+	DDX_Control(pDX, IDC_FRIEND_LIST, m_listCtrlFriend);
 }
 
 
@@ -49,6 +50,7 @@ BEGIN_MESSAGE_MAP(CChatMainDlg, CDialogEx)
 	ON_COMMAND(ID_SUBMENU_SEARCHFRIEND, &CChatMainDlg::OnSubmenuSearchfriend)
 	ON_COMMAND(ID_SUBMENU_SEARCHRECORD, &CChatMainDlg::OnSubmenuSearchrecord)
 	ON_WM_TIMER()
+	ON_NOTIFY(NM_DBLCLK, IDC_FRIEND_LIST, &CChatMainDlg::OnNMDblclkFriendList)
 END_MESSAGE_MAP()
 
 
@@ -61,11 +63,17 @@ BOOL CChatMainDlg::OnInitDialog()
 
 	// TODO:  Add extra initialization here
 	CString strTitle(m_pClientSocket->m_szName);
+	strTitle.Insert(0, _T("当前用户: "));
 	SetWindowText(strTitle.GetBuffer());
 
 	ModifyStyleEx(0, WS_EX_APPWINDOW);
 	m_listCtrlUser.SetExtendedStyle(LVS_EX_GRIDLINES | LVS_EX_FULLROWSELECT);
-	m_listCtrlUser.InsertColumn(0, _T("在线列表"), 0, 100);
+	CRect rect;
+	m_listCtrlUser.GetClientRect(&rect);
+	m_listCtrlUser.InsertColumn(0, _T("聊天室在线列表"), 0, rect.Width());
+
+	m_listCtrlFriend.SetExtendedStyle(LVS_EX_GRIDLINES | LVS_EX_FULLROWSELECT);
+	m_listCtrlFriend.InsertColumn(0, _T("好友列表"), 0, rect.Width());
 
 	//使用消息选择模型绑定 socket 和 当前对话框
 	WSAAsyncSelect(m_pClientSocket->m_sClient, m_hWnd, WM_SHSOCKET, FD_READ | FD_CLOSE);
@@ -99,10 +107,20 @@ afx_msg LRESULT CChatMainDlg::OnShsocket(WPARAM wParam, LPARAM lParam)
 				delete m_pClientSocket->m_pObjUpdate;
 				m_pClientSocket->m_pObjUpdate = nullptr;
 			}
+			else if (m_pClientSocket->m_pObjUpdateFriend) {
+				InsertFriend(*m_pClientSocket->m_pObjUpdateFriend);
+				delete m_pClientSocket->m_pObjUpdateFriend;
+				m_pClientSocket->m_pObjUpdateFriend = nullptr;
+			}
 			else if (m_pClientSocket->m_pObjOne2One) {
 				ChatForOne2One(*m_pClientSocket->m_pObjOne2One);
 				delete m_pClientSocket->m_pObjOne2One;
 				m_pClientSocket->m_pObjOne2One = nullptr;
+			}
+			else if (m_pClientSocket->m_pObjAddFriend) {
+				InsertFriend(*m_pClientSocket->m_pObjAddFriend);
+				delete m_pClientSocket->m_pObjAddFriend;
+				m_pClientSocket->m_pObjAddFriend = nullptr;
 			}
 
 			return 0;
@@ -184,7 +202,9 @@ void CChatMainDlg::OnNMDblclkOnlineList(NMHDR *pNMHDR, LRESULT *pResult)
 	if (nSelIdx == -1)
 		return;
 
-	COne2OneDlg *pOne2OneDlg = nullptr;
+	OpenOne2OneDialog(m_listCtrlUser, nSelIdx);
+
+	/*COne2OneDlg *pOne2OneDlg = nullptr;
 	CString strSel = m_listCtrlUser.GetItemText(nSelIdx, 0);
 
 	if (m_map.find(strSel) == m_map.end()) {
@@ -193,7 +213,7 @@ void CChatMainDlg::OnNMDblclkOnlineList(NMHDR *pNMHDR, LRESULT *pResult)
 		CString strTitle(_T("私聊-"));
 		strTitle += strSel;
 		pOne2OneDlg->SetWindowText(strTitle.GetBuffer());
-		GetWindowText(pOne2OneDlg->m_strFromName);
+		pOne2OneDlg->m_strFromName = m_pClientSocket->m_szName;
 		pOne2OneDlg->m_strToName = strSel;
 		m_map[strSel] = pOne2OneDlg;
 	}
@@ -201,7 +221,7 @@ void CChatMainDlg::OnNMDblclkOnlineList(NMHDR *pNMHDR, LRESULT *pResult)
 		pOne2OneDlg = (COne2OneDlg *)m_map[strSel];
 	}
 
-	pOne2OneDlg->ShowWindow(SW_SHOW);
+	pOne2OneDlg->ShowWindow(SW_SHOW);*/
 }
 
 
@@ -224,19 +244,16 @@ void CChatMainDlg::OnNMRClickOnlineList(NMHDR *pNMHDR, LRESULT *pResult)
 	pSubMenu->TrackPopupMenu(TPM_LEFTALIGN, pt.x, pt.y, this, NULL);
 }
 
-
 void CChatMainDlg::OnSubmenuAddfriend()
 {
 	// TODO: Add your command handler code here
 	CString strFriend = m_listCtrlUser.GetItemText(m_dwNameIndex, 0);
-	CString strUser;
-	GetWindowText(strUser);
+	CString strUser(m_pClientSocket->m_szName);
 	strUser += _T(":");
 	strUser += strFriend;
 	CStringA strSend = CW2A(strUser.GetBuffer(), CP_THREAD_ACP);
 	m_pClientSocket->Send(ADDFRIEND, strSend.GetBuffer(), strSend.GetLength() + 1);
 }
-
 
 void CChatMainDlg::OnSubmenuSearchfriend()
 {
@@ -305,4 +322,72 @@ void CChatMainDlg::InsertOrDeleteUser(CHATUPDATEUSER &objChatUpdateUser)
 		int nItemIdx = m_listCtrlUser.FindItem(&info);
 		m_listCtrlUser.DeleteItem(nItemIdx);
 	}
+}
+
+void CChatMainDlg::InsertFriend(CHATADDFRIEND &objChatAddFriend)
+{
+	CString strTmp = CA2W(objChatAddFriend.szFriendName, CP_THREAD_ACP);
+	m_listCtrlFriend.InsertItem(0, strTmp);
+}
+
+void CChatMainDlg::InsertFriend(CHATUPDATEFRIEND &objChatUpdateFriend)
+{
+	CString strTmp = CA2W(objChatUpdateFriend.szFriendName, CP_THREAD_ACP);
+	m_listCtrlFriend.InsertItem(0, strTmp);
+}
+
+
+void CChatMainDlg::OnNMDblclkFriendList(NMHDR *pNMHDR, LRESULT *pResult)
+{
+	LPNMITEMACTIVATE pNMItemActivate = reinterpret_cast<LPNMITEMACTIVATE>(pNMHDR);
+	// TODO: Add your control notification handler code here
+	*pResult = 0;
+
+	int nSelIdx = pNMItemActivate->iItem;
+	//双击空白区域
+	if (nSelIdx == -1)
+		return;
+
+	OpenOne2OneDialog(m_listCtrlFriend, nSelIdx);
+
+	/*COne2OneDlg *pOne2OneDlg = nullptr;
+	CString strSel = m_listCtrlFriend.GetItemText(nSelIdx, 0);
+
+	if (m_map.find(strSel) == m_map.end()) {
+		pOne2OneDlg = new COne2OneDlg;
+		pOne2OneDlg->Create(IDD_ONE2ONE_DIALOG, this);
+		CString strTitle(_T("私聊-"));
+		strTitle += strSel;
+		pOne2OneDlg->SetWindowText(strTitle.GetBuffer());
+		pOne2OneDlg->m_strFromName = m_pClientSocket->m_szName;
+		pOne2OneDlg->m_strToName = strSel;
+		m_map[strSel] = pOne2OneDlg;
+	}
+	else {
+		pOne2OneDlg = (COne2OneDlg *)m_map[strSel];
+	}
+
+	pOne2OneDlg->ShowWindow(SW_SHOW);*/
+}
+
+void CChatMainDlg::OpenOne2OneDialog(CListCtrl &listCtrl, int nSelIndex)
+{
+	COne2OneDlg *pOne2OneDlg = nullptr;
+	CString strSel = listCtrl.GetItemText(nSelIndex, 0);
+
+	if (m_map.find(strSel) == m_map.end()) {
+		pOne2OneDlg = new COne2OneDlg;
+		pOne2OneDlg->Create(IDD_ONE2ONE_DIALOG, this);
+		CString strTitle(_T("私聊-"));
+		strTitle += strSel;
+		pOne2OneDlg->SetWindowText(strTitle.GetBuffer());
+		pOne2OneDlg->m_strFromName = m_pClientSocket->m_szName;
+		pOne2OneDlg->m_strToName = strSel;
+		m_map[strSel] = pOne2OneDlg;
+	}
+	else {
+		pOne2OneDlg = (COne2OneDlg *)m_map[strSel];
+	}
+
+	pOne2OneDlg->ShowWindow(SW_SHOW);
 }

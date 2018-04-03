@@ -82,6 +82,8 @@ char *CClientSocket::Recv()
 		return RecvForGetMsgRecord();
 	case UPDATEUSER:
 		return RecvForUpdateUserList();
+	case UPDATEFRIEND:
+		return RecvForUpdateFriendList();
 	default:
 		break;
 	}
@@ -159,10 +161,17 @@ char *CClientSocket::RecvForOne2One()
 
 char *CClientSocket::RecvForUpdateUserList()
 {
-	//新用户加入，更新到用户列表窗口
-	if (m_pObjUpdate == nullptr)
-		m_pObjUpdate = new CHATUPDATEUSER;
+	//新用户加入，更新到用户列表
+	m_pObjUpdate = new CHATUPDATEUSER;
 	memcpy_s(m_pObjUpdate, sizeof(CHATUPDATEUSER), &m_pObjChatRecv->m_content.upd, sizeof(CHATUPDATEUSER));
+	return nullptr;
+}
+
+char *CClientSocket::RecvForUpdateFriendList()
+{
+	//添加了新好友，更新到好友列表
+	m_pObjUpdateFriend = new CHATUPDATEFRIEND;
+	memcpy_s(m_pObjUpdateFriend, sizeof(CHATUPDATEFRIEND), &m_pObjChatRecv->m_content.updf, sizeof(CHATUPDATEFRIEND));
 	return nullptr;
 }
 
@@ -184,7 +193,11 @@ char *CClientSocket::RecvForLogin()
 
 char *CClientSocket::RecvForAddFriend()
 {
-	MessageBoxA(NULL, m_pObjChatRecv->m_content.adf.szName, "添加好友", MB_OK);
+	MessageBoxA(NULL, m_pObjChatRecv->m_content.adf.buf, "提示", MB_OK);
+	if (m_pObjChatRecv->m_content.adf.bRetAdd) {
+		m_pObjAddFriend = new CHATADDFRIEND;
+		memcpy_s(m_pObjAddFriend, sizeof(CHATADDFRIEND), &m_pObjChatRecv->m_content.adf, sizeof(CHATADDFRIEND));
+	}
 	return nullptr;
 }
 
@@ -267,8 +280,8 @@ void CClientSocket::SendForAddFriend(char *bufSend, DWORD dwLen)
 	CHATSEND ct = { ADDFRIEND };
 	char *pFriend = nullptr;
 	strtok_s(bufSend, ":", &pFriend);
-	memcpy_s(ct.m_content.adf.szName, pFriend - bufSend, bufSend, pFriend - bufSend);
-	memcpy_s(ct.m_content.adf.szFriendName, strlen(pFriend), pFriend, strlen(pFriend));
+	memcpy_s(ct.m_content.adf.szName, sizeof(ct.m_content.adf.szName), bufSend, strlen(bufSend));
+	memcpy_s(ct.m_content.adf.szFriendName, sizeof(ct.m_content.adf.szFriendName), pFriend, strlen(pFriend));
 	send(m_sClient, (char*)&ct, sizeof(ct), NULL);
 }
 

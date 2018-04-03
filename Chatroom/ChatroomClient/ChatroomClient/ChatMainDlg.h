@@ -43,7 +43,10 @@ protected:
 	afx_msg LRESULT OnShsocket(WPARAM wParam, LPARAM lParam);
 	void ChatForOne2One(CHATONE2ONE &objOne2One);
 	void InsertOrDeleteUser(CHATUPDATEUSER &objChatUpdateUser);
-
+	void InsertFriend(CHATADDFRIEND &objChatAddFriend);
+	void InsertFriend(CHATUPDATEFRIEND &objChatUpdateFriend);
+	void OpenOne2OneDialog(CListCtrl &listCtrl, int nSelIndex);
+	
 public:
 	afx_msg void OnBnClickedSendButton();
 	afx_msg void OnNMDblclkOnlineList(NMHDR *pNMHDR, LRESULT *pResult);
@@ -52,4 +55,6 @@ public:
 	afx_msg void OnSubmenuSearchfriend();
 	afx_msg void OnSubmenuSearchrecord();
 	afx_msg void OnTimer(UINT_PTR nIDEvent);
+	CListCtrl m_listCtrlFriend;
+	afx_msg void OnNMDblclkFriendList(NMHDR *pNMHDR, LRESULT *pResult);
 };

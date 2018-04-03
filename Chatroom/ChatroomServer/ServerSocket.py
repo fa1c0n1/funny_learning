@@ -20,6 +20,7 @@ class EnumMsgType(Enum):
     FILETRANS = 8
     MSGRECORD = 9
     UPDATEUSER = 10
+    UPDATEFRIEND = 11
 
 class CServerSocket():
     conn = CSqlForChat()
@@ -71,10 +72,11 @@ class CServerSocket():
     def __chatForAnonymous(s, msg):
         len, = struct.unpack('i', msg[4:8])
         buf, = struct.unpack('%ds' % len, msg[8:8+len])
-        name = buf.decode('gb2312')
+        name = buf.decode('gb2312').rstrip('\0')
         print(name + '加入聊天室')
-        CServerSocket.dictClient[s] = name.rstrip('\0')
+        CServerSocket.dictClient[s] = name
         CServerSocket.updateUser(s, True, name)
+        CServerSocket.updateFriend(s, name)
 
     def __chatForChat(s, msg):
         for each in CServerSocket.dictClient:
@@ -153,22 +155,48 @@ class CServerSocket():
 
     def __chatForAddFriend(s, msg):
         # 获取要添加好友的双方姓名
-        name, = struct.unpack('50s', msg[4:54])
-        frd, = struct.unpack('50s', msg[54:104])
+        name, = struct.unpack('64s', msg[5:69])
+        frd, = struct.unpack('64s', msg[69:133])
         name = name.decode('gb2312').rstrip('\0')
         frd = frd.decode('gb2312').rstrip('\0')
         # 构造查询语句
-        result = CServerSocket.conn.insert(
-            "insert into userfriend(name, friend) values(%s,%s)", (name, frd))
+        result = CServerSocket.conn.query(
+            "select * from userfriend where (name=%s and friend=%s) "
+            "or (name=%s and friend=%s)", (name, frd, frd, name)
+        )
+
+        print('result=', str(result))
 
         message_type = EnumMsgType.ADDFRIEND
-        message_len = 64
         message = ''
-        if result == None:
-            message = '添加好友失败!'.encode('gb2312')
+        bRetAdd = False
+        if result == None or result[1] == 0:
+            retCnt = CServerSocket.conn.insert(
+                "insert into userfriend(name, friend) values(%s,%s)", (name, frd))
+            if retCnt == None:
+                message = ('添加 \'' + frd + '\' 失败!').encode('gb2312')
+            else:
+                bRetAdd = True
+                message = ('添加 \'' + frd + '\' 成功!').encode('gb2312')
         else:
-            message = '添加好友成功!'.encode('gb2312')
-        message_send = struct.pack('l2048s', message_type.value, message)
+            message = ('你和 \'' + frd + ' \'已经是好友啦!').encode('gb2312')
+
+        message_send = struct.pack('i?64s64s1919s', message_type.value,
+                        bRetAdd, name.encode('gb2312'), frd.encode('gb2312'),
+                        message)
+
+        # 如果添加好友成功，需要通知该好友
+        if bRetAdd == True:
+            for clientSocket, clientName in CServerSocket.dictClient.items():
+                if clientName == frd:
+                    message = ('添加 \'' + name + '\' 成功!').encode('gb2312')
+                    msgSend = struct.pack('i?64s64s1919s', message_type.value,
+                                bRetAdd, frd.encode('gb2312'), name.encode('gb2312'),
+                                message)
+                    clientSocket.send(msgSend)
+                    break
+
+        # 如果添加好友成功，需要通知发起添加请求的用户
         s.send(message_send)
 
 
@@ -210,7 +238,7 @@ class CServerSocket():
             msgFrom = result[0][i][0].encode('gb2312')
             msgTo = result[0][i][1].encode('gb2312')
             msgContent = result[0][i][2].encode('gb2312')
-            msgSend = struct.pack('l50s50s1948s', message_type.value,
+            msgSend = struct.pack('i50s50s1948s', message_type.value,
                                   msgFrom, msgTo, msgContent)
             s.send(msgSend)
 
@@ -248,6 +276,40 @@ class CServerSocket():
                 time.sleep(0.1)
         except:
             return
+
+    @staticmethod
+    def updateFriend(s, name):
+        friendNameList = []
+        message_type = EnumMsgType.UPDATEFRIEND
+        result = CServerSocket.conn.query(
+            "select friend from userfriend where name=%s", (name,))
+
+        if result != None and result[1] > 0:
+            for i in range(result[1]):
+                print('111-%d' % i)
+                friendName = result[0][i][0].decode('utf-8') #mysql字符集是utf-8
+                print('friend=%s' % friendName)
+                # 将好友保存到列表
+                friendNameList.append(friendName)
+
+        result = CServerSocket.conn.query(
+            "select name from userfriend where friend=%s", (name,))
+
+        if result != None and result[1] > 0:
+            for i in range(result[1]):
+                print('222-%d' % i)
+                friendName = result[0][i][0].decode('utf-8') #mysql字符集是utf-8
+                print('friend=%s' % friendName)
+                # 将好友保存到列表
+                friendNameList.append(friendName)
+
+        # 让客户端s更新好友列表
+        for friendName in friendNameList:
+            msgSend = struct.pack('i?2047s',
+                        message_type.value, True, friendName.encode('gb2312'))
+            s.send(msgSend)
+            time.sleep(0.1)
+
 
     # 类变量
     dictFun = {

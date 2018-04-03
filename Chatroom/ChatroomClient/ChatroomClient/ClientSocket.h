@@ -25,6 +25,7 @@ private:
 	char *RecvForChat();
 	char *RecvForOne2One();
 	char *RecvForUpdateUserList();
+	char *RecvForUpdateFriendList();
 	char *RecvForRegister();
 	char *RecvForLogin();
 	char *RecvForAddFriend();
@@ -45,7 +46,9 @@ public:
 	vector<CHATMSGRECORD> m_vecMsgRecord;
 	SOCKET m_sClient;
 	CHATUPDATEUSER *m_pObjUpdate = nullptr;
+	CHATUPDATEFRIEND *m_pObjUpdateFriend = nullptr;
 	CHATONE2ONE *m_pObjOne2One = nullptr;
+	CHATADDFRIEND *m_pObjAddFriend = nullptr;
 	char m_szName[BUFNAME];
 	CHATSEND *m_pObjChatRecv = nullptr;
 
