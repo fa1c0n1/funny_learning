@@ -43,9 +43,11 @@ BOOL CChatRecordDlg::OnInitDialog()
 
 	// TODO:  Add extra initialization here
 	m_listCtrlRecord.SetExtendedStyle(LVS_EX_FULLROWSELECT | LVS_EX_GRIDLINES);
-	m_listCtrlRecord.InsertColumn(0, _T("from"), 0, 50);
-	m_listCtrlRecord.InsertColumn(1, _T("to"), 0, 50);
-	m_listCtrlRecord.InsertColumn(2, _T("content"), 0, 300);
+	CRect rect;
+	m_listCtrlRecord.GetClientRect(&rect);
+	m_listCtrlRecord.InsertColumn(0, _T("from"), 0, rect.Width() / 5);
+	m_listCtrlRecord.InsertColumn(1, _T("to"), 0, rect.Width() / 5);
+	m_listCtrlRecord.InsertColumn(2, _T("content"), 0, rect.Width() / 5 * 3);
 	UpdateList();
 
 	return TRUE;  // return TRUE unless you set the focus to a control

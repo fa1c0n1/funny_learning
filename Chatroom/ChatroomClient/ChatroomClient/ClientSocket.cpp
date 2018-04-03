@@ -6,6 +6,7 @@
 
 CClientSocket::CClientSocket()
 {
+	m_hEvent = CreateEvent(NULL, FALSE, TRUE, NULL);
 }
 
 

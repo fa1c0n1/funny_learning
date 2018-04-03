@@ -49,4 +49,12 @@ class CSqlForChat():
 
 if __name__ == '__main__':
     sql = CSqlForChat()
+    result = sql.query("select * from msginfo")
+
+    for i in range(result[1]):
+        # 第i条信息
+        print(str(i) + ':')
+        print(result[0][i][1].decode('utf-8'))
+        print(result[0][i][2].decode('utf-8'))
+        print(result[0][i][3].decode('utf-8'))
 

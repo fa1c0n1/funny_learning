@@ -205,7 +205,6 @@ void CChatMainDlg::OnNMDblclkOnlineList(NMHDR *pNMHDR, LRESULT *pResult)
 	OpenOne2OneDialog(m_listCtrlUser, nSelIdx);
 }
 
-
 void CChatMainDlg::OnNMRClickOnlineList(NMHDR *pNMHDR, LRESULT *pResult)
 {
 	LPNMITEMACTIVATE pNMItemActivate = reinterpret_cast<LPNMITEMACTIVATE>(pNMHDR);
@@ -254,7 +253,6 @@ void CChatMainDlg::OnSubmenuSearchfriend()
 	CStringA strSearchA = CW2A(searchFriendDlg.m_strSearchName.GetBuffer(), CP_THREAD_ACP);
 	m_pClientSocket->Send(SEARCHUSER, strSearchA.GetBuffer(), strSearchA.GetLength() + 1);
 }
-
 
 void CChatMainDlg::OnSubmenuSearchrecord()
 {
@@ -322,7 +320,6 @@ void CChatMainDlg::InsertFriend(CHATUPDATEFRIEND &objChatUpdateFriend)
 	CString strTmp = CA2W(objChatUpdateFriend.szFriendName, CP_THREAD_ACP);
 	m_listCtrlFriend.InsertItem(0, strTmp);
 }
-
 
 void CChatMainDlg::OnNMDblclkFriendList(NMHDR *pNMHDR, LRESULT *pResult)
 {

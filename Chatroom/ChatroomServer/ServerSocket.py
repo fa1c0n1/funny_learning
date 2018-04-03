@@ -22,6 +22,7 @@ class EnumMsgType(Enum):
     UPDATEUSER = 10
     UPDATEFRIEND = 11
 
+
 class CServerSocket():
     conn = CSqlForChat()
     def __init__(self, ip, port):
@@ -68,7 +69,6 @@ class CServerSocket():
                 CServerSocket.updateUser(s, False, name)
                 return
 
-
     def __chatForAnonymous(s, msg):
         len, = struct.unpack('i', msg[4:8])
         buf, = struct.unpack('%ds' % len, msg[8:8+len])
@@ -91,22 +91,20 @@ class CServerSocket():
         print('私聊对象：', toName)
         for each in CServerSocket.dictClient:
             if toName == CServerSocket.dictClient[each]:
-                # name = struct.pack('64s', CServerSocket.dictClient[s].encode('gb2312'))
-                # nBytes = each.send(msg[:4] + name + msg[68:])
                 each.send(msg)
                 break
 
-        # 是否保存聊天记录
-        # msgFrom = CServerSocket.dictClient[s]
-        # msgTo, = struct.unpack('50s', msg[4:54])
-        # msgTo = msgTo.decode('gb2312').rstrip('\0')
-        # msgInfo = struct.unpack('1024s', msg[54:54+1024])
-        # msgInfo = msgInfo.decode('gb2312').rstrip('\0')
-        #
-        # #把消息添加到数据库，数据库设置外键了，所以只会添加双方都是已注册用户的聊天信息
-        # CServerSocket.conn.insert(
-        #     "insert into msgInfo(userfrom,userto,msgcontent) values(%s,%s,%s)",
-        #     (msgFrom, msgTo, msgInfo))
+        # 保存聊天记录
+        msgFrom = CServerSocket.dictClient[s]
+        msgTo = toName
+        msgInfo, = struct.unpack('1024s', msg[132:132+1024])
+        msgInfo = msgInfo.decode('gb2312').rstrip('\0')
+
+        print('msgFrom=%s, msgTo=%s, msgInfo=%s' % (msgFrom, msgTo, msgInfo))
+        #把消息添加到数据库，数据库设置外键了，所以只会添加双方都是已注册用户的聊天信息
+        CServerSocket.conn.insert(
+            "insert into msginfo(userfrom,userto,msgcontent) values(%s,%s,%s)",
+            (msgFrom, msgTo, msgInfo))
 
     def __chatForLogin(s, msg):
         md5Helper = md5()
@@ -139,7 +137,7 @@ class CServerSocket():
         md5Helper.update(pwdStr.encode())
         pwdEncrypt = md5Helper.hexdigest()
 
-        #构造查询语句
+        #将新用户添加到用户表
         result = CServerSocket.conn.insert(
             "insert into userinfo(username,pwd) values(%s,%s)",
             (nameStr, pwdEncrypt))
@@ -223,23 +221,25 @@ class CServerSocket():
         result = CServerSocket.conn.query(
             "select * from msginfo where userfrom=%s or userto=%s", (name,name))
 
+        print('count=%d' % result[1])
+
         if result == None or result[1] == 0:
             return
 
         message_type = EnumMsgType.MSGRECORD
         for i in range(result[1]):
             # 第i条信息
-            print(str(i) + ':')
-            print('from:' + result[0][i][0])
-            print('to:' + result[0][i][1])
-            print('content:' + result[0][i][2])
+            msgFrom = result[0][i][1].decode('utf-8')
+            msgTo = result[0][i][2].decode('utf-8')
+            msgContent = result[0][i][3].decode('utf-8')
             # 把每条信息分别打包发送给客户端s
-            msgFrom = result[0][i][0].encode('gb2312')
-            msgTo = result[0][i][1].encode('gb2312')
-            msgContent = result[0][i][2].encode('gb2312')
-            msgSend = struct.pack('i50s50s1948s', message_type.value,
+            msgFrom = msgFrom.encode('gb2312')
+            msgTo = msgTo.encode('gb2312')
+            msgContent = msgContent.encode('gb2312')
+            msgSend = struct.pack('i64s64s1920s', message_type.value,
                                   msgFrom, msgTo, msgContent)
             s.send(msgSend)
+            time.sleep(0.1)
 
         # 最后发个 END 过去，告诉客户端聊天记录已全部发完
         msgFrom = '~~~end~~~'.encode('gb2312')
@@ -285,9 +285,7 @@ class CServerSocket():
 
         if result != None and result[1] > 0:
             for i in range(result[1]):
-                print('111-%d' % i)
                 friendName = result[0][i][0].decode('utf-8') #mysql字符集是utf-8
-                print('friend=%s' % friendName)
                 # 将好友保存到列表
                 friendNameList.append(friendName)
 
@@ -296,9 +294,7 @@ class CServerSocket():
 
         if result != None and result[1] > 0:
             for i in range(result[1]):
-                print('222-%d' % i)
                 friendName = result[0][i][0].decode('utf-8') #mysql字符集是utf-8
-                print('friend=%s' % friendName)
                 # 将好友保存到列表
                 friendNameList.append(friendName)
 
@@ -319,7 +315,7 @@ class CServerSocket():
         5: __chatForLogin,
         6: __chatForAddFriend,
         7: __chatForSearchUser,
-        8: __chatForGetMsgRecord
+        9: __chatForGetMsgRecord
     }
 
     BUFSIZE = 2048 +4
