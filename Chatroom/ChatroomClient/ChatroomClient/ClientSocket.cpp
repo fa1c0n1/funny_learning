@@ -59,11 +59,6 @@ char *CClientSocket::Recv()
 		return nullptr;
 	}
 
-	CHATSEND mmm = {};
-    DWORD nSize = sizeof(mmm);
-	nSize = sizeof(mmm.m_content);
-	nSize = sizeof(mmm.m_type);
-
 	m_pObjChatRecv = &ct;
 	switch (ct.m_type)
 	{
@@ -158,15 +153,16 @@ char *CClientSocket::RecvForChat()
 char *CClientSocket::RecvForOne2One()
 {
 	m_pObjOne2One = new CHATONE2ONE{};
-	memcpy_s(m_pObjChatRecv, sizeof(CHATONE2ONE), &m_pObjChatRecv->m_content.o2o, sizeof(CHATONE2ONE));
+	memcpy_s(m_pObjOne2One, sizeof(CHATONE2ONE), &m_pObjChatRecv->m_content.o2o, sizeof(CHATONE2ONE));
 	return nullptr;
 }
 
 char *CClientSocket::RecvForUpdateUserList()
 {
 	//新用户加入，更新到用户列表窗口
-	m_pObjUpdate = new CHATUPDATEUSER;
-	memcpy_s(m_pObjChatRecv, sizeof(CHATUPDATEUSER), &m_pObjChatRecv->m_content.upd, sizeof(CHATUPDATEUSER));
+	if (m_pObjUpdate == nullptr)
+		m_pObjUpdate = new CHATUPDATEUSER;
+	memcpy_s(m_pObjUpdate, sizeof(CHATUPDATEUSER), &m_pObjChatRecv->m_content.upd, sizeof(CHATUPDATEUSER));
 	return nullptr;
 }
 
@@ -180,7 +176,7 @@ char *CClientSocket::RecvForRegister()
 
 char *CClientSocket::RecvForLogin()
 {
-	if (!strcmp(m_pObjChatRecv->m_content.login.szName, "登录成功!"))
+	if (!strcmp(m_pObjChatRecv->m_content.buf, "登录成功!"))
 		return "登录成功!";
 	else
 		return nullptr;
@@ -212,7 +208,8 @@ void CClientSocket::SendForAnonymous(char *bufSend, DWORD dwLen)
 {
 	CHATSEND ct = { ANONYMOUS };
 	int nLen = sizeof(ct.m_content.chat.buf);
-	strcpy_s(ct.m_content.chat.buf, nLen, bufSend);
+	strcpy_s(ct.m_content.any.buf, nLen, bufSend);
+	ct.m_content.any.dwLen = dwLen;
 	send(m_sClient, (char*)&ct, sizeof(ct), NULL);
 }
 
@@ -225,7 +222,7 @@ void CClientSocket::SendForChat(char *bufSend, DWORD dwLen)
 	ct.m_content.chat.dwLen = strlen(ct.m_content.chat.buf) + 1;
 
 	//加密
-	for (int i = 0; i < ct.m_content.any.dwLen; i++) {
+	for (int i = 0; i < ct.m_content.chat.dwLen; i++) {
 		ct.m_content.chat.buf[i] ^= 15;
 	}
 
@@ -236,9 +233,12 @@ void CClientSocket::SendForOne2One(char *bufSend, DWORD dwLen)
 {
 	CHATSEND ct = { ONE2ONE };
 	char *nextToken = nullptr;
-	char *szContext = strtok_s(bufSend, ":", &nextToken);
-	memcpy_s(ct.m_content.o2o.szName, nextToken - bufSend, bufSend, nextToken - bufSend);
-	memcpy_s(ct.m_content.o2o.szContent, strlen(nextToken), nextToken, strlen(nextToken));
+
+	char *pFromName = strtok_s(bufSend, ":", &nextToken);
+	memcpy_s(ct.m_content.o2o.szNameFrom, sizeof(ct.m_content.o2o.szNameFrom), pFromName, strlen(pFromName));
+	char *pToName = strtok_s(NULL, ":", &nextToken);
+	memcpy_s(ct.m_content.o2o.szNameTo, sizeof(ct.m_content.o2o.szNameTo), pToName, strlen(pToName));
+	memcpy_s(ct.m_content.o2o.szContent, sizeof(ct.m_content.o2o.szContent), nextToken, strlen(nextToken));
 	send(m_sClient, (char*)&ct, sizeof(ct), NULL);
 }
 
@@ -257,8 +257,8 @@ void CClientSocket::SendForLogin(char *bufSend, DWORD dwLen)
 	CHATSEND ct = { LOGIN };
 	char *pPwd = nullptr;
 	strtok_s(bufSend, ":", &pPwd);
-	memcpy_s(ct.m_content.login.szName, pPwd - bufSend, bufSend, pPwd - bufSend);
-	memcpy_s(ct.m_content.login.szPwd, strlen(pPwd), pPwd, strlen(pPwd));
+	memcpy_s(ct.m_content.login.szName, _countof(ct.m_content.login.szName), bufSend, strlen(bufSend));
+	memcpy_s(ct.m_content.login.szPwd, _countof(ct.m_content.login.szPwd), pPwd, strlen(pPwd));
 	send(m_sClient, (char*)&ct, sizeof(ct), NULL);
 }
 

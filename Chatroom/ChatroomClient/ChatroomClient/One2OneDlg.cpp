@@ -16,6 +16,8 @@ COne2OneDlg::COne2OneDlg(CWnd* pParent /*=NULL*/)
 	: CDialogEx(COne2OneDlg::IDD, pParent)
 	, m_strShow(_T(""))
 	, m_strSend(_T(""))
+	, m_strFromName(_T(""))
+	, m_strToName(_T(""))
 {
 
 }
@@ -48,8 +50,8 @@ void COne2OneDlg::OnBnClickedSendButton()
 	if (m_strSend.IsEmpty())
 		return;
 
-	CString strOne2One;
-	GetWindowText(strOne2One);
+	CString strOne2One(m_strFromName);
+	strOne2One += _T(":") + m_strToName;
 	strOne2One += _T(":") + m_strSend;
 	CStringA str = CW2A(strOne2One.GetBuffer(), CP_THREAD_ACP);
 	CChatMainDlg *pParent = (CChatMainDlg*)GetParent();

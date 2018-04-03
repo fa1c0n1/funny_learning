@@ -84,9 +84,8 @@ afx_msg LRESULT CChatMainDlg::OnShsocket(WPARAM wParam, LPARAM lParam)
 
 	//先判断是否有网络错误事件发生，有则跳过
 	if (wErrCode) {
-		exit(0);
 		MessageBox(_T("网络错误"));
-		CDialogEx::OnClose();
+		EndDialog(0);
 	}
 
 	switch (wEvent)
@@ -96,17 +95,29 @@ afx_msg LRESULT CChatMainDlg::OnShsocket(WPARAM wParam, LPARAM lParam)
 		char *szRecv = m_pClientSocket->Recv();
 		if (szRecv == nullptr) {
 			if (m_pClientSocket->m_pObjUpdate) {
-				
+				InsertOrDeleteUser(*m_pClientSocket->m_pObjUpdate);
+				delete m_pClientSocket->m_pObjUpdate;
+				m_pClientSocket->m_pObjUpdate = nullptr;
 			}
 			else if (m_pClientSocket->m_pObjOne2One) {
+				ChatForOne2One(*m_pClientSocket->m_pObjOne2One);
+				delete m_pClientSocket->m_pObjOne2One;
+				m_pClientSocket->m_pObjOne2One = nullptr;
+			}
 
-			} 
-
-			UpdateData(TRUE);
-			m_strShow += szRecv;
-			m_strShow += "\r\n";
-			UpdateData(FALSE);
+			return 0;
 		}
+
+		UpdateData(TRUE);
+		m_strShow += szRecv;
+		m_strShow += "\r\n";
+		UpdateData(FALSE);
+	}
+	case FD_CLOSE:
+	{
+		/*MessageBox(_T("与服务器间的连接已断开"), _T("提示"));
+		m_pClientSocket->Close();*/
+		//EndDialog(0);
 	}
 	default:
 		break;
@@ -117,26 +128,32 @@ afx_msg LRESULT CChatMainDlg::OnShsocket(WPARAM wParam, LPARAM lParam)
 
 void CChatMainDlg::ChatForOne2One(CHATONE2ONE &objOne2One)
 {
-	CString strName(objOne2One.szName);
+	CString strFromName(objOne2One.szNameTo);
+	CString strToName(objOne2One.szNameFrom);
 	CString strContent(objOne2One.szContent);
-	if (m_map.find(strName) == m_map.end()) {
-		COne2OneDlg *pOne2OneDlg = new COne2OneDlg;
+	CString strTitle = _T("私聊-") + strToName;
+	COne2OneDlg *pOne2OneDlg = nullptr;
+
+	if (m_map.find(strToName) == m_map.end()) {
+		pOne2OneDlg = new COne2OneDlg;
 		pOne2OneDlg->Create(IDD_ONE2ONE_DIALOG, this);
-		pOne2OneDlg->SetWindowTextW(strName.GetBuffer());
-		m_map[strName] = pOne2OneDlg;
-		pOne2OneDlg->m_strShow += strName + _T(":") + strContent;
+		pOne2OneDlg->m_strFromName = strFromName;
+		pOne2OneDlg->m_strToName = strToName;
+		m_map[strToName] = pOne2OneDlg;
+		pOne2OneDlg->m_strShow += strToName + _T(":") + strContent;
 		pOne2OneDlg->m_strShow += _T("\r\n");
 		pOne2OneDlg->UpdateData(FALSE);
 		pOne2OneDlg->ShowWindow(SW_SHOW);
 	}
 	else {
-		COne2OneDlg *pOne2OneDlg = (COne2OneDlg*)m_map[strName];
+		pOne2OneDlg = (COne2OneDlg*)m_map[strToName];
 		pOne2OneDlg->UpdateData(TRUE);
-		pOne2OneDlg->m_strShow += strName + _T(":") + strContent;
+		pOne2OneDlg->m_strShow += strToName + _T(":") + strContent;
 		pOne2OneDlg->m_strShow += _T("\r\n");
 		pOne2OneDlg->UpdateData(FALSE);
 		pOne2OneDlg->ShowWindow(SW_SHOW);
 	}
+	pOne2OneDlg->SetWindowTextW(strTitle.GetBuffer());
 }
 
 void CChatMainDlg::OnBnClickedSendButton()
@@ -162,11 +179,29 @@ void CChatMainDlg::OnNMDblclkOnlineList(NMHDR *pNMHDR, LRESULT *pResult)
 	// TODO: Add your control notification handler code here
 	*pResult = 0;
 
+	int nSelIdx = pNMItemActivate->iItem;
 	//双击空白区域
-	if (pNMItemActivate->iItem == -1)
+	if (nSelIdx == -1)
 		return;
 
+	COne2OneDlg *pOne2OneDlg = nullptr;
+	CString strSel = m_listCtrlUser.GetItemText(nSelIdx, 0);
 
+	if (m_map.find(strSel) == m_map.end()) {
+		pOne2OneDlg = new COne2OneDlg;
+		pOne2OneDlg->Create(IDD_ONE2ONE_DIALOG, this);
+		CString strTitle(_T("私聊-"));
+		strTitle += strSel;
+		pOne2OneDlg->SetWindowText(strTitle.GetBuffer());
+		GetWindowText(pOne2OneDlg->m_strFromName);
+		pOne2OneDlg->m_strToName = strSel;
+		m_map[strSel] = pOne2OneDlg;
+	}
+	else {
+		pOne2OneDlg = (COne2OneDlg *)m_map[strSel];
+	}
+
+	pOne2OneDlg->ShowWindow(SW_SHOW);
 }
 
 
@@ -214,7 +249,6 @@ void CChatMainDlg::OnSubmenuSearchfriend()
 
 	CStringA strSearch = CW2A(searchFriendDlg.m_strFriendName.GetBuffer(), CP_THREAD_ACP);
 	m_pClientSocket->Send(SEARCHUSER, strSearch.GetBuffer(), strSearch.GetLength() + 1);
-
 }
 
 
@@ -232,7 +266,6 @@ void CChatMainDlg::OnSubmenuSearchrecord()
 	//设置定时器等待消息返回
 	SetTimer(0x1001, 1000, NULL);
 }
-
 
 void CChatMainDlg::OnTimer(UINT_PTR nIDEvent)
 {
@@ -257,4 +290,19 @@ void CChatMainDlg::OnTimer(UINT_PTR nIDEvent)
 	}
 
 	CDialogEx::OnTimer(nIDEvent);
+}
+
+void CChatMainDlg::InsertOrDeleteUser(CHATUPDATEUSER &objChatUpdateUser)
+{
+	CString strTmp = CA2W(objChatUpdateUser.buf, CP_THREAD_ACP);
+	if (objChatUpdateUser.bAdd) {
+		m_listCtrlUser.InsertItem(0, strTmp);
+	}
+	else {
+		LVFINDINFO info = {};
+		info.flags = LVFI_STRING;
+		info.psz = strTmp;
+		int nItemIdx = m_listCtrlUser.FindItem(&info);
+		m_listCtrlUser.DeleteItem(nItemIdx);
+	}
 }

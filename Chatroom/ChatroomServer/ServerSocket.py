@@ -4,7 +4,7 @@
 from socket import *
 from enum import Enum
 from DataBaseHelper import *
-
+from hashlib import md5
 from threading import Thread
 import struct
 import time
@@ -28,6 +28,8 @@ class CServerSocket():
         # 初始化 socket
         print('正在启动服务器...')
         self.socketServer = socket(AF_INET, SOCK_STREAM)
+        # 允许地址复用
+        self.socketServer.setsockopt(SOL_SOCKET, SO_REUSEADDR, 1)
         self.socketServer.bind(addr)
         self.socketServer.listen()
         print('服务器启动成功，等待客户端连接...')
@@ -52,8 +54,10 @@ class CServerSocket():
                 message = s.recv(CServerSocket.BUFSIZE + 10)
                 # 消息类型
                 type, = struct.unpack('i', message[:4])
+                print('type=...... ', type)
                 CServerSocket.dictFun[type](s, message)
-            except:
+            except Exception as e:
+                print('exception= ', e)
                 name = CServerSocket.dictClient.get(s)
                 if name == None:
                     return
@@ -65,78 +69,78 @@ class CServerSocket():
 
 
     def __chatForAnonymous(s, msg):
-        len, = struct.unpack('L', msg[4:8])
+        len, = struct.unpack('i', msg[4:8])
         buf, = struct.unpack('%ds' % len, msg[8:8+len])
         name = buf.decode('gb2312')
         print(name + '加入聊天室')
         CServerSocket.dictClient[s] = name.rstrip('\0')
-        for each in CServerSocket.dictClient:
-            each.send(msg)
-        # 通知给每个客户端更新在线用户列表
         CServerSocket.updateUser(s, True, name)
 
     def __chatForChat(s, msg):
-        len, = struct.unpack('L', msg[4:8])
-        buf, = struct.unpack('%ds' % len, msg[8:8+len])
-        message_recv = buf.decode('gb2312')
-        print(message_recv)
         for each in CServerSocket.dictClient:
             if each == s:
                 continue
             each.send(msg)
 
     def __chatForOne2One(s, msg):
-        name, = struct.unpack('50s', msg[4:54])
-        name = name.decode('gb2312').rstrip('\0')
+        fromName, = struct.unpack('64s', msg[4:68])
+        toName, = struct.unpack('64s', msg[68:132])
+        toName = toName.decode('gb2312').rstrip('\0')
+        print('私聊对象：', toName)
         for each in CServerSocket.dictClient:
-            if name == CServerSocket.dictClient[each]:
-                name = struct.pack('50s', CServerSocket.dictClient[s].encode('gb2312'))
-                each.send(msg[:4] + name + msg[54:])
+            if toName == CServerSocket.dictClient[each]:
+                # name = struct.pack('64s', CServerSocket.dictClient[s].encode('gb2312'))
+                # nBytes = each.send(msg[:4] + name + msg[68:])
+                each.send(msg)
                 break
 
         # 是否保存聊天记录
-        msgFrom = CServerSocket.dictClient[s]
-        msgTo, = struct.unpack('50s', msg[4:54])
-        msgTo = msgTo.decode('gb2312').rstrip('\0')
-        msgInfo = struct.unpack('1024s', msg[54:54+1024])
-        msgInfo = msgInfo.decode('gb2312').rstrip('\0')
-
-        #把消息添加到数据库，数据库设置外键了，所以只会添加双方都是已注册用户的聊天信息
-        CServerSocket.conn.insert(
-            "insert into msgInfo(userfrom,userto,msgcontent) values(%s,%s,%s)",
-            (msgFrom, msgTo, msgInfo))
+        # msgFrom = CServerSocket.dictClient[s]
+        # msgTo, = struct.unpack('50s', msg[4:54])
+        # msgTo = msgTo.decode('gb2312').rstrip('\0')
+        # msgInfo = struct.unpack('1024s', msg[54:54+1024])
+        # msgInfo = msgInfo.decode('gb2312').rstrip('\0')
+        #
+        # #把消息添加到数据库，数据库设置外键了，所以只会添加双方都是已注册用户的聊天信息
+        # CServerSocket.conn.insert(
+        #     "insert into msgInfo(userfrom,userto,msgcontent) values(%s,%s,%s)",
+        #     (msgFrom, msgTo, msgInfo))
 
     def __chatForLogin(s, msg):
-        name, = struct.unpack('50s', msg[4:54])
-        pwd, = struct.unpack('50s', msg[54:104])
-        name = name.decode('gb2312').rstrip('\0')
-        pwd = pwd.decode('gb2312').rstrip('\0')
+        md5Helper = md5()
+        nameOrg, = struct.unpack('64s', msg[4:68])
+        pwdOrg, = struct.unpack('64s', msg[68:132])
+        nameStr = nameOrg.decode('gb2312').rstrip('\0')
+        pwdStr = pwdOrg.decode('gb2312').rstrip('\0')
+        md5Helper.update(pwdStr.encode())
+        pwdEncrypt = md5Helper.hexdigest()
         # 构造查询语句
         result = CServerSocket.conn.query(
-            "select * from userinfo where name=%s and pwd=%s", (name, pwd))
+            "select * from userinfo where username=%s and pwd=%s",
+            (nameStr, pwdEncrypt))
 
         message_type = EnumMsgType.LOGIN
-        message_len = 64
         message = ''
         if result == None or result[1] == 0:
             message = '登录失败!'.encode('gb2312')
         else:
             message = '登录成功!'.encode('gb2312')
-        message_send = struct.pack('l2048s', message_type.value, message)
+        message_send = struct.pack('i2048s', message_type.value, message)
         s.send(message_send)
 
     def __chatForRegister(s, msg):
-        name, = struct.unpack('64s', msg[4:68])
-        pwd, = struct.unpack('64s', msg[68:132])
-        print('b_name=%s, b_pwd=%s' % (name, pwd))
-        name = name.decode('gb2312').rstrip('\0')
-        print('name=%s' % name)
-        pwd = pwd.decode('gb2312').rstrip('\0')
-        print('name=%s, pwd=%s' % (name, pwd))
+        md5Helper = md5()
+        nameOrg, = struct.unpack('64s', msg[4:68])
+        pwdOrg, = struct.unpack('64s', msg[68:132])
+        nameStr = nameOrg.decode('gb2312').rstrip('\0')
+        pwdStr = pwdOrg.decode('gb2312').rstrip('\0')
+        md5Helper.update(pwdStr.encode())
+        pwdEncrypt = md5Helper.hexdigest()
 
         #构造查询语句
         result = CServerSocket.conn.insert(
-            "insert into userinfo(username,pwd) values(%s,%s)", (name, pwd))
+            "insert into userinfo(username,pwd) values(%s,%s)",
+            (nameStr, pwdEncrypt))
 
         message_type = EnumMsgType.REGISTER
         message = ''
@@ -144,7 +148,6 @@ class CServerSocket():
             message = '注册失败!'.encode('gb2312')
         else:
             message = '注册成功!'.encode('gb2312')
-        print('b_message=%s' % message)
         message_send = struct.pack('i2048s', message_type.value, message)
         s.send(message_send)
 
@@ -213,7 +216,7 @@ class CServerSocket():
 
         # 最后发个 END 过去，告诉客户端聊天记录已全部发完
         msgFrom = '~~~end~~~'.encode('gb2312')
-        msgSend = struct.pack('l2048s', message_type.value, msgFrom)
+        msgSend = struct.pack('i2048s', message_type.value, msgFrom)
         s.send(msgSend)
 
     @staticmethod
@@ -223,7 +226,7 @@ class CServerSocket():
             message_type = EnumMsgType.UPDATEUSER
             message = name.encode('gb2312')
             message_len = len(message)
-            message_send = struct.pack('lll2040s', message_type.value, bAdd,
+            message_send = struct.pack('i?i2043s', message_type.value, bAdd,
                                        message_len, message)
             for each in CServerSocket.dictClient:
                 if each == s:
@@ -231,15 +234,18 @@ class CServerSocket():
                 each.send(message_send)
             if bAdd == False:
                 return
+            print('dictClient: ', CServerSocket.dictClient)
             # 再给新用户的在线列表添加之前登录的用户名
             for each in CServerSocket.dictClient:
                 if each == s:
                     continue
+                print('更新 ', CServerSocket.dictClient[each])
                 message = CServerSocket.dictClient[each].encode('gb2312')
                 message_len = len(message)
-                message_send = struct.pack('lll2040s', message_type.value, bAdd,
+                message_send = struct.pack('i?i2043s', message_type.value, bAdd,
                                            message_len, message)
                 s.send(message_send)
+                time.sleep(0.1)
         except:
             return
 

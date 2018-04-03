@@ -21,6 +21,8 @@ protected:
 public:
 	CString m_strShow;
 	CString m_strSend;
+	CString m_strFromName;
+	CString m_strToName;
 	afx_msg void OnBnClickedSendButton();
 	afx_msg void OnClose();
 };

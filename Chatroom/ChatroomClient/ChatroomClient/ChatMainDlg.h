@@ -42,6 +42,8 @@ public:
 protected:
 	afx_msg LRESULT OnShsocket(WPARAM wParam, LPARAM lParam);
 	void ChatForOne2One(CHATONE2ONE &objOne2One);
+	void InsertOrDeleteUser(CHATUPDATEUSER &objChatUpdateUser);
+
 public:
 	afx_msg void OnBnClickedSendButton();
 	afx_msg void OnNMDblclkOnlineList(NMHDR *pNMHDR, LRESULT *pResult);

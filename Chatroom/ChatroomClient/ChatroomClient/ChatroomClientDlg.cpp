@@ -188,12 +188,11 @@ void CChatroomClientDlg::OnBnClickedLoginButton()
 
 	CStringA strShowName = CW2A(m_strUsername.GetBuffer(), CP_THREAD_ACP);
 	strcpy_s(m_sClient.m_szName, strShowName.GetBuffer());
-	ShowWindow(SW_HIDE);
+	EndDialog(0);
 	CChatMainDlg chatMainDlg(&m_sClient);
 	chatMainDlg.m_bLogin = true;
 	chatMainDlg.DoModal();
 	m_sClient.Close();
-	CChatroomClientDlg::OnClose();
 }
 
 void CChatroomClientDlg::OnBnClickedRegisterButton()
@@ -235,7 +234,8 @@ void CChatroomClientDlg::OnBnClickedAnonymousButton()
 	}
 
 	EndDialog(0);
-	CChatMainDlg chatDlg(&m_sClient);
-	chatDlg.DoModal();
+	CChatMainDlg chatMainDlg(&m_sClient);
+	chatMainDlg.m_bLogin = false;
+	chatMainDlg.DoModal();
 	m_sClient.Close();
 }

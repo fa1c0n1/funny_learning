@@ -24,7 +24,7 @@ typedef enum {
 //匿名聊天结构体
 typedef struct _CHATANONYMOUS {
 	DWORD dwLen;
-	char buf[64];
+	char buf[1024];
 } CHATANONYMOUS;
 
 //聊天结构体
@@ -35,7 +35,8 @@ typedef struct _CHATCHAT {
 
 //1VS1聊天结构体
 typedef struct _CHATONE2ONE {
-	char szName[64];
+	char szNameFrom[64];
+	char szNameTo[64];
 	char szContent[1024];
 } CHATONE2ONE;
 
