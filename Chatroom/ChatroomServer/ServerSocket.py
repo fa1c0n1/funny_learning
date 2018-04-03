@@ -199,14 +199,13 @@ class CServerSocket():
         # 如果添加好友成功，需要通知发起添加请求的用户
         s.send(message_send)
 
-
     def __chatForSearchUser(s, msg):
-        name, = struct.unpack('50s', msg[4:54])
+        name, = struct.unpack('64s', msg[4:68])
         name = name.decode('gb2312').rstrip('\0')
         result = CServerSocket.conn.query(
-            "select username from userinfo where name=%s", (name,))
+            "select username from userinfo where username=%s", (name,))
+
         message_type = EnumMsgType.SEARCHUSER
-        message_len = 64
         message = ''
         if result == None or result[1] == 0:
             message = '查无此人!'.encode('gb2312')
@@ -215,7 +214,7 @@ class CServerSocket():
                 message = '用户在线，双击列表内用户名 1VS1 聊天!'.encode('gb2312')
             else:
                 message = '用户不在线!'.encode('gb2312')
-        message_send = struct.pack('l2048s', message_type.value, message)
+        message_send = struct.pack('i2048s', message_type.value, message)
         s.send(message_send)
 
     def __chatForGetMsgRecord(s, msg):

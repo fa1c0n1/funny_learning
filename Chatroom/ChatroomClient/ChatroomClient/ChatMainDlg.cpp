@@ -203,25 +203,6 @@ void CChatMainDlg::OnNMDblclkOnlineList(NMHDR *pNMHDR, LRESULT *pResult)
 		return;
 
 	OpenOne2OneDialog(m_listCtrlUser, nSelIdx);
-
-	/*COne2OneDlg *pOne2OneDlg = nullptr;
-	CString strSel = m_listCtrlUser.GetItemText(nSelIdx, 0);
-
-	if (m_map.find(strSel) == m_map.end()) {
-		pOne2OneDlg = new COne2OneDlg;
-		pOne2OneDlg->Create(IDD_ONE2ONE_DIALOG, this);
-		CString strTitle(_T("私聊-"));
-		strTitle += strSel;
-		pOne2OneDlg->SetWindowText(strTitle.GetBuffer());
-		pOne2OneDlg->m_strFromName = m_pClientSocket->m_szName;
-		pOne2OneDlg->m_strToName = strSel;
-		m_map[strSel] = pOne2OneDlg;
-	}
-	else {
-		pOne2OneDlg = (COne2OneDlg *)m_map[strSel];
-	}
-
-	pOne2OneDlg->ShowWindow(SW_SHOW);*/
 }
 
 
@@ -261,11 +242,17 @@ void CChatMainDlg::OnSubmenuSearchfriend()
 	CSearchFriendDlg searchFriendDlg;
 	searchFriendDlg.DoModal();
 
-	if (searchFriendDlg.m_strFriendName.IsEmpty())
+	if (searchFriendDlg.m_strSearchName.IsEmpty())
 		return;
 
-	CStringA strSearch = CW2A(searchFriendDlg.m_strFriendName.GetBuffer(), CP_THREAD_ACP);
-	m_pClientSocket->Send(SEARCHUSER, strSearch.GetBuffer(), strSearch.GetLength() + 1);
+	CString strSelfName(m_pClientSocket->m_szName);
+	if (searchFriendDlg.m_strSearchName == strSelfName) {
+		MessageBox(_T("不能搜索本人"), _T("提示"));
+		return;
+	}
+
+	CStringA strSearchA = CW2A(searchFriendDlg.m_strSearchName.GetBuffer(), CP_THREAD_ACP);
+	m_pClientSocket->Send(SEARCHUSER, strSearchA.GetBuffer(), strSearchA.GetLength() + 1);
 }
 
 
@@ -349,25 +336,6 @@ void CChatMainDlg::OnNMDblclkFriendList(NMHDR *pNMHDR, LRESULT *pResult)
 		return;
 
 	OpenOne2OneDialog(m_listCtrlFriend, nSelIdx);
-
-	/*COne2OneDlg *pOne2OneDlg = nullptr;
-	CString strSel = m_listCtrlFriend.GetItemText(nSelIdx, 0);
-
-	if (m_map.find(strSel) == m_map.end()) {
-		pOne2OneDlg = new COne2OneDlg;
-		pOne2OneDlg->Create(IDD_ONE2ONE_DIALOG, this);
-		CString strTitle(_T("私聊-"));
-		strTitle += strSel;
-		pOne2OneDlg->SetWindowText(strTitle.GetBuffer());
-		pOne2OneDlg->m_strFromName = m_pClientSocket->m_szName;
-		pOne2OneDlg->m_strToName = strSel;
-		m_map[strSel] = pOne2OneDlg;
-	}
-	else {
-		pOne2OneDlg = (COne2OneDlg *)m_map[strSel];
-	}
-
-	pOne2OneDlg->ShowWindow(SW_SHOW);*/
 }
 
 void CChatMainDlg::OpenOne2OneDialog(CListCtrl &listCtrl, int nSelIndex)

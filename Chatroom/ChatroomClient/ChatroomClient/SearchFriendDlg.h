@@ -19,6 +19,6 @@ protected:
 
 	DECLARE_MESSAGE_MAP()
 public:
-	CString m_strFriendName;
+	CString m_strSearchName;
 	afx_msg void OnBnClickedSearchButton();
 };

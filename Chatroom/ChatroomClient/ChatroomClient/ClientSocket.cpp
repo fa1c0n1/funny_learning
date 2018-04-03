@@ -203,7 +203,7 @@ char *CClientSocket::RecvForAddFriend()
 
 char *CClientSocket::RecvForSearchUser()
 {
-	MessageBoxA(NULL, m_pObjChatRecv->m_content.seu.szName, "搜索用户", MB_OK);
+	MessageBoxA(NULL, m_pObjChatRecv->m_content.seu.szName, "搜索结果", MB_OK);
 	return nullptr;
 }
 
