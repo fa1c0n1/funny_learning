@@ -374,3 +374,24 @@ void CChatMainDlg::OpenOne2OneDialog(CListCtrl &listCtrl, int nSelIndex)
 
 	pOne2OneDlg->ShowWindow(SW_SHOW);
 }
+
+
+BOOL CChatMainDlg::PreTranslateMessage(MSG* pMsg)
+{
+	// TODO: Add your specialized code here and/or call the base class
+	//捕获 Alt+Enter 组合键事件，改为发送聊天内容
+	if (pMsg->message == WM_SYSKEYDOWN && pMsg->wParam == VK_RETURN) {
+		OnBnClickedSendButton();
+		return TRUE;
+	}
+
+	return CDialogEx::PreTranslateMessage(pMsg);
+}
+
+
+void CChatMainDlg::OnOK()
+{
+	// TODO: Add your specialized code here and/or call the base class
+
+	//CDialogEx::OnOK();
+}

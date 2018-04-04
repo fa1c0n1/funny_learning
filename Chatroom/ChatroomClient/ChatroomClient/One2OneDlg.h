@@ -25,4 +25,6 @@ public:
 	CString m_strToName;
 	afx_msg void OnBnClickedSendButton();
 	afx_msg void OnClose();
+	virtual BOOL PreTranslateMessage(MSG* pMsg);
+	virtual void OnOK();
 };

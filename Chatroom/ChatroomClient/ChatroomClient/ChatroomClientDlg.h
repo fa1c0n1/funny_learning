@@ -39,4 +39,5 @@ public:
 	CClientSocket m_sClient;
 	CString m_strUsername;
 	CString m_strPwd;
+	virtual void OnOK();
 };

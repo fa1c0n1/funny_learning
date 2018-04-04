@@ -72,3 +72,23 @@ void COne2OneDlg::OnClose()
 	ShowWindow(SW_HIDE);
 	//CDialogEx::OnClose();
 }
+
+
+BOOL COne2OneDlg::PreTranslateMessage(MSG* pMsg)
+{
+	// TODO: Add your specialized code here and/or call the base class
+	//捕获 Alt+Enter 组合键事件，改为发送聊天内容
+	if (pMsg->message == WM_SYSKEYDOWN && pMsg->wParam == VK_RETURN) {
+		OnBnClickedSendButton();
+		return TRUE;
+	}
+
+	return CDialogEx::PreTranslateMessage(pMsg);
+}
+
+
+void COne2OneDlg::OnOK()
+{
+	// TODO: Add your specialized code here and/or call the base class
+	//CDialogEx::OnOK();
+}

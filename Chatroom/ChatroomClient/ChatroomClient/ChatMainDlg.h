@@ -57,4 +57,6 @@ public:
 	afx_msg void OnTimer(UINT_PTR nIDEvent);
 	CListCtrl m_listCtrlFriend;
 	afx_msg void OnNMDblclkFriendList(NMHDR *pNMHDR, LRESULT *pResult);
+	virtual BOOL PreTranslateMessage(MSG* pMsg);
+	virtual void OnOK();
 };

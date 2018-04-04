@@ -9,11 +9,9 @@ CClientSocket::CClientSocket()
 	m_hEvent = CreateEvent(NULL, FALSE, TRUE, NULL);
 }
 
-
 CClientSocket::~CClientSocket()
 {
 }
-
 
 bool CClientSocket::ConnectServer(char *szIp, WORD port)
 {
