@@ -4,6 +4,7 @@
 #include "afxcmn.h"
 #include "ChatRecordDlg.h"
 #include <map>
+#include "afxwin.h"
 
 using std::map;
 
@@ -59,4 +60,5 @@ public:
 	afx_msg void OnNMDblclkFriendList(NMHDR *pNMHDR, LRESULT *pResult);
 	virtual BOOL PreTranslateMessage(MSG* pMsg);
 	virtual void OnOK();
+	CEdit m_editShow;
 };

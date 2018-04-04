@@ -51,6 +51,7 @@ void CChatMainDlg::DoDataExchange(CDataExchange* pDX)
 	DDX_Text(pDX, IDC_CHAT_HISTORY_EDIT, m_strShow);
 	DDX_Text(pDX, IDC_CHAT_MSG_EDIT, m_strSend);
 	DDX_Control(pDX, IDC_FRIEND_LIST, m_listCtrlFriend);
+	DDX_Control(pDX, IDC_CHAT_HISTORY_EDIT, m_editShow);
 }
 
 
@@ -143,6 +144,7 @@ afx_msg LRESULT CChatMainDlg::OnShsocket(WPARAM wParam, LPARAM lParam)
 		m_strShow += szRecv;
 		m_strShow += "\r\n";
 		UpdateData(FALSE);
+		m_editShow.LineScroll(m_editShow.GetLineCount());
 	}
 	case FD_CLOSE:
 	{
@@ -174,7 +176,6 @@ void CChatMainDlg::ChatForOne2One(CHATONE2ONE &objOne2One)
 		pOne2OneDlg->m_strShow += strToName + _T(":") + strContent;
 		pOne2OneDlg->m_strShow += _T("\r\n");
 		pOne2OneDlg->UpdateData(FALSE);
-		pOne2OneDlg->ShowWindow(SW_SHOW);
 	}
 	else {
 		pOne2OneDlg = (COne2OneDlg*)m_map[strToName];
@@ -182,8 +183,9 @@ void CChatMainDlg::ChatForOne2One(CHATONE2ONE &objOne2One)
 		pOne2OneDlg->m_strShow += strToName + _T(":") + strContent;
 		pOne2OneDlg->m_strShow += _T("\r\n");
 		pOne2OneDlg->UpdateData(FALSE);
-		pOne2OneDlg->ShowWindow(SW_SHOW);
 	}
+	pOne2OneDlg->m_editShow.LineScroll(pOne2OneDlg->m_editShow.GetLineCount());
+	pOne2OneDlg->ShowWindow(SW_SHOW);
 	pOne2OneDlg->SetWindowTextW(strTitle.GetBuffer());
 }
 
@@ -201,6 +203,7 @@ void CChatMainDlg::OnBnClickedSendButton()
 	m_strShow += _T("\r\n");
 	m_strSend.Empty();
 	UpdateData(FALSE);
+	m_editShow.LineScroll(m_editShow.GetLineCount());
 }
 
 

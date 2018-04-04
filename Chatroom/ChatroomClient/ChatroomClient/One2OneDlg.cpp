@@ -31,6 +31,7 @@ void COne2OneDlg::DoDataExchange(CDataExchange* pDX)
 	CDialogEx::DoDataExchange(pDX);
 	DDX_Text(pDX, IDC_CHAT_HISTORY_EDIT, m_strShow);
 	DDX_Text(pDX, IDC_CHAT_MSG_EDIT, m_strSend);
+	DDX_Control(pDX, IDC_CHAT_HISTORY_EDIT, m_editShow);
 }
 
 
@@ -60,8 +61,8 @@ void COne2OneDlg::OnBnClickedSendButton()
 	m_strShow += m_strSend;
 	m_strShow += _T("\r\n");
 	m_strSend.Empty();
-
 	UpdateData(FALSE);
+	m_editShow.LineScroll(m_editShow.GetLineCount());
 }
 
 

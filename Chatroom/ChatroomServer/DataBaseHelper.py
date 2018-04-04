@@ -3,10 +3,12 @@
 
 import mysql.connector
 
+HOST = '192.168.3.235'
+
 class CSqlForChat():
     def __init__(self):
         # 1. 连接数据库
-        config = {'host': '192.168.3.235',
+        config = {'host': HOST,
                   'user': 'root',
                   'password': 'z0sa@#falconOS',
                   'port': '3306',

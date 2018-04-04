@@ -153,6 +153,11 @@ char *CClientSocket::RecvForChat()
 
 char *CClientSocket::RecvForOne2One()
 {
+	//解密
+	for (int i = 0; i < m_pObjChatRecv->m_content.o2o.dwLen; i++) {
+		m_pObjChatRecv->m_content.o2o.szContent[i] ^= 15;
+	}
+
 	m_pObjOne2One = new CHATONE2ONE{};
 	memcpy_s(m_pObjOne2One, sizeof(CHATONE2ONE), &m_pObjChatRecv->m_content.o2o, sizeof(CHATONE2ONE));
 	return nullptr;
@@ -176,18 +181,25 @@ char *CClientSocket::RecvForUpdateFriendList()
 
 char *CClientSocket::RecvForRegister()
 {
-	if (!strcmp(m_pObjChatRecv->m_content.buf, "注册成功!"))
+	if (!strcmp(m_pObjChatRecv->m_content.buf, "注册成功!")) {
+
 		return "注册成功!";
-	else
+	}
+	else {
+		MessageBoxA(NULL, m_pObjChatRecv->m_content.buf, "提示", MB_OK);
 		return nullptr;
+	}
 }
 
 char *CClientSocket::RecvForLogin()
 {
-	if (!strcmp(m_pObjChatRecv->m_content.buf, "登录成功!"))
+	if (!strcmp(m_pObjChatRecv->m_content.buf, "登录成功!")) {
 		return "登录成功!";
-	else
+	}
+	else {
+		MessageBoxA(NULL, m_pObjChatRecv->m_content.buf, "提示", MB_OK);
 		return nullptr;
+	}
 }
 
 char *CClientSocket::RecvForAddFriend()
@@ -251,6 +263,13 @@ void CClientSocket::SendForOne2One(char *bufSend, DWORD dwLen)
 	char *pToName = strtok_s(NULL, ":", &nextToken);
 	memcpy_s(ct.m_content.o2o.szNameTo, sizeof(ct.m_content.o2o.szNameTo), pToName, strlen(pToName));
 	memcpy_s(ct.m_content.o2o.szContent, sizeof(ct.m_content.o2o.szContent), nextToken, strlen(nextToken));
+	ct.m_content.o2o.dwLen = strlen(ct.m_content.o2o.szContent) + 1;
+
+	//加密
+	for (int i = 0; i < ct.m_content.o2o.dwLen; i++) {
+		ct.m_content.o2o.szContent[i] ^= 15;
+	}
+
 	send(m_sClient, (char*)&ct, sizeof(ct), NULL);
 }
 

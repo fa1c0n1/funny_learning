@@ -181,7 +181,6 @@ void CChatroomClientDlg::OnBnClickedLoginButton()
 	m_sClient.Send(LOGIN, str.GetBuffer(), str.GetLength() + 1);
 	char *pRet = m_sClient.Recv();
 	if (pRet == nullptr) {
-		MessageBox(_T("µÇÂ¼Ê§°Ü!"));
 		m_sClient.Close();
 		return;
 	}
@@ -217,7 +216,8 @@ void CChatroomClientDlg::OnBnClickedRegisterButton()
 	//µÈ´ý×¢²á½á¹û
 	char *pRet = m_sClient.Recv();
 	if (pRet == nullptr)
-		MessageBox(_T("×¢²áÊ§°Ü!"));
+		;
+		//MessageBox(_T("×¢²áÊ§°Ü!"));
 	else
 		MessageBox(_T("×¢²á³É¹¦!"));
 

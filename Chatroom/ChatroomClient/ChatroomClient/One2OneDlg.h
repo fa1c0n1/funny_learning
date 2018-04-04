@@ -1,4 +1,5 @@
 #pragma once
+#include "afxwin.h"
 
 
 // COne2OneDlg dialog
@@ -27,4 +28,5 @@ public:
 	afx_msg void OnClose();
 	virtual BOOL PreTranslateMessage(MSG* pMsg);
 	virtual void OnOK();
+	CEdit m_editShow;
 };

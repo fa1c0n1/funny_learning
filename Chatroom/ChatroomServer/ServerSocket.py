@@ -85,8 +85,9 @@ class CServerSocket():
             each.send(msg)
 
     def __chatForOne2One(s, msg):
-        fromName, = struct.unpack('64s', msg[4:68])
-        toName, = struct.unpack('64s', msg[68:132])
+        dwLen, = struct.unpack('i', msg[4:8])
+        fromName, = struct.unpack('64s', msg[8:72])
+        toName, = struct.unpack('64s', msg[72:136])
         toName = toName.decode('gb2312').rstrip('\0')
         print('私聊对象：', toName)
         for each in CServerSocket.dictClient:
@@ -97,9 +98,14 @@ class CServerSocket():
         # 保存聊天记录
         msgFrom = CServerSocket.dictClient[s]
         msgTo = toName
-        msgInfo, = struct.unpack('1024s', msg[132:132+1024])
-        msgInfo = msgInfo.decode('gb2312').rstrip('\0')
+        msgInfo, = struct.unpack('1024s', msg[136:136+1024])
 
+        # 对聊天记录进行解密后在存入数据库
+        msgEncryptByteArr = bytearray(msgInfo)
+        for i in range(dwLen):
+            msgEncryptByteArr[i] ^= 15
+
+        msgInfo = msgEncryptByteArr.decode('gb2312').rstrip('\0')
         print('msgFrom=%s, msgTo=%s, msgInfo=%s' % (msgFrom, msgTo, msgInfo))
         #把消息添加到数据库，数据库设置外键了，所以只会添加双方都是已注册用户的聊天信息
         CServerSocket.conn.insert(
@@ -116,15 +122,26 @@ class CServerSocket():
         pwdEncrypt = md5Helper.hexdigest()
         # 构造查询语句
         result = CServerSocket.conn.query(
-            "select * from userinfo where username=%s and pwd=%s",
-            (nameStr, pwdEncrypt))
+            "select * from userinfo where username=%s", (nameStr,))
+
+        clientIp = s.getpeername()[0]
 
         message_type = EnumMsgType.LOGIN
         message = ''
         if result == None or result[1] == 0:
-            message = '登录失败!'.encode('gb2312')
+            message = '请先注册!'.encode('gb2312')
+        elif pwdEncrypt != result[0][0][1].decode('utf-8'):
+            message = '用户名或密码错误'.encode('gb2312')
         else:
-            message = '登录成功!'.encode('gb2312')
+            # if nameStr in CServerSocket.dictClient.values():
+            #     message = '该账号已在本机登录!'.encode('gb2312')
+            for tmpSocket in CServerSocket.dictClient.keys():
+                if clientIp == tmpSocket.getpeername()[0] and \
+                    nameStr == CServerSocket.dictClient[tmpSocket]:
+                    message = '该账号已在本机登录!'.encode('gb2312')
+                    break
+            else:
+                message = '登录成功!'.encode('gb2312')
         message_send = struct.pack('i2048s', message_type.value, message)
         s.send(message_send)
 
@@ -137,17 +154,24 @@ class CServerSocket():
         md5Helper.update(pwdStr.encode())
         pwdEncrypt = md5Helper.hexdigest()
 
-        #将新用户添加到用户表
-        result = CServerSocket.conn.insert(
-            "insert into userinfo(username,pwd) values(%s,%s)",
-            (nameStr, pwdEncrypt))
-
         message_type = EnumMsgType.REGISTER
         message = ''
-        if result == None:
-            message = '注册失败!'.encode('gb2312')
+        #构造查询语句
+        result = CServerSocket.conn.query(
+            "select username from userinfo where username=%s", (nameStr,))
+
+        if result != None and result[1] == 1:
+            message = '该用户名已被注册，请尝试其他用户名!'.encode('gb2312')
         else:
-            message = '注册成功!'.encode('gb2312')
+            #将新用户添加到用户表
+            result = CServerSocket.conn.insert(
+                "insert into userinfo(username,pwd) values(%s,%s)",
+                (nameStr, pwdEncrypt))
+
+            if result == None:
+                message = '注册失败!'.encode('gb2312')
+            else:
+                message = '注册成功!'.encode('gb2312')
         message_send = struct.pack('i2048s', message_type.value, message)
         s.send(message_send)
 
@@ -221,23 +245,23 @@ class CServerSocket():
         result = CServerSocket.conn.query(
             "select * from msginfo where userfrom=%s or userto=%s", (name,name))
 
-        if result == None or result[1] == 0:
-            return
-
         message_type = EnumMsgType.MSGRECORD
-        for i in range(result[1]):
-            # 第i条信息
-            msgFrom = result[0][i][1].decode('utf-8')
-            msgTo = result[0][i][2].decode('utf-8')
-            msgContent = result[0][i][3].decode('utf-8')
-            # 把每条信息分别打包发送给客户端s
-            msgFrom = msgFrom.encode('gb2312')
-            msgTo = msgTo.encode('gb2312')
-            msgContent = msgContent.encode('gb2312')
-            msgSend = struct.pack('i64s64s1920s', message_type.value,
-                                  msgFrom, msgTo, msgContent)
-            s.send(msgSend)
-            time.sleep(0.1)
+        if result == None or result[1] == 0:
+            pass
+        else:
+            for i in range(result[1]):
+                # 第i条信息
+                msgFrom = result[0][i][1].decode('utf-8')
+                msgTo = result[0][i][2].decode('utf-8')
+                msgContent = result[0][i][3].decode('utf-8')
+                # 把每条信息分别打包发送给客户端s
+                msgFrom = msgFrom.encode('gb2312')
+                msgTo = msgTo.encode('gb2312')
+                msgContent = msgContent.encode('gb2312')
+                msgSend = struct.pack('i64s64s1920s', message_type.value,
+                                      msgFrom, msgTo, msgContent)
+                s.send(msgSend)
+                time.sleep(0.1)
 
         # 最后发个 END 过去，告诉客户端聊天记录已全部发完
         msgFrom = '~~~end~~~'.encode('gb2312')

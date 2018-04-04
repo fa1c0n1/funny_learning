@@ -30,15 +30,16 @@ typedef struct _CHATANONYMOUS {
 
 //聊天结构体
 typedef struct _CHATCHAT {
-	DWORD dwLen;
-	char buf[1024];
+	DWORD dwLen;            //聊天内容的实际长度
+	char buf[1024];         //聊天内容缓冲区
 } CHATCHAT;
 
 //1VS1聊天结构体
 typedef struct _CHATONE2ONE {
-	char szNameFrom[64];
-	char szNameTo[64];
-	char szContent[1024];
+	DWORD dwLen;            //聊天内容的实际长度
+	char szNameFrom[64];    //发送方用户名
+	char szNameTo[64];      //接收方用户名
+	char szContent[1024];   //聊天内容缓冲区
 } CHATONE2ONE;
 
 //注册用户结构体
