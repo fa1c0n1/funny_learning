@@ -1,6 +1,10 @@
 #pragma once
-#include "afxcmn.h"
 
+#include "afxcmn.h"
+#include "ChatProtocol.h"
+#include <vector>
+
+using std::vector;
 
 // CChatRecordDlg dialog
 
@@ -20,9 +24,17 @@ protected:
 
 	DECLARE_MESSAGE_MAP()
 
+
 public:
 	CListCtrl m_listCtrlRecord;
-	void UpdateList();
 	virtual BOOL OnInitDialog();
-	afx_msg void OnClose();
+	void UpdateRecord(vector<CHATMSGRECORD> &vtChatRecord);
+
+	static UINT __cdecl UpdateListProc(LPVOID pParam);
+	static void UpdateList(CChatRecordDlg *pChatRecordDlg, vector<CHATMSGRECORD> &vtChatRecord);
 };
+
+typedef struct _RECORDPROCINFO {
+	CChatRecordDlg *pChatRecordDlg;
+	vector<CHATMSGRECORD> *pVtRecord;
+} RECORDPROCINFO, *PRECORDPROCINFO;

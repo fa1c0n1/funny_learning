@@ -43,7 +43,7 @@ private:
 
 public:
 	HANDLE m_hEvent;
-	vector<CHATMSGRECORD> m_vecMsgRecord;
+	vector<CHATMSGRECORD> m_vtChatRecord;
 	SOCKET m_sClient;
 	CHATUPDATEUSER *m_pObjUpdate = nullptr;
 	CHATUPDATEFRIEND *m_pObjUpdateFriend = nullptr;

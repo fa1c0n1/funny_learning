@@ -213,7 +213,7 @@ char *CClientSocket::RecvForGetMsgRecord()
 	if (!strcmp(m_pObjChatRecv->m_content.rec.szFrom, "~~~end~~~"))
 		SetEvent(m_hEvent);
 	else
-		m_vecMsgRecord.push_back(m_pObjChatRecv->m_content.rec);
+		m_vtChatRecord.push_back(m_pObjChatRecv->m_content.rec);
 
 	return nullptr;
 }

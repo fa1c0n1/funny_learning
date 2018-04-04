@@ -29,6 +29,19 @@ CChatMainDlg::CChatMainDlg(CClientSocket *pClientSocket, CWnd *pParent)
 
 CChatMainDlg::~CChatMainDlg()
 {
+	if (m_pChatRecordDlg != nullptr) {
+		delete m_pChatRecordDlg;
+		m_pChatRecordDlg = nullptr;
+	}
+
+	map<CString, CDialogEx*>::iterator it = m_map.begin();
+	while (it != m_map.end()) {
+		if (it->second != nullptr) {
+			delete it->second;
+			it->second = nullptr;
+		}
+		it++;
+	}
 }
 
 void CChatMainDlg::DoDataExchange(CDataExchange* pDX)
@@ -257,16 +270,25 @@ void CChatMainDlg::OnSubmenuSearchfriend()
 void CChatMainDlg::OnSubmenuSearchrecord()
 {
 	// TODO: Add your command handler code here
-	
+
 	//防止上次获取的消息记录还未返回就重新申请，设置事件对象同步
 	DWORD dwRet = WaitForSingleObject(m_pClientSocket->m_hEvent, 100);
 	if (dwRet == WAIT_FAILED || dwRet == WAIT_TIMEOUT)
 		return;
 
 	m_pClientSocket->Send(MSGRECORD, NULL, NULL);
-	m_pClientSocket->m_vecMsgRecord.clear();
+	m_pClientSocket->m_vtChatRecord.clear();
+
+	if (m_pChatRecordDlg == nullptr) {
+		m_pChatRecordDlg = new CChatRecordDlg;
+		m_pChatRecordDlg->Create(IDD_CHAT_RECORD_DIALOG, this);
+	}
+	m_pChatRecordDlg->m_listCtrlRecord.DeleteAllItems();
+	m_pChatRecordDlg->SetWindowTextW(_T("正在读取聊天记录中，请稍后............."));
+	m_pChatRecordDlg->ShowWindow(SW_SHOW);
+
 	//设置定时器等待消息返回
-	SetTimer(0x1001, 1000, NULL);
+	SetTimer(0x1001, 500, NULL);
 }
 
 void CChatMainDlg::OnTimer(UINT_PTR nIDEvent)
@@ -279,13 +301,9 @@ void CChatMainDlg::OnTimer(UINT_PTR nIDEvent)
 			SetEvent(m_pClientSocket->m_hEvent);
 			if (m_pChatRecordDlg) {
 				//更新数据
-				m_pChatRecordDlg->UpdateList();
+				m_pChatRecordDlg->UpdateRecord(m_pClientSocket->m_vtChatRecord);
+				m_pChatRecordDlg->SetWindowTextW(_T("聊天记录"));
 				//显示窗口
-				m_pChatRecordDlg->ShowWindow(SW_SHOW);
-			}
-			else {
-				m_pChatRecordDlg = new CChatRecordDlg;
-				m_pChatRecordDlg->Create(IDD_CHAT_RECORD_DIALOG, this);
 				m_pChatRecordDlg->ShowWindow(SW_SHOW);
 			}
 		}

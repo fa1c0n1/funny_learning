@@ -30,11 +30,11 @@ void CChatRecordDlg::DoDataExchange(CDataExchange* pDX)
 
 
 BEGIN_MESSAGE_MAP(CChatRecordDlg, CDialogEx)
-	ON_WM_CLOSE()
 END_MESSAGE_MAP()
 
 
 // CChatRecordDlg message handlers
+
 
 
 BOOL CChatRecordDlg::OnInitDialog()
@@ -48,39 +48,52 @@ BOOL CChatRecordDlg::OnInitDialog()
 	m_listCtrlRecord.InsertColumn(0, _T("from"), 0, rect.Width() / 5);
 	m_listCtrlRecord.InsertColumn(1, _T("to"), 0, rect.Width() / 5);
 	m_listCtrlRecord.InsertColumn(2, _T("content"), 0, rect.Width() / 5 * 3);
-	UpdateList();
 
 	return TRUE;  // return TRUE unless you set the focus to a control
 	// EXCEPTION: OCX Property Pages should return FALSE
 }
 
-
-void CChatRecordDlg::OnClose()
+UINT __cdecl CChatRecordDlg::UpdateListProc(LPVOID pParam)
 {
-	// TODO: Add your message handler code here and/or call default
+	PRECORDPROCINFO pRecordProcInfo = (PRECORDPROCINFO)pParam;
+	vector<CHATMSGRECORD> vtTmp = *pRecordProcInfo->pVtRecord;
+	UpdateList(pRecordProcInfo->pChatRecordDlg, vtTmp);
 
-	CDialogEx::OnClose();
+	if (pRecordProcInfo) {
+		delete pRecordProcInfo;
+		pRecordProcInfo = nullptr;
+	}
+
+	AfxEndThread(0);
+	return 0;
 }
 
-void CChatRecordDlg::UpdateList()
+void CChatRecordDlg::UpdateRecord(vector<CHATMSGRECORD> &vtChatRecord)
+{
+	PRECORDPROCINFO pRecordProcInfo = new RECORDPROCINFO{};
+	pRecordProcInfo->pChatRecordDlg = this;
+	pRecordProcInfo->pVtRecord = &vtChatRecord;
+	//开启子线程去显示聊天记录
+	AfxBeginThread(UpdateListProc, (LPVOID)pRecordProcInfo);
+}
+
+void CChatRecordDlg::UpdateList(CChatRecordDlg *pChatRecordDlg, vector<CHATMSGRECORD> &vtChatRecord)
 {
 	//删除之前的聊天记录
-	m_listCtrlRecord.DeleteAllItems();
-	CChatMainDlg *pParent = (CChatMainDlg*)GetParent();
-	auto &vt = pParent->m_pClientSocket->m_vecMsgRecord;
-	DWORD dwCount = vt.size();
+	CListCtrl &listCtrl = pChatRecordDlg->m_listCtrlRecord;
+	DWORD dwCount = vtChatRecord.size();
 	CString strTmp;
 
 	for (DWORD i = 0; i < dwCount; i++) {
 		//聊天发起方
-		strTmp = vt[i].szFrom;
-		m_listCtrlRecord.InsertItem(i, strTmp.GetBuffer());
+		strTmp = vtChatRecord[i].szFrom;
+		listCtrl.InsertItem(i, strTmp.GetBuffer());
 		//聊天接收方
-		strTmp = vt[i].szTo;
-		m_listCtrlRecord.SetItemText(i, 1, strTmp.GetBuffer());
+		strTmp = vtChatRecord[i].szTo;
+		listCtrl.SetItemText(i, 1, strTmp.GetBuffer());
 		//聊天内容
-		strTmp = vt[i].szContent;
-		m_listCtrlRecord.SetItemText(i, 2, strTmp.GetBuffer());
+		strTmp = vtChatRecord[i].szContent;
+		listCtrl.SetItemText(i, 2, strTmp.GetBuffer());
 	}
-	
 }
+

@@ -221,8 +221,6 @@ class CServerSocket():
         result = CServerSocket.conn.query(
             "select * from msginfo where userfrom=%s or userto=%s", (name,name))
 
-        print('count=%d' % result[1])
-
         if result == None or result[1] == 0:
             return
 
