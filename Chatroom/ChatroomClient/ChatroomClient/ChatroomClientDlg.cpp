@@ -187,11 +187,18 @@ void CChatroomClientDlg::OnBnClickedLoginButton()
 
 	CStringA strShowName = CW2A(m_strUsername.GetBuffer(), CP_THREAD_ACP);
 	strcpy_s(m_sClient.m_szName, strShowName.GetBuffer());
-	EndDialog(0);
+	ShowWindow(SW_HIDE);
 	CChatMainDlg chatMainDlg(&m_sClient);
 	chatMainDlg.m_bLogin = true;
-	chatMainDlg.DoModal();
-	m_sClient.Close();
+	INT_PTR nRet = chatMainDlg.DoModal();
+
+	if (nRet == 9) { 
+		ShowWindow(SW_SHOW);
+	}
+	else {
+		EndDialog(0);
+		m_sClient.Close();
+	}
 }
 
 void CChatroomClientDlg::OnBnClickedRegisterButton()

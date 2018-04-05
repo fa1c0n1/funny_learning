@@ -124,6 +124,7 @@ class CServerSocket():
         result = CServerSocket.conn.query(
             "select * from userinfo where username=%s", (nameStr,))
 
+
         clientIp = s.getpeername()[0]
 
         message_type = EnumMsgType.LOGIN
@@ -133,13 +134,27 @@ class CServerSocket():
         elif pwdEncrypt != result[0][0][1].decode('utf-8'):
             message = '用户名或密码错误'.encode('gb2312')
         else:
-            # if nameStr in CServerSocket.dictClient.values():
-            #     message = '该账号已在本机登录!'.encode('gb2312')
-            for tmpSocket in CServerSocket.dictClient.keys():
-                if clientIp == tmpSocket.getpeername()[0] and \
-                    nameStr == CServerSocket.dictClient[tmpSocket]:
-                    message = '该账号已在本机登录!'.encode('gb2312')
-                    break
+            if nameStr in CServerSocket.dictClient.values():
+                for tmpSocket in CServerSocket.dictClient.keys():
+                    if nameStr == CServerSocket.dictClient[tmpSocket]:
+                        if clientIp == tmpSocket.getpeername()[0]:
+                            message = '该账号已在本机登录!'.encode('gb2312')
+                            break
+                        else:
+                            # 将原来已在其他IP上登录的相同用户名的用户踢下线
+                            message = '当前账号已在别的地方登录,您已被踢下线!'.encode('gb2312')
+                            msgSend = struct.pack('i2048s', message_type.value, message)
+                            tmpSocket.send(msgSend)
+                            tmpSocket.close()
+                            CServerSocket.dictClient.pop(tmpSocket)
+                            # 更新其他用户的在线用户列表
+                            CServerSocket.updateUser(tmpSocket, False, nameStr)
+
+                            # 当前IP的相同用户名的用户登录成功
+                            message = '登录成功!'.encode('gb2312')
+                            msgSend = struct.pack('i2048s', message_type.value, message)
+                            s.send(msgSend)
+                            return
             else:
                 message = '登录成功!'.encode('gb2312')
         message_send = struct.pack('i2048s', message_type.value, message)

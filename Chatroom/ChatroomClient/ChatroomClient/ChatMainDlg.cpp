@@ -136,6 +136,13 @@ afx_msg LRESULT CChatMainDlg::OnShsocket(WPARAM wParam, LPARAM lParam)
 				delete m_pClientSocket->m_pObjAddFriend;
 				m_pClientSocket->m_pObjAddFriend = nullptr;
 			}
+			else if (m_pClientSocket->m_pObjLoginError) {
+				m_pClientSocket->Close();
+				MessageBoxA(NULL, m_pClientSocket->m_pObjLoginError->szErrMsg, "ÌבÊ¾", MB_OK);
+				delete m_pClientSocket->m_pObjLoginError;
+				m_pClientSocket->m_pObjLoginError = nullptr;
+				EndDialog(9);
+			}
 
 			return 0;
 		}

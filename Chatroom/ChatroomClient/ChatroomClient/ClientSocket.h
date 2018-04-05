@@ -49,8 +49,9 @@ public:
 	CHATUPDATEFRIEND *m_pObjUpdateFriend = nullptr;
 	CHATONE2ONE *m_pObjOne2One = nullptr;
 	CHATADDFRIEND *m_pObjAddFriend = nullptr;
-	char m_szName[BUFNAME];
 	CHATSEND *m_pObjChatRecv = nullptr;
+	CHATLOGINERROR *m_pObjLoginError = nullptr;
+	char m_szName[BUFNAME];
 
 private:
 	char m_bufRecv[BUFMSG];

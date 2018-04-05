@@ -196,6 +196,11 @@ char *CClientSocket::RecvForLogin()
 	if (!strcmp(m_pObjChatRecv->m_content.buf, "登录成功!")) {
 		return "登录成功!";
 	}
+	else if (!strcmp(m_pObjChatRecv->m_content.buf, "当前账号已在别的地方登录,您已被踢下线!")) {
+		m_pObjLoginError = new CHATLOGINERROR{};
+		memcpy_s(m_pObjLoginError, sizeof(CHATLOGINERROR), m_pObjChatRecv->m_content.buf, sizeof(CHATLOGINERROR));
+		return nullptr;
+	}
 	else {
 		MessageBoxA(NULL, m_pObjChatRecv->m_content.buf, "提示", MB_OK);
 		return nullptr;

@@ -54,6 +54,11 @@ typedef struct _CHATLOGIN {
 	char szPwd[64];
 } CHATLOGIN;
 
+//掉线接收服务器返回的信息
+typedef struct _CHATLOGINERROR {
+	char szErrMsg[1024];
+} CHATLOGINERROR;
+
 //添加好友结构体
 typedef struct _CHATADDFRIEND {
 	bool bRetAdd;       //服务器的添加结果
