@@ -61,6 +61,8 @@ class CServerSocket():
                 type, = struct.unpack('i', message[:4])
                 print('type=...... ', type)
                 # 根据不同的消息类型，调用不同的处理函数
+                if type not in CServerSocket.dictFun.keys():
+                    continue
                 CServerSocket.dictFun[type](s, message)
             except Exception as e:
                 print('exception= ', e)
