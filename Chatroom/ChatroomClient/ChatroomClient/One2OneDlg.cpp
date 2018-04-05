@@ -43,7 +43,7 @@ END_MESSAGE_MAP()
 
 // COne2OneDlg message handlers
 
-
+//处理聊天发送按钮的点击事件
 void COne2OneDlg::OnBnClickedSendButton()
 {
 	// TODO: Add your control notification handler code here
@@ -56,6 +56,7 @@ void COne2OneDlg::OnBnClickedSendButton()
 	strOne2One += _T(":") + m_strSend;
 	CStringA str = CW2A(strOne2One.GetBuffer(), CP_THREAD_ACP);
 	CChatMainDlg *pParent = (CChatMainDlg*)GetParent();
+	// 发送1VS1私聊请求
 	pParent->m_pClientSocket->Send(ONE2ONE, str.GetBuffer(), str.GetLength() + 1);
 	m_strShow += _T("你说: ");
 	m_strShow += m_strSend;
@@ -65,7 +66,7 @@ void COne2OneDlg::OnBnClickedSendButton()
 	m_editShow.LineScroll(m_editShow.GetLineCount());
 }
 
-
+// 重写窗口关闭的处理，让它隐藏不关闭
 void COne2OneDlg::OnClose()
 {
 	// TODO: Add your message handler code here and/or call default
@@ -73,7 +74,6 @@ void COne2OneDlg::OnClose()
 	ShowWindow(SW_HIDE);
 	//CDialogEx::OnClose();
 }
-
 
 BOOL COne2OneDlg::PreTranslateMessage(MSG* pMsg)
 {

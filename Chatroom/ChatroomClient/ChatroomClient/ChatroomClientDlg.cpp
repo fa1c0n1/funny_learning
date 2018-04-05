@@ -13,6 +13,7 @@
 #define new DEBUG_NEW
 #endif
 
+//登录/注册窗口
 
 // CAboutDlg dialog used for App About
 
@@ -159,8 +160,7 @@ HCURSOR CChatroomClientDlg::OnQueryDragIcon()
 	return static_cast<HCURSOR>(m_hIcon);
 }
 
-
-
+//处理登录按钮点击事件
 void CChatroomClientDlg::OnBnClickedLoginButton()
 {
 	// TODO: Add your control notification handler code here
@@ -178,13 +178,17 @@ void CChatroomClientDlg::OnBnClickedLoginButton()
 	CString strSend = m_strUsername;
 	strSend += _T(":") + m_strPwd;
 	CStringA str = CW2A(strSend.GetBuffer(), CP_THREAD_ACP);
+	//向服务端发送登录请求
 	m_sClient.Send(LOGIN, str.GetBuffer(), str.GetLength() + 1);
+	//接收服务端的响应消息
 	char *pRet = m_sClient.Recv();
 	if (pRet == nullptr) {
+		//登录失败，直接关闭socket
 		m_sClient.Close();
 		return;
 	}
 
+	//如果登录成功,则隐藏登录窗口，显示聊天主窗口
 	CStringA strShowName = CW2A(m_strUsername.GetBuffer(), CP_THREAD_ACP);
 	strcpy_s(m_sClient.m_szName, strShowName.GetBuffer());
 	ShowWindow(SW_HIDE);
@@ -193,14 +197,17 @@ void CChatroomClientDlg::OnBnClickedLoginButton()
 	INT_PTR nRet = chatMainDlg.DoModal();
 
 	if (nRet == 9) { 
+		//9，代表当前用户被踢下线了，则显示登录窗口
 		ShowWindow(SW_SHOW);
 	}
 	else {
+		//如果是用户关闭了聊天主窗口，则登录窗口也关闭退出
 		EndDialog(0);
 		m_sClient.Close();
 	}
 }
 
+//处理注册按钮点击事件
 void CChatroomClientDlg::OnBnClickedRegisterButton()
 {
 	// TODO: Add your control notification handler code here
@@ -218,6 +225,7 @@ void CChatroomClientDlg::OnBnClickedRegisterButton()
 	CString strSend = m_strUsername;
 	strSend += _T(":") + m_strPwd;
 	CStringA str = CW2A(strSend.GetBuffer(), CP_THREAD_ACP);
+	//向服务端发起注册请求
 	m_sClient.Send(REGISTER, str.GetBuffer(), str.GetLength() + 1);
 
 	//等待注册结果
@@ -231,7 +239,7 @@ void CChatroomClientDlg::OnBnClickedRegisterButton()
 	m_sClient.Close();
 }
 
-//匿名按钮被点击
+//匿名按钮被点击(因为匿名按钮去掉了，所以该函数没有意义了)
 void CChatroomClientDlg::OnBnClickedAnonymousButton()
 {
 	// TODO: Add your control notification handler code here
@@ -247,7 +255,7 @@ void CChatroomClientDlg::OnBnClickedAnonymousButton()
 	m_sClient.Close();
 }
 
-
+//重写OnOK()函数，是为了以防焦点用户名/密码编辑框时按了回车键就将窗口关闭
 void CChatroomClientDlg::OnOK()
 {
 	// TODO: Add your specialized code here and/or call the base class

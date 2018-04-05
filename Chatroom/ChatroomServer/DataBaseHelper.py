@@ -21,6 +21,9 @@ class CSqlForChat():
     def __del__(self):
         self.conn.close()
 
+    # 查询数据
+    # szSql: 查询语句
+    # param: 查询参数
     def query(self, szSql, param=None):
         cursor= self.conn.cursor()
         try:
@@ -34,6 +37,9 @@ class CSqlForChat():
             self.conn.rollback()
             return None
 
+    # 插入数据
+    # szSql: 查询语句
+    # param: 查询参数
     def insert(self, szSql, param=None):
         cursor = self.conn.cursor()
         try:
@@ -49,6 +55,7 @@ class CSqlForChat():
 
 
 
+# 测试
 if __name__ == '__main__':
     sql = CSqlForChat()
     result = sql.query("select * from msginfo")

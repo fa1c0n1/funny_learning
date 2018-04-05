@@ -89,15 +89,16 @@ BOOL CChatMainDlg::OnInitDialog()
 	m_listCtrlFriend.SetExtendedStyle(LVS_EX_GRIDLINES | LVS_EX_FULLROWSELECT);
 	m_listCtrlFriend.InsertColumn(0, _T("好友列表"), 0, rect.Width());
 
-	//使用消息选择模型绑定 socket 和 当前对话框
+	//使用消息选择模型绑定 socket 和 当前对话框, 将服务端发来的socket消息托管给当前对话框窗口
 	WSAAsyncSelect(m_pClientSocket->m_sClient, m_hWnd, WM_SHSOCKET, FD_READ | FD_CLOSE);
+	//把用户的上线消息告诉服务端
 	m_pClientSocket->Send(ANONYMOUS, m_pClientSocket->m_szName, strlen(m_pClientSocket->m_szName) + 1);
 
 	return TRUE;  // return TRUE unless you set the focus to a control
 	// EXCEPTION: OCX Property Pages should return FALSE
 }
 
-
+// 响应自定义消息 WM_SHSOCKET
 afx_msg LRESULT CChatMainDlg::OnShsocket(WPARAM wParam, LPARAM lParam)
 {
 	SOCKET s = wParam;
@@ -112,41 +113,43 @@ afx_msg LRESULT CChatMainDlg::OnShsocket(WPARAM wParam, LPARAM lParam)
 
 	switch (wEvent)
 	{
-	case FD_READ:
+	case FD_READ:    //服务端有数据发过来
 	{
 		char *szRecv = m_pClientSocket->Recv();
-		if (szRecv == nullptr) {
+		if (szRecv == nullptr) {   //更新在线用户列表
 			if (m_pClientSocket->m_pObjUpdate) {
 				InsertOrDeleteUser(*m_pClientSocket->m_pObjUpdate);
 				delete m_pClientSocket->m_pObjUpdate;
 				m_pClientSocket->m_pObjUpdate = nullptr;
 			}
-			else if (m_pClientSocket->m_pObjUpdateFriend) {
+			else if (m_pClientSocket->m_pObjUpdateFriend) {  //用户上线后，更新好友列表
 				InsertFriend(*m_pClientSocket->m_pObjUpdateFriend);
 				delete m_pClientSocket->m_pObjUpdateFriend;
 				m_pClientSocket->m_pObjUpdateFriend = nullptr;
 			}
-			else if (m_pClientSocket->m_pObjOne2One) {
+			else if (m_pClientSocket->m_pObjOne2One) {   //处理1VS1私聊
 				ChatForOne2One(*m_pClientSocket->m_pObjOne2One);
 				delete m_pClientSocket->m_pObjOne2One;
 				m_pClientSocket->m_pObjOne2One = nullptr;
 			}
-			else if (m_pClientSocket->m_pObjAddFriend) {
+			else if (m_pClientSocket->m_pObjAddFriend) {  //添加好友, 更新好友列表
 				InsertFriend(*m_pClientSocket->m_pObjAddFriend);
 				delete m_pClientSocket->m_pObjAddFriend;
 				m_pClientSocket->m_pObjAddFriend = nullptr;
 			}
-			else if (m_pClientSocket->m_pObjLoginError) {
+			else if (m_pClientSocket->m_pObjLoginError) {  //账号在别的IP上登录，当前的用户被踢下线
 				m_pClientSocket->Close();
 				MessageBoxA(NULL, m_pClientSocket->m_pObjLoginError->szErrMsg, "提示", MB_OK);
 				delete m_pClientSocket->m_pObjLoginError;
 				m_pClientSocket->m_pObjLoginError = nullptr;
+				//被踢下线后，退出当前窗口，并返回9
 				EndDialog(9);
 			}
 
 			return 0;
 		}
 
+		//更新聊天编辑框和显示框的内容
 		UpdateData(TRUE);
 		m_strShow += szRecv;
 		m_strShow += "\r\n";
@@ -184,7 +187,7 @@ void CChatMainDlg::ChatForOne2One(CHATONE2ONE &objOne2One)
 		pOne2OneDlg->m_strShow += _T("\r\n");
 		pOne2OneDlg->UpdateData(FALSE);
 	}
-	else {
+	else {  //如果在map集合中找到了之前保存过的私聊窗口, 直接显示出来即可
 		pOne2OneDlg = (COne2OneDlg*)m_map[strToName];
 		pOne2OneDlg->UpdateData(TRUE);
 		pOne2OneDlg->m_strShow += strToName + _T(":") + strContent;
@@ -213,7 +216,7 @@ void CChatMainDlg::OnBnClickedSendButton()
 	m_editShow.LineScroll(m_editShow.GetLineCount());
 }
 
-
+//处理聊天室在线用户列表的鼠标双击事件
 void CChatMainDlg::OnNMDblclkOnlineList(NMHDR *pNMHDR, LRESULT *pResult)
 {
 	LPNMITEMACTIVATE pNMItemActivate = reinterpret_cast<LPNMITEMACTIVATE>(pNMHDR);
@@ -225,9 +228,11 @@ void CChatMainDlg::OnNMDblclkOnlineList(NMHDR *pNMHDR, LRESULT *pResult)
 	if (nSelIdx == -1)
 		return;
 
+	//打开1VS1私聊对话框
 	OpenOne2OneDialog(m_listCtrlUser, nSelIdx);
 }
 
+//处理聊天室在线用户列表的鼠标右键事件
 void CChatMainDlg::OnNMRClickOnlineList(NMHDR *pNMHDR, LRESULT *pResult)
 {
 	LPNMITEMACTIVATE pNMItemActivate = reinterpret_cast<LPNMITEMACTIVATE>(pNMHDR);
@@ -238,6 +243,7 @@ void CChatMainDlg::OnNMRClickOnlineList(NMHDR *pNMHDR, LRESULT *pResult)
 	if (!m_bLogin)
 		return;
 
+	//弹出右键子菜单
 	m_dwNameIndex = pNMItemActivate->iItem;
 	CMenu menu;
 	menu.LoadMenu(IDR_MENU1);
@@ -247,6 +253,7 @@ void CChatMainDlg::OnNMRClickOnlineList(NMHDR *pNMHDR, LRESULT *pResult)
 	pSubMenu->TrackPopupMenu(TPM_LEFTALIGN, pt.x, pt.y, this, NULL);
 }
 
+//右键子菜单：添加好友
 void CChatMainDlg::OnSubmenuAddfriend()
 {
 	// TODO: Add your command handler code here
@@ -258,6 +265,7 @@ void CChatMainDlg::OnSubmenuAddfriend()
 	m_pClientSocket->Send(ADDFRIEND, strSend.GetBuffer(), strSend.GetLength() + 1);
 }
 
+//右键子菜单：搜索好友
 void CChatMainDlg::OnSubmenuSearchfriend()
 {
 	// TODO: Add your command handler code here
@@ -277,6 +285,7 @@ void CChatMainDlg::OnSubmenuSearchfriend()
 	m_pClientSocket->Send(SEARCHUSER, strSearchA.GetBuffer(), strSearchA.GetLength() + 1);
 }
 
+//右键子菜单: 查询当前用户的聊天记录
 void CChatMainDlg::OnSubmenuSearchrecord()
 {
 	// TODO: Add your command handler code here
@@ -286,6 +295,7 @@ void CChatMainDlg::OnSubmenuSearchrecord()
 	if (dwRet == WAIT_FAILED || dwRet == WAIT_TIMEOUT)
 		return;
 
+	//向服务器发送查询请求
 	m_pClientSocket->Send(MSGRECORD, NULL, NULL);
 	m_pClientSocket->m_vtChatRecord.clear();
 
@@ -310,7 +320,7 @@ void CChatMainDlg::OnTimer(UINT_PTR nIDEvent)
 			KillTimer(nIDEvent);
 			SetEvent(m_pClientSocket->m_hEvent);
 			if (m_pChatRecordDlg) {
-				//更新数据
+				//更新聊天记录列表
 				m_pChatRecordDlg->UpdateRecord(m_pClientSocket->m_vtChatRecord);
 				m_pChatRecordDlg->SetWindowTextW(_T("聊天记录"));
 				//显示窗口
@@ -322,13 +332,14 @@ void CChatMainDlg::OnTimer(UINT_PTR nIDEvent)
 	CDialogEx::OnTimer(nIDEvent);
 }
 
+//根据用户上线/下线，来更新在线用户列表
 void CChatMainDlg::InsertOrDeleteUser(CHATUPDATEUSER &objChatUpdateUser)
 {
 	CString strTmp = CA2W(objChatUpdateUser.buf, CP_THREAD_ACP);
-	if (objChatUpdateUser.bAdd) {
+	if (objChatUpdateUser.bAdd) { //用户上线了，则添加
 		m_listCtrlUser.InsertItem(0, strTmp);
 	}
-	else {
+	else { //用户下线了，则删除
 		LVFINDINFO info = {};
 		info.flags = LVFI_STRING;
 		info.psz = strTmp;
@@ -337,18 +348,21 @@ void CChatMainDlg::InsertOrDeleteUser(CHATUPDATEUSER &objChatUpdateUser)
 	}
 }
 
+//添加好友成功，更新好友列表
 void CChatMainDlg::InsertFriend(CHATADDFRIEND &objChatAddFriend)
 {
 	CString strTmp = CA2W(objChatAddFriend.szFriendName, CP_THREAD_ACP);
 	m_listCtrlFriend.InsertItem(0, strTmp);
 }
 
+//用户上线后，读取并更新好友列表
 void CChatMainDlg::InsertFriend(CHATUPDATEFRIEND &objChatUpdateFriend)
 {
 	CString strTmp = CA2W(objChatUpdateFriend.szFriendName, CP_THREAD_ACP);
 	m_listCtrlFriend.InsertItem(0, strTmp);
 }
 
+//处理好友列表的鼠标双击事件
 void CChatMainDlg::OnNMDblclkFriendList(NMHDR *pNMHDR, LRESULT *pResult)
 {
 	LPNMITEMACTIVATE pNMItemActivate = reinterpret_cast<LPNMITEMACTIVATE>(pNMHDR);
@@ -360,9 +374,11 @@ void CChatMainDlg::OnNMDblclkFriendList(NMHDR *pNMHDR, LRESULT *pResult)
 	if (nSelIdx == -1)
 		return;
 
+	//打开1VS1私聊对话框
 	OpenOne2OneDialog(m_listCtrlFriend, nSelIdx);
 }
 
+//打开1VS1私聊对话框
 void CChatMainDlg::OpenOne2OneDialog(CListCtrl &listCtrl, int nSelIndex)
 {
 	COne2OneDlg *pOne2OneDlg = nullptr;

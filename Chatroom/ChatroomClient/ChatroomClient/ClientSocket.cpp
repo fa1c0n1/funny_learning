@@ -4,6 +4,8 @@
 #include "ClientSocket.h"
 #include <cstring>
 
+//CClientSocket类：处理 socket 收发请求的一个类
+
 CClientSocket::CClientSocket()
 {
 	m_hEvent = CreateEvent(NULL, FALSE, TRUE, NULL);
@@ -13,6 +15,7 @@ CClientSocket::~CClientSocket()
 {
 }
 
+//连接目标服务器
 bool CClientSocket::ConnectServer(char *szIp, WORD port)
 {
 	//1.初始化套接字动态库
@@ -50,6 +53,7 @@ bool CClientSocket::ConnectServer(char *szIp, WORD port)
 	return true;
 }
 
+//解析服务端发过来的数据包
 char *CClientSocket::Recv()
 {
 	CHATSEND ct = {};
@@ -90,6 +94,7 @@ char *CClientSocket::Recv()
 	return nullptr;
 }
 
+//封装数据包，发送给服务端
 bool CClientSocket::Send(CHATPURPOSE purpose, char *bufSend, DWORD dwLen)
 {
 	switch (purpose)
@@ -127,6 +132,7 @@ bool CClientSocket::Send(CHATPURPOSE purpose, char *bufSend, DWORD dwLen)
 	return true;
 }
 
+//释放socket连接资源
 bool CClientSocket::Close()
 {
 	WSACleanup();

@@ -53,6 +53,7 @@ BOOL CChatRecordDlg::OnInitDialog()
 	// EXCEPTION: OCX Property Pages should return FALSE
 }
 
+//子线程执行函数
 UINT __cdecl CChatRecordDlg::UpdateListProc(LPVOID pParam)
 {
 	PRECORDPROCINFO pRecordProcInfo = (PRECORDPROCINFO)pParam;
@@ -68,15 +69,17 @@ UINT __cdecl CChatRecordDlg::UpdateListProc(LPVOID pParam)
 	return 0;
 }
 
+//读取并更新聊天记录
 void CChatRecordDlg::UpdateRecord(vector<CHATMSGRECORD> &vtChatRecord)
 {
 	PRECORDPROCINFO pRecordProcInfo = new RECORDPROCINFO{};
 	pRecordProcInfo->pChatRecordDlg = this;
 	pRecordProcInfo->pVtRecord = &vtChatRecord;
-	//开启子线程去显示聊天记录
+	//因为聊天记录可能会比较多，所以开启子线程去做
 	AfxBeginThread(UpdateListProc, (LPVOID)pRecordProcInfo);
 }
 
+//更新聊天记录列表
 void CChatRecordDlg::UpdateList(CChatRecordDlg *pChatRecordDlg, vector<CHATMSGRECORD> &vtChatRecord)
 {
 	//删除之前的聊天记录

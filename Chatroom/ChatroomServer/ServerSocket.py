@@ -9,18 +9,19 @@ from threading import Thread
 import struct
 import time
 
+# 枚举类：用来表示数据包的请求目的
 class EnumMsgType(Enum):
-    ANONYMOUS = 1
-    CHAT = 2
-    ONE2ONE = 3
-    REGISTER = 4
-    LOGIN = 5
-    ADDFRIEND = 6
-    SEARCHUSER = 7
-    FILETRANS = 8
-    MSGRECORD = 9
-    UPDATEUSER = 10
-    UPDATEFRIEND = 11
+    ANONYMOUS = 1       # 表示用户上线，加入聊天室
+    CHAT = 2            # 群聊
+    ONE2ONE = 3         # 1VS1私聊
+    REGISTER = 4        # 用户注册
+    LOGIN = 5           # 用户登录
+    ADDFRIEND = 6       # 添加好友
+    SEARCHUSER = 7      # 搜索用户
+    FILETRANS = 8       # 传文件
+    MSGRECORD = 9       # 查询聊天记录
+    UPDATEUSER = 10     # 更新聊天室用户列表
+    UPDATEFRIEND = 11   # 更新好友列表
 
 
 class CServerSocket():
@@ -36,12 +37,14 @@ class CServerSocket():
         self.socketServer.listen()
         print('服务器启动成功，等待客户端连接...')
 
+    # 开启子线程接收客户端连接
     def myAccept(self):
         # 创建线程 accept
         thrd = Thread(target=self.__acceptProc)
         thrd.start()
 
-        # accept 的回调函数
+    # 循环接收连接请求
+    #  每连接上一个客户端，都开启一个子线程去处理该客户端的请求
     def __acceptProc(self):
         while True:
             # accept返回的是个元组(套接字，客户端地址)
@@ -49,7 +52,7 @@ class CServerSocket():
             recvThread = Thread(target=self.__recvProc, args=(socketClient,))
             recvThread.start()
 
-        # 接收消息线程的回调
+    # 循环处理客户端的各种请求
     def __recvProc(self, s):
         while True:
             try:
@@ -57,6 +60,7 @@ class CServerSocket():
                 # 消息类型
                 type, = struct.unpack('i', message[:4])
                 print('type=...... ', type)
+                # 根据不同的消息类型，调用不同的处理函数
                 CServerSocket.dictFun[type](s, message)
             except Exception as e:
                 print('exception= ', e)
@@ -69,27 +73,34 @@ class CServerSocket():
                 CServerSocket.updateUser(s, False, name)
                 return
 
+    # 用户上线
     def __chatForAnonymous(s, msg):
         len, = struct.unpack('i', msg[4:8])
         buf, = struct.unpack('%ds' % len, msg[8:8+len])
         name = buf.decode('gb2312').rstrip('\0')
         print(name + '加入聊天室')
         CServerSocket.dictClient[s] = name
+        #回送数据包告诉用户当前聊天室在线用户都有哪些
         CServerSocket.updateUser(s, True, name)
+        # 回送数据包告诉用户的好友都有哪些
         CServerSocket.updateFriend(s, name)
 
+    # 群聊
     def __chatForChat(s, msg):
+        # 将用户发的聊天内容，转发给其他在线用户
         for each in CServerSocket.dictClient:
             if each == s:
                 continue
             each.send(msg)
 
+    # 1VS1 私聊
     def __chatForOne2One(s, msg):
         dwLen, = struct.unpack('i', msg[4:8])
         fromName, = struct.unpack('64s', msg[8:72])
         toName, = struct.unpack('64s', msg[72:136])
         toName = toName.decode('gb2312').rstrip('\0')
         print('私聊对象：', toName)
+        # 将用户发过来的聊天内容转发给该用户的私聊对象
         for each in CServerSocket.dictClient:
             if toName == CServerSocket.dictClient[each]:
                 each.send(msg)
@@ -112,6 +123,7 @@ class CServerSocket():
             "insert into msginfo(userfrom,userto,msgcontent) values(%s,%s,%s)",
             (msgFrom, msgTo, msgInfo))
 
+    # 用户登录
     def __chatForLogin(s, msg):
         md5Helper = md5()
         nameOrg, = struct.unpack('64s', msg[4:68])
@@ -124,7 +136,7 @@ class CServerSocket():
         result = CServerSocket.conn.query(
             "select * from userinfo where username=%s", (nameStr,))
 
-
+        # 获取该用户的IP地址
         clientIp = s.getpeername()[0]
 
         message_type = EnumMsgType.LOGIN
@@ -160,12 +172,14 @@ class CServerSocket():
         message_send = struct.pack('i2048s', message_type.value, message)
         s.send(message_send)
 
+    # 用户注册
     def __chatForRegister(s, msg):
         md5Helper = md5()
         nameOrg, = struct.unpack('64s', msg[4:68])
         pwdOrg, = struct.unpack('64s', msg[68:132])
         nameStr = nameOrg.decode('gb2312').rstrip('\0')
         pwdStr = pwdOrg.decode('gb2312').rstrip('\0')
+        # 用md5算法将密码加密后再保存到数据库
         md5Helper.update(pwdStr.encode())
         pwdEncrypt = md5Helper.hexdigest()
 
@@ -190,6 +204,7 @@ class CServerSocket():
         message_send = struct.pack('i2048s', message_type.value, message)
         s.send(message_send)
 
+    # 添加好友
     def __chatForAddFriend(s, msg):
         # 获取要添加好友的双方姓名
         name, = struct.unpack('64s', msg[5:69])
@@ -236,9 +251,12 @@ class CServerSocket():
         # 如果添加好友成功，需要通知发起添加请求的用户
         s.send(message_send)
 
+    # 搜索用户
     def __chatForSearchUser(s, msg):
         name, = struct.unpack('64s', msg[4:68])
         name = name.decode('gb2312').rstrip('\0')
+
+        # 构造查询语句
         result = CServerSocket.conn.query(
             "select username from userinfo where username=%s", (name,))
 
@@ -254,9 +272,10 @@ class CServerSocket():
         message_send = struct.pack('i2048s', message_type.value, message)
         s.send(message_send)
 
+    # 查询聊天记录
     def __chatForGetMsgRecord(s, msg):
         name = CServerSocket.dictClient[s]
-        # 查询所有信息
+        # 构造查询语句
         result = CServerSocket.conn.query(
             "select * from msginfo where userfrom=%s or userto=%s", (name,name))
 
@@ -355,8 +374,8 @@ class CServerSocket():
         9: __chatForGetMsgRecord
     }
 
-    BUFSIZE = 2048 +4
-    dictClient = {}
+    BUFSIZE = 2048 +4    # 通信协议的数据包大小
+    dictClient = {}      # 保存在线用户的字典，key表示用户的socket，value为用户名
 
 
 
