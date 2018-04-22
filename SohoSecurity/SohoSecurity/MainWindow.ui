@@ -1,0 +1,176 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui version="4.0">
+ <class>SohoSecurityClass</class>
+ <widget class="QMainWindow" name="SohoSecurityClass">
+  <property name="geometry">
+   <rect>
+    <x>0</x>
+    <y>0</y>
+    <width>968</width>
+    <height>588</height>
+   </rect>
+  </property>
+  <property name="windowTitle">
+   <string>SohoSecurity</string>
+  </property>
+  <widget class="QWidget" name="centralWidget">
+   <widget class="QTabWidget" name="tabWidget">
+    <property name="geometry">
+     <rect>
+      <x>10</x>
+      <y>0</y>
+      <width>951</width>
+      <height>541</height>
+     </rect>
+    </property>
+    <property name="currentIndex">
+     <number>0</number>
+    </property>
+    <widget class="ProcessTabWidget" name="tabProc">
+     <attribute name="title">
+      <string>进程</string>
+     </attribute>
+    </widget>
+    <widget class="WindowTabWidget" name="tabWnd">
+     <attribute name="title">
+      <string>窗口</string>
+     </attribute>
+    </widget>
+    <widget class="ServiceTabWidget" name="tabServ">
+     <attribute name="title">
+      <string>服务</string>
+     </attribute>
+    </widget>
+    <widget class="CleanTrashTabWidget" name="tabClean">
+     <attribute name="title">
+      <string>垃圾清理</string>
+     </attribute>
+    </widget>
+    <widget class="AntiVirusTabWidget" name="tabAV">
+     <attribute name="title">
+      <string>病毒查杀</string>
+     </attribute>
+    </widget>
+   </widget>
+  </widget>
+  <widget class="QMenuBar" name="menuBar">
+   <property name="geometry">
+    <rect>
+     <x>0</x>
+     <y>0</y>
+     <width>968</width>
+     <height>21</height>
+    </rect>
+   </property>
+   <widget class="QMenu" name="menu">
+    <property name="title">
+     <string>控制(&amp;M)</string>
+    </property>
+    <property name="toolTipsVisible">
+     <bool>true</bool>
+    </property>
+    <addaction name="actLockScreen"/>
+    <addaction name="actLogoff"/>
+    <addaction name="actHibernate"/>
+    <addaction name="actSleep"/>
+    <addaction name="actRestart"/>
+    <addaction name="actShutdown"/>
+   </widget>
+   <addaction name="menu"/>
+  </widget>
+  <widget class="QToolBar" name="mainToolBar">
+   <attribute name="toolBarArea">
+    <enum>TopToolBarArea</enum>
+   </attribute>
+   <attribute name="toolBarBreak">
+    <bool>false</bool>
+   </attribute>
+  </widget>
+  <widget class="QStatusBar" name="statusBar"/>
+  <action name="actLogoff">
+   <property name="text">
+    <string>注销(&amp;O)</string>
+   </property>
+   <property name="shortcut">
+    <string>Alt+O</string>
+   </property>
+  </action>
+  <action name="actHibernate">
+   <property name="text">
+    <string>休眠(&amp;H)</string>
+   </property>
+   <property name="shortcut">
+    <string>Alt+H</string>
+   </property>
+  </action>
+  <action name="actSleep">
+   <property name="text">
+    <string>睡眠(&amp;S)</string>
+   </property>
+   <property name="shortcut">
+    <string>Alt+S</string>
+   </property>
+  </action>
+  <action name="actRestart">
+   <property name="text">
+    <string>重启(&amp;R)</string>
+   </property>
+   <property name="shortcut">
+    <string>Alt+R</string>
+   </property>
+  </action>
+  <action name="actShutdown">
+   <property name="text">
+    <string>关机(&amp;P)</string>
+   </property>
+   <property name="shortcut">
+    <string>Alt+P</string>
+   </property>
+  </action>
+  <action name="actLockScreen">
+   <property name="text">
+    <string>锁屏(&amp;L)</string>
+   </property>
+   <property name="shortcut">
+    <string>Alt+L</string>
+   </property>
+  </action>
+ </widget>
+ <layoutdefault spacing="6" margin="11"/>
+ <customwidgets>
+  <customwidget>
+   <class>ProcessTabWidget</class>
+   <extends>QWidget</extends>
+   <header>processtabwidget.h</header>
+   <container>1</container>
+  </customwidget>
+  <customwidget>
+   <class>WindowTabWidget</class>
+   <extends>QWidget</extends>
+   <header>windowtabwidget.h</header>
+   <container>1</container>
+  </customwidget>
+  <customwidget>
+   <class>ServiceTabWidget</class>
+   <extends>QWidget</extends>
+   <header>servicetabwidget.h</header>
+   <container>1</container>
+  </customwidget>
+  <customwidget>
+   <class>CleanTrashTabWidget</class>
+   <extends>QWidget</extends>
+   <header>cleantrashtabwidget.h</header>
+   <container>1</container>
+  </customwidget>
+  <customwidget>
+   <class>AntiVirusTabWidget</class>
+   <extends>QWidget</extends>
+   <header>antivirustabwidget.h</header>
+   <container>1</container>
+  </customwidget>
+ </customwidgets>
+ <resources>
+  <include location="MainWindow.qrc"/>
+ </resources>
+ <connections/>
+</ui>

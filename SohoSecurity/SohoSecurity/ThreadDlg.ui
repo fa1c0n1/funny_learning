@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui version="4.0">
+ <class>ThreadDlg</class>
+ <widget class="QDialog" name="ThreadDlg">
+  <property name="geometry">
+   <rect>
+    <x>0</x>
+    <y>0</y>
+    <width>640</width>
+    <height>426</height>
+   </rect>
+  </property>
+  <property name="windowTitle">
+   <string>ThreadDlg</string>
+  </property>
+  <widget class="QTableWidget" name="tableWidgetThread">
+   <property name="geometry">
+    <rect>
+     <x>10</x>
+     <y>10</y>
+     <width>621</width>
+     <height>411</height>
+    </rect>
+   </property>
+   <property name="selectionMode">
+    <enum>QAbstractItemView::SingleSelection</enum>
+   </property>
+   <property name="selectionBehavior">
+    <enum>QAbstractItemView::SelectRows</enum>
+   </property>
+   <property name="sortingEnabled">
+    <bool>true</bool>
+   </property>
+   <attribute name="horizontalHeaderHighlightSections">
+    <bool>false</bool>
+   </attribute>
+   <attribute name="verticalHeaderVisible">
+    <bool>false</bool>
+   </attribute>
+  </widget>
+ </widget>
+ <layoutdefault spacing="6" margin="11"/>
+ <resources/>
+ <connections>
+  <connection>
+   <sender>tableWidgetThread</sender>
+   <signal>customContextMenuRequested(QPoint)</signal>
+   <receiver>ThreadDlg</receiver>
+   <slot>onTableWidgetCustomContextMenuRequest(QPoint)</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>352</x>
+     <y>33</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>350</x>
+     <y>-1</y>
+    </hint>
+   </hints>
+  </connection>
+ </connections>
+ <slots>
+  <slot>onTableWidgetCustomContextMenuRequest(QPoint)</slot>
+ </slots>
+</ui>
