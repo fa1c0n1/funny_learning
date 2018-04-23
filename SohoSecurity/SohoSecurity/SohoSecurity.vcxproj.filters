@@ -60,6 +60,9 @@
     <ClCompile Include="ThreadDlg.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="CpuMemInfoThread.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="stdafx.h">
@@ -116,6 +119,9 @@
       <Filter>Header Files</Filter>
     </QtMoc>
     <QtMoc Include="ThreadDlg.h">
+      <Filter>Header Files</Filter>
+    </QtMoc>
+    <QtMoc Include="CpuMemInfoThread.h">
       <Filter>Header Files</Filter>
     </QtMoc>
   </ItemGroup>

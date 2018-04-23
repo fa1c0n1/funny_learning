@@ -1,8 +1,6 @@
 #include "stdafx.h"
 #include "ServiceTabWidget.h"
 
-#pragma comment(lib, "AdvApi32.lib")
-
 ServiceTabWidget::ServiceTabWidget(QWidget *parent)
 	: QWidget(parent), m_pPopMenu(nullptr), 
 	m_pActStartService(nullptr), m_pActStopService(nullptr)
