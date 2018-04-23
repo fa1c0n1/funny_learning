@@ -32,8 +32,6 @@ public:
         tableWidgetModule = new QTableWidget(ModuleDlg);
         tableWidgetModule->setObjectName(QStringLiteral("tableWidgetModule"));
         tableWidgetModule->setGeometry(QRect(10, 10, 621, 411));
-        tableWidgetModule->setEditTriggers(QAbstractItemView::NoEditTriggers);
-        tableWidgetModule->setAlternatingRowColors(true);
         tableWidgetModule->setSelectionMode(QAbstractItemView::SingleSelection);
         tableWidgetModule->setSelectionBehavior(QAbstractItemView::SelectRows);
         tableWidgetModule->setSortingEnabled(true);

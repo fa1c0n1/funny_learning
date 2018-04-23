@@ -32,16 +32,12 @@ public:
         tableWidgetWnd = new QTableWidget(WindowTabWidget);
         tableWidgetWnd->setObjectName(QStringLiteral("tableWidgetWnd"));
         tableWidgetWnd->setGeometry(QRect(10, 10, 921, 491));
-        tableWidgetWnd->setEditTriggers(QAbstractItemView::NoEditTriggers);
-        tableWidgetWnd->setAlternatingRowColors(true);
         tableWidgetWnd->setSelectionMode(QAbstractItemView::SingleSelection);
         tableWidgetWnd->setSelectionBehavior(QAbstractItemView::SelectRows);
-        tableWidgetWnd->setSortingEnabled(true);
         tableWidgetWnd->horizontalHeader()->setHighlightSections(false);
         tableWidgetWnd->verticalHeader()->setVisible(false);
 
         retranslateUi(WindowTabWidget);
-        QObject::connect(tableWidgetWnd, SIGNAL(customContextMenuRequested(QPoint)), WindowTabWidget, SLOT(onTableWidgetCustomContextMenuRequest(QPoint)));
 
         QMetaObject::connectSlotsByName(WindowTabWidget);
     } // setupUi

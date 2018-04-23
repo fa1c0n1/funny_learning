@@ -13,6 +13,9 @@ public:
 	~ThreadDlg();
 
 	void ListProcessThread(DWORD dwOwnerPid);
+	bool suspendThread(DWORD dwThreadID);
+	bool resumeThread(DWORD dwThreadID);
+	bool endThread(DWORD dwThreadID);
 
 
 private slots:

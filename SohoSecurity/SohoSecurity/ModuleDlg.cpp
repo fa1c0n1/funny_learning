@@ -59,8 +59,12 @@ void ModuleDlg::ListProcessThread(DWORD dwOwnerPid)
 		{
 			ui.tableWidgetModule->setRowCount(i + 1);
 			ui.tableWidgetModule->setItem(i, 0, new QTableWidgetItem(QString::fromWCharArray(me32.szExePath)));
-			ui.tableWidgetModule->setItem(i, 1, new QTableWidgetItem(QString::asprintf("0x%016X", (LONG64)me32.modBaseAddr)));
-			ui.tableWidgetModule->setItem(i, 2, new QTableWidgetItem(QString::asprintf("0x%016X", me32.modBaseSize)));
+			QTableWidgetItem *pModBaseAddrItem = new QTableWidgetItem(QString::asprintf("0x%016X", (LONG64)me32.modBaseAddr));
+			pModBaseAddrItem->setTextAlignment(Qt::AlignCenter);
+			ui.tableWidgetModule->setItem(i, 1, pModBaseAddrItem);
+			QTableWidgetItem *pModBaseSizeItem = new QTableWidgetItem(QString::asprintf("0x%016X", me32.modBaseSize));
+			pModBaseSizeItem->setTextAlignment(Qt::AlignCenter);
+			ui.tableWidgetModule->setItem(i, 2, pModBaseSizeItem);
 			i++;
 		} while (Module32Next(hModuleSnap, &me32));
 		m_nModuleNum = i;

@@ -72,17 +72,72 @@ void ThreadDlg::onPopMenuRefresh()
 
 void ThreadDlg::onPopMenuSuspendThread()
 {
-
+	DWORD dwThreadID = ui.tableWidgetThread->selectedItems().at(0)->text().toULong();
+	if (suspendThread(dwThreadID))
+		onPopMenuRefresh();
+	else
+		QMessageBox::critical(this, tr("错误"), tr("挂起线程失败"));
 }
 
 void ThreadDlg::onPopMenuResumeThread()
 {
-
+	DWORD dwThreadID = ui.tableWidgetThread->selectedItems().at(0)->text().toULong();
+	if (resumeThread(dwThreadID))
+		onPopMenuRefresh();
+	else
+		QMessageBox::critical(this, tr("错误"), tr("恢复线程失败"));
 }
 
 void ThreadDlg::onPopMenuEndThread()
 {
+	QTableWidgetItem *pThreadIDItem = ui.tableWidgetThread->selectedItems().at(0);
+	QString strThreadID = pThreadIDItem->text();
+	DWORD dwThreadID = strThreadID.toULong();
 
+	QMessageBox::StandardButton retBtn = 
+		QMessageBox::question(this, tr("询问"), tr("确定要结束ID号为 '%1' 的线程吗?").arg(strThreadID));
+	if (retBtn == QMessageBox::Yes) {
+		//结束线程
+		if (endThread(dwThreadID)) {
+			ui.tableWidgetThread->removeRow(pThreadIDItem->row());
+		}
+		else {
+			QMessageBox::critical(this, tr("错误"), tr("结束线程失败"));
+		}
+	}
+}
+
+bool ThreadDlg::suspendThread(DWORD dwThreadID)
+{
+	bool bRet = false;
+	HANDLE hThread = OpenThread(THREAD_SUSPEND_RESUME, NULL, dwThreadID);
+	if (hThread)
+		bRet = SuspendThread(hThread) != -1;
+	CloseHandle(hThread);
+
+	return bRet;
+}
+
+bool ThreadDlg::resumeThread(DWORD dwThreadID)
+{
+	bool bRet = false;
+	HANDLE hThread = OpenThread(THREAD_SUSPEND_RESUME, NULL, dwThreadID);
+	if (hThread)
+		bRet = ResumeThread(hThread) != -1;
+	CloseHandle(hThread);
+
+	return bRet;
+}
+
+bool ThreadDlg::endThread(DWORD dwThreaID)
+{
+	bool bRet = false;
+	HANDLE hThread = OpenThread(THREAD_TERMINATE, NULL, dwThreaID);
+	if (hThread)
+		bRet = TerminateThread(hThread, 0) != 0;
+	CloseHandle(hThread);
+
+	return bRet;
 }
 
 void ThreadDlg::ListProcessThread(DWORD dwOwnerPid)
@@ -115,11 +170,13 @@ void ThreadDlg::ListProcessThread(DWORD dwOwnerPid)
 		if (te32.th32OwnerProcessID == dwOwnerPid) {
 			ui.tableWidgetThread->setRowCount(i + 1);
 			QTableWidgetItem *pThreadIDItem = new QTableWidgetItem;
+			pThreadIDItem->setTextAlignment(Qt::AlignCenter);
 			uThreadID = te32.th32ThreadID;
 			pThreadIDItem->setData(Qt::DisplayRole, uThreadID);
 			ui.tableWidgetThread->setItem(i, 0, pThreadIDItem);
 			
 			QTableWidgetItem *pThreadPriItem = new QTableWidgetItem;
+			pThreadPriItem->setTextAlignment(Qt::AlignCenter);
 			pThreadPriItem->setData(Qt::DisplayRole, te32.tpBasePri);
 			ui.tableWidgetThread->setItem(i, 1, pThreadPriItem);
 
@@ -142,7 +199,10 @@ void ThreadDlg::ListProcessThread(DWORD dwOwnerPid)
 			else {
 				strThreadState = "运行";
 			}
-			ui.tableWidgetThread->setItem(i, 2, new QTableWidgetItem(strThreadState));
+
+			QTableWidgetItem *pThreadStateItem = new QTableWidgetItem(strThreadState);
+			pThreadStateItem->setTextAlignment(Qt::AlignCenter);
+			ui.tableWidgetThread->setItem(i, 2, pThreadStateItem);
 			i++;
 		}
 	} while (Thread32Next(hThreadSnap, &te32));

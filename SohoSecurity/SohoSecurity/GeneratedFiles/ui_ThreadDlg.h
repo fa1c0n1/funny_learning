@@ -32,8 +32,6 @@ public:
         tableWidgetThread = new QTableWidget(ThreadDlg);
         tableWidgetThread->setObjectName(QStringLiteral("tableWidgetThread"));
         tableWidgetThread->setGeometry(QRect(10, 10, 621, 411));
-        tableWidgetThread->setEditTriggers(QAbstractItemView::NoEditTriggers);
-        tableWidgetThread->setAlternatingRowColors(true);
         tableWidgetThread->setSelectionMode(QAbstractItemView::SingleSelection);
         tableWidgetThread->setSelectionBehavior(QAbstractItemView::SelectRows);
         tableWidgetThread->setSortingEnabled(true);

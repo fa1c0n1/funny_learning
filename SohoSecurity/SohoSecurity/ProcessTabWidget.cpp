@@ -3,6 +3,7 @@
 #include "ModuleDlg.h"
 #include "ThreadDlg.h"
 #include "Data.h"
+#include <cstdlib>
 #include <TlHelp32.h>
 
 ProcessTabWidget::ProcessTabWidget(QWidget *parent)
@@ -32,6 +33,11 @@ void ProcessTabWidget::onTableWidgetCustomContextMenuRequest(QPoint pos)
 	QTableWidgetItem *pCurItem = ui.tableWidget->itemAt(pos);
 	if (pCurItem == nullptr)
 		return;
+
+	QTableWidgetItem *pPIDItem = ui.tableWidget->selectedItems().at(1);
+	if (pPIDItem->text().toULong() == 0)
+		return;
+
 
 	QMenu *pPopMenu = new QMenu(ui.tableWidget);
 	QAction *pActRefresh = pPopMenu->addAction("刷新");
@@ -114,9 +120,11 @@ bool ProcessTabWidget::endProcess(DWORD dwPID)
 void ProcessTabWidget::listProcess()
 {
 	HANDLE hProcessSnap = NULL;
+	HANDLE hProcess = NULL;
 	PROCESSENTRY32 pe32 = {};
 	UINT uPID;
 	UINT uPPID;
+	BOOL Is32 = FALSE;
 	QString strProcessFullPath;
 
 	int i = 0;
@@ -140,44 +148,83 @@ void ProcessTabWidget::listProcess()
 				continue;
 			}
 			else if (pe32.th32ProcessID == 0) {
-				strProcessFullPath = "无法获取";
+				strProcessFullPath = "处理器空闲时间的百分比";
 			}
 			else {
 				//获取进程对应程序的路径
-				HANDLE hModuleSnap = CreateToolhelp32Snapshot(TH32CS_SNAPMODULE, pe32.th32ProcessID);
-				if (hModuleSnap == INVALID_HANDLE_VALUE) {
-					strProcessFullPath = "无法获取";
+				getSeDebugPrivilge();
+				hProcess = OpenProcess(PROCESS_QUERY_INFORMATION, FALSE, pe32.th32ProcessID);
+				if (hProcess) {
+					IsWow64Process(hProcess, &Is32);
+					TCHAR tFullPathBuf[MAX_PATH] = {};
+					DWORD dwSize = MAX_PATH;
+					if (QueryFullProcessImageName(hProcess, 0, tFullPathBuf, &dwSize))
+						strProcessFullPath = QString::fromWCharArray(tFullPathBuf);
+					else
+						strProcessFullPath = "无法获取";
 				}
 				else {
-					MODULEENTRY32 me32 = {};
-					me32.dwSize = sizeof(MODULEENTRY32);
-					if (!Module32First(hModuleSnap, &me32)) {
-						//TODO:
-						strProcessFullPath = "无法获取";
-					}
-					else {
-						strProcessFullPath = QString::fromWCharArray(me32.szExePath);
-					}
-					CloseHandle(hModuleSnap);
+					strProcessFullPath = "无法获取";
 				}
+
+				//HANDLE hModuleSnap = CreateToolhelp32Snapshot(TH32CS_SNAPMODULE, pe32.th32ProcessID);
+				//if (hModuleSnap == INVALID_HANDLE_VALUE) {
+				//	strProcessFullPath = "无法获取";
+				//}
+				//else {
+				//	MODULEENTRY32 me32 = {};
+				//	me32.dwSize = sizeof(MODULEENTRY32);
+				//	if (!Module32First(hModuleSnap, &me32)) {
+				//		//TODO:
+				//		strProcessFullPath = "无法获取";
+				//	}
+				//	else {
+				//		strProcessFullPath = QString::fromWCharArray(me32.szExePath);
+				//	}
+				//	CloseHandle(hModuleSnap);
+				//}
 			}
 
 			ui.tableWidget->setRowCount(i+1);
-			ui.tableWidget->setItem(i, 0, new QTableWidgetItem(QString::fromWCharArray(pe32.szExeFile)));
+			ui.tableWidget->setItem(i, 0, 
+				new QTableWidgetItem(QString::fromWCharArray(pe32.szExeFile) + (Is32 ? " *32" : "")));
 			QTableWidgetItem *pPIDItem = new QTableWidgetItem;
+			pPIDItem->setTextAlignment(Qt::AlignCenter);
 			uPID = pe32.th32ProcessID;
 			pPIDItem->setData(Qt::DisplayRole, uPID);
 			ui.tableWidget->setItem(i, 1, pPIDItem);
 			QTableWidgetItem *pPPIDItem = new QTableWidgetItem;
+			pPPIDItem->setTextAlignment(Qt::AlignCenter);
 			uPPID = pe32.th32ParentProcessID;
 			pPPIDItem->setData(Qt::DisplayRole, uPPID);
 			ui.tableWidget->setItem(i, 2, pPPIDItem);
 			ui.tableWidget->setItem(i, 3, new QTableWidgetItem(strProcessFullPath));
 			i++;
+			CloseHandle(hProcess);
 		} while (Process32Next(hProcessSnap, &pe32));
 		m_nProcessCnt = i;
 
 		CloseHandle(hProcessSnap);
 	}
+}
+
+bool ProcessTabWidget::getSeDebugPrivilge()
+{
+	HANDLE hToken;
+	TOKEN_PRIVILEGES tkp;
+
+	if (!OpenProcessToken(GetCurrentProcess(), TOKEN_ADJUST_PRIVILEGES | TOKEN_QUERY, &hToken))
+		return false;
+
+	//获取SEDEBUG特权的LUID
+	LookupPrivilegeValue(NULL, SE_DEBUG_NAME, &tkp.Privileges[0].Luid);
+	tkp.PrivilegeCount = 1;
+	tkp.Privileges[0].Attributes = SE_PRIVILEGE_ENABLED;
+
+	//获取这个进程的关机特权
+	if (!AdjustTokenPrivileges(hToken, FALSE, &tkp, 0, (PTOKEN_PRIVILEGES)NULL, 0))
+		return false;
+
+	return true;
 }
 

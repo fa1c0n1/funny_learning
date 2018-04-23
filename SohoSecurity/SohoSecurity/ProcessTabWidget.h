@@ -21,6 +21,7 @@ void onPopMenuEndProcess();
 private:
 	void listProcess();
 	bool endProcess(DWORD dwPID);
+	bool getSeDebugPrivilge();
 
 private:
 	Ui::ProcessTabWidget ui;

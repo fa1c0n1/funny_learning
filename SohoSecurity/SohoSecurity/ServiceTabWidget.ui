@@ -6,28 +6,66 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>872</width>
-    <height>411</height>
+    <width>912</width>
+    <height>487</height>
    </rect>
   </property>
   <property name="windowTitle">
    <string>ServiceTabWidget</string>
   </property>
-  <widget class="QLabel" name="label">
+  <widget class="QTableWidget" name="tableWidgetServ">
    <property name="geometry">
     <rect>
-     <x>190</x>
-     <y>90</y>
-     <width>81</width>
-     <height>21</height>
+     <x>10</x>
+     <y>10</y>
+     <width>891</width>
+     <height>471</height>
     </rect>
    </property>
-   <property name="text">
-    <string>服务TAB</string>
+   <property name="editTriggers">
+    <set>QAbstractItemView::NoEditTriggers</set>
    </property>
+   <property name="alternatingRowColors">
+    <bool>true</bool>
+   </property>
+   <property name="selectionMode">
+    <enum>QAbstractItemView::SingleSelection</enum>
+   </property>
+   <property name="selectionBehavior">
+    <enum>QAbstractItemView::SelectRows</enum>
+   </property>
+   <property name="sortingEnabled">
+    <bool>true</bool>
+   </property>
+   <attribute name="horizontalHeaderHighlightSections">
+    <bool>false</bool>
+   </attribute>
+   <attribute name="verticalHeaderVisible">
+    <bool>false</bool>
+   </attribute>
   </widget>
  </widget>
  <layoutdefault spacing="6" margin="11"/>
  <resources/>
- <connections/>
+ <connections>
+  <connection>
+   <sender>tableWidgetServ</sender>
+   <signal>customContextMenuRequested(QPoint)</signal>
+   <receiver>ServiceTabWidget</receiver>
+   <slot>onTableWidgetCustomContextMenuRequest(QPoint)</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>290</x>
+     <y>21</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>304</x>
+     <y>-10</y>
+    </hint>
+   </hints>
+  </connection>
+ </connections>
+ <slots>
+  <slot>onTableWidgetCustomContextMenuRequest(QPoint)</slot>
+ </slots>
 </ui>
