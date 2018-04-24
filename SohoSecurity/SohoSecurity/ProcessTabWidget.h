@@ -18,6 +18,9 @@ void onPopMenuTraverseModule();
 void onPopMenuTraverseThread();
 void onPopMenuEndProcess();
 
+signals:
+void updateProcessNum(int nProcNum);
+
 private:
 	void listProcess();
 	bool endProcess(DWORD dwPID);

@@ -28,10 +28,10 @@ public:
     {
         if (ServiceTabWidget->objectName().isEmpty())
             ServiceTabWidget->setObjectName(QStringLiteral("ServiceTabWidget"));
-        ServiceTabWidget->resize(912, 487);
+        ServiceTabWidget->resize(939, 515);
         tableWidgetServ = new QTableWidget(ServiceTabWidget);
         tableWidgetServ->setObjectName(QStringLiteral("tableWidgetServ"));
-        tableWidgetServ->setGeometry(QRect(10, 10, 891, 471));
+        tableWidgetServ->setGeometry(QRect(10, 10, 921, 501));
         tableWidgetServ->setEditTriggers(QAbstractItemView::NoEditTriggers);
         tableWidgetServ->setAlternatingRowColors(true);
         tableWidgetServ->setSelectionMode(QAbstractItemView::SingleSelection);

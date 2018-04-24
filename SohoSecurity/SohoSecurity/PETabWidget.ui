@@ -1,0 +1,375 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui version="4.0">
+ <class>PETabWidget</class>
+ <widget class="QWidget" name="PETabWidget">
+  <property name="geometry">
+   <rect>
+    <x>0</x>
+    <y>0</y>
+    <width>939</width>
+    <height>506</height>
+   </rect>
+  </property>
+  <property name="windowTitle">
+   <string>PETabWidget</string>
+  </property>
+  <widget class="QPushButton" name="psBtnSectionTable">
+   <property name="geometry">
+    <rect>
+     <x>850</x>
+     <y>90</y>
+     <width>75</width>
+     <height>23</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string>区段表</string>
+   </property>
+  </widget>
+  <widget class="QPushButton" name="psBtnDataDirTable">
+   <property name="geometry">
+    <rect>
+     <x>850</x>
+     <y>120</y>
+     <width>75</width>
+     <height>23</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string>数据目录表</string>
+   </property>
+  </widget>
+  <widget class="QPushButton" name="psBtnImpTable">
+   <property name="geometry">
+    <rect>
+     <x>850</x>
+     <y>150</y>
+     <width>75</width>
+     <height>23</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string>导入表</string>
+   </property>
+  </widget>
+  <widget class="QPushButton" name="psBtnExpTable">
+   <property name="geometry">
+    <rect>
+     <x>850</x>
+     <y>180</y>
+     <width>75</width>
+     <height>23</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string>导出表</string>
+   </property>
+  </widget>
+  <widget class="QPushButton" name="psBtnResTable">
+   <property name="geometry">
+    <rect>
+     <x>850</x>
+     <y>210</y>
+     <width>75</width>
+     <height>23</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string>资源表</string>
+   </property>
+  </widget>
+  <widget class="QPushButton" name="psBtnRelocTable">
+   <property name="geometry">
+    <rect>
+     <x>850</x>
+     <y>240</y>
+     <width>75</width>
+     <height>23</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string>重定位表</string>
+   </property>
+  </widget>
+  <widget class="QPushButton" name="psBtnDelayLoadTable">
+   <property name="geometry">
+    <rect>
+     <x>850</x>
+     <y>300</y>
+     <width>75</width>
+     <height>23</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string>延迟加载表</string>
+   </property>
+  </widget>
+  <widget class="QGroupBox" name="groupBox">
+   <property name="geometry">
+    <rect>
+     <x>10</x>
+     <y>10</y>
+     <width>401</width>
+     <height>161</height>
+    </rect>
+   </property>
+   <property name="title">
+    <string>文件信息</string>
+   </property>
+   <widget class="QTextBrowser" name="textBrwFileInfo">
+    <property name="geometry">
+     <rect>
+      <x>10</x>
+      <y>20</y>
+      <width>381</width>
+      <height>131</height>
+     </rect>
+    </property>
+   </widget>
+  </widget>
+  <widget class="QGroupBox" name="groupBox_2">
+   <property name="geometry">
+    <rect>
+     <x>10</x>
+     <y>180</y>
+     <width>401</width>
+     <height>321</height>
+    </rect>
+   </property>
+   <property name="title">
+    <string>PE头信息</string>
+   </property>
+   <widget class="QTextBrowser" name="textBrwPEHeader">
+    <property name="geometry">
+     <rect>
+      <x>10</x>
+      <y>20</y>
+      <width>381</width>
+      <height>291</height>
+     </rect>
+    </property>
+   </widget>
+  </widget>
+  <widget class="QGroupBox" name="groupBoxPEData">
+   <property name="geometry">
+    <rect>
+     <x>420</x>
+     <y>10</y>
+     <width>421</width>
+     <height>491</height>
+    </rect>
+   </property>
+   <property name="title">
+    <string>PE数据显示区域</string>
+   </property>
+   <widget class="QTextBrowser" name="textBrwPEData">
+    <property name="geometry">
+     <rect>
+      <x>10</x>
+      <y>20</y>
+      <width>401</width>
+      <height>461</height>
+     </rect>
+    </property>
+   </widget>
+  </widget>
+  <widget class="QPushButton" name="psBtnOffsetCounter">
+   <property name="geometry">
+    <rect>
+     <x>850</x>
+     <y>330</y>
+     <width>75</width>
+     <height>23</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string>位置计算器</string>
+   </property>
+  </widget>
+  <widget class="QPushButton" name="psBtnOpenFile">
+   <property name="geometry">
+    <rect>
+     <x>850</x>
+     <y>60</y>
+     <width>75</width>
+     <height>23</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string>打开文件</string>
+   </property>
+  </widget>
+  <widget class="QPushButton" name="psBtnTLSTable">
+   <property name="geometry">
+    <rect>
+     <x>850</x>
+     <y>270</y>
+     <width>75</width>
+     <height>23</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string>TLS表</string>
+   </property>
+  </widget>
+ </widget>
+ <layoutdefault spacing="6" margin="11"/>
+ <resources/>
+ <connections>
+  <connection>
+   <sender>psBtnOpenFile</sender>
+   <signal>clicked()</signal>
+   <receiver>PETabWidget</receiver>
+   <slot>onPsBtnOpenFileClicked()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>912</x>
+     <y>64</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>932</x>
+     <y>50</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>psBtnSectionTable</sender>
+   <signal>clicked()</signal>
+   <receiver>PETabWidget</receiver>
+   <slot>onPsBtnSectionTableClicked()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>883</x>
+     <y>98</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>933</x>
+     <y>88</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>psBtnDataDirTable</sender>
+   <signal>clicked()</signal>
+   <receiver>PETabWidget</receiver>
+   <slot>onPsBtnDataDirTableClicked()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>911</x>
+     <y>131</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>934</x>
+     <y>120</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>psBtnImpTable</sender>
+   <signal>clicked()</signal>
+   <receiver>PETabWidget</receiver>
+   <slot>onPsBtnImpTableClicked()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>904</x>
+     <y>158</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>931</x>
+     <y>146</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>psBtnExpTable</sender>
+   <signal>clicked()</signal>
+   <receiver>PETabWidget</receiver>
+   <slot>onPsBtnExpTableClicked()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>881</x>
+     <y>190</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>933</x>
+     <y>175</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>psBtnResTable</sender>
+   <signal>clicked()</signal>
+   <receiver>PETabWidget</receiver>
+   <slot>onPsBtnResTableClicked()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>905</x>
+     <y>223</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>933</x>
+     <y>206</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>psBtnRelocTable</sender>
+   <signal>clicked()</signal>
+   <receiver>PETabWidget</receiver>
+   <slot>onPsBtnRelocTableClicked()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>885</x>
+     <y>254</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>934</x>
+     <y>236</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>psBtnDelayLoadTable</sender>
+   <signal>clicked()</signal>
+   <receiver>PETabWidget</receiver>
+   <slot>onPsBtnDelayTableClicked()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>912</x>
+     <y>284</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>932</x>
+     <y>268</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>psBtnOffsetCounter</sender>
+   <signal>clicked()</signal>
+   <receiver>PETabWidget</receiver>
+   <slot>onPsBtnOffsetCounterClicked()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>881</x>
+     <y>312</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>935</x>
+     <y>297</y>
+    </hint>
+   </hints>
+  </connection>
+ </connections>
+ <slots>
+  <slot>onPsBtnOpenFileClicked()</slot>
+  <slot>onPsBtnSectionTableClicked()</slot>
+  <slot>onPsBtnDataDirTableClicked()</slot>
+  <slot>onPsBtnImpTableClicked()</slot>
+  <slot>onPsBtnExpTableClicked()</slot>
+  <slot>onPsBtnResTableClicked()</slot>
+  <slot>onPsBtnRelocTableClicked()</slot>
+  <slot>onPsBtnDelayTableClicked()</slot>
+  <slot>onPsBtnOffsetCounterClicked()</slot>
+ </slots>
+</ui>

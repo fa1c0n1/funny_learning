@@ -63,6 +63,12 @@
     <ClCompile Include="CpuMemInfoThread.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="PETabWidget.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Md5.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="stdafx.h">
@@ -95,6 +101,12 @@
     <ClInclude Include="Data.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="ui_PETabWidget.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Md5.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <QtMoc Include="MainWindow.h">
@@ -124,6 +136,9 @@
     <QtMoc Include="CpuMemInfoThread.h">
       <Filter>Header Files</Filter>
     </QtMoc>
+    <QtMoc Include="PETabWidget.h">
+      <Filter>Header Files</Filter>
+    </QtMoc>
   </ItemGroup>
   <ItemGroup>
     <QtUic Include="MainWindow.ui">
@@ -148,6 +163,9 @@
       <Filter>Form Files</Filter>
     </QtUic>
     <QtUic Include="ThreadDlg.ui">
+      <Filter>Form Files</Filter>
+    </QtUic>
+    <QtUic Include="PETabWidget.ui">
       <Filter>Form Files</Filter>
     </QtUic>
   </ItemGroup>

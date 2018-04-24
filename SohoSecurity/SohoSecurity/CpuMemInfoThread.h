@@ -11,6 +11,8 @@ public:
 	CpuMemInfoThread(QObject *parent);
 	~CpuMemInfoThread();
 
+	void setQuitThreadFlag(bool bQuitThread);
+
 signals:
 void updateCpuUsage(int nCpuUsage);
 void updateMemUsage(int dwMemUsage);
@@ -22,4 +24,7 @@ private:
 	int getCpuUsage();
 	DWORD getMemoryUsage();
 	double FILETIME2Double(const _FILETIME &fileTime);
+
+private:
+	bool m_bQuitThread;
 };

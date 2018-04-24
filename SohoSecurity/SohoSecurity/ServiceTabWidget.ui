@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>912</width>
-    <height>487</height>
+    <width>939</width>
+    <height>515</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -18,8 +18,8 @@
     <rect>
      <x>10</x>
      <y>10</y>
-     <width>891</width>
-     <height>471</height>
+     <width>921</width>
+     <height>501</height>
     </rect>
    </property>
    <property name="editTriggers">

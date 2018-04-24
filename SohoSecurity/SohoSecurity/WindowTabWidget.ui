@@ -7,7 +7,7 @@
     <x>0</x>
     <y>0</y>
     <width>942</width>
-    <height>510</height>
+    <height>518</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -19,7 +19,7 @@
      <x>10</x>
      <y>10</y>
      <width>921</width>
-     <height>491</height>
+     <height>501</height>
     </rect>
    </property>
    <property name="editTriggers">

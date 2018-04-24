@@ -7,7 +7,7 @@
     <x>0</x>
     <y>0</y>
     <width>968</width>
-    <height>588</height>
+    <height>594</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -24,33 +24,8 @@
      </rect>
     </property>
     <property name="currentIndex">
-     <number>0</number>
+     <number>-1</number>
     </property>
-    <widget class="ProcessTabWidget" name="tabProc">
-     <attribute name="title">
-      <string>进程</string>
-     </attribute>
-    </widget>
-    <widget class="WindowTabWidget" name="tabWnd">
-     <attribute name="title">
-      <string>窗口</string>
-     </attribute>
-    </widget>
-    <widget class="ServiceTabWidget" name="tabServ">
-     <attribute name="title">
-      <string>服务</string>
-     </attribute>
-    </widget>
-    <widget class="CleanTrashTabWidget" name="tabClean">
-     <attribute name="title">
-      <string>垃圾清理</string>
-     </attribute>
-    </widget>
-    <widget class="AntiVirusTabWidget" name="tabAV">
-     <attribute name="title">
-      <string>病毒查杀</string>
-     </attribute>
-    </widget>
    </widget>
   </widget>
   <widget class="QMenuBar" name="menuBar">
@@ -137,38 +112,6 @@
   </action>
  </widget>
  <layoutdefault spacing="6" margin="11"/>
- <customwidgets>
-  <customwidget>
-   <class>ProcessTabWidget</class>
-   <extends>QWidget</extends>
-   <header>processtabwidget.h</header>
-   <container>1</container>
-  </customwidget>
-  <customwidget>
-   <class>WindowTabWidget</class>
-   <extends>QWidget</extends>
-   <header>windowtabwidget.h</header>
-   <container>1</container>
-  </customwidget>
-  <customwidget>
-   <class>ServiceTabWidget</class>
-   <extends>QWidget</extends>
-   <header>servicetabwidget.h</header>
-   <container>1</container>
-  </customwidget>
-  <customwidget>
-   <class>CleanTrashTabWidget</class>
-   <extends>QWidget</extends>
-   <header>cleantrashtabwidget.h</header>
-   <container>1</container>
-  </customwidget>
-  <customwidget>
-   <class>AntiVirusTabWidget</class>
-   <extends>QWidget</extends>
-   <header>antivirustabwidget.h</header>
-   <container>1</container>
-  </customwidget>
- </customwidgets>
  <resources>
   <include location="MainWindow.qrc"/>
  </resources>

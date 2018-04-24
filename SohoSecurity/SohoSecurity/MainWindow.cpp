@@ -7,27 +7,33 @@
 #pragma comment(lib, "PowrProf.lib")
 
 SohoSecurity::SohoSecurity(QWidget *parent)
-	: QMainWindow(parent), m_pCmInfoThread(nullptr), m_pStatusBar(nullptr),
-	m_pLabelCpuUsage(nullptr), m_pLabelMemUsage(nullptr)
+	: QMainWindow(parent)
 {
 	ui.setupUi(this);
 
 	m_pStatusBar = statusBar();
-	m_pLabelCpuUsage = new QLabel(tr("CPU Usage:     "), this);
-	m_pLabelMemUsage = new QLabel(tr("Physical Memory:     "), this);
+	m_pLabelProcCnt = new QLabel(tr("进程数: "), this);
+	m_pLabelCpuUsage = new QLabel(tr("CPU 使用率: "), this);
+	m_pLabelMemUsage = new QLabel(tr("物理内存: "), this);
+	m_pLabelProcCnt->setFixedWidth(100);
+	m_pLabelCpuUsage->setFixedWidth(120);
+	m_pLabelMemUsage->setFixedWidth(180);
+	m_pStatusBar->addWidget(m_pLabelProcCnt);
 	m_pStatusBar->addWidget(m_pLabelCpuUsage);
 	m_pStatusBar->addWidget(m_pLabelMemUsage);
 
-	////状态栏
-	//QStatusBar *sBar = statusBar();
-	//QLabel *label = new QLabel(this);
-	//label->setText("CPU Usage: 4%");
-	//sBar->addWidget(label);
-	////addWidget 从左往右添加
-	//sBar->addWidget(new QLabel("Physical Memory: 67%", this));
-
-	//// addPermanentWidget 从右往左添加
-	//sBar->addPermanentWidget(new QLabel("3", this));
+	m_pProcTabWidget = new ProcessTabWidget(this);
+	m_pWndTabWidget = new WindowTabWidget(this);
+	m_pServTabWidget = new ServiceTabWidget(this);
+	m_pPETabWidget = new PETabWidget(this);
+	m_pCleanTabWidget = new CleanTrashTabWidget(this);
+	m_pAVTabWidget = new AntiVirusTabWidget(this);
+	ui.tabWidget->addTab(m_pProcTabWidget, tr("进程"));
+	ui.tabWidget->addTab(m_pWndTabWidget, tr("窗口"));
+	ui.tabWidget->addTab(m_pServTabWidget, tr("服务"));
+	ui.tabWidget->addTab(m_pPETabWidget, tr("PE文件解析"));
+	ui.tabWidget->addTab(m_pCleanTabWidget, tr("垃圾清理"));
+	ui.tabWidget->addTab(m_pAVTabWidget, tr("病毒查杀"));
 
 	m_pCmInfoThread = new CpuMemInfoThread(this);
 	m_pCmInfoThread->start();
@@ -48,7 +54,7 @@ void SohoSecurity::initSlotConnect()
 	connect(m_pCmInfoThread, &CpuMemInfoThread::updateMemUsage, this, &SohoSecurity::onUpdateMemUsage);
 
 	//当按窗口右上角x时，窗口触发destroyed
-	//connect(this, &SohoSecurity::destroyed, this, &SohoSecurity::onStopThread);
+	connect(this, &SohoSecurity::destroyed, this, &SohoSecurity::onStopThread);
 }
 
 void SohoSecurity::onActionLockScreen()
@@ -90,22 +96,28 @@ void SohoSecurity::onActionShutdown()
 	}
 }
 
+void SohoSecurity::onUpdateProcessNum(int nProcNum)
+{
+	m_pLabelProcCnt->setText(QString::asprintf("进程数: %d", nProcNum));
+}
+
 void SohoSecurity::onUpdateCpuUsage(int nCpuUsage)
 {
-	m_pLabelCpuUsage->setText(QString::asprintf("CPU Usage: %d%%    ", nCpuUsage));
+	m_pLabelCpuUsage->setText(QString::asprintf("CPU 使用率: %d%%", nCpuUsage));
 }
 
 void SohoSecurity::onUpdateMemUsage(int dwMemUsage)
 {
-	m_pLabelMemUsage->setText(QString::asprintf("Physical Memory: %d%%    ", dwMemUsage));
+	m_pLabelMemUsage->setText(QString::asprintf("物理内存: %d%%", dwMemUsage));
 }
 
 void SohoSecurity::onStopThread()
 {
 	//停止线程
-	//m_pCmInfoThread->quit();
+	m_pCmInfoThread->setQuitThreadFlag(true);
+	m_pCmInfoThread->quit();
 	//等待线程处理完手头动作
-	//m_pCmInfoThread->wait();
+	m_pCmInfoThread->wait();
 }
 
 bool SohoSecurity::getPowerPrivilge()

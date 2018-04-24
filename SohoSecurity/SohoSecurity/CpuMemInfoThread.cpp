@@ -2,7 +2,7 @@
 #include "CpuMemInfoThread.h"
 
 CpuMemInfoThread::CpuMemInfoThread(QObject *parent)
-	: QThread(parent)
+	: QThread(parent), m_bQuitThread(false)
 {
 }
 
@@ -10,11 +10,16 @@ CpuMemInfoThread::~CpuMemInfoThread()
 {
 }
 
+void CpuMemInfoThread::setQuitThreadFlag(bool bQuitThread)
+{
+	m_bQuitThread = bQuitThread;
+}
+
 void CpuMemInfoThread::run()
 {
 	int nCpuUsage = 0;
 	DWORD dwMemLoad = 0;
-	while (true) {
+	while (!m_bQuitThread) {
 		dwMemLoad = getMemoryUsage();
 		emit updateMemUsage(dwMemLoad);
 		Sleep(100);

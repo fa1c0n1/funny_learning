@@ -3,6 +3,7 @@
 #include "ModuleDlg.h"
 #include "ThreadDlg.h"
 #include "Data.h"
+#include "MainWindow.h"
 #include <cstdlib>
 #include <TlHelp32.h>
 
@@ -10,6 +11,8 @@ ProcessTabWidget::ProcessTabWidget(QWidget *parent)
 	: QWidget(parent), m_nProcessCnt(0)
 {
 	ui.setupUi(this);
+
+	connect(this, &ProcessTabWidget::updateProcessNum, (SohoSecurity*)parent, &SohoSecurity::onUpdateProcessNum);
 
 	QStringList headers;
 	headers << "Ó³ÏñÃû³Æ" << "PID" << "PPID" << "Â·¾¶";
@@ -206,6 +209,8 @@ void ProcessTabWidget::listProcess()
 
 		CloseHandle(hProcessSnap);
 	}
+
+	emit updateProcessNum(m_nProcessCnt);
 }
 
 bool ProcessTabWidget::getSeDebugPrivilge()

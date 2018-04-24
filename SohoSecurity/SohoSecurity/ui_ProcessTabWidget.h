@@ -28,10 +28,10 @@ public:
     {
         if (ProcessTabWidget->objectName().isEmpty())
             ProcessTabWidget->setObjectName(QStringLiteral("ProcessTabWidget"));
-        ProcessTabWidget->resize(912, 490);
+        ProcessTabWidget->resize(939, 518);
         tableWidget = new QTableWidget(ProcessTabWidget);
         tableWidget->setObjectName(QStringLiteral("tableWidget"));
-        tableWidget->setGeometry(QRect(10, 10, 891, 471));
+        tableWidget->setGeometry(QRect(10, 10, 921, 501));
         tableWidget->setEditTriggers(QAbstractItemView::NoEditTriggers);
         tableWidget->setAlternatingRowColors(true);
         tableWidget->setSelectionMode(QAbstractItemView::SingleSelection);
