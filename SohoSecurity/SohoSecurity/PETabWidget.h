@@ -3,6 +3,13 @@
 #include <QWidget>
 #include "ui_PETabWidget.h"
 
+//重定位结构体
+typedef struct TypeOffset
+{
+	WORD Offset : 12;  // (1) 大小为12Bit的重定位偏移
+	WORD Type : 4;     // (2) 大小为4Bit的重定位信息类型值
+}TypeOffset;	       // 这个结构体是A1Pass总结的
+
 class PETabWidget : public QWidget
 {
 	Q_OBJECT
@@ -37,12 +44,12 @@ public slots:
 void onPsBtnSectionTableClicked();
 void onPsBtnResTableClicked();
 void onPsBtnRelocTableClicked();
-void onPsBtnOpenFileClicked();
 void onPsBtnOffsetCounterClicked();
 void onPsBtnImpTableClicked();
 void onPsBtnExpTableClicked();
 void onPsBtnDelayTableClicked();
 void onPsBtnDataDirTableClicked();
+void onPsBtnTLSTableClicked();
 
 private:
 	Ui::PETabWidget ui;

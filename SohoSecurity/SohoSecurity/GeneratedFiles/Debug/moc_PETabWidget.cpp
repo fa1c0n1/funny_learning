@@ -35,22 +35,22 @@ QT_MOC_LITERAL(1, 12, 26), // "onPsBtnSectionTableClicked"
 QT_MOC_LITERAL(2, 39, 0), // ""
 QT_MOC_LITERAL(3, 40, 22), // "onPsBtnResTableClicked"
 QT_MOC_LITERAL(4, 63, 24), // "onPsBtnRelocTableClicked"
-QT_MOC_LITERAL(5, 88, 22), // "onPsBtnOpenFileClicked"
-QT_MOC_LITERAL(6, 111, 27), // "onPsBtnOffsetCounterClicked"
-QT_MOC_LITERAL(7, 139, 22), // "onPsBtnImpTableClicked"
-QT_MOC_LITERAL(8, 162, 22), // "onPsBtnExpTableClicked"
-QT_MOC_LITERAL(9, 185, 24), // "onPsBtnDelayTableClicked"
-QT_MOC_LITERAL(10, 210, 26) // "onPsBtnDataDirTableClicked"
+QT_MOC_LITERAL(5, 88, 27), // "onPsBtnOffsetCounterClicked"
+QT_MOC_LITERAL(6, 116, 22), // "onPsBtnImpTableClicked"
+QT_MOC_LITERAL(7, 139, 22), // "onPsBtnExpTableClicked"
+QT_MOC_LITERAL(8, 162, 24), // "onPsBtnDelayTableClicked"
+QT_MOC_LITERAL(9, 187, 26), // "onPsBtnDataDirTableClicked"
+QT_MOC_LITERAL(10, 214, 22) // "onPsBtnTLSTableClicked"
 
     },
     "PETabWidget\0onPsBtnSectionTableClicked\0"
     "\0onPsBtnResTableClicked\0"
     "onPsBtnRelocTableClicked\0"
-    "onPsBtnOpenFileClicked\0"
     "onPsBtnOffsetCounterClicked\0"
     "onPsBtnImpTableClicked\0onPsBtnExpTableClicked\0"
     "onPsBtnDelayTableClicked\0"
-    "onPsBtnDataDirTableClicked"
+    "onPsBtnDataDirTableClicked\0"
+    "onPsBtnTLSTableClicked"
 };
 #undef QT_MOC_LITERAL
 
@@ -101,12 +101,12 @@ void PETabWidget::qt_static_metacall(QObject *_o, QMetaObject::Call _c, int _id,
         case 0: _t->onPsBtnSectionTableClicked(); break;
         case 1: _t->onPsBtnResTableClicked(); break;
         case 2: _t->onPsBtnRelocTableClicked(); break;
-        case 3: _t->onPsBtnOpenFileClicked(); break;
-        case 4: _t->onPsBtnOffsetCounterClicked(); break;
-        case 5: _t->onPsBtnImpTableClicked(); break;
-        case 6: _t->onPsBtnExpTableClicked(); break;
-        case 7: _t->onPsBtnDelayTableClicked(); break;
-        case 8: _t->onPsBtnDataDirTableClicked(); break;
+        case 3: _t->onPsBtnOffsetCounterClicked(); break;
+        case 4: _t->onPsBtnImpTableClicked(); break;
+        case 5: _t->onPsBtnExpTableClicked(); break;
+        case 6: _t->onPsBtnDelayTableClicked(); break;
+        case 7: _t->onPsBtnDataDirTableClicked(); break;
+        case 8: _t->onPsBtnTLSTableClicked(); break;
         default: ;
         }
     }

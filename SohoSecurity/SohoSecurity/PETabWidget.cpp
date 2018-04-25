@@ -1,6 +1,7 @@
 #include "stdafx.h"
 #include "PETabWidget.h"
 #include "Md5.h"
+#include "OffsetCounterDlg.h"
 #include <strsafe.h>
 #include <time.h>
 
@@ -11,10 +12,11 @@ PETabWidget::PETabWidget(QWidget *parent)
 {
 	ui.setupUi(this);
 
-	ui.textBrwFileInfo->setText("<br><h1><center>可将文件拖拽到窗口</center></h1>");
+	ui.textBrwFileInfo->setText("<br><h1><center>将文件拖拽到窗口</center></h1>");
 	ui.textBrwFileInfo->setFontFamily(tr("微软雅黑"));
 	ui.textBrwPEHeader->setFontFamily(tr("微软雅黑"));
 	ui.textBrwPEData->setFontFamily(tr("微软雅黑"));
+	ui.psBtnOffsetCounter->setEnabled(false);
 	setAcceptDrops(true);
 }
 
@@ -65,6 +67,7 @@ void PETabWidget::getPEInfo(QString strFilePath)
 		NULL);
 
 	if (hFile == INVALID_HANDLE_VALUE) {
+		ui.psBtnOffsetCounter->setEnabled(false);
 		QMessageBox::critical(this, tr("错误"), tr("加载文件失败"));
 		return;
 	}
@@ -73,24 +76,28 @@ void PETabWidget::getPEInfo(QString strFilePath)
 	m_pFileImageBase = new BYTE[dwFileSize]{};
 	DWORD dwReadSize = 0;
 	if (!ReadFile(hFile, m_pFileImageBase, dwFileSize, &dwReadSize, NULL)) {
+		ui.psBtnOffsetCounter->setEnabled(false);
 		QMessageBox::critical(this, tr("错误"), tr("加载文件失败"));
 		return;
 	}
 
 	IMAGE_DOS_HEADER *pDosHeader = (IMAGE_DOS_HEADER*)m_pFileImageBase;
 	if (pDosHeader->e_magic != IMAGE_DOS_SIGNATURE) {
+		ui.psBtnOffsetCounter->setEnabled(false);
 		QMessageBox::critical(this, tr("错误"), tr("不是PE文件"));
 		return;
 	}
 
 	m_pNtHeader = (IMAGE_NT_HEADERS*)(pDosHeader->e_lfanew + (ULONG64)pDosHeader);
 	if (m_pNtHeader->Signature != IMAGE_NT_SIGNATURE) {
+		ui.psBtnOffsetCounter->setEnabled(false);
 		QMessageBox::critical(this, tr("错误"), tr("不是PE文件"));
 		return;
 	}
 
 	getNtHeaderInfo(m_pNtHeader);
 	CloseHandle(hFile);
+	ui.psBtnOffsetCounter->setEnabled(true);
 }
 
 void PETabWidget::getNtHeaderInfo(PIMAGE_NT_HEADERS pNtHeader)
@@ -364,24 +371,386 @@ void PETabWidget::getExportTableInfo(PIMAGE_DATA_DIRECTORY pDataDir)
 
 void PETabWidget::getImportTableInfo(PIMAGE_DATA_DIRECTORY pDataDir)
 {
+	m_strImpTable.clear();
 
+	//获得导入表的RVA
+	DWORD dwImpTableRVA = pDataDir[1].VirtualAddress;
+	if (pDataDir[1].Size == 0) {
+		m_strImpTable = tr("没有数据");
+		return;
+	}
+
+	//将导入表的RVA转成FOA
+	DWORD dwImpTableFOA = rva2foa(dwImpTableRVA);
+
+	//获取导入表
+	IMAGE_IMPORT_DESCRIPTOR *pImpTable =
+		(IMAGE_IMPORT_DESCRIPTOR*)((ULONG64)m_pFileImageBase + dwImpTableFOA);
+
+	//遍历导入表
+	if (m_bPEIs32) { //---------32位PE
+
+		//判断是否遍历到了最后一个结构体
+		while (pImpTable->Name != 0) {
+			//解析出导入的 Dll 的模块名
+			DWORD dwNameFOA = rva2foa(pImpTable->Name);
+			char *pDllName = (char*)(dwNameFOA + (ULONG64)m_pFileImageBase);
+			m_strImpTable += tr(pDllName);
+			m_strImpTable += tr("\n\n");
+
+			//解析当前dll的导入函数名称
+			//pImpTable->OriginalFirstThunk;  //导入名称表
+			//pImpTable->FirstThunk;          //导入地址表
+			//上面说的两个表，在文件中保存的内容是完全相同的
+
+			DWORD dwIATfoa = rva2foa(pImpTable->OriginalFirstThunk);
+			IMAGE_THUNK_DATA32 *pIAT = (IMAGE_THUNK_DATA32*)((ULONG64)m_pFileImageBase + dwIATfoa);
+
+			//遍历IAT
+			//  IAT 是一个 IMAGE_THUNK_DATA 的结构体数组
+			while (pIAT->u1.AddressOfData != 0) {
+				//判断最高位是否是1
+				if (IMAGE_SNAP_BY_ORDINAL32(pIAT->u1.Ordinal)) { //函数是以序号导入的
+					// 序号都是WORD类型，所以只取它的低16位
+					m_strImpTable += QString::asprintf("导入序号:[%d]", pIAT->u1.Ordinal & 0xFFFF);
+				}
+				else { //函数是以名称导入的
+					//字段保存着一个指向IMAGE_IMPORT_BY_NAME结构体的RVA
+					DWORD dwFuncNameFOA = rva2foa(pIAT->u1.AddressOfData);
+					PIMAGE_IMPORT_BY_NAME pImpName = 
+						(PIMAGE_IMPORT_BY_NAME)((ULONG64)m_pFileImageBase + dwFuncNameFOA);
+
+					m_strImpTable += tr("函数名称:[%1]").arg(pImpName->Name);
+				}
+
+				pIAT++;
+				m_strImpTable += tr("\n");
+			}
+
+			pImpTable++;
+			m_strImpTable += tr("\n\n");
+		}
+	}
+	else {  //------------64位PE
+		//判断是否遍历到了最后一个结构体
+		while (pImpTable->Name != 0) {
+			//解析出导入的 Dll 的模块名
+			DWORD dwNameFOA = rva2foa(pImpTable->Name);
+			char *pDllName = (char*)(dwNameFOA + (ULONG64)m_pFileImageBase);
+			m_strImpTable += tr(pDllName);
+			m_strImpTable += tr("\n\n");
+
+			//解析当前dll的导入函数名称
+			//pImpTable->OriginalFirstThunk;  //导入名称表
+			//pImpTable->FirstThunk;          //导入地址表
+			//上面说的两个表，在文件中保存的内容是完全相同的
+
+			DWORD dwIATfoa = rva2foa(pImpTable->OriginalFirstThunk);
+			IMAGE_THUNK_DATA64 *pIAT = (IMAGE_THUNK_DATA64*)((ULONG64)m_pFileImageBase + dwIATfoa);
+
+			//遍历IAT
+			//  IAT 是一个 IMAGE_THUNK_DATA 的结构体数组
+			while (pIAT->u1.AddressOfData != 0) {
+				//判断最高位是否是1
+				if (IMAGE_SNAP_BY_ORDINAL64(pIAT->u1.Ordinal)) { //函数是以序号导入的
+					// 序号都是WORD类型，所以只取它的低16位
+					m_strImpTable += QString::asprintf("导入序号:[%d]", pIAT->u1.Ordinal & 0xFFFF);
+				}
+				else { //函数是以名称导入的
+					//字段保存着一个指向IMAGE_IMPORT_BY_NAME结构体的RVA
+					DWORD dwFuncNameFOA = rva2foa(pIAT->u1.AddressOfData);
+					PIMAGE_IMPORT_BY_NAME pImpName =
+						(PIMAGE_IMPORT_BY_NAME)((ULONG64)m_pFileImageBase + dwFuncNameFOA);
+
+					m_strImpTable += tr("函数名称:[%1]").arg(pImpName->Name);
+				}
+
+				pIAT++;
+				m_strImpTable += tr("\n");
+			}
+
+			pImpTable++;
+			m_strImpTable += tr("\n\n");
+		}
+	}
 }
 
 void PETabWidget::getResourceTableInfo(PIMAGE_DATA_DIRECTORY pDataDir)
 {
+	m_strResTable.clear();
 
+	if (pDataDir[2].Size == 0) {
+		m_strResTable += tr("没有数据");
+		return;
+	}
+
+	//获取资源表的FOA
+	DWORD dwResTableFOA = rva2foa(pDataDir[2].VirtualAddress);
+
+	//指向第一层目录
+	IMAGE_RESOURCE_DIRECTORY *pRoot = 
+		(IMAGE_RESOURCE_DIRECTORY*)((ULONG64)m_pFileImageBase + dwResTableFOA);
+
+	IMAGE_RESOURCE_DIRECTORY *pDir2 = NULL;  //指向第二层目录
+	IMAGE_RESOURCE_DIRECTORY *pDir3 = NULL;  //指向第三层目录
+
+	IMAGE_RESOURCE_DIRECTORY_ENTRY *pEntry1 = NULL;
+	IMAGE_RESOURCE_DIRECTORY_ENTRY *pEntry2 = NULL;
+	IMAGE_RESOURCE_DIRECTORY_ENTRY *pEntry3 = NULL;
+
+	IMAGE_RESOURCE_DATA_ENTRY *pDataEntry = NULL;
+	IMAGE_RESOURCE_DIR_STRING_U *pIdStr = NULL;
+
+	pEntry1 = (IMAGE_RESOURCE_DIRECTORY_ENTRY *)(pRoot + 1);
+	for (int i = 0; i < pRoot->NumberOfIdEntries + pRoot->NumberOfNamedEntries; i++) {
+		//获取第一层目录入口的ID(ID就是资源的类型)
+		if (pEntry1->NameIsString == 1) {
+			//NameOffset这个字段的值是一个偏移
+			//  这个偏移是以资源表根目录的地址作为基址
+			pIdStr = (IMAGE_RESOURCE_DIR_STRING_U *)(pEntry1->NameOffset + (ULONG64)pRoot);
+			TCHAR *pNameBuf = new TCHAR[pIdStr->Length + 1]{};
+			StringCchCopy(pNameBuf, pIdStr->Length + 1, pIdStr->NameString);
+			m_strResTable += tr("资源类型: %1\n\n").arg(QString::fromWCharArray(pNameBuf));
+			delete[] pNameBuf; pNameBuf = nullptr;
+		}
+		else {
+			QString strTypeArr[] = {
+				tr(""),          //0
+				tr("鼠标指针"),   //1
+				tr("位图"),       //2
+				tr("图标"),	      //3
+				tr("菜单"),       //4
+				tr("对话框"),     //5
+				tr("字符串列表"),  //6
+				tr("字体目录"),    //7
+				tr("字体"),       //8
+				tr("快捷键"),      //9
+				tr("非格式化资源"), //A
+				tr("消息列表"),     //B
+				tr("鼠标指针数组"),  //C
+				tr(""),            //D
+				tr("图标组"),       //E
+				tr(""),            //F
+				tr("版本信息"),     //10
+			};
+
+			if (pEntry1->Id > 16) {
+				m_strResTable += QString::asprintf("资源类型: %d\n\n", pEntry1->Id);
+			}
+			else {
+				m_strResTable += tr("资源类型: %1").arg(strTypeArr[pEntry1->Id]);
+			}
+		}
+
+		if (pEntry1->DataIsDirectory == 1) {
+			//得到第二层目录的地址
+			pDir2 =
+				(IMAGE_RESOURCE_DIRECTORY*)(pEntry1->OffsetToDirectory + (ULONG64)pRoot);
+
+			//遍历第二层资源目录的所有目录入口	
+			pEntry2 = (IMAGE_RESOURCE_DIRECTORY_ENTRY*)(pDir2 + 1);
+			for (int j = 0; j < pDir2->NumberOfIdEntries + pDir2->NumberOfNamedEntries; j++) {
+				//得到资源的ID
+				if (pEntry2->NameIsString == 1) {
+					pIdStr = (IMAGE_RESOURCE_DIR_STRING_U *)(pEntry2->NameOffset + (ULONG64)pRoot);
+					TCHAR *pNameBuf = new TCHAR[pIdStr->Length + 1]{};
+					StringCchCopy(pNameBuf, pIdStr->Length + 1, pIdStr->NameString);
+					m_strResTable += tr(" +资源ID: %1\n").arg(QString::fromWCharArray(pNameBuf));
+					delete[] pNameBuf; pNameBuf = nullptr;
+				}
+				else {
+					m_strResTable += QString::asprintf(" +资源ID: %d\n", (DWORD)pEntry2->Id);
+				}
+
+				if (pEntry2->DataIsDirectory == 1) {
+					//得到第三层目录的地址
+					pDir3 =
+						(IMAGE_RESOURCE_DIRECTORY*)(pEntry2->OffsetToDirectory + (ULONG64)pRoot);
+
+					pEntry3 =
+						(IMAGE_RESOURCE_DIRECTORY_ENTRY*)(pDir3 + 1);
+
+					m_strResTable += QString::asprintf("   +id: %d\n", pEntry3->Id);
+
+					//得到数据入口
+					pDataEntry =
+						(IMAGE_RESOURCE_DATA_ENTRY*)(pEntry3->OffsetToData + (ULONG64)pRoot);
+
+					m_strResTable += QString::asprintf("   +资源偏移(RVA): %X (h)\n", pDataEntry->OffsetToData);
+					m_strResTable += QString::asprintf("   +资源大小: %X (h)\n\n", pDataEntry->Size);
+				}
+			}
+		}
+
+		m_strResTable += tr("\n\n");
+	}
 }
 
 void PETabWidget::getRelocationeTableInfo(PIMAGE_DATA_DIRECTORY pDataDir)
 {
+	m_strRelocTable.clear();
+
+	if (pDataDir[5].Size == 0) {
+		m_strRelocTable = tr("没有数据");
+		return;
+	}
+
+	//得到第一个重定位块的数组的FOA
+	DWORD dwRelocBlockFOA = rva2foa(pDataDir[5].VirtualAddress);
+	
+	//得到第一个重定位块的地址
+	IMAGE_BASE_RELOCATION *pRelocBlock =
+		(IMAGE_BASE_RELOCATION*)((ULONG64)m_pFileImageBase + dwRelocBlockFOA);
+
+	while (true) {
+		//判断是否最后一个重定位块
+		if (pRelocBlock->SizeOfBlock == 0 && pRelocBlock->VirtualAddress == 0)
+			break;
+
+		m_strRelocTable +=
+			QString::asprintf("块开始的RVA: %X (h), 字节数: %X (h)\n\n",
+			pRelocBlock->VirtualAddress, pRelocBlock->SizeOfBlock);
+
+		//遍历重定位类型和偏移的数据块
+		TypeOffset *pTypeOffset =
+			(TypeOffset*)((ULONG64)pRelocBlock + sizeof(IMAGE_BASE_RELOCATION));
+
+		DWORD dwCount =
+			(pRelocBlock->SizeOfBlock - sizeof(IMAGE_BASE_RELOCATION)) / sizeof(TypeOffset);
+
+		for (DWORD i = 0; i < dwCount; i++) {
+			m_strRelocTable += QString::asprintf("偏移: %X (h),  ", pTypeOffset->Offset);
+
+			//得到需要重定位的数据
+			DWORD dwRVA = pRelocBlock->VirtualAddress + pTypeOffset[i].Offset;
+			DWORD dwFOA = rva2foa(dwRVA);
+			DWORD *pRelocData = (DWORD*)(dwFOA + (ULONG64)m_pFileImageBase);
+
+			m_strRelocTable += QString::asprintf("+要修改的地址: %08X (h)\n", *pRelocData);
+		}
+		m_strRelocTable += tr("\n\n");
+
+		//下一个重定位块
+		pRelocBlock =
+			(IMAGE_BASE_RELOCATION*)((ULONG64)pRelocBlock + pRelocBlock->SizeOfBlock);
+	}
 }
 
+//延迟加载导入表
 void PETabWidget::getDelayImportTableInfo(PIMAGE_DATA_DIRECTORY pDataDir)
 {
+	m_strDelayLoadTable.clear();
+
+	if (pDataDir[13].Size == 0) {
+		m_strDelayLoadTable = tr("没有数据");
+		return;
+	}
+
+	DWORD dwDelayTableFOA = rva2foa(pDataDir[13].VirtualAddress);
+	IMAGE_DELAYLOAD_DESCRIPTOR *pDelayTable =
+		(IMAGE_DELAYLOAD_DESCRIPTOR*)(dwDelayTableFOA + (ULONG64)m_pFileImageBase);
+
+	if (pDelayTable->DllNameRVA == 0x00000300) {
+		m_strDelayLoadTable = tr("没有数据");
+		return;
+	}
+
+	while (pDelayTable->DllNameRVA) {
+		//DllName RVA
+		m_strDelayLoadTable += QString::asprintf("DllName RVA: %X (h),  ", pDelayTable->DllNameRVA);
+
+		//DllName
+		DWORD dwDllNameFOA = rva2foa(pDelayTable->DllNameRVA);
+		char *pDllName = (char*)(dwDllNameFOA + (ULONG64)m_pFileImageBase);
+		m_strDelayLoadTable += tr("DllName: %1\n").arg(pDllName);
+
+		//导入地址表RVA
+		m_strDelayLoadTable += QString::asprintf("IAT(R)RVA: %X (h),  ", pDelayTable->ImportAddressTableRVA);
+
+		//导入名称表RVA
+		m_strDelayLoadTable += QString::asprintf("INT(R)RVA: %X (h),  \n", pDelayTable->ImportNameTableRVA);
+
+		m_strDelayLoadTable += tr("\n");
+
+		DWORD dwFuncNameFOA = rva2foa(pDelayTable->ImportNameTableRVA);
+
+		if (m_bPEIs32) {  //--------32位PE
+			IMAGE_THUNK_DATA32 *pIAT = (IMAGE_THUNK_DATA32*)((ULONG64)m_pFileImageBase + dwFuncNameFOA);
+
+			//遍历IAT: 是一个IMAGE_THUNK_DATA结构体数组
+			while (pIAT->u1.AddressOfData != 0) {
+				//判断最高位是否为1
+				if (IMAGE_SNAP_BY_ORDINAL32(pIAT->u1.Ordinal)) {
+					//函数是以序号导入的
+					// 序号都是WORD类型，故只取它的低16位
+					m_strDelayLoadTable += QString::asprintf("导入序号: %d\n", pIAT->u1.Ordinal & 0xFFFF);
+				}
+				else {
+					//函数是以名称导入的
+					// 字段保存着一个指向 IMAGE_IMPORT_BY_NAME 结构的RVA
+					DWORD dwFuncNameFOA = rva2foa(pIAT->u1.AddressOfData);
+					IMAGE_IMPORT_BY_NAME *pImportName =
+						(IMAGE_IMPORT_BY_NAME*)((ULONG64)m_pFileImageBase + dwFuncNameFOA);
+
+					m_strDelayLoadTable += tr("函数名称: %1").arg(pImportName->Name);
+				}
+
+				//下一个结构体
+				pIAT++;
+				m_strDelayLoadTable += tr("\n");
+			}
+		}
+		else {  //----------64位PE
+			IMAGE_THUNK_DATA64 *pIAT = (IMAGE_THUNK_DATA64*)((ULONG64)m_pFileImageBase + dwFuncNameFOA);
+
+			//遍历IAT: 是一个IMAGE_THUNK_DATA结构体数组
+			while (pIAT->u1.AddressOfData != 0) {
+				//判断最高位是否为1
+				if (IMAGE_SNAP_BY_ORDINAL64(pIAT->u1.Ordinal)) {
+					//函数是以序号导入的
+					// 序号都是WORD类型，故只取它的低16位
+					m_strDelayLoadTable += QString::asprintf("导入序号: %d\n", pIAT->u1.Ordinal & 0xFFFF);
+				}
+				else {
+					//函数是以名称导入的
+					// 字段保存着一个指向 IMAGE_IMPORT_BY_NAME 结构的RVA
+					DWORD dwFuncNameFOA = rva2foa(pIAT->u1.AddressOfData);
+					IMAGE_IMPORT_BY_NAME *pImportName =
+						(IMAGE_IMPORT_BY_NAME*)((ULONG64)m_pFileImageBase + dwFuncNameFOA);
+
+					m_strDelayLoadTable += tr("函数名称: %1").arg(pImportName->Name);
+				}
+
+				//下一个结构体
+				pIAT++;
+				m_strDelayLoadTable += tr("\n");
+			}
+		}
+
+		m_strDelayLoadTable += tr("--------------------\n\n");
+		pDelayTable++;
+	}
 }
 
 void PETabWidget::getTLSTableInfo(PIMAGE_DATA_DIRECTORY pDataDir)
 {
+	m_strTLSTable.clear();
+
+	if (pDataDir[9].Size == 0) {
+		m_strTLSTable = "没有数据";
+		return;
+	}
+
+	DWORD dwTLSFOA = rva2foa(pDataDir[9].VirtualAddress);
+
+	PIMAGE_TLS_DIRECTORY32 pTLSTable = PIMAGE_TLS_DIRECTORY32(dwTLSFOA + (ULONG64)m_pFileImageBase);
+
+	m_strTLSTable += QString::asprintf("StartAddressOfRawData: %X (h)\n\n", pTLSTable->StartAddressOfRawData);
+	m_strTLSTable += QString::asprintf("EndAddressOfRawData: %X (h)\n\n", pTLSTable->EndAddressOfRawData);
+	m_strTLSTable += QString::asprintf("AddressOfIndex: %X (h)\n\n", pTLSTable->AddressOfIndex);
+	m_strTLSTable += QString::asprintf("AddressOfCallBacks: %X (h)\n\n", pTLSTable->AddressOfCallBacks);
+	m_strTLSTable += QString::asprintf("SizeOfZeroFill: %X (h)\n\n", pTLSTable->SizeOfZeroFill);
+	m_strTLSTable += QString::asprintf("Characteristics: %X (h)\n\n", pTLSTable->Characteristics);
 }
 
 DWORD PETabWidget::rva2foa(DWORD dwRva)
@@ -424,19 +793,16 @@ void PETabWidget::onPsBtnRelocTableClicked()
 	ui.textBrwPEData->setText(m_strRelocTable);
 }
 
-void PETabWidget::onPsBtnOpenFileClicked()
-{
-}
-
 void PETabWidget::onPsBtnOffsetCounterClicked()
 {
-
+	OffsetCounterDlg offsetCounterDlg(m_pNtHeader, this);
+	offsetCounterDlg.exec();
 }
 
 void PETabWidget::onPsBtnImpTableClicked()
 {
 	ui.groupBoxPEData->setTitle(tr("导入表"));
-	ui.textBrwPEData->setText(m_strRelocTable);
+	ui.textBrwPEData->setText(m_strImpTable);
 }
 
 void PETabWidget::onPsBtnExpTableClicked()
@@ -455,6 +821,12 @@ void PETabWidget::onPsBtnDataDirTableClicked()
 {
 	ui.groupBoxPEData->setTitle(tr("数据目录表"));
 	ui.textBrwPEData->setText(m_strDataDirTable);
+}
+
+void PETabWidget::onPsBtnTLSTableClicked()
+{
+	ui.groupBoxPEData->setTitle(tr("TLS表"));
+	ui.textBrwPEData->setText(m_strTLSTable);
 }
 
 void PETabWidget::getFileInfo(QString strFilePath)

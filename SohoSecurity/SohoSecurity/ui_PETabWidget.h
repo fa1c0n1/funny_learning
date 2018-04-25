@@ -38,7 +38,6 @@ public:
     QGroupBox *groupBoxPEData;
     QTextBrowser *textBrwPEData;
     QPushButton *psBtnOffsetCounter;
-    QPushButton *psBtnOpenFile;
     QPushButton *psBtnTLSTable;
 
     void setupUi(QWidget *PETabWidget)
@@ -88,15 +87,11 @@ public:
         psBtnOffsetCounter = new QPushButton(PETabWidget);
         psBtnOffsetCounter->setObjectName(QStringLiteral("psBtnOffsetCounter"));
         psBtnOffsetCounter->setGeometry(QRect(850, 330, 75, 23));
-        psBtnOpenFile = new QPushButton(PETabWidget);
-        psBtnOpenFile->setObjectName(QStringLiteral("psBtnOpenFile"));
-        psBtnOpenFile->setGeometry(QRect(850, 60, 75, 23));
         psBtnTLSTable = new QPushButton(PETabWidget);
         psBtnTLSTable->setObjectName(QStringLiteral("psBtnTLSTable"));
         psBtnTLSTable->setGeometry(QRect(850, 270, 75, 23));
 
         retranslateUi(PETabWidget);
-        QObject::connect(psBtnOpenFile, SIGNAL(clicked()), PETabWidget, SLOT(onPsBtnOpenFileClicked()));
         QObject::connect(psBtnSectionTable, SIGNAL(clicked()), PETabWidget, SLOT(onPsBtnSectionTableClicked()));
         QObject::connect(psBtnDataDirTable, SIGNAL(clicked()), PETabWidget, SLOT(onPsBtnDataDirTableClicked()));
         QObject::connect(psBtnImpTable, SIGNAL(clicked()), PETabWidget, SLOT(onPsBtnImpTableClicked()));
@@ -105,6 +100,7 @@ public:
         QObject::connect(psBtnRelocTable, SIGNAL(clicked()), PETabWidget, SLOT(onPsBtnRelocTableClicked()));
         QObject::connect(psBtnDelayLoadTable, SIGNAL(clicked()), PETabWidget, SLOT(onPsBtnDelayTableClicked()));
         QObject::connect(psBtnOffsetCounter, SIGNAL(clicked()), PETabWidget, SLOT(onPsBtnOffsetCounterClicked()));
+        QObject::connect(psBtnTLSTable, SIGNAL(clicked()), PETabWidget, SLOT(onPsBtnTLSTableClicked()));
 
         QMetaObject::connectSlotsByName(PETabWidget);
     } // setupUi
@@ -123,7 +119,6 @@ public:
         groupBox_2->setTitle(QApplication::translate("PETabWidget", "PE\345\244\264\344\277\241\346\201\257", 0));
         groupBoxPEData->setTitle(QApplication::translate("PETabWidget", "PE\346\225\260\346\215\256\346\230\276\347\244\272\345\214\272\345\237\237", 0));
         psBtnOffsetCounter->setText(QApplication::translate("PETabWidget", "\344\275\215\347\275\256\350\256\241\347\256\227\345\231\250", 0));
-        psBtnOpenFile->setText(QApplication::translate("PETabWidget", "\346\211\223\345\274\200\346\226\207\344\273\266", 0));
         psBtnTLSTable->setText(QApplication::translate("PETabWidget", "TLS\350\241\250", 0));
     } // retranslateUi
 

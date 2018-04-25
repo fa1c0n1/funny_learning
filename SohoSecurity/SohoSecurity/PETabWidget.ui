@@ -186,19 +186,6 @@
     <string>位置计算器</string>
    </property>
   </widget>
-  <widget class="QPushButton" name="psBtnOpenFile">
-   <property name="geometry">
-    <rect>
-     <x>850</x>
-     <y>60</y>
-     <width>75</width>
-     <height>23</height>
-    </rect>
-   </property>
-   <property name="text">
-    <string>打开文件</string>
-   </property>
-  </widget>
   <widget class="QPushButton" name="psBtnTLSTable">
    <property name="geometry">
     <rect>
@@ -216,22 +203,6 @@
  <layoutdefault spacing="6" margin="11"/>
  <resources/>
  <connections>
-  <connection>
-   <sender>psBtnOpenFile</sender>
-   <signal>clicked()</signal>
-   <receiver>PETabWidget</receiver>
-   <slot>onPsBtnOpenFileClicked()</slot>
-   <hints>
-    <hint type="sourcelabel">
-     <x>912</x>
-     <y>64</y>
-    </hint>
-    <hint type="destinationlabel">
-     <x>932</x>
-     <y>50</y>
-    </hint>
-   </hints>
-  </connection>
   <connection>
    <sender>psBtnSectionTable</sender>
    <signal>clicked()</signal>
@@ -360,6 +331,22 @@
     </hint>
    </hints>
   </connection>
+  <connection>
+   <sender>psBtnTLSTable</sender>
+   <signal>clicked()</signal>
+   <receiver>PETabWidget</receiver>
+   <slot>onPsBtnTLSTableClicked()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>921</x>
+     <y>283</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>922</x>
+     <y>403</y>
+    </hint>
+   </hints>
+  </connection>
  </connections>
  <slots>
   <slot>onPsBtnOpenFileClicked()</slot>
@@ -371,5 +358,6 @@
   <slot>onPsBtnRelocTableClicked()</slot>
   <slot>onPsBtnDelayTableClicked()</slot>
   <slot>onPsBtnOffsetCounterClicked()</slot>
+  <slot>onPsBtnTLSTableClicked()</slot>
  </slots>
 </ui>

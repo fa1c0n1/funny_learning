@@ -1,0 +1,187 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui version="4.0">
+ <class>OffsetCounterDlg</class>
+ <widget class="QDialog" name="OffsetCounterDlg">
+  <property name="geometry">
+   <rect>
+    <x>0</x>
+    <y>0</y>
+    <width>402</width>
+    <height>164</height>
+   </rect>
+  </property>
+  <property name="windowTitle">
+   <string>位置计算器</string>
+  </property>
+  <widget class="QGroupBox" name="groupBox">
+   <property name="geometry">
+    <rect>
+     <x>10</x>
+     <y>10</y>
+     <width>321</width>
+     <height>81</height>
+    </rect>
+   </property>
+   <property name="title">
+    <string>地址</string>
+   </property>
+   <widget class="QWidget" name="">
+    <property name="geometry">
+     <rect>
+      <x>40</x>
+      <y>21</y>
+      <width>251</width>
+      <height>54</height>
+     </rect>
+    </property>
+    <layout class="QGridLayout" name="gridLayout">
+     <item row="0" column="0">
+      <widget class="QPushButton" name="psBtnRVA">
+       <property name="text">
+        <string>相对虚拟地址(RVA)</string>
+       </property>
+      </widget>
+     </item>
+     <item row="0" column="1">
+      <widget class="QLineEdit" name="leRVA">
+       <property name="alignment">
+        <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
+       </property>
+      </widget>
+     </item>
+     <item row="1" column="0">
+      <widget class="QPushButton" name="psBtnFOA">
+       <property name="text">
+        <string>文件偏移地址(FOA)</string>
+       </property>
+      </widget>
+     </item>
+     <item row="1" column="1">
+      <widget class="QLineEdit" name="leFOA">
+       <property name="alignment">
+        <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
+       </property>
+      </widget>
+     </item>
+    </layout>
+   </widget>
+   <zorder>textBrowser</zorder>
+   <zorder>psBtnRVA</zorder>
+   <zorder>psBtnFOA</zorder>
+   <zorder>leRVA</zorder>
+   <zorder>leFOA</zorder>
+  </widget>
+  <widget class="QPushButton" name="psBtnExecCount">
+   <property name="geometry">
+    <rect>
+     <x>340</x>
+     <y>40</y>
+     <width>51</width>
+     <height>31</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string>计算</string>
+   </property>
+  </widget>
+  <widget class="QGroupBox" name="groupBox_2">
+   <property name="geometry">
+    <rect>
+     <x>10</x>
+     <y>100</y>
+     <width>321</width>
+     <height>61</height>
+    </rect>
+   </property>
+   <property name="title">
+    <string>信息</string>
+   </property>
+   <widget class="QWidget" name="">
+    <property name="geometry">
+     <rect>
+      <x>70</x>
+      <y>20</y>
+      <width>201</width>
+      <height>22</height>
+     </rect>
+    </property>
+    <layout class="QHBoxLayout" name="horizontalLayout">
+     <item>
+      <widget class="QLabel" name="label">
+       <property name="text">
+        <string>所在区段：</string>
+       </property>
+      </widget>
+     </item>
+     <item>
+      <widget class="QLineEdit" name="leSectName">
+       <property name="alignment">
+        <set>Qt::AlignCenter</set>
+       </property>
+       <property name="readOnly">
+        <bool>true</bool>
+       </property>
+      </widget>
+     </item>
+    </layout>
+   </widget>
+  </widget>
+ </widget>
+ <layoutdefault spacing="6" margin="11"/>
+ <resources/>
+ <connections>
+  <connection>
+   <sender>psBtnRVA</sender>
+   <signal>clicked()</signal>
+   <receiver>OffsetCounterDlg</receiver>
+   <slot>onPsBtnRVAClicked()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>116</x>
+     <y>40</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>169</x>
+     <y>-11</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>psBtnFOA</sender>
+   <signal>clicked()</signal>
+   <receiver>OffsetCounterDlg</receiver>
+   <slot>onPsBtnFOAClicked()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>76</x>
+     <y>71</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>98</x>
+     <y>-2</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>psBtnExecCount</sender>
+   <signal>clicked()</signal>
+   <receiver>OffsetCounterDlg</receiver>
+   <slot>onPsBtnExecCountClicked()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>363</x>
+     <y>42</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>354</x>
+     <y>9</y>
+    </hint>
+   </hints>
+  </connection>
+ </connections>
+ <slots>
+  <slot>onPsBtnRVAClicked()</slot>
+  <slot>onPsBtnFOAClicked()</slot>
+  <slot>onPsBtnExecCountClicked()</slot>
+ </slots>
+</ui>
