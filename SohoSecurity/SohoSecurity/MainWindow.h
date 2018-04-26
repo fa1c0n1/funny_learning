@@ -22,6 +22,7 @@ private:
 	bool getPowerPrivilge();
 
 public slots:
+void activated();
 void onActionLockScreen();
 void onActionLogOff();
 void onActionHibernate();

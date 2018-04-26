@@ -69,6 +69,16 @@ void SohoSecurity::initSlotConnect()
 	connect(this, &SohoSecurity::destroyed, this, &SohoSecurity::onStopThread);
 }
 
+void SohoSecurity::activated()
+{
+	if (isHidden()) {
+		show();
+	}
+	else {
+		hide();
+	}
+}
+
 void SohoSecurity::onActionLockScreen()
 {
 	LockWorkStation();

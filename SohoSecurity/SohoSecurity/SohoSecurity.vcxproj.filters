@@ -78,6 +78,12 @@
     <ClCompile Include="CleanSysAndBrwsThread.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="MyWinEventFilter.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="MyGlobalShortCut.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="stdafx.h">
@@ -119,6 +125,9 @@
     <ClInclude Include="ui_OffsetCounterDlg.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="MyWinEventFilter.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <QtMoc Include="MainWindow.h">
@@ -158,6 +167,9 @@
       <Filter>Header Files</Filter>
     </QtMoc>
     <QtMoc Include="CleanSysAndBrwsThread.h">
+      <Filter>Header Files</Filter>
+    </QtMoc>
+    <QtMoc Include="MyGlobalShortCut.h">
       <Filter>Header Files</Filter>
     </QtMoc>
   </ItemGroup>

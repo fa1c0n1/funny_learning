@@ -131,6 +131,8 @@
     <ClCompile Include="MainWindow.cpp" />
     <ClCompile Include="Md5.cpp" />
     <ClCompile Include="ModuleDlg.cpp" />
+    <ClCompile Include="MyGlobalShortCut.cpp" />
+    <ClCompile Include="MyWinEventFilter.cpp" />
     <ClCompile Include="OffsetCounterDlg.cpp" />
     <ClCompile Include="PETabWidget.cpp" />
     <ClCompile Include="ProcessTabWidget.cpp" />
@@ -152,6 +154,8 @@
     <QtMoc Include="PETabWidget.h" />
     <ClInclude Include="Md5.h" />
     <QtMoc Include="OffsetCounterDlg.h" />
+    <QtMoc Include="MyGlobalShortCut.h" />
+    <ClInclude Include="MyWinEventFilter.h" />
     <ClInclude Include="ui_AntiVirusTabWidget.h" />
     <ClInclude Include="ui_CleanTrashTabWidget.h" />
     <ClInclude Include="ui_ModuleDlg.h" />
