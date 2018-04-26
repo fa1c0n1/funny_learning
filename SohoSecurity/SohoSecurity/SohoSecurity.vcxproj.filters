@@ -84,6 +84,9 @@
     <ClCompile Include="MyGlobalShortCut.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="SoftUninstallTabWidget.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="stdafx.h">
@@ -126,6 +129,9 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="MyWinEventFilter.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="ui_SoftUninstallTabWidget.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
@@ -172,6 +178,9 @@
     <QtMoc Include="MyGlobalShortCut.h">
       <Filter>Header Files</Filter>
     </QtMoc>
+    <QtMoc Include="SoftUninstallTabWidget.h">
+      <Filter>Header Files</Filter>
+    </QtMoc>
   </ItemGroup>
   <ItemGroup>
     <QtUic Include="MainWindow.ui">
@@ -202,6 +211,9 @@
       <Filter>Form Files</Filter>
     </QtUic>
     <QtUic Include="OffsetCounterDlg.ui">
+      <Filter>Form Files</Filter>
+    </QtUic>
+    <QtUic Include="SoftUninstallTabWidget.ui">
       <Filter>Form Files</Filter>
     </QtUic>
   </ItemGroup>

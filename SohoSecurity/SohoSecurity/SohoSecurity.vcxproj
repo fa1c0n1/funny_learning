@@ -137,6 +137,7 @@
     <ClCompile Include="PETabWidget.cpp" />
     <ClCompile Include="ProcessTabWidget.cpp" />
     <ClCompile Include="ServiceTabWidget.cpp" />
+    <ClCompile Include="SoftUninstallTabWidget.cpp" />
     <ClCompile Include="stdafx.cpp">
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Create</PrecompiledHeader>
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Create</PrecompiledHeader>
@@ -156,6 +157,7 @@
     <QtMoc Include="OffsetCounterDlg.h" />
     <QtMoc Include="MyGlobalShortCut.h" />
     <ClInclude Include="MyWinEventFilter.h" />
+    <QtMoc Include="SoftUninstallTabWidget.h" />
     <ClInclude Include="ui_AntiVirusTabWidget.h" />
     <ClInclude Include="ui_CleanTrashTabWidget.h" />
     <ClInclude Include="ui_ModuleDlg.h" />
@@ -163,6 +165,7 @@
     <ClInclude Include="ui_PETabWidget.h" />
     <ClInclude Include="ui_ProcessTabWidget.h" />
     <ClInclude Include="ui_ServiceTabWidget.h" />
+    <ClInclude Include="ui_SoftUninstallTabWidget.h" />
     <ClInclude Include="ui_ThreadDlg.h" />
     <ClInclude Include="ui_WindowTabWidget.h" />
     <QtMoc Include="AntiVirusTabWidget.h" />
@@ -183,6 +186,7 @@
     <QtUic Include="PETabWidget.ui" />
     <QtUic Include="ProcessTabWidget.ui" />
     <QtUic Include="ServiceTabWidget.ui" />
+    <QtUic Include="SoftUninstallTabWidget.ui" />
     <QtUic Include="ThreadDlg.ui" />
     <QtUic Include="WindowTabWidget.ui" />
   </ItemGroup>

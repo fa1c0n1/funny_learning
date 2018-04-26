@@ -7,6 +7,7 @@
 #include "ServiceTabWidget.h"
 #include "PETabWidget.h"
 #include "CleanTrashTabWidget.h"
+#include "SoftUninstallTabWidget.h"
 #include "AntiVirusTabWidget.h"
 #include <QtWidgets/QMainWindow>
 
@@ -42,6 +43,7 @@ private:
 	ServiceTabWidget *m_pServTabWidget;
 	PETabWidget *m_pPETabWidget;
 	CleanTrashTabWidget *m_pCleanTabWidget;
+	SoftUninstallTabWidget *m_pSoftUnsTabWidget;
 	AntiVirusTabWidget *m_pAVTabWidget;
 	CpuMemInfoThread *m_pCmInfoThread;
 	QStatusBar *m_pStatusBar;

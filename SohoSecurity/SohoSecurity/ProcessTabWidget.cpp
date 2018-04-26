@@ -41,7 +41,6 @@ void ProcessTabWidget::onTableWidgetCustomContextMenuRequest(QPoint pos)
 	if (pPIDItem->text().toULong() == 0)
 		return;
 
-
 	QMenu *pPopMenu = new QMenu(ui.tableWidget);
 	QAction *pActRefresh = pPopMenu->addAction("刷新");
 	QAction *pActTraverseModule = pPopMenu->addAction("查看进程模块");
@@ -169,23 +168,6 @@ void ProcessTabWidget::listProcess()
 				else {
 					strProcessFullPath = "无法获取";
 				}
-
-				//HANDLE hModuleSnap = CreateToolhelp32Snapshot(TH32CS_SNAPMODULE, pe32.th32ProcessID);
-				//if (hModuleSnap == INVALID_HANDLE_VALUE) {
-				//	strProcessFullPath = "无法获取";
-				//}
-				//else {
-				//	MODULEENTRY32 me32 = {};
-				//	me32.dwSize = sizeof(MODULEENTRY32);
-				//	if (!Module32First(hModuleSnap, &me32)) {
-				//		//TODO:
-				//		strProcessFullPath = "无法获取";
-				//	}
-				//	else {
-				//		strProcessFullPath = QString::fromWCharArray(me32.szExePath);
-				//	}
-				//	CloseHandle(hModuleSnap);
-				//}
 			}
 
 			ui.tableWidget->setRowCount(i+1);
