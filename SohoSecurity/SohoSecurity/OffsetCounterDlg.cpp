@@ -12,6 +12,8 @@ OffsetCounterDlg::OffsetCounterDlg(PIMAGE_NT_HEADERS pNtHeader, QWidget *parent)
 {
 	ui.setupUi(this);
 
+	this->setFixedSize(this->width(), this->height());
+
 	m_pNtHeader = pNtHeader;
 	ui.leFOA->clear();
 	ui.leRVA->clear();

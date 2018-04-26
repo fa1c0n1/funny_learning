@@ -72,6 +72,12 @@
     <ClCompile Include="OffsetCounterDlg.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="CleanVSPrjThread.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="CleanSysAndBrwsThread.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="stdafx.h">
@@ -146,6 +152,12 @@
       <Filter>Header Files</Filter>
     </QtMoc>
     <QtMoc Include="OffsetCounterDlg.h">
+      <Filter>Header Files</Filter>
+    </QtMoc>
+    <QtMoc Include="CleanVSPrjThread.h">
+      <Filter>Header Files</Filter>
+    </QtMoc>
+    <QtMoc Include="CleanSysAndBrwsThread.h">
       <Filter>Header Files</Filter>
     </QtMoc>
   </ItemGroup>

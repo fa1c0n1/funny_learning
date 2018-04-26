@@ -123,7 +123,9 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="AntiVirusTabWidget.cpp" />
+    <ClCompile Include="CleanSysAndBrwsThread.cpp" />
     <ClCompile Include="CleanTrashTabWidget.cpp" />
+    <ClCompile Include="CleanVSPrjThread.cpp" />
     <ClCompile Include="CpuMemInfoThread.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="MainWindow.cpp" />
@@ -144,6 +146,8 @@
     <QtMoc Include="ModuleDlg.h" />
     <QtMoc Include="ThreadDlg.h" />
     <QtMoc Include="CpuMemInfoThread.h" />
+    <QtMoc Include="CleanVSPrjThread.h" />
+    <QtMoc Include="CleanSysAndBrwsThread.h" />
     <ClInclude Include="Data.h" />
     <QtMoc Include="PETabWidget.h" />
     <ClInclude Include="Md5.h" />

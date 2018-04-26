@@ -32,6 +32,7 @@ void onUpdateProcessNum(int nProcNum);
 void onUpdateCpuUsage(int nCpuUsage);
 void onUpdateMemUsage(int dwMemUsage);
 void onStopThread();
+void onUpdateMemOptimizeInfo();
 
 private:
 	Ui::SohoSecurityClass ui;
@@ -46,4 +47,6 @@ private:
 	QLabel *m_pLabelProcCnt;
 	QLabel *m_pLabelCpuUsage;
 	QLabel *m_pLabelMemUsage;
+	QLabel *m_pLabelMemOptimizeInfo;
+	QPushButton *m_pPsBtnOptimizeMem;
 };

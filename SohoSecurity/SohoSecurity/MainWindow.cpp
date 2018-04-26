@@ -2,14 +2,18 @@
 #include "MainWindow.h"
 #include "ProcessTabWidget.h"
 #include "CpuMemInfoThread.h"
+#include <Psapi.h>
 #include <PowrProf.h>
 
 #pragma comment(lib, "PowrProf.lib")
+#pragma comment(lib, "Psapi.lib")
 
 SohoSecurity::SohoSecurity(QWidget *parent)
 	: QMainWindow(parent)
 {
 	ui.setupUi(this);
+
+	this->setFixedSize(this->width(), this->height());
 
 	m_pStatusBar = statusBar();
 	m_pLabelProcCnt = new QLabel(tr("进程数: "), this);
@@ -21,6 +25,12 @@ SohoSecurity::SohoSecurity(QWidget *parent)
 	m_pStatusBar->addWidget(m_pLabelProcCnt);
 	m_pStatusBar->addWidget(m_pLabelCpuUsage);
 	m_pStatusBar->addWidget(m_pLabelMemUsage);
+
+	m_pLabelMemOptimizeInfo = new QLabel(tr(""));
+	m_pLabelMemOptimizeInfo->setFixedWidth(100);
+	m_pStatusBar->addPermanentWidget(m_pLabelMemOptimizeInfo);
+	m_pPsBtnOptimizeMem = new QPushButton(tr("内存优化"), this);
+	m_pStatusBar->addPermanentWidget(m_pPsBtnOptimizeMem);
 
 	m_pProcTabWidget = new ProcessTabWidget(this);
 	m_pWndTabWidget = new WindowTabWidget(this);
@@ -52,6 +62,8 @@ void SohoSecurity::initSlotConnect()
 
 	connect(m_pCmInfoThread, &CpuMemInfoThread::updateCpuUsage, this, &SohoSecurity::onUpdateCpuUsage);
 	connect(m_pCmInfoThread, &CpuMemInfoThread::updateMemUsage, this, &SohoSecurity::onUpdateMemUsage);
+
+	connect(m_pPsBtnOptimizeMem, &QPushButton::clicked, this, &SohoSecurity::onUpdateMemOptimizeInfo);
 
 	//当按窗口右上角x时，窗口触发destroyed
 	connect(this, &SohoSecurity::destroyed, this, &SohoSecurity::onStopThread);
@@ -118,6 +130,25 @@ void SohoSecurity::onStopThread()
 	m_pCmInfoThread->quit();
 	//等待线程处理完手头动作
 	m_pCmInfoThread->wait();
+}
+
+void SohoSecurity::onUpdateMemOptimizeInfo()
+{
+	m_pLabelMemOptimizeInfo->setText(tr("正在优化内存..."));
+	
+	//清理内存
+	DWORD dwPIDList[1000] = { 0 };
+	DWORD dwBufSize = sizeof(dwPIDList);
+	DWORD dwNeedSize = 0;
+
+	EnumProcesses(dwPIDList, dwBufSize, &dwNeedSize);
+	for (DWORD i = 0; i < dwNeedSize / sizeof(DWORD); i++) {
+		HANDLE hProcess = OpenProcess(PROCESS_SET_QUOTA, false, dwPIDList[i]);
+		SetProcessWorkingSetSize(hProcess, -1, -1);
+		CloseHandle(hProcess);
+	}
+
+	m_pLabelMemOptimizeInfo->setText(tr("内存优化完毕"));
 }
 
 bool SohoSecurity::getPowerPrivilge()

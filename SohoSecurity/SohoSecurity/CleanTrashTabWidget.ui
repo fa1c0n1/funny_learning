@@ -6,28 +6,272 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>862</width>
-    <height>279</height>
+    <width>940</width>
+    <height>519</height>
    </rect>
   </property>
   <property name="windowTitle">
    <string>CleanTrashTabWidget</string>
   </property>
-  <widget class="QLabel" name="label">
+  <widget class="QGroupBox" name="groupBox">
    <property name="geometry">
     <rect>
-     <x>130</x>
-     <y>90</y>
-     <width>91</width>
-     <height>21</height>
+     <x>10</x>
+     <y>10</y>
+     <width>921</width>
+     <height>161</height>
     </rect>
    </property>
-   <property name="text">
-    <string>垃圾清理TAB</string>
+   <property name="title">
+    <string>系统和浏览器垃圾清理</string>
    </property>
+   <widget class="QPushButton" name="psBtnClnSysAndBrws">
+    <property name="geometry">
+     <rect>
+      <x>840</x>
+      <y>130</y>
+      <width>75</width>
+      <height>23</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>一键清理</string>
+    </property>
+   </widget>
+   <widget class="QWidget" name="">
+    <property name="geometry">
+     <rect>
+      <x>22</x>
+      <y>22</y>
+      <width>74</width>
+      <height>131</height>
+     </rect>
+    </property>
+    <layout class="QVBoxLayout" name="verticalLayout">
+     <item>
+      <widget class="QLabel" name="label_2">
+       <property name="text">
+        <string>临时文件：</string>
+       </property>
+       <property name="alignment">
+        <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
+       </property>
+      </widget>
+     </item>
+     <item>
+      <widget class="QLabel" name="label_3">
+       <property name="text">
+        <string>系统文件：</string>
+       </property>
+       <property name="alignment">
+        <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
+       </property>
+      </widget>
+     </item>
+     <item>
+      <widget class="QLabel" name="label_4">
+       <property name="text">
+        <string> 回收站：</string>
+       </property>
+       <property name="alignment">
+        <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
+       </property>
+      </widget>
+     </item>
+     <item>
+      <widget class="QLabel" name="label_5">
+       <property name="text">
+        <string>系统缓存：</string>
+       </property>
+       <property name="alignment">
+        <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
+       </property>
+      </widget>
+     </item>
+     <item>
+      <widget class="QLabel" name="label_6">
+       <property name="text">
+        <string>日志文件：</string>
+       </property>
+       <property name="alignment">
+        <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
+       </property>
+      </widget>
+     </item>
+     <item>
+      <widget class="QLabel" name="label_7">
+       <property name="text">
+        <string>浏览器垃圾：</string>
+       </property>
+       <property name="alignment">
+        <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
+       </property>
+      </widget>
+     </item>
+    </layout>
+   </widget>
+   <widget class="QWidget" name="">
+    <property name="geometry">
+     <rect>
+      <x>100</x>
+      <y>20</y>
+      <width>731</width>
+      <height>131</height>
+     </rect>
+    </property>
+    <layout class="QVBoxLayout" name="verticalLayout_2">
+     <item>
+      <widget class="QLabel" name="labelTmpFiles">
+       <property name="text">
+        <string/>
+       </property>
+      </widget>
+     </item>
+     <item>
+      <widget class="QLabel" name="labelSystemFiles">
+       <property name="text">
+        <string/>
+       </property>
+      </widget>
+     </item>
+     <item>
+      <widget class="QLabel" name="labelRecyBinFiles">
+       <property name="text">
+        <string/>
+       </property>
+      </widget>
+     </item>
+     <item>
+      <widget class="QLabel" name="labelSysCacheFiles">
+       <property name="text">
+        <string/>
+       </property>
+      </widget>
+     </item>
+     <item>
+      <widget class="QLabel" name="labelLogFiles">
+       <property name="text">
+        <string/>
+       </property>
+      </widget>
+     </item>
+     <item>
+      <widget class="QLabel" name="labelBrowserCache">
+       <property name="text">
+        <string/>
+       </property>
+      </widget>
+     </item>
+    </layout>
+   </widget>
+  </widget>
+  <widget class="QGroupBox" name="groupBox_2">
+   <property name="geometry">
+    <rect>
+     <x>10</x>
+     <y>180</y>
+     <width>921</width>
+     <height>331</height>
+    </rect>
+   </property>
+   <property name="title">
+    <string>VS工程清理</string>
+   </property>
+   <widget class="QListWidget" name="listWidgetVSPath">
+    <property name="geometry">
+     <rect>
+      <x>10</x>
+      <y>40</y>
+      <width>351</width>
+      <height>281</height>
+     </rect>
+    </property>
+    <property name="editTriggers">
+     <set>QAbstractItemView::NoEditTriggers</set>
+    </property>
+    <property name="selectionMode">
+     <enum>QAbstractItemView::ExtendedSelection</enum>
+    </property>
+    <property name="sortingEnabled">
+     <bool>true</bool>
+    </property>
+   </widget>
+   <widget class="QLabel" name="label">
+    <property name="geometry">
+     <rect>
+      <x>10</x>
+      <y>20</y>
+      <width>371</width>
+      <height>16</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>请将要清理的VS工程目录拖拽到下面的列表框中. Del键可选中删除</string>
+    </property>
+   </widget>
+   <widget class="QTextBrowser" name="textBrwVSDelFile">
+    <property name="geometry">
+     <rect>
+      <x>370</x>
+      <y>20</y>
+      <width>461</width>
+      <height>301</height>
+     </rect>
+    </property>
+   </widget>
+   <widget class="QPushButton" name="psBtnCleanVSprj">
+    <property name="geometry">
+     <rect>
+      <x>840</x>
+      <y>300</y>
+      <width>75</width>
+      <height>23</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>开始清理</string>
+    </property>
+   </widget>
   </widget>
  </widget>
  <layoutdefault spacing="6" margin="11"/>
  <resources/>
- <connections/>
+ <connections>
+  <connection>
+   <sender>psBtnClnSysAndBrws</sender>
+   <signal>clicked()</signal>
+   <receiver>CleanTrashTabWidget</receiver>
+   <slot>onPsBtnClnSysAndBrwsClicked()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>916</x>
+     <y>150</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>933</x>
+     <y>152</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>psBtnCleanVSprj</sender>
+   <signal>clicked()</signal>
+   <receiver>CleanTrashTabWidget</receiver>
+   <slot>onpsBtnCleanVSprjClicked()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>906</x>
+     <y>491</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>936</x>
+     <y>475</y>
+    </hint>
+   </hints>
+  </connection>
+ </connections>
+ <slots>
+  <slot>onPsBtnClnSysAndBrwsClicked()</slot>
+  <slot>onpsBtnCleanVSprjClicked()</slot>
+ </slots>
 </ui>

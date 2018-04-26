@@ -14,6 +14,8 @@ ModuleDlg::ModuleDlg(LPVOID lpData, QWidget *parent)
 {
 	ui.setupUi(this);
 
+	this->setFixedSize(this->width(), this->height());
+
 	PPROCESS2MODULEINFO pP2mInfo = (PPROCESS2MODULEINFO)lpData;
 	m_dwOwnerPID = pP2mInfo->dwPID;
 	m_strOwnerPName = pP2mInfo->strPName;

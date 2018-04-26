@@ -14,6 +14,8 @@ ThreadDlg::ThreadDlg(LPVOID lpData, QWidget *parent)
 {
 	ui.setupUi(this);
 
+	this->setFixedSize(this->width(), this->height());
+
 	PPROCESS2THREADINFO pP2tInfo = (PPROCESS2THREADINFO)lpData;
 	m_dwOwnerPID = pP2tInfo->dwPID;
 	m_strOwnerPName = pP2tInfo->strPName;
