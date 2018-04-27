@@ -127,6 +127,7 @@
     <ClCompile Include="CleanTrashTabWidget.cpp" />
     <ClCompile Include="CleanVSPrjThread.cpp" />
     <ClCompile Include="CpuMemInfoThread.cpp" />
+    <ClCompile Include="LocalScanVirusThread.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="MainWindow.cpp" />
     <ClCompile Include="Md5.cpp" />
@@ -135,9 +136,11 @@
     <ClCompile Include="MyWinEventFilter.cpp" />
     <ClCompile Include="OffsetCounterDlg.cpp" />
     <ClCompile Include="PETabWidget.cpp" />
+    <ClCompile Include="ProcessScanVirusThread.cpp" />
     <ClCompile Include="ProcessTabWidget.cpp" />
     <ClCompile Include="ServiceTabWidget.cpp" />
     <ClCompile Include="SoftUninstallTabWidget.cpp" />
+    <ClCompile Include="StartItemTabWidget.cpp" />
     <ClCompile Include="stdafx.cpp">
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Create</PrecompiledHeader>
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Create</PrecompiledHeader>
@@ -153,11 +156,14 @@
     <QtMoc Include="CleanSysAndBrwsThread.h" />
     <ClInclude Include="Data.h" />
     <QtMoc Include="PETabWidget.h" />
+    <QtMoc Include="LocalScanVirusThread.h" />
     <ClInclude Include="Md5.h" />
     <QtMoc Include="OffsetCounterDlg.h" />
     <QtMoc Include="MyGlobalShortCut.h" />
     <ClInclude Include="MyWinEventFilter.h" />
     <QtMoc Include="SoftUninstallTabWidget.h" />
+    <QtMoc Include="StartItemTabWidget.h" />
+    <QtMoc Include="ProcessScanVirusThread.h" />
     <ClInclude Include="ui_AntiVirusTabWidget.h" />
     <ClInclude Include="ui_CleanTrashTabWidget.h" />
     <ClInclude Include="ui_ModuleDlg.h" />
@@ -166,6 +172,7 @@
     <ClInclude Include="ui_ProcessTabWidget.h" />
     <ClInclude Include="ui_ServiceTabWidget.h" />
     <ClInclude Include="ui_SoftUninstallTabWidget.h" />
+    <ClInclude Include="ui_StartItemTabWidget.h" />
     <ClInclude Include="ui_ThreadDlg.h" />
     <ClInclude Include="ui_WindowTabWidget.h" />
     <QtMoc Include="AntiVirusTabWidget.h" />
@@ -187,6 +194,7 @@
     <QtUic Include="ProcessTabWidget.ui" />
     <QtUic Include="ServiceTabWidget.ui" />
     <QtUic Include="SoftUninstallTabWidget.ui" />
+    <QtUic Include="StartItemTabWidget.ui" />
     <QtUic Include="ThreadDlg.ui" />
     <QtUic Include="WindowTabWidget.ui" />
   </ItemGroup>

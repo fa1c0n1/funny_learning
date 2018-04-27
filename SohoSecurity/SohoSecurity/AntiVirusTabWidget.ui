@@ -6,28 +6,299 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>868</width>
-    <height>332</height>
+    <width>952</width>
+    <height>487</height>
    </rect>
   </property>
   <property name="windowTitle">
    <string>AntiVirusTabWidget</string>
   </property>
-  <widget class="QLabel" name="label">
+  <widget class="QGroupBox" name="groupBox">
    <property name="geometry">
     <rect>
-     <x>170</x>
-     <y>100</y>
-     <width>121</width>
-     <height>21</height>
+     <x>10</x>
+     <y>10</y>
+     <width>931</width>
+     <height>291</height>
     </rect>
    </property>
-   <property name="text">
-    <string>病毒查杀TAB</string>
+   <property name="title">
+    <string>本地文件MD5查杀/云查杀</string>
    </property>
+   <widget class="QLabel" name="label">
+    <property name="geometry">
+     <rect>
+      <x>10</x>
+      <y>60</y>
+      <width>81</width>
+      <height>21</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>扫描文件名：</string>
+    </property>
+   </widget>
+   <widget class="QListWidget" name="listWgVirus">
+    <property name="geometry">
+     <rect>
+      <x>10</x>
+      <y>130</y>
+      <width>821</width>
+      <height>151</height>
+     </rect>
+    </property>
+    <property name="editTriggers">
+     <set>QAbstractItemView::NoEditTriggers</set>
+    </property>
+    <property name="selectionMode">
+     <enum>QAbstractItemView::ExtendedSelection</enum>
+    </property>
+    <property name="sortingEnabled">
+     <bool>true</bool>
+    </property>
+   </widget>
+   <widget class="QPushButton" name="psBtnLocalAV">
+    <property name="geometry">
+     <rect>
+      <x>840</x>
+      <y>220</y>
+      <width>75</width>
+      <height>23</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>本地查杀</string>
+    </property>
+   </widget>
+   <widget class="QPushButton" name="psBtnCloudAV">
+    <property name="geometry">
+     <rect>
+      <x>840</x>
+      <y>250</y>
+      <width>75</width>
+      <height>23</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>云查杀</string>
+    </property>
+   </widget>
+   <widget class="QLabel" name="label_2">
+    <property name="geometry">
+     <rect>
+      <x>10</x>
+      <y>30</y>
+      <width>101</width>
+      <height>16</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>请指定扫描路径：</string>
+    </property>
+   </widget>
+   <widget class="QLineEdit" name="leScanPath">
+    <property name="geometry">
+     <rect>
+      <x>110</x>
+      <y>30</y>
+      <width>721</width>
+      <height>20</height>
+     </rect>
+    </property>
+    <property name="readOnly">
+     <bool>true</bool>
+    </property>
+   </widget>
+   <widget class="QPushButton" name="psBtnSelectDir">
+    <property name="geometry">
+     <rect>
+      <x>840</x>
+      <y>30</y>
+      <width>75</width>
+      <height>23</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>选择目录</string>
+    </property>
+   </widget>
+   <widget class="QLabel" name="labelFilePath">
+    <property name="geometry">
+     <rect>
+      <x>110</x>
+      <y>60</y>
+      <width>721</width>
+      <height>20</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string/>
+    </property>
+   </widget>
+   <widget class="QLabel" name="labelScanResult">
+    <property name="geometry">
+     <rect>
+      <x>10</x>
+      <y>110</y>
+      <width>381</width>
+      <height>16</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string/>
+    </property>
+   </widget>
+  </widget>
+  <widget class="QGroupBox" name="groupBox_2">
+   <property name="geometry">
+    <rect>
+     <x>10</x>
+     <y>310</y>
+     <width>931</width>
+     <height>171</height>
+    </rect>
+   </property>
+   <property name="title">
+    <string>进程查杀</string>
+   </property>
+   <widget class="QTableWidget" name="tableWgSuspProc">
+    <property name="geometry">
+     <rect>
+      <x>10</x>
+      <y>40</y>
+      <width>821</width>
+      <height>121</height>
+     </rect>
+    </property>
+    <property name="editTriggers">
+     <set>QAbstractItemView::NoEditTriggers</set>
+    </property>
+    <property name="selectionMode">
+     <enum>QAbstractItemView::SingleSelection</enum>
+    </property>
+    <property name="selectionBehavior">
+     <enum>QAbstractItemView::SelectRows</enum>
+    </property>
+    <property name="sortingEnabled">
+     <bool>true</bool>
+    </property>
+    <attribute name="verticalHeaderVisible">
+     <bool>true</bool>
+    </attribute>
+   </widget>
+   <widget class="QLabel" name="label_3">
+    <property name="geometry">
+     <rect>
+      <x>10</x>
+      <y>20</y>
+      <width>81</width>
+      <height>16</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>扫描进程：</string>
+    </property>
+   </widget>
+   <widget class="QPushButton" name="psBtnProcScan">
+    <property name="geometry">
+     <rect>
+      <x>840</x>
+      <y>130</y>
+      <width>75</width>
+      <height>23</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>进程查杀</string>
+    </property>
+   </widget>
+   <widget class="QLabel" name="labelProcess">
+    <property name="geometry">
+     <rect>
+      <x>70</x>
+      <y>20</y>
+      <width>761</width>
+      <height>16</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string/>
+    </property>
+   </widget>
   </widget>
  </widget>
  <layoutdefault spacing="6" margin="11"/>
  <resources/>
- <connections/>
+ <connections>
+  <connection>
+   <sender>psBtnSelectDir</sender>
+   <signal>clicked()</signal>
+   <receiver>AntiVirusTabWidget</receiver>
+   <slot>onSelectScanPath()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>888</x>
+     <y>47</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>874</x>
+     <y>0</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>psBtnLocalAV</sender>
+   <signal>clicked()</signal>
+   <receiver>AntiVirusTabWidget</receiver>
+   <slot>onPsBtnLocalAVClicked()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>903</x>
+     <y>237</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>955</x>
+     <y>267</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>psBtnCloudAV</sender>
+   <signal>clicked()</signal>
+   <receiver>AntiVirusTabWidget</receiver>
+   <slot>onPsBtnCloudAVClicked()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>912</x>
+     <y>269</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>950</x>
+     <y>304</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>psBtnProcScan</sender>
+   <signal>clicked()</signal>
+   <receiver>AntiVirusTabWidget</receiver>
+   <slot>onPsBtnProcScanClicked()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>894</x>
+     <y>444</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>937</x>
+     <y>485</y>
+    </hint>
+   </hints>
+  </connection>
+ </connections>
+ <slots>
+  <slot>onSelectScanPath()</slot>
+  <slot>onPsBtnLocalAVClicked()</slot>
+  <slot>onPsBtnCloudAVClicked()</slot>
+  <slot>onPsBtnProcScanClicked()</slot>
+ </slots>
 </ui>

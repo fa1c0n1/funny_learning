@@ -38,6 +38,7 @@ SohoSecurity::SohoSecurity(QWidget *parent)
 	m_pPETabWidget = new PETabWidget(this);
 	m_pCleanTabWidget = new CleanTrashTabWidget(this);
 	m_pSoftUnsTabWidget = new SoftUninstallTabWidget(this);
+	m_pStartItemTabWidget = new StartItemTabWidget(this);
 	m_pAVTabWidget = new AntiVirusTabWidget(this);
 	ui.tabWidget->addTab(m_pProcTabWidget, tr("进程"));
 	ui.tabWidget->addTab(m_pWndTabWidget, tr("窗口"));
@@ -45,6 +46,7 @@ SohoSecurity::SohoSecurity(QWidget *parent)
 	ui.tabWidget->addTab(m_pPETabWidget, tr("PE文件解析"));
 	ui.tabWidget->addTab(m_pCleanTabWidget, tr("垃圾清理"));
 	ui.tabWidget->addTab(m_pSoftUnsTabWidget, tr("软件管理"));
+	ui.tabWidget->addTab(m_pStartItemTabWidget, tr("启动项"));
 	ui.tabWidget->addTab(m_pAVTabWidget, tr("病毒查杀"));
 
 	m_pCmInfoThread = new CpuMemInfoThread(this);

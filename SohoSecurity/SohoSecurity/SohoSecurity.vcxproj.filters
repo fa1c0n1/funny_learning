@@ -87,6 +87,15 @@
     <ClCompile Include="SoftUninstallTabWidget.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="StartItemTabWidget.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="LocalScanVirusThread.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="ProcessScanVirusThread.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="stdafx.h">
@@ -132,6 +141,9 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="ui_SoftUninstallTabWidget.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="ui_StartItemTabWidget.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
@@ -181,6 +193,15 @@
     <QtMoc Include="SoftUninstallTabWidget.h">
       <Filter>Header Files</Filter>
     </QtMoc>
+    <QtMoc Include="StartItemTabWidget.h">
+      <Filter>Header Files</Filter>
+    </QtMoc>
+    <QtMoc Include="LocalScanVirusThread.h">
+      <Filter>Header Files</Filter>
+    </QtMoc>
+    <QtMoc Include="ProcessScanVirusThread.h">
+      <Filter>Header Files</Filter>
+    </QtMoc>
   </ItemGroup>
   <ItemGroup>
     <QtUic Include="MainWindow.ui">
@@ -214,6 +235,9 @@
       <Filter>Form Files</Filter>
     </QtUic>
     <QtUic Include="SoftUninstallTabWidget.ui">
+      <Filter>Form Files</Filter>
+    </QtUic>
+    <QtUic Include="StartItemTabWidget.ui">
       <Filter>Form Files</Filter>
     </QtUic>
   </ItemGroup>

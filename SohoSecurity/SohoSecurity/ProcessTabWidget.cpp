@@ -184,6 +184,7 @@ void ProcessTabWidget::listProcess()
 			pPPIDItem->setData(Qt::DisplayRole, uPPID);
 			ui.tableWidget->setItem(i, 2, pPPIDItem);
 			ui.tableWidget->setItem(i, 3, new QTableWidgetItem(strProcessFullPath));
+
 			i++;
 			CloseHandle(hProcess);
 		} while (Process32Next(hProcessSnap, &pe32));
