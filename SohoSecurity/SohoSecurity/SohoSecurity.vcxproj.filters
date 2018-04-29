@@ -146,6 +146,9 @@
     <ClInclude Include="ui_StartItemTabWidget.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="resource.h">
+      <Filter>Generated Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <QtMoc Include="MainWindow.h">
@@ -245,5 +248,12 @@
     <QtRcc Include="MainWindow.qrc">
       <Filter>Resource Files</Filter>
     </QtRcc>
+  </ItemGroup>
+  <ItemGroup>
+    <ResourceCompile Include="SohoSecurity.rc" />
+  </ItemGroup>
+  <ItemGroup>
+    <Image Include="Security_Center.ico" />
+    <Image Include="F:\old_Media\图片素材\Security_Center.ico" />
   </ItemGroup>
 </Project>

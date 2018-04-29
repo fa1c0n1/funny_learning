@@ -192,6 +192,7 @@ void PETabWidget::FILE_PE_64()
 	getTLSTableInfo(pDataDir);
 }
 
+//获取区段表信息
 void PETabWidget::getSectionsTableInfo(PIMAGE_NT_HEADERS32 pNtHeader32, PIMAGE_NT_HEADERS64 pNtHeader64)
 {
 	m_strSectionTable.clear();
@@ -225,6 +226,7 @@ void PETabWidget::getSectionsTableInfo(PIMAGE_NT_HEADERS32 pNtHeader32, PIMAGE_N
 	}
 }
 
+//获取扩展头信息
 void PETabWidget::getOptionalInfo(PIMAGE_OPTIONAL_HEADER32 pOptionalHeader32, 
 	PIMAGE_OPTIONAL_HEADER64 pOptionalHeader64)
 {
@@ -280,6 +282,7 @@ void PETabWidget::getOptionalInfo(PIMAGE_OPTIONAL_HEADER32 pOptionalHeader32,
 	}
 }
 
+//获取数据目录表信息
 void PETabWidget::getDataDirTableInfo(PIMAGE_OPTIONAL_HEADER32 pOptionalHeader32, 
 	PIMAGE_OPTIONAL_HEADER64 pOptionalHeader64)
 {
@@ -301,6 +304,7 @@ void PETabWidget::getDataDirTableInfo(PIMAGE_OPTIONAL_HEADER32 pOptionalHeader32
 	}
 }
 
+//获取导出表的信息
 void PETabWidget::getExportTableInfo(PIMAGE_DATA_DIRECTORY pDataDir)
 {
 	m_strExpTable.clear();
@@ -369,6 +373,7 @@ void PETabWidget::getExportTableInfo(PIMAGE_DATA_DIRECTORY pDataDir)
 	}
 }
 
+//获取导入表信息
 void PETabWidget::getImportTableInfo(PIMAGE_DATA_DIRECTORY pDataDir)
 {
 	m_strImpTable.clear();
@@ -443,7 +448,6 @@ void PETabWidget::getImportTableInfo(PIMAGE_DATA_DIRECTORY pDataDir)
 			//解析当前dll的导入函数名称
 			//pImpTable->OriginalFirstThunk;  //导入名称表
 			//pImpTable->FirstThunk;          //导入地址表
-			//上面说的两个表，在文件中保存的内容是完全相同的
 
 			DWORD dwIATfoa = rva2foa(pImpTable->OriginalFirstThunk);
 			IMAGE_THUNK_DATA64 *pIAT = (IMAGE_THUNK_DATA64*)((ULONG64)m_pFileImageBase + dwIATfoa);
@@ -475,6 +479,7 @@ void PETabWidget::getImportTableInfo(PIMAGE_DATA_DIRECTORY pDataDir)
 	}
 }
 
+//获取资源表信息
 void PETabWidget::getResourceTableInfo(PIMAGE_DATA_DIRECTORY pDataDir)
 {
 	m_strResTable.clear();
@@ -586,6 +591,7 @@ void PETabWidget::getResourceTableInfo(PIMAGE_DATA_DIRECTORY pDataDir)
 	}
 }
 
+//获取重定位表信息
 void PETabWidget::getRelocationeTableInfo(PIMAGE_DATA_DIRECTORY pDataDir)
 {
 	m_strRelocTable.clear();
@@ -636,7 +642,7 @@ void PETabWidget::getRelocationeTableInfo(PIMAGE_DATA_DIRECTORY pDataDir)
 	}
 }
 
-//延迟加载导入表
+//获取延迟加载导入表的信息
 void PETabWidget::getDelayImportTableInfo(PIMAGE_DATA_DIRECTORY pDataDir)
 {
 	m_strDelayLoadTable.clear();
@@ -732,6 +738,7 @@ void PETabWidget::getDelayImportTableInfo(PIMAGE_DATA_DIRECTORY pDataDir)
 	}
 }
 
+//获取TLS表信息
 void PETabWidget::getTLSTableInfo(PIMAGE_DATA_DIRECTORY pDataDir)
 {
 	m_strTLSTable.clear();
@@ -829,6 +836,7 @@ void PETabWidget::onPsBtnTLSTableClicked()
 	ui.textBrwPEData->setText(m_strTLSTable);
 }
 
+//获取文件一般信息
 void PETabWidget::getFileInfo(QString strFilePath)
 {
 	//文件路径
@@ -855,6 +863,7 @@ void PETabWidget::getFileInfo(QString strFilePath)
 		ui.textBrwFileInfo->append(tr("描述信息: %1").arg(strFileDesc));
 }
 
+//获取文件描述信息
 QString PETabWidget::getFileDescription(QString strFilePath)
 {
 	TCHAR szFilePath[MAX_PATH] = {};

@@ -36,6 +36,7 @@ ModuleDlg::~ModuleDlg()
 {
 }
 
+//±éÀúÄ£¿é
 void ModuleDlg::ListProcessThread(DWORD dwOwnerPid)
 {
 	HANDLE hModuleSnap = INVALID_HANDLE_VALUE;

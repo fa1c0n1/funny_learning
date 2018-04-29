@@ -21,11 +21,6 @@
 #include <QtWidgets/QTabWidget>
 #include <QtWidgets/QToolBar>
 #include <QtWidgets/QWidget>
-#include "antivirustabwidget.h"
-#include "cleantrashtabwidget.h"
-#include "processtabwidget.h"
-#include "servicetabwidget.h"
-#include "windowtabwidget.h"
 
 QT_BEGIN_NAMESPACE
 
@@ -40,11 +35,6 @@ public:
     QAction *actLockScreen;
     QWidget *centralWidget;
     QTabWidget *tabWidget;
-    ProcessTabWidget *tabProc;
-    WindowTabWidget *tabWnd;
-    ServiceTabWidget *tabServ;
-    CleanTrashTabWidget *tabClean;
-    AntiVirusTabWidget *tabAV;
     QMenuBar *menuBar;
     QMenu *menu;
     QToolBar *mainToolBar;
@@ -54,7 +44,7 @@ public:
     {
         if (SohoSecurityClass->objectName().isEmpty())
             SohoSecurityClass->setObjectName(QStringLiteral("SohoSecurityClass"));
-        SohoSecurityClass->resize(968, 588);
+        SohoSecurityClass->resize(968, 594);
         actLogoff = new QAction(SohoSecurityClass);
         actLogoff->setObjectName(QStringLiteral("actLogoff"));
         actHibernate = new QAction(SohoSecurityClass);
@@ -72,21 +62,6 @@ public:
         tabWidget = new QTabWidget(centralWidget);
         tabWidget->setObjectName(QStringLiteral("tabWidget"));
         tabWidget->setGeometry(QRect(10, 0, 951, 541));
-        tabProc = new ProcessTabWidget();
-        tabProc->setObjectName(QStringLiteral("tabProc"));
-        tabWidget->addTab(tabProc, QString());
-        tabWnd = new WindowTabWidget();
-        tabWnd->setObjectName(QStringLiteral("tabWnd"));
-        tabWidget->addTab(tabWnd, QString());
-        tabServ = new ServiceTabWidget();
-        tabServ->setObjectName(QStringLiteral("tabServ"));
-        tabWidget->addTab(tabServ, QString());
-        tabClean = new CleanTrashTabWidget();
-        tabClean->setObjectName(QStringLiteral("tabClean"));
-        tabWidget->addTab(tabClean, QString());
-        tabAV = new AntiVirusTabWidget();
-        tabAV->setObjectName(QStringLiteral("tabAV"));
-        tabWidget->addTab(tabAV, QString());
         SohoSecurityClass->setCentralWidget(centralWidget);
         menuBar = new QMenuBar(SohoSecurityClass);
         menuBar->setObjectName(QStringLiteral("menuBar"));
@@ -112,7 +87,7 @@ public:
 
         retranslateUi(SohoSecurityClass);
 
-        tabWidget->setCurrentIndex(0);
+        tabWidget->setCurrentIndex(-1);
 
 
         QMetaObject::connectSlotsByName(SohoSecurityClass);
@@ -133,11 +108,6 @@ public:
         actShutdown->setShortcut(QApplication::translate("SohoSecurityClass", "Alt+P", 0));
         actLockScreen->setText(QApplication::translate("SohoSecurityClass", "\351\224\201\345\261\217(&L)", 0));
         actLockScreen->setShortcut(QApplication::translate("SohoSecurityClass", "Alt+L", 0));
-        tabWidget->setTabText(tabWidget->indexOf(tabProc), QApplication::translate("SohoSecurityClass", "\350\277\233\347\250\213", 0));
-        tabWidget->setTabText(tabWidget->indexOf(tabWnd), QApplication::translate("SohoSecurityClass", "\347\252\227\345\217\243", 0));
-        tabWidget->setTabText(tabWidget->indexOf(tabServ), QApplication::translate("SohoSecurityClass", "\346\234\215\345\212\241", 0));
-        tabWidget->setTabText(tabWidget->indexOf(tabClean), QApplication::translate("SohoSecurityClass", "\345\236\203\345\234\276\346\270\205\347\220\206", 0));
-        tabWidget->setTabText(tabWidget->indexOf(tabAV), QApplication::translate("SohoSecurityClass", "\347\227\205\346\257\222\346\237\245\346\235\200", 0));
         menu->setTitle(QApplication::translate("SohoSecurityClass", "\346\216\247\345\210\266(&M)", 0));
     } // retranslateUi
 

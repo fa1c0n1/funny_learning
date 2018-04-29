@@ -25,6 +25,7 @@ void CleanVSPrjThread::run()
 	emit updateClnVSPrjProgress(tr("----- 清理完毕 -----"));
 }
 
+//清理VS工程
 void CleanVSPrjThread::cleanVSPrj(QString strPrjPath)
 {
 	QDir prjDir(strPrjPath);

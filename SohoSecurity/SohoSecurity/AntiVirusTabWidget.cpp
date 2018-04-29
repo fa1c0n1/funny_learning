@@ -19,12 +19,14 @@ AntiVirusTabWidget::~AntiVirusTabWidget()
 {
 }
 
+//"选择目录"按钮的槽函数
 void AntiVirusTabWidget::onSelectScanPath()
 {
 	QString strDirPath = QFileDialog::getExistingDirectory(NULL, tr("选择目录"), tr("."));
 	ui.leScanPath->setText(strDirPath);
 }
 
+//"本地查杀"按钮的槽函数
 void AntiVirusTabWidget::onPsBtnLocalAVClicked()
 {
 	if (ui.leScanPath->text().isEmpty()) {
@@ -50,11 +52,13 @@ void AntiVirusTabWidget::onPsBtnLocalAVClicked()
 	m_pLocalScanThread->start();
 }
 
+//"云查杀"按钮槽函数
 void AntiVirusTabWidget::onPsBtnCloudAVClicked()
 {
-
+	//TODO:
 }
 
+//"进程查杀"按钮槽函数
 void AntiVirusTabWidget::onPsBtnProcScanClicked()
 {
 	ui.psBtnProcScan->setEnabled(false);
@@ -75,6 +79,7 @@ void AntiVirusTabWidget::onPsBtnProcScanClicked()
 
 }
 
+//获取子线程传递过来的数据，更新界面
 void AntiVirusTabWidget::onUpdateLocalScanProgress(QString strFilePath)
 {
 	ui.labelFilePath->setText(strFilePath);
@@ -96,11 +101,13 @@ void AntiVirusTabWidget::onUpdateLocalScanProgress(QString strFilePath)
 	}
 }
 
+//获取子线程传递过来的数据，更新界面
 void AntiVirusTabWidget::onCatchVirus(QString strFilePath)
 {
 	ui.listWgVirus->addItem(new QListWidgetItem(strFilePath));
 }
 
+//获取子线程传递过来的数据，更新界面
 void AntiVirusTabWidget::onUpdateProcScanProgress(QString strProcName)
 {
 	ui.labelProcess->setText(strProcName);
@@ -114,6 +121,7 @@ void AntiVirusTabWidget::onUpdateProcScanProgress(QString strProcName)
 	}
 }
 
+//获取子线程传递过来的数据，更新界面
 void AntiVirusTabWidget::onCatchVirusProcess(QString strProcName, QString strPath, QString strState)
 {
 	int nRowCnt = ui.tableWgSuspProc->rowCount();

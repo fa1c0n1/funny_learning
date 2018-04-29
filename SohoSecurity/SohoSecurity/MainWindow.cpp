@@ -13,6 +13,7 @@ SohoSecurity::SohoSecurity(QWidget *parent)
 {
 	ui.setupUi(this);
 
+	setWindowIcon(QIcon(QStringLiteral(":SohoSecurity/Security_Center.ico")));
 	this->setFixedSize(this->width(), this->height());
 
 	m_pStatusBar = statusBar();

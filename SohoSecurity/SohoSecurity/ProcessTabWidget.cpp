@@ -110,6 +110,7 @@ void ProcessTabWidget::onPopMenuEndProcess()
 	}
 }
 
+//½áÊø½ø³Ì
 bool ProcessTabWidget::endProcess(DWORD dwPID)
 {
 	HANDLE hProcess = OpenProcess(PROCESS_TERMINATE, NULL, dwPID);

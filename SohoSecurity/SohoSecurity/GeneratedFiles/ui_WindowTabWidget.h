@@ -28,16 +28,20 @@ public:
     {
         if (WindowTabWidget->objectName().isEmpty())
             WindowTabWidget->setObjectName(QStringLiteral("WindowTabWidget"));
-        WindowTabWidget->resize(942, 510);
+        WindowTabWidget->resize(942, 518);
         tableWidgetWnd = new QTableWidget(WindowTabWidget);
         tableWidgetWnd->setObjectName(QStringLiteral("tableWidgetWnd"));
-        tableWidgetWnd->setGeometry(QRect(10, 10, 921, 491));
+        tableWidgetWnd->setGeometry(QRect(10, 10, 921, 501));
+        tableWidgetWnd->setEditTriggers(QAbstractItemView::NoEditTriggers);
+        tableWidgetWnd->setAlternatingRowColors(true);
         tableWidgetWnd->setSelectionMode(QAbstractItemView::SingleSelection);
         tableWidgetWnd->setSelectionBehavior(QAbstractItemView::SelectRows);
+        tableWidgetWnd->setSortingEnabled(true);
         tableWidgetWnd->horizontalHeader()->setHighlightSections(false);
         tableWidgetWnd->verticalHeader()->setVisible(false);
 
         retranslateUi(WindowTabWidget);
+        QObject::connect(tableWidgetWnd, SIGNAL(customContextMenuRequested(QPoint)), WindowTabWidget, SLOT(onTableWidgetCustomContextMenuRequest(QPoint)));
 
         QMetaObject::connectSlotsByName(WindowTabWidget);
     } // setupUi

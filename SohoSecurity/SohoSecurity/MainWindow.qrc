@@ -1,4 +1,5 @@
 <RCC>
     <qresource prefix="SohoSecurity">
+      <file>Security_Center.ico</file>
     </qresource>
 </RCC>

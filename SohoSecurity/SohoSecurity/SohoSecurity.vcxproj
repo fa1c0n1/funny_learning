@@ -164,6 +164,7 @@
     <QtMoc Include="SoftUninstallTabWidget.h" />
     <QtMoc Include="StartItemTabWidget.h" />
     <QtMoc Include="ProcessScanVirusThread.h" />
+    <ClInclude Include="resource.h" />
     <ClInclude Include="ui_AntiVirusTabWidget.h" />
     <ClInclude Include="ui_CleanTrashTabWidget.h" />
     <ClInclude Include="ui_ModuleDlg.h" />
@@ -199,7 +200,16 @@
     <QtUic Include="WindowTabWidget.ui" />
   </ItemGroup>
   <ItemGroup>
-    <QtRcc Include="MainWindow.qrc" />
+    <QtRcc Include="MainWindow.qrc">
+      <SubType>Designer</SubType>
+    </QtRcc>
+  </ItemGroup>
+  <ItemGroup>
+    <ResourceCompile Include="SohoSecurity.rc" />
+  </ItemGroup>
+  <ItemGroup>
+    <Image Include="F:\old_Media\图片素材\Security_Center.ico" />
+    <Image Include="Security_Center.ico" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Condition="Exists('$(QtMsBuild)\qt.targets')">

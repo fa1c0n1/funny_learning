@@ -28,6 +28,7 @@ void CpuMemInfoThread::run()
 	}
 }
 
+//计算CPU占用
 int CpuMemInfoThread::getCpuUsage()
 {
 	_FILETIME idleTime, kernelTime, userTime;   //空闲时间，内核时间，用户时间
@@ -56,6 +57,7 @@ int CpuMemInfoThread::getCpuUsage()
 		(dNewKernelTime - dOldKernelTime + dNewUserTime - dOldUserTime) * 100.0);
 }
 
+//计算内存占用
 DWORD CpuMemInfoThread::getMemoryUsage()
 {
 	MEMORYSTATUS memStatus = {};

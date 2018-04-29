@@ -107,6 +107,7 @@ void CleanSysAndBrwsThread::run()
 	emit updateClnBrowserProgress(tr("清理完毕"));
 }
 
+//清理临时文件
 void CleanSysAndBrwsThread::cleanTmpFiles()
 {
 	for (QString strDirPath : m_tmpDirList) {
@@ -129,6 +130,7 @@ void CleanSysAndBrwsThread::cleanTmpFiles()
 	}
 }
 
+//清理系统文件
 void CleanSysAndBrwsThread::cleanSysFiles()
 {
 	for (QString strDirPath : m_sysDirList) {
@@ -146,6 +148,7 @@ void CleanSysAndBrwsThread::cleanSysFiles()
 	}
 }
 
+//清空回收站
 void CleanSysAndBrwsThread::cleanRecycleBin()
 {
 	//初始化 SHQUERYRBINFO 结构体
@@ -159,6 +162,7 @@ void CleanSysAndBrwsThread::cleanRecycleBin()
 	SHEmptyRecycleBin(NULL, NULL, SHERB_NOCONFIRMATION | SHERB_NOPROGRESSUI | SHERB_NOSOUND);
 }
 
+//清理系统缓存
 void CleanSysAndBrwsThread::cleanSysCache()
 {
 	for (QString strDirPath : m_sysCacheDirList) {
@@ -195,6 +199,7 @@ void CleanSysAndBrwsThread::cleanSysCache()
 	}
 }
 
+//清理系统日志
 void CleanSysAndBrwsThread::cleanLog()
 {
 	for (QString strDirPath : m_logDirList) {
@@ -217,6 +222,7 @@ void CleanSysAndBrwsThread::cleanLog()
 	}
 }
 
+//清理浏览器垃圾
 void CleanSysAndBrwsThread::cleanBrowserCache()
 {
 	for (QString strDirPath : m_brwsCacheDirList) {
@@ -234,14 +240,17 @@ void CleanSysAndBrwsThread::cleanBrowserCache()
 	}
 }
 
+//临时文件后缀
 TCHAR *CleanSysAndBrwsThread::m_szTmpFilesSuffix[] = {
 	TEXT("tmp"), TEXT("dmp"), TEXT("log")
 };
 
+//系统缓存文件后缀
 TCHAR *CleanSysAndBrwsThread::m_szSysCacheSuffix[] = {
 	TEXT("dat"), TEXT("db")
 };
 
+//日志文件后缀
 TCHAR *CleanSysAndBrwsThread::m_szLogSuffix[] = {
 	TEXT("log"), TEXT("bak"), TEXT("txt"), TEXT("wer")
 };

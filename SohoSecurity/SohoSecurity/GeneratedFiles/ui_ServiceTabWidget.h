@@ -14,7 +14,7 @@
 #include <QtWidgets/QApplication>
 #include <QtWidgets/QButtonGroup>
 #include <QtWidgets/QHeaderView>
-#include <QtWidgets/QLabel>
+#include <QtWidgets/QTableWidget>
 #include <QtWidgets/QWidget>
 
 QT_BEGIN_NAMESPACE
@@ -22,18 +22,26 @@ QT_BEGIN_NAMESPACE
 class Ui_ServiceTabWidget
 {
 public:
-    QLabel *label;
+    QTableWidget *tableWidgetServ;
 
     void setupUi(QWidget *ServiceTabWidget)
     {
         if (ServiceTabWidget->objectName().isEmpty())
             ServiceTabWidget->setObjectName(QStringLiteral("ServiceTabWidget"));
-        ServiceTabWidget->resize(872, 411);
-        label = new QLabel(ServiceTabWidget);
-        label->setObjectName(QStringLiteral("label"));
-        label->setGeometry(QRect(190, 90, 81, 21));
+        ServiceTabWidget->resize(939, 515);
+        tableWidgetServ = new QTableWidget(ServiceTabWidget);
+        tableWidgetServ->setObjectName(QStringLiteral("tableWidgetServ"));
+        tableWidgetServ->setGeometry(QRect(10, 10, 921, 501));
+        tableWidgetServ->setEditTriggers(QAbstractItemView::NoEditTriggers);
+        tableWidgetServ->setAlternatingRowColors(true);
+        tableWidgetServ->setSelectionMode(QAbstractItemView::SingleSelection);
+        tableWidgetServ->setSelectionBehavior(QAbstractItemView::SelectRows);
+        tableWidgetServ->setSortingEnabled(true);
+        tableWidgetServ->horizontalHeader()->setHighlightSections(false);
+        tableWidgetServ->verticalHeader()->setVisible(false);
 
         retranslateUi(ServiceTabWidget);
+        QObject::connect(tableWidgetServ, SIGNAL(customContextMenuRequested(QPoint)), ServiceTabWidget, SLOT(onTableWidgetCustomContextMenuRequest(QPoint)));
 
         QMetaObject::connectSlotsByName(ServiceTabWidget);
     } // setupUi
@@ -41,7 +49,6 @@ public:
     void retranslateUi(QWidget *ServiceTabWidget)
     {
         ServiceTabWidget->setWindowTitle(QApplication::translate("ServiceTabWidget", "ServiceTabWidget", 0));
-        label->setText(QApplication::translate("ServiceTabWidget", "\346\234\215\345\212\241TAB", 0));
     } // retranslateUi
 
 };
