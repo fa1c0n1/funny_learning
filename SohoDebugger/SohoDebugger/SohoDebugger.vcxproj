@@ -148,7 +148,6 @@
     <ClCompile Include="main.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="BeaEngine_4.1\Win32\headers\BeaEngine.h" />
     <ClInclude Include="Comm.h" />
     <ClInclude Include="DebuggerMain.h" />
     <ClInclude Include="DrawTool.h" />

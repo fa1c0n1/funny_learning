@@ -12,8 +12,9 @@ public:
 	CDrawTool();
 	~CDrawTool();
 
+	static void setWindowTitle(const char *pszTitle);
 	//设置窗口尺寸
-	static void setWindowSize(char *pszTitle, int nX, int nY);
+	static void setWindowSize(int nX, int nY);
 	//设置光标位置
 	static void setCursorPosition(const int x, const int y);
 	//设置颜色

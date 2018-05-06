@@ -52,9 +52,6 @@
     <ClInclude Include="DebuggerMain.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="BeaEngine_4.1\Win32\headers\BeaEngine.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="RegStruct.h">
       <Filter>Header Files</Filter>
     </ClInclude>

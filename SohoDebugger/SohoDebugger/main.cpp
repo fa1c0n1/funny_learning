@@ -10,7 +10,7 @@ int main(int argc, char *argv[])
 {
 	QCoreApplication a(argc, argv);
 
-	CDrawTool::setWindowSize("title SohoDebugger", 100, 40);
+	CDrawTool::setWindowTitle("SohoDebugger");
 
 	CDebuggerMain debuggerMain;
 	debuggerMain.launchDebugger();
