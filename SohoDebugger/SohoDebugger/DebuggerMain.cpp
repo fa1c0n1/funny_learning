@@ -143,6 +143,9 @@ DWORD CDebuggerMain::onException(DEBUG_EVENT *pEvent)
 	HANDLE hProcess = OpenProcess(PROCESS_ALL_ACCESS, FALSE, pEvent->dwProcessId);
 	HANDLE hThread = OpenThread(THREAD_ALL_ACCESS, FALSE, pEvent->dwThreadId);
 
+	m_hThread = hThread;
+	m_hProcess = hProcess;
+
 	//将所有的断点都恢复
 	setAllBreakpoint(hProcess);
 
@@ -253,9 +256,26 @@ void CDebuggerMain::userInput(HANDLE hProcess, HANDLE hThread, LPVOID pException
 			break;
 		}
 		else if (cmdList[0] == qtr("n")) { //n:单步步过
-			
+			//先判断当前EIP指向的指令是否为CALL指令
+			CONTEXT tContext;
+			getDebuggeeContext(&tContext);
+			int nCallLen = isCallInstruction(tContext.Eip);
+
+			if (nCallLen) { //是call指令，则在下一条指令处设置软件断点
+				BREAKPOINT bp = {};
+				if (!setBreakpointCC(hProcess, (LPVOID)(tContext.Eip + nCallLen), &bp)) {
+					DBGPRINT("设置断点失败");
+				}
+				else {
+					break;
+				}
+			}
+			else { //不是call指令，则设置TF
+				setBreakpointTF(hThread);
+				break;
+			}
 		}
-		else if (cmdList[0] == qtr("bp")) {  //bp:设置断点
+		else if (cmdList[0] == qtr("b")) {  //b:设置断点
 			LPVOID pAddr = (LPVOID)cmdList[1].toULong(NULL, 16);
 			BREAKPOINT bp = {};
 			if (!setBreakpointCC(hProcess, pAddr, &bp)) {
@@ -384,6 +404,107 @@ void CDebuggerMain::userInput(HANDLE hProcess, HANDLE hThread, LPVOID pException
 		}
 		else if (cmdList[0] == qtr("g")) { //g:继续运行
 			break;
+		}
+	}
+}
+
+//如果指定地址处的指令是CALL，返回CALL指令的长度
+//否则返回0
+//判断的方法参考了《CALL指令有多少种写法》一文
+//http://blog.ftofficer.com/2010/04/n-forms-of-call-instructions
+int CDebuggerMain::isCallInstruction(DWORD dwAddr)
+{
+	BYTE instruct[20] = {};
+	DWORD dwNumOfByteRead = 0;
+	if (!ReadProcessMemory(m_hProcess, (LPVOID)dwAddr, instruct, 20, &dwNumOfByteRead)) {
+		DBGPRINT("读取进程内存失败");
+		return 0;
+	}
+
+	switch (instruct[0])
+	{
+	case 0xE8:
+		return 5;
+	case 0x9A:
+		return 7;
+	case 0xFF:
+		switch (instruct[1])
+		{
+		case 0x10:
+		case 0x11:
+		case 0x12:
+		case 0x13:
+		case 0x16:
+		case 0x17:
+		case 0xD0:
+		case 0xD1:
+		case 0xD2:
+		case 0xD3:
+		case 0xD4:
+		case 0xD5:
+		case 0xD6:
+		case 0xD7:
+			return 2;
+
+		case 0x14:
+		case 0x50:
+		case 0x51:
+		case 0x52:
+		case 0x53:
+		case 0x54:
+		case 0x55:
+		case 0x56:
+		case 0x57:
+			return 3;
+
+		case 0x15:
+		case 0x90:
+		case 0x91:
+		case 0x92:
+		case 0x93:
+		case 0x95:
+		case 0x96:
+		case 0x97:
+			return 6;
+
+		case 0x94:
+			return 7;
+		}
+	default:
+		return 0;
+	}
+}
+
+void CDebuggerMain::getDebuggeeContext(PCONTEXT pContext)
+{
+	pContext->ContextFlags = CONTEXT_FULL;
+	if (!GetThreadContext(m_hThread, pContext))
+		DBGPRINT("获取线程上下文失败");
+}
+
+void CDebuggerMain::getNextInstructAddr(HANDLE hProcess, LPVOID pAddr, LPVOID *pNextAddr)
+{
+	LPBYTE opcode[200] = { 0 };
+	SIZE_T bytesRead = 0;
+	if (!ReadProcessMemory(hProcess, pAddr, opcode, 200, &bytesRead)) {
+		DBGPRINT("读取内存失败");
+	}
+	else {
+		DISASM disAsm = { 0 };
+		disAsm.EIP = (UIntPtr)opcode;
+		disAsm.VirtualAddr = (UInt64)pAddr;
+		disAsm.Archi = 0;  //x86汇编
+		int nLen = 0;
+
+		//nLen返回的是反汇编出来的指令的机器码字节数
+		// 如果反汇编失败，则返回-1
+		nLen = Disasm(&disAsm);
+		if (nLen == -1) {
+			pNextAddr = nullptr;
+			DBGPRINT("反汇编失败");
+		}
+		else {
+			*pNextAddr = (LPVOID)(disAsm.VirtualAddr + nLen);
 		}
 	}
 }
@@ -589,7 +710,7 @@ void CDebuggerMain::showDebugInfo(HANDLE hProc, HANDLE hThread, LPVOID pExceptio
 
 void CDebuggerMain::showDisambleInfo(HANDLE hProc, LPVOID pAddr, int nCnt)
 {
-	LPBYTE opcode[200] = { 0 };
+	BYTE opcode[200] = { 0 };
 	SIZE_T bytesRead = 0;
 	if (!ReadProcessMemory(hProc, pAddr, opcode, 200, &bytesRead)) {
 		DBGPRINT("读取内存失败");

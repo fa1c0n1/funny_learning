@@ -31,6 +31,9 @@ private:
 	//DWORD dispatchException(EXCEPTION_DEBUG_INFO *pInfo);
 	void userInput(HANDLE hProcess, HANDLE hThread, LPVOID pExceptionAddr);
 	void traverseExecModule(DWORD dwPID);
+	void getNextInstructAddr(HANDLE hProcess, LPVOID pAddr, LPVOID *pNextAddr);
+	void getDebuggeeContext(PCONTEXT pContext);
+	int isCallInstruction(DWORD dwAddr);
 
 	void setAllBreakpoint(HANDLE hProcess);
 	bool setBreakpointCC(HANDLE hProc, LPVOID pAddr, BREAKPOINT *bp);
@@ -54,6 +57,8 @@ private:
 	bool m_bSystemBreakpoint;
 	bool m_bUserTF;
 	DWORD m_dwDebuggeePID;
+	HANDLE m_hProcess;
+	HANDLE m_hThread;
 	QString m_strFile;
 	QVector<BREAKPOINT> m_vtBp;
 	QVector<EXECMODULE> m_vtModule;
