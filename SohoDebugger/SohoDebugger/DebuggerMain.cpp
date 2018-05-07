@@ -183,11 +183,18 @@ DWORD CDebuggerMain::onException(DEBUG_EVENT *pEvent)
 	case EXCEPTION_SINGLE_STEP:
 		//输出调试信息
 		showDebugInfo(hProcess, hThread, er.ExceptionAddress);
+
+		if (isHardBreakpoint(hThread)) {
+			break;
+		}
+		
 		//将所有的断点都恢复
 		resetAllBreakpoint(hProcess);
 		if (m_bGo) {
 			goto _EXIT;
 		}
+
+		
 		break;
 	default: 
 		dwRet = DBG_EXCEPTION_NOT_HANDLED;
@@ -270,15 +277,45 @@ void CDebuggerMain::userInput(HANDLE hProcess, HANDLE hThread, LPVOID pException
 				break;
 			}
 		}
-		else if (cmdList[0] == qtr("b")) {  //b:设置断点
-			LPVOID pAddr = (LPVOID)cmdList[1].toULong(NULL, 16);
-			BREAKPOINT bp = {};
-			if (!setBreakpointCC(hProcess, pAddr, &bp)) {
-				DBGPRINT("设置断点失败");
+		else if (cmdList[0] == qtr("b")) {  //b:设置软件断点
+			if (cmdList.size() < 2) {
+				qout << qtr("缺少地址") << endl;
 			}
-			else {
-				m_listBp.push_back(bp);
+			else if (cmdList.size() < 3) {
+				bool bOK = true;
+				LPVOID pAddr = (LPVOID)cmdList[1].toULong(&bOK, 16);
+				if (bOK) {
+					BREAKPOINT bp = {};
+					if (!setBreakpointCC(hProcess, pAddr, &bp)) {
+						DBGPRINT("设置断点失败");
+					}
+					else {
+						m_listBp.push_back(bp);
+					}
+				}
+				else {
+					qout << qtr("%1不是一个合法的16进制值").arg(cmdList[1]) << endl;
+				}
 			}
+		}
+		else if (cmdList[0] == qtr("bh")) { //bh:设置硬件断点
+			if (cmdList.size() < 2) {
+				qout << qtr("缺少地址") << endl;
+			}
+			else if (cmdList.size() < 3) {
+				bool bOK = true;
+				ULONG_PTR pAddr = (ULONG_PTR)cmdList[1].toULong(&bOK, 16);
+				if (bOK) {
+					if (!setBreakpointHardExec(hThread, pAddr))
+						DBGPRINT("设置硬件执行断点失败");
+				}
+				else {
+					qout << qtr("%1不是一个合法的16进制值").arg(cmdList[1]) << endl;
+				}
+			}
+		}
+		else if (cmdList[0] == qtr("bm")) { //bm:设置内存断点
+
 		}
 		else if (cmdList[0] == qtr("lm")) { //lm:查看可执行模块信息
 			showExecuteModuleInfo();
@@ -819,6 +856,109 @@ void CDebuggerMain::setBreakpointTF(HANDLE hThread)
 
 	//删除所有断点
 	clearAllBreakpoint(m_hProcess);
+}
+
+//设置硬件执行断点
+bool CDebuggerMain::setBreakpointHardExec(HANDLE hThread, ULONG_PTR pAddr)
+{
+	/*
+	  设置硬件执行断点时，长度只能为1(LEN0~LEN3设置为0时表示长度为1)	
+	*/
+	CONTEXT ct = {};
+	ct.ContextFlags = CONTEXT_FULL | CONTEXT_DEBUG_REGISTERS;
+	GetThreadContext(hThread, &ct);
+	DBG_REG7 *pDr7 = (DBG_REG7*)&ct.Dr7;
+
+	if (pDr7->L0 == 0) { //DR0没有被使用
+		ct.Dr0 = pAddr;
+		pDr7->RW0 = 0;
+		pDr7->LEN0 = 0;
+		pDr7->L0 = 1;
+	}
+	else if (pDr7->L1 == 0) { //DR1没有被使用
+		ct.Dr1 = pAddr;
+		pDr7->RW1 = 0;
+		pDr7->LEN1 = 0;
+		pDr7->L1 = 1;
+	}
+	else if (pDr7->L2 == 0) { //DR2没有被使用
+		ct.Dr2 = pAddr;
+		pDr7->RW2 = 0;
+		pDr7->LEN2 = 0;
+		pDr7->L2 = 1;
+	}
+	else if (pDr7->L3 == 0) { //DR3没有被使用
+		ct.Dr3 = pAddr;
+		pDr7->RW3 = 0;
+		pDr7->LEN3 = 0;
+		pDr7->L3 = 1;
+	}
+	else {
+		return false;
+	}
+
+	SetThreadContext(hThread, &ct);
+	return true;
+}
+
+bool CDebuggerMain::setBreakpointHardRW(HANDLE hThread, ULONG_PTR pAddr, HardBreakpointType type, DWORD dwLen)
+{
+	CONTEXT ct = {};
+	ct.ContextFlags = CONTEXT_DEBUG_REGISTERS;
+	GetThreadContext(hThread, &ct);
+
+	//对地址和长度进行对齐处理(向上取整)
+	if (dwLen == 1) { //2字节的对齐粒度
+		pAddr = pAddr - pAddr % 2;
+	}
+	else if (dwLen == 3) { //4字节的对齐粒度
+		pAddr = pAddr - pAddr % 4;
+	}
+	else if (dwLen > 3) {
+		return false;
+	}
+
+	//判断哪些寄存器没有被使用
+	DBG_REG7 *pDr7 = (DBG_REG7*)&ct.Dr7;
+	if (pDr7->L0 == 0) { //DR0 没有被使用
+		ct.Dr0 = pAddr;
+		pDr7->RW0 = type;
+		pDr7->LEN0 = dwLen;
+	}
+	else if (pDr7->L1 == 0) { //DR1 没有被使用
+		ct.Dr1 = pAddr;
+		pDr7->RW1 = type;
+		pDr7->LEN1 = dwLen;
+	}
+	else if (pDr7->L2 == 0) { //DR2 没有被使用
+		ct.Dr2 = pAddr;
+		pDr7->RW2 = type;
+		pDr7->LEN2 = dwLen;
+	}
+	else if (pDr7->L3 == 0) { //DR3 没有被使用
+		ct.Dr3 = pAddr;
+		pDr7->RW3 = type;
+		pDr7->LEN3 = dwLen;
+	}
+	else {
+		return false;
+	}
+
+	SetThreadContext(hThread, &ct);
+	return true;
+}
+
+bool CDebuggerMain::isHardBreakpoint(HANDLE hThread)
+{
+	CONTEXT ct = {};
+	ct.ContextFlags = CONTEXT_FULL | CONTEXT_DEBUG_REGISTERS;
+	GetThreadContext(hThread, &ct);
+
+	DBG_REG6 *pDr6 = (DBG_REG6*)&ct.Dr6;
+	if (pDr6->B0 || pDr6->B1 || pDr6->B2 || pDr6->B3)
+		return true;
+
+	return false;
 }
 
 bool CDebuggerMain::rmBreakpointCC(HANDLE hProc, HANDLE hThread, LPVOID pAddr, BYTE oldData)

@@ -17,6 +17,12 @@ typedef struct _EXECMODULE {
 	DWORD dwModSize;
 }EXECMODULE, *PEXECMODULE;
 
+typedef enum _HardBreakpointType {
+	HARDBP_EXEC = 0,
+	HARDBP_READ = 1,
+	HARDBP_WRITE = 2
+}HardBreakpointType;
+
 class CDebuggerMain
 {
 public:
@@ -41,6 +47,9 @@ private:
 	void clearAllBreakpoint(HANDLE hProcess);
 	bool setBreakpointCC(HANDLE hProc, LPVOID pAddr, BREAKPOINT *bp);
 	void setBreakpointTF(HANDLE hThread);
+	bool setBreakpointHardExec(HANDLE hThread, ULONG_PTR pAddr);
+	bool setBreakpointHardRW(HANDLE hThread, ULONG_PTR pAddr, HardBreakpointType type, DWORD dwLen);
+	bool isHardBreakpoint(HANDLE hThread);
 
 	bool rmBreakpointCC(HANDLE hProc, HANDLE hThread, LPVOID pAddr, BYTE oldData);
 
