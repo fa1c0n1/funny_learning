@@ -6,6 +6,7 @@
 
 typedef struct _BREAKPOINT {
 	LPVOID pAddr;
+	bool bTmp;        //是否为临时断点
 	DWORD dwType;     //断点的类型
 	BYTE oldData;     //被int3断点覆盖的原始数据
 }BREAKPOINT, *PBREAKPOINT;
@@ -34,8 +35,10 @@ private:
 	void getNextInstructAddr(HANDLE hProcess, LPVOID pAddr, LPVOID *pNextAddr);
 	void getDebuggeeContext(PCONTEXT pContext);
 	int isCallInstruction(DWORD dwAddr);
+	void setDebuggeeContext(PCONTEXT pContext);
 
-	void setAllBreakpoint(HANDLE hProcess);
+	void resetAllBreakpoint(HANDLE hProcess);
+	void clearAllBreakpoint(HANDLE hProcess);
 	bool setBreakpointCC(HANDLE hProc, LPVOID pAddr, BREAKPOINT *bp);
 	void setBreakpointTF(HANDLE hThread);
 
@@ -56,11 +59,13 @@ private:
 private:
 	bool m_bSystemBreakpoint;
 	bool m_bUserTF;
+	bool m_bGo;
+	bool m_bTmpCC;
 	DWORD m_dwDebuggeePID;
 	HANDLE m_hProcess;
 	HANDLE m_hThread;
 	QString m_strFile;
-	QVector<BREAKPOINT> m_vtBp;
+	QList<BREAKPOINT> m_listBp;
 	QVector<EXECMODULE> m_vtModule;
 	QVector<QString> m_vtRegName;
 };

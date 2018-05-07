@@ -15,7 +15,8 @@
 #pragma comment(linker, "/NODEFAULTLIB:\"crt.lib\"")
 
 CDebuggerMain::CDebuggerMain()
-	: m_bSystemBreakpoint(true), m_bUserTF(true)
+	: m_bSystemBreakpoint(true), m_bUserTF(true),
+	m_bGo(false), m_bTmpCC(false)
 {
 	m_vtRegName.push_back(qtr("EAX"));
 	m_vtRegName.push_back(qtr("ECX"));
@@ -86,7 +87,7 @@ void CDebuggerMain::startDebug(QString strFile)
 		{
 			BREAKPOINT bp = {};
 			setBreakpointCC(stcProcInfo.hProcess, debugEvent.u.CreateProcessInfo.lpStartAddress, &bp);
-			m_vtBp.push_back(bp);
+			m_listBp.push_back(bp);
 		}
 			break;
 		case EXCEPTION_DEBUG_EVENT:
@@ -138,6 +139,7 @@ void CDebuggerMain::traverseExecModule(DWORD dwPID)
 
 DWORD CDebuggerMain::onException(DEBUG_EVENT *pEvent)
 {
+	DWORD dwRet = DBG_CONTINUE;
 	EXCEPTION_RECORD &er = pEvent->u.Exception.ExceptionRecord;
 
 	HANDLE hProcess = OpenProcess(PROCESS_ALL_ACCESS, FALSE, pEvent->dwProcessId);
@@ -146,14 +148,10 @@ DWORD CDebuggerMain::onException(DEBUG_EVENT *pEvent)
 	m_hThread = hThread;
 	m_hProcess = hProcess;
 
-	//将所有的断点都恢复
-	setAllBreakpoint(hProcess);
-
 	//被调试进程产生的第一个异常事件，这个
 	//  异常事件就是系统断点
 	qout << QString::asprintf("\t异常代码: %08X", er.ExceptionCode) << endl;
 	qout << QString::asprintf("\t异常地址: %08X", er.ExceptionAddress) << endl;
-
 
 	if (m_bSystemBreakpoint) {
 		qout << qtr("到达系统断点,忽略") << endl;
@@ -161,30 +159,20 @@ DWORD CDebuggerMain::onException(DEBUG_EVENT *pEvent)
 		return DBG_CONTINUE;
 	}
 
-	//检查异常是否是调试器安装的断点引发的
-	bool bFlag = false;
-	for (auto &bp : m_vtBp) {
-		if (bp.pAddr == er.ExceptionAddress) {
-			bFlag = true;
-			switch (bp.dwType)
-			{
-			case EXCEPTION_BREAKPOINT:
-			{
-				rmBreakpointCC(hProcess, hThread, bp.pAddr, bp.oldData);
-				m_bUserTF = false;
-			}
-			break;
-			}
-		}
-	}
-
-	//输出调试信息
-	showDebugInfo(hProcess, hThread, er.ExceptionAddress);
-
 	switch (er.ExceptionCode)
 	{
 	case EXCEPTION_BREAKPOINT: //软件断点
-
+	{
+		clearAllBreakpoint(hProcess);
+		//输出调试信息
+		showDebugInfo(hProcess, hThread, er.ExceptionAddress);
+		if (m_bTmpCC)
+			m_listBp.pop_back();
+		CONTEXT ct = {};
+		getDebuggeeContext(&ct);
+		ct.Eip--;
+		setDebuggeeContext(&ct);
+	}
 		break;
 	case EXCEPTION_ACCESS_VIOLATION:  //内存访问异常(内存访问断点)
 		break;
@@ -193,13 +181,17 @@ DWORD CDebuggerMain::onException(DEBUG_EVENT *pEvent)
 	//  通过DR6寄存器进一步判断这个异常是
 	//  TF引发的还是 DR0~DR3 引发的
 	case EXCEPTION_SINGLE_STEP:
-		if (!m_bUserTF) {
+		//输出调试信息
+		showDebugInfo(hProcess, hThread, er.ExceptionAddress);
+		//将所有的断点都恢复
+		resetAllBreakpoint(hProcess);
+		if (m_bGo) {
 			goto _EXIT;
 		}
-
-		bFlag = true;
 		break;
-	default:
+	default: 
+		dwRet = DBG_EXCEPTION_NOT_HANDLED;
+		goto _EXIT;
 		break;
 	}
 
@@ -209,10 +201,7 @@ _EXIT:
 	CloseHandle(hThread);
 	CloseHandle(hProcess);
 
-	if (!bFlag)
-		return DBG_EXCEPTION_NOT_HANDLED;
-	else
-		return DBG_CONTINUE;
+	return dwRet;
 }
 
 void CDebuggerMain::onProcessExited(EXIT_PROCESS_DEBUG_INFO *pEvent)
@@ -237,6 +226,8 @@ void CDebuggerMain::userInput(HANDLE hProcess, HANDLE hThread, LPVOID pException
 	// 2.3 直接运行
 	QString strCmdLine;
 
+	m_bGo = false;
+	m_bTmpCC = false;
 	while (true) {
 		qout << qtr(">> ") << flush;
 		strCmdLine = qin.readLine();
@@ -252,7 +243,7 @@ void CDebuggerMain::userInput(HANDLE hProcess, HANDLE hThread, LPVOID pException
 			//  如果是1，则CPU会主动产生一个硬件断点异常
 
 			setBreakpointTF(hThread);
-			m_bUserTF = true;
+			//m_bUserTF = true;
 			break;
 		}
 		else if (cmdList[0] == qtr("n")) { //n:单步步过
@@ -267,11 +258,15 @@ void CDebuggerMain::userInput(HANDLE hProcess, HANDLE hThread, LPVOID pException
 					DBGPRINT("设置断点失败");
 				}
 				else {
+					bp.bTmp = true;
+					m_bTmpCC = true;
+					m_listBp.push_back(bp);
 					break;
 				}
 			}
 			else { //不是call指令，则设置TF
 				setBreakpointTF(hThread);
+				//m_bUserTF = true;
 				break;
 			}
 		}
@@ -279,10 +274,10 @@ void CDebuggerMain::userInput(HANDLE hProcess, HANDLE hThread, LPVOID pException
 			LPVOID pAddr = (LPVOID)cmdList[1].toULong(NULL, 16);
 			BREAKPOINT bp = {};
 			if (!setBreakpointCC(hProcess, pAddr, &bp)) {
-				qout << qtr("设置断点失败") << endl;
+				DBGPRINT("设置断点失败");
 			}
 			else {
-				m_vtBp.push_back(bp);
+				m_listBp.push_back(bp);
 			}
 		}
 		else if (cmdList[0] == qtr("lm")) { //lm:查看可执行模块信息
@@ -403,6 +398,9 @@ void CDebuggerMain::userInput(HANDLE hProcess, HANDLE hThread, LPVOID pException
 			}
 		}
 		else if (cmdList[0] == qtr("g")) { //g:继续运行
+			m_bGo = true;
+			setBreakpointTF(hThread);
+			m_bUserTF = true;
 			break;
 		}
 	}
@@ -445,7 +443,6 @@ int CDebuggerMain::isCallInstruction(DWORD dwAddr)
 		case 0xD6:
 		case 0xD7:
 			return 2;
-
 		case 0x14:
 		case 0x50:
 		case 0x51:
@@ -456,7 +453,6 @@ int CDebuggerMain::isCallInstruction(DWORD dwAddr)
 		case 0x56:
 		case 0x57:
 			return 3;
-
 		case 0x15:
 		case 0x90:
 		case 0x91:
@@ -466,13 +462,19 @@ int CDebuggerMain::isCallInstruction(DWORD dwAddr)
 		case 0x96:
 		case 0x97:
 			return 6;
-
 		case 0x94:
 			return 7;
 		}
 	default:
 		return 0;
 	}
+}
+
+void CDebuggerMain::setDebuggeeContext(PCONTEXT pContext)
+{
+	pContext->ContextFlags = CONTEXT_FULL;
+	if (!SetThreadContext(m_hThread, pContext))
+		DBGPRINT("设置线程上下文失败");
 }
 
 void CDebuggerMain::getDebuggeeContext(PCONTEXT pContext)
@@ -742,15 +744,28 @@ void CDebuggerMain::showDisambleInfo(HANDLE hProc, LPVOID pAddr, int nCnt)
 	}
 }
 
-void CDebuggerMain::setAllBreakpoint(HANDLE hProcess)
+void CDebuggerMain::resetAllBreakpoint(HANDLE hProcess)
 {
 	BREAKPOINT tBp = {};
-	for (auto &bp : m_vtBp) {
+	for (auto &bp : m_listBp) {
 		if (bp.dwType == EXCEPTION_BREAKPOINT) {
 			setBreakpointCC(hProcess, bp.pAddr, &tBp);
 		}
 		else if (bp.dwType == EXCEPTION_SINGLE_STEP) {
 
+		}
+	}
+}
+
+void CDebuggerMain::clearAllBreakpoint(HANDLE hProcess)
+{
+	for (auto &bp : m_listBp) {
+		if (bp.dwType == EXCEPTION_BREAKPOINT) {
+			DWORD dwRead = 0;
+			if (!WriteProcessMemory(hProcess, bp.pAddr, &bp.oldData, 1, &dwRead)) {
+				DBGPRINT("写入进程内存失败");
+				return;
+			}
 		}
 	}
 }
@@ -788,7 +803,7 @@ void CDebuggerMain::setBreakpointTF(HANDLE hThread)
 {
 	//1.获取线程上下文
 	CONTEXT ct = {};
-	ct.ContextFlags = CONTEXT_CONTROL;
+	ct.ContextFlags = CONTEXT_FULL;
 	if (!GetThreadContext(hThread, &ct)) {
 		DBGPRINT("获取线程环境失败");
 	}
@@ -801,6 +816,9 @@ void CDebuggerMain::setBreakpointTF(HANDLE hThread)
 	if (!SetThreadContext(hThread, &ct)) {
 		DBGPRINT("设置线程环境失败");
 	}
+
+	//删除所有断点
+	clearAllBreakpoint(m_hProcess);
 }
 
 bool CDebuggerMain::rmBreakpointCC(HANDLE hProc, HANDLE hThread, LPVOID pAddr, BYTE oldData)
