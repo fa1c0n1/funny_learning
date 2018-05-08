@@ -52,7 +52,7 @@ _BEGIN:
 
 		}
 		else if (choiceCmdList[0] == qtr("2")) {
-
+			showAll32Process();
 		}
 		else {
 			system("cls");
@@ -1481,10 +1481,12 @@ void CDebuggerMain::showAllBreakpointMemInfo()
 
 void CDebuggerMain::showAll32Process()
 {
-	qout << qtr("进程信息: 进程ID ┃ 进程名") << endl;
+	getAll32Process();
+	qout << qtr("进程信息(仅32位进程): 进程ID ┃ 进程名") << endl;
 
 	for (auto &proc : m_vtProcess) {
-		//qout << QString::asprintf("%d")
+		qout << QString::asprintf("%10d ┃ ", proc.dwPID) << flush;
+		qout << proc.strProcName << endl;
 	}
 
 	qout << qtr("===========================") << endl;
@@ -1492,7 +1494,55 @@ void CDebuggerMain::showAll32Process()
 
 void CDebuggerMain::getAll32Process()
 {
+	HANDLE hProcessSnap = NULL;
+	HANDLE hProcess = NULL;
+	PROCESSENTRY32 pe32 = {};
+	UINT uPID;
+	BOOL Is32 = FALSE;
 
+	int i = 0;
+
+	if ((hProcessSnap = CreateToolhelp32Snapshot(TH32CS_SNAPPROCESS, 0)) == INVALID_HANDLE_VALUE) {
+		//TODO:
+		return;
+	}
+
+	pe32.dwSize = sizeof(PROCESSENTRY32);
+	BOOL bRet = Process32First(hProcessSnap, &pe32);
+
+	if (!bRet) {
+		//TODO:	
+		CloseHandle(hProcessSnap);
+		return;
+	}
+	else {
+		do {
+			PROCESS tProc = {};
+			if (pe32.th32ProcessID == GetCurrentProcessId()) {
+				continue;
+			}
+			else if (pe32.th32ProcessID == 0) {
+				continue;
+			}
+			else {
+				hProcess = OpenProcess(PROCESS_QUERY_INFORMATION, FALSE, pe32.th32ProcessID);
+				if (hProcess) {
+					IsWow64Process(hProcess, &Is32);
+					if (Is32) {
+						tProc.dwPID = pe32.th32ProcessID;
+						tProc.strProcName = QString::fromWCharArray(pe32.szExeFile);
+						m_vtProcess.push_back(tProc);
+						CloseHandle(hProcess);
+					}
+				}
+				else {
+					continue;
+				}
+			}
+		} while (Process32Next(hProcessSnap, &pe32));
+
+		CloseHandle(hProcessSnap);
+	}
 }
 
 bool CDebuggerMain::getSeDebugPrivilge()
