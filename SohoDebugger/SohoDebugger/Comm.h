@@ -5,7 +5,7 @@
 			__FILE__,\
 			__FUNCTION__,\
 			__LINE__,\
-			errMsg) << endl;
+			errMsg) << endl
 
 //Ç°¾°É«
 #define FG_BLUE             0x0001

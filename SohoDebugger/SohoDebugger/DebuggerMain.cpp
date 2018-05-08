@@ -16,7 +16,7 @@
 
 CDebuggerMain::CDebuggerMain()
 	: m_bSystemBreakpoint(true), m_bUserTF(true),
-	m_bGo(false), m_bTmpCC(false)
+	m_bGo(false), m_bTmpCC(false), m_bAttach(false)
 {
 	m_vtRegName.push_back(qtr("EAX"));
 	m_vtRegName.push_back(qtr("ECX"));
@@ -35,15 +35,46 @@ CDebuggerMain::~CDebuggerMain()
 
 void CDebuggerMain::launchDebugger()
 {
-	qout << qtr("请输入文件路径: ") << flush;
-	m_strFile = qin.readLine();
-	startDebug(m_strFile);
+_BEGIN:
+	showMainMenu();
+
+	QString strChoice;
+	qout << qtr("请选择(1/2): ") << flush;
+	strChoice = qin.readLine();
+	QStringList choiceCmdList = strChoice.split(' ', QString::SkipEmptyParts);
+
+	if (choiceCmdList.size() < 1) {
+		system("cls");
+		goto _BEGIN;
+	}
+	else {
+		if (choiceCmdList[0] == qtr("1")) {
+
+		}
+		else if (choiceCmdList[0] == qtr("2")) {
+
+		}
+		else {
+			system("cls");
+			goto _BEGIN;
+		}
+	}
+	
+	startDebug(choiceCmdList[0]);
 }
 
-void CDebuggerMain::startDebug(QString strFile)
+void CDebuggerMain::showMainMenu()
+{
+	qout << qtr(" ━━━━━━ ") << endl;
+	qout << qtr("┃1.打开文件┃") << endl;
+	qout << qtr("┃2.附加进程┃") << endl;
+	qout << qtr(" ━━━━━━ ") << endl;
+}
+
+bool CDebuggerMain::openProc(QString strFile)
 {
 	if (strFile.isEmpty())
-		return;
+		return false;
 
 	STARTUPINFO stcStartupInfo = { 0 };
 	stcStartupInfo.cb = sizeof(STARTUPINFO);
@@ -58,19 +89,57 @@ void CDebuggerMain::startDebug(QString strFile)
 		NULL,
 		NULL,
 		FALSE,
-		DEBUG_ONLY_THIS_PROCESS|CREATE_NEW_CONSOLE,
+		DEBUG_ONLY_THIS_PROCESS | CREATE_NEW_CONSOLE,
 		NULL,
 		NULL,
 		&stcStartupInfo,
 		&stcProcInfo);
 
-	if (!bRet) {
-		qout << qtr("创建调试进程失败") << endl;
+	m_dwDebuggeePID = stcProcInfo.dwProcessId;
+	return bRet;
+}
+
+bool CDebuggerMain::openProc(DWORD dwPID)
+{
+	getSeDebugPrivilge();
+	return DebugActiveProcess(dwPID);
+}
+
+void CDebuggerMain::startDebug(QString strChoice)
+{
+	if (strChoice == qtr("1")) {
+		qout << qtr("请输入文件路径: ") << flush;
+		m_strFile = qin.readLine();
+		if (!openProc(m_strFile)) {
+			qout << qtr("创建调试进程失败") << endl;
+			return;
+		}
+	}
+	else if (strChoice == qtr("2")) {
+		QString strTmp;
+		qout << qtr("请输入进程ID: ") << flush;
+		strTmp = qin.readLine();
+		bool bOK = true;
+		m_dwDebuggeePID = strTmp.toULong(&bOK, 10);
+		if (bOK) {
+			if (!openProc(m_dwDebuggeePID)) {
+				qout << qtr("附加进程失败") << endl;
+				return;
+			}
+			else {
+				m_bAttach = true;
+			}
+		}
+		else {
+			qout << qtr("输入错误") << endl;
+			return;
+		}
+	}
+	else {
+		qout << qtr("程序退出") << endl;
 		return;
 	}
-
-	m_dwDebuggeePID = stcProcInfo.dwProcessId;
-
+	
 	DEBUG_EVENT debugEvent = { 0 };
 	DWORD dwRet = DBG_CONTINUE;
 
@@ -85,9 +154,12 @@ void CDebuggerMain::startDebug(QString strFile)
 		{
 		case CREATE_PROCESS_DEBUG_EVENT:
 		{
-			BREAKPOINT bp = {};
-			setBreakpointCC(stcProcInfo.hProcess, debugEvent.u.CreateProcessInfo.lpStartAddress, &bp);
-			m_listBp.push_back(bp);
+			if (!m_bAttach) {
+				BREAKPOINT bp = {};
+				setBreakpointCC(debugEvent.u.CreateProcessInfo.hProcess,
+					debugEvent.u.CreateProcessInfo.lpStartAddress, &bp);
+				m_listBp.push_back(bp);
+			}
 		}
 			break;
 		case EXCEPTION_DEBUG_EVENT:
@@ -156,6 +228,10 @@ DWORD CDebuggerMain::onException(DEBUG_EVENT *pEvent)
 	if (m_bSystemBreakpoint) {
 		qout << qtr("到达系统断点,忽略") << endl;
 		m_bSystemBreakpoint = false;
+		
+		if (m_bAttach)
+			userInput(hProcess, hThread, er.ExceptionAddress);
+
 		return DBG_CONTINUE;
 	}
 
@@ -194,7 +270,6 @@ DWORD CDebuggerMain::onException(DEBUG_EVENT *pEvent)
 			goto _EXIT;
 		}
 
-		
 		break;
 	default: 
 		dwRet = DBG_EXCEPTION_NOT_HANDLED;
@@ -279,15 +354,15 @@ void CDebuggerMain::userInput(HANDLE hProcess, HANDLE hThread, LPVOID pException
 		}
 		else if (cmdList[0] == qtr("b")) {  //b:设置软件断点
 			if (cmdList.size() < 2) {
-				qout << qtr("缺少地址") << endl;
+				showAllBreakpointCCInfo();
 			}
-			else if (cmdList.size() < 3) {
+			else if (cmdList.size() < 3) { //b <addr> 设置软件断点
 				bool bOK = true;
 				LPVOID pAddr = (LPVOID)cmdList[1].toULong(&bOK, 16);
 				if (bOK) {
 					BREAKPOINT bp = {};
 					if (!setBreakpointCC(hProcess, pAddr, &bp)) {
-						DBGPRINT("设置断点失败");
+						DBGPRINT("设置软件断点失败");
 					}
 					else {
 						m_listBp.push_back(bp);
@@ -297,28 +372,171 @@ void CDebuggerMain::userInput(HANDLE hProcess, HANDLE hThread, LPVOID pException
 					qout << qtr("%1不是一个合法的16进制值").arg(cmdList[1]) << endl;
 				}
 			}
-		}
-		else if (cmdList[0] == qtr("bh")) { //bh:设置硬件断点
-			if (cmdList.size() < 2) {
-				qout << qtr("缺少地址") << endl;
-			}
-			else if (cmdList.size() < 3) {
-				bool bOK = true;
-				ULONG_PTR pAddr = (ULONG_PTR)cmdList[1].toULong(&bOK, 16);
-				if (bOK) {
-					if (!setBreakpointHardExec(hThread, pAddr))
-						DBGPRINT("设置硬件执行断点失败");
+			else if (cmdList.size() < 4) { //b -d <addr> 删除软件断点
+				if (cmdList[1] == qtr("-d")) {
+					bool bOK = true;
+					LPVOID pAddr = (LPVOID)cmdList[2].toULong(&bOK, 16);
+					if (bOK) {
+						if (!rmBreakpointCC(hProcess, pAddr))
+							DBGPRINT("删除软件断点失败");
+					}
+					else {
+						qout << qtr("%1不是一个合法的16进制值").arg(cmdList[2]) << endl;
+					}
 				}
 				else {
-					qout << qtr("%1不是一个合法的16进制值").arg(cmdList[1]) << endl;
+					qout << qtr("参数错误") << endl;
+				}
+			}
+		}
+		else if (cmdList[0] == qtr("bh")) { //bh:设置硬件断点
+			BREAKPOINTHARD bph = {};
+			if (cmdList.size() < 2) {
+				showAllBreakpointHardInfo();
+			}
+			else if (cmdList.size() < 3) {
+				qout << qtr("缺少参数") << endl;
+			}
+			else if (cmdList.size() < 4) {  
+				if (cmdList[1] == qtr("-e")) { //bh [-e] <addr> 设置硬件执行断点
+					bool bOK = true;
+					ULONG_PTR pAddr = (ULONG_PTR)cmdList[2].toULong(&bOK, 16);
+					if (bOK) {
+						if (!setBreakpointHardExec(hThread, pAddr, &bph))
+							DBGPRINT("设置硬件执行断点失败");
+						else
+							m_listBpHard.push_back(bph);
+					}
+					else {
+						qout << qtr("%1不是一个合法的16进制值").arg(cmdList[2]) << endl;
+					}
+				}
+				else if (cmdList[1] == qtr("-d")) { //bh [-d] <addr> 删除硬件断点
+					bool bOK = true;
+					ULONG_PTR pAddr = (ULONG_PTR)cmdList[2].toULong(&bOK, 16);
+					if (bOK) {
+						if (m_listBpHard.isEmpty()) {
+							qout << qtr("未设置硬件断点") << endl;
+						}
+						else {
+							if (!rmBreakpointHard(hThread, pAddr))
+								DBGPRINT("删除硬件断点失败");
+						}
+					}
+					else {
+						qout << qtr("%1不是一个合法的16进制值").arg(cmdList[2]) << endl;
+					}
+				}
+				else {
+					qout << qtr("参数错误") << endl;
+				}
+				
+			}
+			else if (cmdList.size() < 5) { //bh [-rw] <addr> <len> 设置硬件读写断点
+				if (cmdList[1] == qtr("-rw")) {
+					bool bOK = true;
+					ULONG_PTR pAddr = (ULONG_PTR)cmdList[2].toULong(&bOK, 16);
+					if (bOK) {
+						DWORD dwLen = (DWORD)cmdList[3].toULong(&bOK, 10);
+						if (bOK) {
+							if (dwLen != 1 && dwLen != 2 && dwLen != 4) {
+								qout << qtr("长度只能是1，2或4") << endl;
+							}
+							else {
+								if (!setBreakpointHardRW(hThread, pAddr, HARDBP_READWRITE, dwLen - 1, &bph))
+									DBGPRINT("设置硬件读写断点失败");
+								else
+									m_listBpHard.push_back(bph);
+							}
+						}
+						else {
+							qout << qtr("%1不是一个合法的10进制值").arg(cmdList[3]) << endl;
+						}
+					}
+					else {
+						qout << qtr("%1不是一个合法的16进制值").arg(cmdList[2]) << endl;
+					}
+				}
+				else {
+					qout << qtr("参数错误") << endl;
 				}
 			}
 		}
 		else if (cmdList[0] == qtr("bm")) { //bm:设置内存断点
-
+			if (cmdList.size() < 2) {
+				showAllBreakpointMemInfo();
+			}
+			else if (cmdList.size() < 3) {
+				qout << qtr("缺少参数") << endl;
+			}
+			else if (cmdList.size() < 4) { 
+				BREAKPOINTMEM bpm = {};
+				if (cmdList[1] == qtr("-a")) { //bm [-a] <addr> 设置内存访问断点
+					bool bOK = true;
+					ULONG_PTR pAddr = cmdList[2].toULong(&bOK, 16);
+					if (bOK) {
+						if (!setBreakpointMem(hProcess, pAddr, PAGE_NOACCESS, &bpm))
+							DBGPRINT("设置内存访问断点失败");
+						else
+							m_listBpMem.push_back(bpm);
+					}
+					else {
+						qout << qtr("%1不是一个合法的16进制值") << endl;
+					}
+				}
+				else if (cmdList[1] == qtr("-w")) { //bm [-w] <addr> 设置内存写入断点
+					bool bOK = true;
+					ULONG_PTR pAddr = cmdList[2].toULong(&bOK, 16);
+					if (bOK) {
+						if (!setBreakpointMem(hProcess, pAddr, PAGE_READONLY, &bpm))
+							DBGPRINT("设置内存写入断点失败");
+						else
+							m_listBpMem.push_back(bpm);
+					}
+					else {
+						qout << qtr("%1不是一个合法的16进制值") << endl;
+					}
+				}
+				else if (cmdList[1] == qtr("-d")) { //bm [-d] <addr> 删除内存断点
+					bool bOK = true;
+					ULONG_PTR pAddr = cmdList[2].toULong(&bOK, 16);
+					if (bOK) {
+						if (m_listBpMem.isEmpty()) {
+							qout << qtr("未设置内存断点") << endl;
+						}
+						else {
+							if (!rmBreakpointMem(hProcess))
+								DBGPRINT("删除内存断点失败");
+							else
+								m_listBpMem.pop_back();
+						}
+					}
+					else {
+						qout << qtr("%1不是一个合法的16进制值") << endl;
+					}
+				}
+				else {
+					qout << qtr("参数错误") << endl;
+				}
+			}
 		}
 		else if (cmdList[0] == qtr("lm")) { //lm:查看可执行模块信息
 			showExecuteModuleInfo();
+		}
+		else if (cmdList[0] == qtr("stack")) { //stack:查看栈信息
+			if (cmdList.size() < 2) {
+				showStackInfo(hProcess, hThread, 10);
+			}
+			else if (cmdList.size() < 3) {
+				bool bOK = true;
+				int nCnt = cmdList[1].toInt(&bOK, 10);
+				if (bOK) {
+					showStackInfo(hProcess, hThread, nCnt);
+				}
+				else {
+					qout << qtr("%1不是一个合法的10进制值").arg(cmdList[1]) << endl;
+				}
+			}
 		}
 		else if (cmdList[0] == qtr("r")) { //r: 查看/修改寄存器
 			if (cmdList.size() < 2) { //r 查看所有寄存器的值
@@ -388,7 +606,10 @@ void CDebuggerMain::userInput(HANDLE hProcess, HANDLE hThread, LPVOID pException
 			}
 		}
 		else if (cmdList[0] == qtr("e")) { //e:修改内存中的数据
-			if (cmdList.size() > 3) {
+			if (cmdList.size() < 3) {
+				qout << qtr("缺少参数") << endl;
+			}
+			else { //e <addr> [hex1] [hex2] ...
 				bool bOK = true;
 				DWORD dwAddr = cmdList[1].toULong(&bOK, 16);
 				if (bOK) {
@@ -638,7 +859,7 @@ void CDebuggerMain::editMemoryInfo(HANDLE hProc, LPVOID pAddr, QVector<BYTE> &vt
 void CDebuggerMain::showRegisterInfo(HANDLE hThread)
 {
 	CONTEXT ct = {};
-	ct.ContextFlags = CONTEXT_FULL;
+	ct.ContextFlags = CONTEXT_FULL | CONTEXT_DEBUG_REGISTERS;
 	if (!GetThreadContext(hThread, &ct))
 		DBGPRINT("获取线程上下文失败");
 
@@ -646,6 +867,25 @@ void CDebuggerMain::showRegisterInfo(HANDLE hThread)
 	qout << QString::asprintf("EAX:%08X ECX:%08X EDX:%08X EBX:%08X EBP:%08X ESP:%08X",
 		ct.Eax, ct.Ecx, ct.Edx, ct.Ebx, ct.Ebp, ct.Esp) << endl;
 	qout << QString::asprintf("ESI:%08X EDI:%08X EIP:%08X", ct.Esi, ct.Edi, ct.Eip) << endl;
+
+	
+	qout << qtr("调试寄存器信息:") << endl;
+	qout << QString::asprintf("Dr0:%08X  Dr1:%08X  Dr2:%08X  Dr3:%08X", 
+		ct.Dr0, ct.Dr1, ct.Dr2, ct.Dr3) << endl;
+
+	DBG_REG6 *pDr6 = (DBG_REG6*)&ct.Dr6;
+	qout << QString::asprintf("Dr6:[B0=%d B1=%d B2=%d B3=%d BD=%d BS=%d BT=%d]",
+		pDr6->B0, pDr6->B1, pDr6->B2, pDr6->B3, pDr6->BD, pDr6->BS, pDr6->BT) << endl;
+
+	DBG_REG7 *pDr7 = (DBG_REG7*)&ct.Dr7;
+	qout << QString::asprintf("Dr7:[L0=%d G0=%d RW0=%d LEN0=%d]", 
+		pDr7->L0, pDr7->G0, pDr7->RW0, pDr7->LEN0) << endl;
+	qout << QString::asprintf("Dr7:[L1=%d G1=%d RW1=%d LEN1=%d]", 
+		pDr7->L1, pDr7->G1, pDr7->RW1, pDr7->LEN1) << endl;
+	qout << QString::asprintf("Dr7:[L2=%d G2=%d RW2=%d LEN2=%d]", 
+		pDr7->L2, pDr7->G2, pDr7->RW2, pDr7->LEN2) << endl;
+	qout << QString::asprintf("Dr7:[L3=%d G3=%d RW3=%d LEN3=%d]", 
+		pDr7->L3, pDr7->G3, pDr7->RW3, pDr7->LEN3) << endl;
 }
 
 void CDebuggerMain::showExecuteModuleInfo()
@@ -783,19 +1023,44 @@ void CDebuggerMain::showDisambleInfo(HANDLE hProc, LPVOID pAddr, int nCnt)
 
 void CDebuggerMain::resetAllBreakpoint(HANDLE hProcess)
 {
+	//恢复所有软件断点
 	BREAKPOINT tBp = {};
 	for (auto &bp : m_listBp) {
 		if (bp.dwType == EXCEPTION_BREAKPOINT) {
 			setBreakpointCC(hProcess, bp.pAddr, &tBp);
 		}
-		else if (bp.dwType == EXCEPTION_SINGLE_STEP) {
+	}
 
+	//恢复所有硬件断点
+	CONTEXT ct = {};
+	ct.ContextFlags = CONTEXT_FULL | CONTEXT_DEBUG_REGISTERS;
+	GetThreadContext(m_hThread, &ct);
+	DBG_REG7 *pDr7 = (DBG_REG7*)&ct.Dr7;
+	for (auto &bph : m_listBpHard) {
+		switch (bph.dwDrID)
+		{
+		case 0:
+			pDr7->L0 = 1;
+			break;
+		case 1:
+			pDr7->L1 = 1;
+			break;
+		case 2:
+			pDr7->L2 = 1;
+			break;
+		case 3:
+			pDr7->L3 = 1;
+			break;
+		default:
+			break;
 		}
 	}
+	SetThreadContext(m_hThread, &ct);
 }
 
 void CDebuggerMain::clearAllBreakpoint(HANDLE hProcess)
 {
+	//删除所有软件断点
 	for (auto &bp : m_listBp) {
 		if (bp.dwType == EXCEPTION_BREAKPOINT) {
 			DWORD dwRead = 0;
@@ -805,6 +1070,32 @@ void CDebuggerMain::clearAllBreakpoint(HANDLE hProcess)
 			}
 		}
 	}
+
+	//删除所有硬件断点
+	CONTEXT ct = {};
+	ct.ContextFlags = CONTEXT_FULL | CONTEXT_DEBUG_REGISTERS;
+	GetThreadContext(m_hThread, &ct);
+	DBG_REG7 *pDr7 = (DBG_REG7*)&ct.Dr7;
+	for (auto &bph : m_listBpHard) {
+		switch (bph.dwDrID)
+		{
+		case 0:
+			pDr7->L0 = 0;
+			break;
+		case 1:
+			pDr7->L1 = 0;
+			break;
+		case 2:
+			pDr7->L2 = 0;
+			break;
+		case 3:
+			pDr7->L3 = 0;
+			break;
+		default:
+			break;
+		}
+	}
+	SetThreadContext(m_hThread, &ct);
 }
 
 bool CDebuggerMain::setBreakpointCC(HANDLE hProc, LPVOID pAddr, BREAKPOINT *bp)
@@ -859,7 +1150,7 @@ void CDebuggerMain::setBreakpointTF(HANDLE hThread)
 }
 
 //设置硬件执行断点
-bool CDebuggerMain::setBreakpointHardExec(HANDLE hThread, ULONG_PTR pAddr)
+bool CDebuggerMain::setBreakpointHardExec(HANDLE hThread, ULONG_PTR pAddr, BREAKPOINTHARD *bph)
 {
 	/*
 	  设置硬件执行断点时，长度只能为1(LEN0~LEN3设置为0时表示长度为1)	
@@ -874,37 +1165,46 @@ bool CDebuggerMain::setBreakpointHardExec(HANDLE hThread, ULONG_PTR pAddr)
 		pDr7->RW0 = 0;
 		pDr7->LEN0 = 0;
 		pDr7->L0 = 1;
+		bph->dwDrID = 0;
 	}
 	else if (pDr7->L1 == 0) { //DR1没有被使用
 		ct.Dr1 = pAddr;
 		pDr7->RW1 = 0;
 		pDr7->LEN1 = 0;
 		pDr7->L1 = 1;
+		bph->dwDrID = 1;
 	}
 	else if (pDr7->L2 == 0) { //DR2没有被使用
 		ct.Dr2 = pAddr;
 		pDr7->RW2 = 0;
 		pDr7->LEN2 = 0;
 		pDr7->L2 = 1;
+		bph->dwDrID = 2;
 	}
 	else if (pDr7->L3 == 0) { //DR3没有被使用
 		ct.Dr3 = pAddr;
 		pDr7->RW3 = 0;
 		pDr7->LEN3 = 0;
 		pDr7->L3 = 1;
+		bph->dwDrID = 3;
 	}
 	else {
 		return false;
 	}
 
+	bph->pAddr = (LPVOID)pAddr;
+	bph->dwType = HARDBP_EXEC;
+
 	SetThreadContext(hThread, &ct);
 	return true;
 }
 
-bool CDebuggerMain::setBreakpointHardRW(HANDLE hThread, ULONG_PTR pAddr, HardBreakpointType type, DWORD dwLen)
+bool CDebuggerMain::setBreakpointHardRW(
+	HANDLE hThread, ULONG_PTR pAddr, HardBreakpointType type, 
+	DWORD dwLen, BREAKPOINTHARD *bph)
 {
 	CONTEXT ct = {};
-	ct.ContextFlags = CONTEXT_DEBUG_REGISTERS;
+	ct.ContextFlags = CONTEXT_FULL | CONTEXT_DEBUG_REGISTERS;
 	GetThreadContext(hThread, &ct);
 
 	//对地址和长度进行对齐处理(向上取整)
@@ -924,27 +1224,132 @@ bool CDebuggerMain::setBreakpointHardRW(HANDLE hThread, ULONG_PTR pAddr, HardBre
 		ct.Dr0 = pAddr;
 		pDr7->RW0 = type;
 		pDr7->LEN0 = dwLen;
+		pDr7->L0 = 1;
+		bph->dwDrID = 0;
 	}
 	else if (pDr7->L1 == 0) { //DR1 没有被使用
 		ct.Dr1 = pAddr;
 		pDr7->RW1 = type;
 		pDr7->LEN1 = dwLen;
+		pDr7->L1 = 1;
+		bph->dwDrID = 1;
 	}
 	else if (pDr7->L2 == 0) { //DR2 没有被使用
 		ct.Dr2 = pAddr;
 		pDr7->RW2 = type;
 		pDr7->LEN2 = dwLen;
+		pDr7->L2 = 1;
+		bph->dwDrID = 2;
 	}
 	else if (pDr7->L3 == 0) { //DR3 没有被使用
 		ct.Dr3 = pAddr;
 		pDr7->RW3 = type;
 		pDr7->LEN3 = dwLen;
+		pDr7->L3 = 1;
+		bph->dwDrID = 3;
 	}
 	else {
 		return false;
 	}
 
+	bph->dwType = type;
+	bph->pAddr = (LPVOID)pAddr;
+
 	SetThreadContext(hThread, &ct);
+	return true;
+}
+
+//删除硬件断点
+bool CDebuggerMain::rmBreakpointHard(HANDLE hThread, ULONG_PTR pAddr)
+{
+	bool bBpExist = false;
+	int nIdx = -1;
+	for (auto &bph : m_listBpHard) {
+		nIdx++;
+		if ((ULONG_PTR)bph.pAddr == pAddr) {
+			bBpExist = true;
+			break;
+		}
+	}
+
+	if (!bBpExist) {
+		qout << qtr("未在该地址处设置硬件断点") << endl;
+		return false;
+	}
+
+	BREAKPOINTHARD bph = m_listBpHard.takeAt(nIdx);
+
+	CONTEXT ct = {};
+	ct.ContextFlags = CONTEXT_FULL | CONTEXT_DEBUG_REGISTERS;
+	GetThreadContext(hThread, &ct);
+	DBG_REG7 *pDr7 = (DBG_REG7*)&ct.Dr7;
+
+	switch (bph.dwDrID)
+	{
+	case 0:
+	{
+		ct.Dr0 = 0;
+		pDr7->L0 = 0;
+		pDr7->RW0 = 0;
+		pDr7->LEN0 = 0;
+	}
+		break;
+	case 1:
+	{
+		ct.Dr1 = 0;
+		pDr7->L1 = 0;
+		pDr7->RW1 = 0;
+		pDr7->LEN1 = 0;
+	}
+		break;
+	case 2:
+	{
+		ct.Dr2 = 0;
+		pDr7->L2 = 0;
+		pDr7->RW2 = 0;
+		pDr7->LEN2 = 0;
+	}
+		break;
+	case 3:
+	{
+		ct.Dr3 = 0;
+		pDr7->L3 = 0;
+		pDr7->RW3 = 0;
+		pDr7->LEN3 = 0;
+	}
+		break;
+	default:
+		break;
+	}
+
+	SetThreadContext(hThread, &ct);
+	return true;
+}
+
+//设置内存断点
+bool CDebuggerMain::setBreakpointMem(HANDLE hProcess, ULONG_PTR pAddr, INT nType, BREAKPOINTMEM *bpm)
+{
+	if (!m_listBpMem.isEmpty()) {
+		rmBreakpointMem(hProcess);
+		m_listBpMem.clear();
+	}
+
+	bpm->pPageStartAddr = (LPVOID)(pAddr & 0xFFFFF000);
+	bpm->pPageEndAddr = (LPVOID)((DWORD)bpm->pPageStartAddr + 0x1000 - 1);
+	bpm->dwNewType = nType;
+	bpm->pAddr = (LPVOID)pAddr;
+	if (!VirtualProtectEx(hProcess, (LPVOID)pAddr, 1, nType, &bpm->dwOldType))
+		return false;
+
+	return true;
+}
+
+bool CDebuggerMain::rmBreakpointMem(HANDLE hProcess)
+{
+	BREAKPOINTMEM bpm = m_listBpMem.at(0);
+	DWORD dwTmp = 0;
+	if (!VirtualProtectEx(hProcess, (LPVOID)bpm.pAddr, 1, bpm.dwOldType, &dwTmp))
+		return false;
 	return true;
 }
 
@@ -961,30 +1366,151 @@ bool CDebuggerMain::isHardBreakpoint(HANDLE hThread)
 	return false;
 }
 
-bool CDebuggerMain::rmBreakpointCC(HANDLE hProc, HANDLE hThread, LPVOID pAddr, BYTE oldData)
+//删除软件断点
+bool CDebuggerMain::rmBreakpointCC(HANDLE hProc, LPVOID pAddr)
 {
-	//1.直接将原始数据写入回去
+	bool bRet = true;
+	bool bBpExist = false;
 	SIZE_T bytesWrite = 0;
-	if (!WriteProcessMemory(hProc, pAddr, &oldData, 1, &bytesWrite)) {
-		DBGPRINT("写入内存失败");
+	int i = -1;
+	for (auto &bp : m_listBp) {
+		i++;
+		if (bp.pAddr == pAddr) {
+			bBpExist = true;
+			if (!WriteProcessMemory(hProc, pAddr, &bp.oldData, 1, &bytesWrite)) {
+				DBGPRINT("写入内存失败");
+				bRet = false;
+				break;
+			}
+		}
+	}
+
+	if (!bBpExist) {
+		qout << qtr("该地址处不存在软件断点") << endl;
 		return false;
 	}
 
-	//2.因为 int 3 是陷阱异常，断下之后，EIP是下一条指令的地址
-	// 因此需要将 EIP-1
-	CONTEXT ct = {};
-	ct.ContextFlags = CONTEXT_CONTROL;
-	if (!GetThreadContext(hThread, &ct)) {
-		DBGPRINT("获取线程环境失败");
-		return false;
+	if (bBpExist && bRet)
+		m_listBp.removeAt(i);
+	
+	return bRet;
+}
+
+void CDebuggerMain::showAllBreakpointCCInfo()
+{
+	if (m_listBp.isEmpty()) {
+		qout << qtr("未设置软件断点") << endl;
+		return;
 	}
 
-	ct.Eip--;
-	if (!SetThreadContext(hThread, &ct)) {
-		DBGPRINT("获取线程环境失败");
-		return false;
+	qout << qtr("软件断点信息:") << endl;
+	int i = 0;
+	for (auto &bp : m_listBp) {
+		qout << QString::asprintf("[%d]: 地址=%08X", i, bp.pAddr) << endl;
+		i++;
 	}
+}
+
+void CDebuggerMain::showAllBreakpointHardInfo()
+{
+	if (m_listBpHard.isEmpty()) {
+		qout << qtr("未设置硬件断点") << endl;
+		return;
+	}
+
+	qout << qtr("硬件断点信息:") << endl;
+	int i = 0;
+	for (auto &bph : m_listBpHard) {
+		qout << QString::asprintf("[%d]: 地址=%08X ", i, bph.pAddr) << flush;
+		QString strType;
+		if (bph.dwType == HARDBP_EXEC)
+			strType = qtr("硬件执行");
+		else if (bph.dwType == HARDBP_WRITE)
+			strType = qtr("硬件写入");
+		else if (bph.dwType == HARDBP_READWRITE)
+			strType = qtr("硬件读写");
+		else
+			strType = qtr("未知");
+
+		qout << qtr("类型=%1 ").arg(strType) << flush;
+
+		QString strDrID;
+		if (bph.dwDrID == 0)
+			strDrID = qtr("Dr0");
+		else if (bph.dwDrID == 1)
+			strDrID = qtr("Dr1");
+		else if (bph.dwDrID == 2)
+			strDrID = qtr("Dr2");
+		else if (bph.dwDrID == 3)
+			strDrID = qtr("Dr3");
+		else
+			strDrID = qtr("未知");
+
+		qout << qtr("Dr寄存器=%1").arg(strDrID) << endl;
+		i++;
+	}
+}
+
+void CDebuggerMain::showAllBreakpointMemInfo()
+{
+	if (m_listBpMem.isEmpty()) {
+		qout << qtr("未设置内存断点") << endl;
+		return;
+	}
+
+	qout << qtr("内存断点信息:") << endl;
+
+	int i = 0;
+	for (auto &bpm : m_listBpMem) {
+		qout << QString::asprintf("[%d]: 地址=%08X 所在内存页:[%08X~%08X] ", 
+			i, bpm.pAddr, bpm.pPageStartAddr, bpm.pPageEndAddr) << flush;
+
+		QString strType;
+		if (bpm.dwNewType == PAGE_NOACCESS)
+			strType = qtr("内存访问");
+		else if (bpm.dwNewType == PAGE_READONLY)
+			strType = qtr("内存写入");
+		else
+			strType = qtr("未知");
+
+		qout << qtr("类型=%1").arg(strType) << endl;
+
+		i++;
+	}
+}
+
+void CDebuggerMain::showAll32Process()
+{
+	qout << qtr("进程信息: 进程ID ┃ 进程名") << endl;
+
+	for (auto &proc : m_vtProcess) {
+		//qout << QString::asprintf("%d")
+	}
+
+	qout << qtr("===========================") << endl;
+}
+
+void CDebuggerMain::getAll32Process()
+{
+
+}
+
+bool CDebuggerMain::getSeDebugPrivilge()
+{
+	HANDLE hToken;
+	TOKEN_PRIVILEGES tkp;
+
+	if (!OpenProcessToken(GetCurrentProcess(), TOKEN_ADJUST_PRIVILEGES | TOKEN_QUERY, &hToken))
+		return false;
+
+	//获取SEDEBUG特权的LUID
+	LookupPrivilegeValue(NULL, SE_DEBUG_NAME, &tkp.Privileges[0].Luid);
+	tkp.PrivilegeCount = 1;
+	tkp.Privileges[0].Attributes = SE_PRIVILEGE_ENABLED;
+
+	//获取这个进程的关机特权
+	if (!AdjustTokenPrivileges(hToken, FALSE, &tkp, 0, (PTOKEN_PRIVILEGES)NULL, 0))
+		return false;
 
 	return true;
 }
-
