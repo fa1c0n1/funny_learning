@@ -16,7 +16,7 @@
 
 CDebuggerMain::CDebuggerMain()
 	: m_bSystemBreakpoint(true), m_bUserTF(true),
-	m_bGo(false), m_bTmpCC(false), m_bAttach(false)
+	m_bGo(false), m_bTmpCC(false), m_bAttach(false), m_bHaveBpMem(false)
 {
 	m_vtRegName.push_back(qtr("EAX"));
 	m_vtRegName.push_back(qtr("ECX"));
@@ -222,8 +222,10 @@ DWORD CDebuggerMain::onException(DEBUG_EVENT *pEvent)
 
 	//被调试进程产生的第一个异常事件，这个
 	//  异常事件就是系统断点
-	qout << QString::asprintf("\t异常代码: %08X", er.ExceptionCode) << endl;
-	qout << QString::asprintf("\t异常地址: %08X", er.ExceptionAddress) << endl;
+	if (!m_bHaveBpMem) {
+		qout << QString::asprintf("\t异常代码: %08X", er.ExceptionCode) << endl;
+		qout << QString::asprintf("\t异常地址: %08X", er.ExceptionAddress) << endl;
+	}
 
 	if (m_bSystemBreakpoint) {
 		qout << qtr("到达系统断点,忽略") << endl;
@@ -239,11 +241,16 @@ DWORD CDebuggerMain::onException(DEBUG_EVENT *pEvent)
 	{
 	case EXCEPTION_BREAKPOINT: //软件断点
 	{
+		qout << qtr("触发软件断点") << endl;
+		
 		clearAllBreakpoint(hProcess);
 		//输出调试信息
 		showDebugInfo(hProcess, hThread, er.ExceptionAddress);
+
+		//如果是单步步过设置的临时断点，则从集合中删除该断点
 		if (m_bTmpCC)
 			m_listBp.pop_back();
+
 		CONTEXT ct = {};
 		getDebuggeeContext(&ct);
 		ct.Eip--;
@@ -251,16 +258,38 @@ DWORD CDebuggerMain::onException(DEBUG_EVENT *pEvent)
 	}
 		break;
 	case EXCEPTION_ACCESS_VIOLATION:  //内存访问异常(内存访问断点)
+	{
+		m_bHaveBpMem = false;
+		clearAllBreakpoint(hProcess);
+		if (!m_listBpMem.isEmpty()) {
+			BREAKPOINTMEM bpm = m_listBpMem.at(0);
+			if (bpm.pAddr == er.ExceptionAddress) {
+				qout << qtr("触发内存断点") << endl;
+				showDebugInfo(hProcess, hThread, er.ExceptionAddress);
+				break;
+			}
+			else {
+				setBreakpointTF(hThread);
+				m_bHaveBpMem = true;
+				if (m_bGo)
+					goto _EXIT;
+				//else
+			}
+		}
+	}
+
 		break;
 
 	//TF和硬件断点异常
 	//  通过DR6寄存器进一步判断这个异常是
 	//  TF引发的还是 DR0~DR3 引发的
 	case EXCEPTION_SINGLE_STEP:
-		//输出调试信息
-		showDebugInfo(hProcess, hThread, er.ExceptionAddress);
+		if (!m_bHaveBpMem)
+			//输出调试信息
+			showDebugInfo(hProcess, hThread, er.ExceptionAddress);
 
 		if (isHardBreakpoint(hThread)) {
+			qout << qtr("触发硬件断点") << endl;
 			break;
 		}
 		
@@ -1056,10 +1085,19 @@ void CDebuggerMain::resetAllBreakpoint(HANDLE hProcess)
 		}
 	}
 	SetThreadContext(m_hThread, &ct);
+
+	//恢复所有内存断点
+	if (!resetBreakpointMem(hProcess))
+		DBGPRINT("恢复内存断点失败");
+
 }
 
 void CDebuggerMain::clearAllBreakpoint(HANDLE hProcess)
 {
+	//删除所有内存断点
+	if (!rmBreakpointMem(hProcess))
+		DBGPRINT("删除内存断点失败");
+
 	//删除所有软件断点
 	for (auto &bp : m_listBp) {
 		if (bp.dwType == EXCEPTION_BREAKPOINT) {
@@ -1346,9 +1384,24 @@ bool CDebuggerMain::setBreakpointMem(HANDLE hProcess, ULONG_PTR pAddr, INT nType
 
 bool CDebuggerMain::rmBreakpointMem(HANDLE hProcess)
 {
+	if (m_listBpMem.isEmpty())
+		return true;
+
 	BREAKPOINTMEM bpm = m_listBpMem.at(0);
 	DWORD dwTmp = 0;
 	if (!VirtualProtectEx(hProcess, (LPVOID)bpm.pAddr, 1, bpm.dwOldType, &dwTmp))
+		return false;
+	return true;
+}
+
+bool CDebuggerMain::resetBreakpointMem(HANDLE hProcess)
+{
+	if (m_listBpMem.isEmpty())
+		return true;
+
+	BREAKPOINTMEM bpm = m_listBpMem.at(0);
+	DWORD dwTmp = 0;
+	if (!VirtualProtectEx(hProcess, (LPVOID)bpm.pAddr, 1, bpm.dwNewType, &dwTmp))
 		return false;
 	return true;
 }

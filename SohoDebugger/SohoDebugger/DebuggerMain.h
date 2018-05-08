@@ -80,6 +80,7 @@ private:
 	bool rmBreakpointHard(HANDLE hThread, ULONG_PTR pAddr);
 	bool setBreakpointMem(HANDLE hProcess, ULONG_PTR pAddr, INT nType, BREAKPOINTMEM *bpm);
 	bool rmBreakpointMem(HANDLE hProcess);
+	bool resetBreakpointMem(HANDLE hProcess);
 	bool isHardBreakpoint(HANDLE hThread);
 
 	void showAllBreakpointCCInfo();
@@ -108,6 +109,7 @@ private:
 	bool m_bUserTF;
 	bool m_bGo;
 	bool m_bTmpCC;
+	bool m_bHaveBpMem;
 	DWORD m_dwDebuggeePID;
 	HANDLE m_hProcess;
 	HANDLE m_hThread;
