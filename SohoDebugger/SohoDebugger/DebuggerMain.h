@@ -99,6 +99,8 @@ private:
 	void editRegister(HANDLE hThread, QString strRegName, DWORD dwVal);
 	void writeAsmCode2Memory(HANDLE hProc, LPVOID pAddr, QString strAsmCode);
 
+	void dump2file(HANDLE hProc, ULONG64 pStartAddr, ULONG64 pEndAddr, QString strFile);
+
 	void showAll32Process();
 	void getAll32Process();
 	bool getSeDebugPrivilge();

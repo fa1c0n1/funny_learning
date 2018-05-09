@@ -2,6 +2,9 @@
 #include "stdafx.h"
 #include "Comm.h"
 #include "RegStruct.h"
+#include "PeParser.h"
+#include <QFile>
+#include <QDataStream>
 #include <TlHelp32.h>
 
 #define BEA_ENGINE_STATIC
@@ -550,7 +553,38 @@ void CDebuggerMain::userInput(HANDLE hProcess, HANDLE hThread, LPVOID pException
 			}
 		}
 		else if (cmdList[0] == qtr("lm")) { //lm:查看可执行模块信息
-			showExecuteModuleInfo();
+			if (cmdList.size() < 2) {
+				showExecuteModuleInfo();
+			}
+			else if (cmdList.size() < 3) {
+				if (cmdList[1] == qtr("-pe")) { //lm -pe :解析可执行模块
+					qout << qtr("请输入要查看的模块的路径: ") << flush;
+					QString strFile;
+					strFile = qin.readLine();
+
+					CPeParser peParser;
+					if (peParser.parsePE(strFile)) {
+						QString strPeShow;
+						qout << qtr("请输入(i:显示导入表，e:显示导出表):") << flush;
+						qin >> strPeShow;
+						if (strPeShow == qtr("i")) {
+							peParser.showImportTableInfo();
+						}
+						else if (strPeShow == qtr("e")) {
+							peParser.showExportTableInfo();
+						}
+						else {
+							qout << qtr("输入错误") << endl;
+						}
+					}
+					else {
+						qout << qtr("解析失败") << endl;
+					}
+				} else {
+					qout << qtr("参数错误") << endl;
+				}
+			}
+
 		}
 		else if (cmdList[0] == qtr("stack")) { //stack:查看栈信息
 			if (cmdList.size() < 2) {
@@ -565,6 +599,33 @@ void CDebuggerMain::userInput(HANDLE hProcess, HANDLE hThread, LPVOID pException
 				else {
 					qout << qtr("%1不是一个合法的10进制值").arg(cmdList[1]) << endl;
 				}
+			}
+		}
+		else if (cmdList[0] == qtr("dump")) { //dump <start_addr> <end_addr> <file>
+			if (cmdList.size() > 3) {
+				bool bOK = true;
+				ULONG pStartAddr = cmdList[1].toULong(&bOK, 16);
+				if (!bOK) {
+					qout << qtr("%1不是一个合法的10进制值").arg(cmdList[1]) << endl;
+				}
+				else {
+					ULONG pEndAddr = cmdList[2].toULong(&bOK, 16);
+					if (!bOK) {
+						qout << qtr("%1不是一个合法的10进制值").arg(cmdList[2]) << endl;
+					}
+					else {
+						if (pStartAddr > pEndAddr) {
+							qout << qtr("参数错误:") << endl;
+						}
+						else {
+							dump2file(hProcess, pStartAddr, pEndAddr, cmdList[3]);
+						}
+					}
+
+				}
+			}
+			else {
+				qout << qtr("缺少参数") << endl;
 			}
 		}
 		else if (cmdList[0] == qtr("r")) { //r: 查看/修改寄存器
@@ -1543,6 +1604,30 @@ void CDebuggerMain::showAll32Process()
 	}
 
 	qout << qtr("===========================") << endl;
+}
+
+void CDebuggerMain::dump2file(HANDLE hProc, ULONG64 pStartAddr, ULONG64 pEndAddr, QString strFile)
+{
+	SIZE_T nBytes = pEndAddr - pStartAddr + 1;
+	BYTE *pData = new BYTE[nBytes]{};
+
+	SIZE_T bytesRead = 0;
+	if (ReadProcessMemory(hProc, (LPCVOID)pStartAddr, (LPVOID)pData, nBytes, &bytesRead)) {
+		QFile tFile(strFile);
+		if (tFile.open(QIODevice::ReadWrite|QIODevice::Truncate)) {
+			QDataStream outs(&tFile);
+			outs.writeRawData((char*)pData, bytesRead);
+			tFile.close();
+		}
+		else {
+			qout << qtr("打开文件失败") << endl;
+		}
+	}
+	else {  //读取失败
+		DBGPRINT("读取进程内存失败");
+	}
+
+	delete[] pData; pData = nullptr;
 }
 
 void CDebuggerMain::getAll32Process()

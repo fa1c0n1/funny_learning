@@ -38,6 +38,9 @@
     <ClCompile Include="DrawTool.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="PeParser.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="stdafx.h">
@@ -56,6 +59,9 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="DrawTool.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="PeParser.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

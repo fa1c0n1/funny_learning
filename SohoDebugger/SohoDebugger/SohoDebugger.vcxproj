@@ -146,12 +146,14 @@
     <ClCompile Include="DrawTool.cpp" />
     <ClCompile Include="GlobalIO.cpp" />
     <ClCompile Include="main.cpp" />
+    <ClCompile Include="PeParser.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Comm.h" />
     <ClInclude Include="DebuggerMain.h" />
     <ClInclude Include="DrawTool.h" />
     <ClInclude Include="GlobalIO.h" />
+    <ClInclude Include="PeParser.h" />
     <ClInclude Include="RegStruct.h" />
     <ClInclude Include="stdafx.h" />
   </ItemGroup>
