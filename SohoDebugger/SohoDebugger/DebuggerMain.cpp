@@ -6,14 +6,15 @@
 #include <QFile>
 #include <QDataStream>
 #include <TlHelp32.h>
+#include <DbgHelp.h>
 
 #define BEA_ENGINE_STATIC
 #define BEA_USE_STDCALL
 #include "BeaEngine_4.1/Win32/headers/BeaEngine.h"
 #include "keystone/keystone.h"
 
-#
-#pragma comment (lib,"keystone/x86/keystone_x86.lib")
+#pragma comment(lib, "dbghelp.lib")
+#pragma comment(lib,"keystone/x86/keystone_x86.lib")
 #pragma comment(lib, "BeaEngine_4.1/Win32/Win32/Lib/BeaEngine.lib")
 #pragma comment(linker, "/NODEFAULTLIB:\"crt.lib\"")
 
@@ -99,6 +100,9 @@ bool CDebuggerMain::openProc(QString strFile)
 		&stcProcInfo);
 
 	m_dwDebuggeePID = stcProcInfo.dwProcessId;
+	m_hProcess = stcProcInfo.hProcess;
+	m_hThread = stcProcInfo.hThread;
+
 	return bRet;
 }
 
@@ -158,10 +162,34 @@ void CDebuggerMain::startDebug(QString strChoice)
 		case CREATE_PROCESS_DEBUG_EVENT:
 		{
 			if (!m_bAttach) {
+				CREATE_PROCESS_DEBUG_INFO debugInfo = debugEvent.u.CreateProcessInfo;
 				BREAKPOINT bp = {};
-				setBreakpointCC(debugEvent.u.CreateProcessInfo.hProcess,
+				setBreakpointCC(debugInfo.hProcess,
 					debugEvent.u.CreateProcessInfo.lpStartAddress, &bp);
 				m_listBp.push_back(bp);
+
+				//初始化符号处理器
+				if (SymInitialize(m_hProcess, NULL, FALSE)) {
+					//加载模块的调试信息
+					DWORD64 moduleAddr = SymLoadModule64(
+						m_hProcess,
+						debugInfo.hFile,
+						NULL,
+						NULL,
+						(DWORD64)debugInfo.lpBaseOfImage,
+						0);
+
+					if (moduleAddr == 0) {
+						DBGPRINT("SymLoadModule64 failed");
+					}
+				}
+				else {
+					DBGPRINT("初始化符号处理器失败");
+				}
+
+				CloseHandle(debugInfo.hFile);
+				CloseHandle(debugInfo.hProcess);
+				CloseHandle(debugInfo.hThread);
 			}
 		}
 			break;
@@ -170,6 +198,13 @@ void CDebuggerMain::startDebug(QString strChoice)
 			break;
 		case EXIT_PROCESS_DEBUG_EVENT:
 			onProcessExited(&debugEvent.u.ExitProcess);
+			break;
+		case LOAD_DLL_DEBUG_EVENT:
+			onDllLoaded(&debugEvent.u.LoadDll);
+			break;
+		case UNLOAD_DLL_DEBUG_EVENT:
+			onDllUnloaded(&debugEvent.u.UnloadDll);
+			break;
 		default:
 			break;
 		}
@@ -220,9 +255,6 @@ DWORD CDebuggerMain::onException(DEBUG_EVENT *pEvent)
 	HANDLE hProcess = OpenProcess(PROCESS_ALL_ACCESS, FALSE, pEvent->dwProcessId);
 	HANDLE hThread = OpenThread(THREAD_ALL_ACCESS, FALSE, pEvent->dwThreadId);
 
-	m_hThread = hThread;
-	m_hProcess = hProcess;
-
 	//被调试进程产生的第一个异常事件，这个
 	//  异常事件就是系统断点
 	if (!m_bHaveBpMem) {
@@ -246,7 +278,7 @@ DWORD CDebuggerMain::onException(DEBUG_EVENT *pEvent)
 	{
 		qout << qtr("触发软件断点") << endl;
 		
-		clearAllBreakpoint(hProcess);
+		clearAllBreakpoint(hProcess, hThread);
 		//输出调试信息
 		showDebugInfo(hProcess, hThread, er.ExceptionAddress);
 
@@ -255,15 +287,15 @@ DWORD CDebuggerMain::onException(DEBUG_EVENT *pEvent)
 			m_listBp.pop_back();
 
 		CONTEXT ct = {};
-		getDebuggeeContext(&ct);
+		getDebuggeeContext(&ct, hThread);
 		ct.Eip--;
-		setDebuggeeContext(&ct);
+		setDebuggeeContext(&ct, hThread);
 	}
 		break;
 	case EXCEPTION_ACCESS_VIOLATION:  //内存访问异常(内存访问断点)
 	{
 		m_bHaveBpMem = false;
-		clearAllBreakpoint(hProcess);
+		clearAllBreakpoint(hProcess, hThread);
 		if (!m_listBpMem.isEmpty()) {
 			BREAKPOINTMEM bpm = m_listBpMem.at(0);
 			if (bpm.pAddr == er.ExceptionAddress) {
@@ -272,7 +304,7 @@ DWORD CDebuggerMain::onException(DEBUG_EVENT *pEvent)
 				break;
 			}
 			else {
-				setBreakpointTF(hThread);
+				setBreakpointTF(hProcess, hThread);
 				m_bHaveBpMem = true;
 				if (m_bGo)
 					goto _EXIT;
@@ -297,7 +329,7 @@ DWORD CDebuggerMain::onException(DEBUG_EVENT *pEvent)
 		}
 		
 		//将所有的断点都恢复
-		resetAllBreakpoint(hProcess);
+		resetAllBreakpoint(hProcess, hThread);
 		if (m_bGo) {
 			goto _EXIT;
 		}
@@ -316,6 +348,29 @@ _EXIT:
 	CloseHandle(hProcess);
 
 	return dwRet;
+}
+
+void CDebuggerMain::onDllLoaded(LOAD_DLL_DEBUG_INFO *pInfo)
+{
+	//加载模块的调试信息
+	DWORD64 moduleAddress = SymLoadModule64(
+		m_hProcess,
+		pInfo->hFile,
+		NULL,
+		NULL,
+		(DWORD64)pInfo->lpBaseOfDll,
+		0);
+
+	if (moduleAddress == 0) {
+		DBGPRINT("SymLoadModule64 failed");
+	}
+
+	CloseHandle(pInfo->hFile);
+}
+
+void CDebuggerMain::onDllUnloaded(UNLOAD_DLL_DEBUG_INFO *pInfo)
+{
+	SymUnloadModule64(m_hProcess, (DWORD64)pInfo->lpBaseOfDll);
 }
 
 void CDebuggerMain::onProcessExited(EXIT_PROCESS_DEBUG_INFO *pEvent)
@@ -356,14 +411,14 @@ void CDebuggerMain::userInput(HANDLE hProcess, HANDLE hThread, LPVOID pException
 			//  会检测EFLAGS的TF标志位是否为1
 			//  如果是1，则CPU会主动产生一个硬件断点异常
 
-			setBreakpointTF(hThread);
+			setBreakpointTF(hProcess, hThread);
 			//m_bUserTF = true;
 			break;
 		}
 		else if (cmdList[0] == qtr("n")) { //n:单步步过
 			//先判断当前EIP指向的指令是否为CALL指令
 			CONTEXT tContext;
-			getDebuggeeContext(&tContext);
+			getDebuggeeContext(&tContext, hThread);
 			int nCallLen = isCallInstruction(tContext.Eip);
 
 			if (nCallLen) { //是call指令，则在下一条指令处设置软件断点
@@ -379,7 +434,7 @@ void CDebuggerMain::userInput(HANDLE hProcess, HANDLE hThread, LPVOID pException
 				}
 			}
 			else { //不是call指令，则设置TF
-				setBreakpointTF(hThread);
+				setBreakpointTF(hProcess, hThread);
 				//m_bUserTF = true;
 				break;
 			}
@@ -634,7 +689,6 @@ void CDebuggerMain::userInput(HANDLE hProcess, HANDLE hThread, LPVOID pException
 							dump2file(hProcess, pStartAddr, pEndAddr, cmdList[3]);
 						}
 					}
-
 				}
 			}
 			else {
@@ -758,9 +812,12 @@ void CDebuggerMain::userInput(HANDLE hProcess, HANDLE hThread, LPVOID pException
 				}
 			}
 		}
+		else if (cmdList[0] == qtr("l")) { //l:查看源码
+			onLHandler(cmdList, hProcess, hThread);
+		}
 		else if (cmdList[0] == qtr("g")) { //g:继续运行
 			m_bGo = true;
-			setBreakpointTF(hThread);
+			setBreakpointTF(hProcess, hThread);
 			m_bUserTF = true;
 			break;
 		}
@@ -831,17 +888,17 @@ int CDebuggerMain::isCallInstruction(DWORD dwAddr)
 	}
 }
 
-void CDebuggerMain::setDebuggeeContext(PCONTEXT pContext)
+void CDebuggerMain::setDebuggeeContext(PCONTEXT pContext, HANDLE hThread)
 {
 	pContext->ContextFlags = CONTEXT_FULL;
-	if (!SetThreadContext(m_hThread, pContext))
+	if (!SetThreadContext(hThread, pContext))
 		DBGPRINT("设置线程上下文失败");
 }
 
-void CDebuggerMain::getDebuggeeContext(PCONTEXT pContext)
+void CDebuggerMain::getDebuggeeContext(PCONTEXT pContext, HANDLE hThread)
 {
 	pContext->ContextFlags = CONTEXT_FULL;
-	if (!GetThreadContext(m_hThread, pContext))
+	if (!GetThreadContext(hThread, pContext))
 		DBGPRINT("获取线程上下文失败");
 }
 
@@ -1124,7 +1181,7 @@ void CDebuggerMain::showDisambleInfo(HANDLE hProc, LPVOID pAddr, int nCnt)
 	}
 }
 
-void CDebuggerMain::resetAllBreakpoint(HANDLE hProcess)
+void CDebuggerMain::resetAllBreakpoint(HANDLE hProcess, HANDLE hThread)
 {
 	//恢复所有软件断点
 	BREAKPOINT tBp = {};
@@ -1137,7 +1194,7 @@ void CDebuggerMain::resetAllBreakpoint(HANDLE hProcess)
 	//恢复所有硬件断点
 	CONTEXT ct = {};
 	ct.ContextFlags = CONTEXT_FULL | CONTEXT_DEBUG_REGISTERS;
-	GetThreadContext(m_hThread, &ct);
+	GetThreadContext(hThread, &ct);
 	DBG_REG7 *pDr7 = (DBG_REG7*)&ct.Dr7;
 	for (auto &bph : m_listBpHard) {
 		switch (bph.dwDrID)
@@ -1158,7 +1215,7 @@ void CDebuggerMain::resetAllBreakpoint(HANDLE hProcess)
 			break;
 		}
 	}
-	SetThreadContext(m_hThread, &ct);
+	SetThreadContext(hThread, &ct);
 
 	//恢复所有内存断点
 	if (!resetBreakpointMem(hProcess))
@@ -1166,7 +1223,7 @@ void CDebuggerMain::resetAllBreakpoint(HANDLE hProcess)
 
 }
 
-void CDebuggerMain::clearAllBreakpoint(HANDLE hProcess)
+void CDebuggerMain::clearAllBreakpoint(HANDLE hProcess, HANDLE hThread)
 {
 	//删除所有内存断点
 	if (!rmBreakpointMem(hProcess))
@@ -1186,7 +1243,7 @@ void CDebuggerMain::clearAllBreakpoint(HANDLE hProcess)
 	//删除所有硬件断点
 	CONTEXT ct = {};
 	ct.ContextFlags = CONTEXT_FULL | CONTEXT_DEBUG_REGISTERS;
-	GetThreadContext(m_hThread, &ct);
+	GetThreadContext(hThread, &ct);
 	DBG_REG7 *pDr7 = (DBG_REG7*)&ct.Dr7;
 	for (auto &bph : m_listBpHard) {
 		switch (bph.dwDrID)
@@ -1207,7 +1264,7 @@ void CDebuggerMain::clearAllBreakpoint(HANDLE hProcess)
 			break;
 		}
 	}
-	SetThreadContext(m_hThread, &ct);
+	SetThreadContext(hThread, &ct);
 }
 
 bool CDebuggerMain::setBreakpointCC(HANDLE hProc, LPVOID pAddr, BREAKPOINT *bp)
@@ -1239,7 +1296,7 @@ bool CDebuggerMain::setBreakpointCC(HANDLE hProc, LPVOID pAddr, BREAKPOINT *bp)
 }
 
 //下一个单步步入的断点
-void CDebuggerMain::setBreakpointTF(HANDLE hThread)
+void CDebuggerMain::setBreakpointTF(HANDLE hProcess, HANDLE hThread)
 {
 	//1.获取线程上下文
 	CONTEXT ct = {};
@@ -1258,7 +1315,7 @@ void CDebuggerMain::setBreakpointTF(HANDLE hThread)
 	}
 
 	//删除所有断点
-	clearAllBreakpoint(m_hProcess);
+	clearAllBreakpoint(hProcess, hThread);
 }
 
 //设置硬件执行断点
@@ -1604,6 +1661,132 @@ void CDebuggerMain::showAllBreakpointMemInfo()
 
 		i++;
 	}
+}
+
+void CDebuggerMain::onLHandler(QStringList cmdList, HANDLE hProcess, HANDLE hThread)
+{
+	int afterLines = 10;
+	int beforeLines = 10;
+
+	//获取EIP
+	CONTEXT ct;
+	getDebuggeeContext(&ct, hThread);
+
+	//获取源文件以及行信息
+	IMAGEHLP_LINE64 lineInfo = {};
+	lineInfo.SizeOfStruct = sizeof(lineInfo);
+	DWORD dwDispacement = 0;
+
+	if (!SymGetLineFromAddr64(m_hProcess, ct.Eip, &dwDispacement, &lineInfo)) {
+		DWORD errCode = GetLastError();
+		switch (errCode)
+		{
+		case 126:
+			qout << qtr("Debug info in current module has not loaded") << endl;
+			break;
+		case 487:
+			qout << qtr("No debug info in current module.") << endl;
+			break;
+		default:
+			qout << QString::asprintf("errCode=%d, SymGetLineFromAddr64 failed", errCode) << endl;
+			break;
+		}
+		return;
+	}
+
+	QString strSrcFile = QString::fromWCharArray(lineInfo.FileName);
+
+	displaySourceLines(
+		hProcess,
+		strSrcFile,
+		lineInfo.LineNumber,
+		(ULONG64)lineInfo.Address,
+		afterLines, 
+		beforeLines);
+}
+
+//显示源文件中指定的行
+void CDebuggerMain::displaySourceLines(HANDLE hProcess, QString strSrcFile, 
+	int nLineNum, ULONG64 ulAddr, int nAfter, int nBefore)
+{
+	qout << endl;
+
+	QFile tFile(strSrcFile);
+	tFile.open(QIODevice::ReadOnly);
+	QTextStream inStream(&tFile);
+
+	int nCurLineNum = 1;
+
+	//计算从第几行开始输出
+	int nStartLineNum = nLineNum - nBefore;
+	if (nStartLineNum < 1)
+		nStartLineNum = 1;
+
+	QString strLine;
+
+	//跳过不需要显示的行
+	while (nCurLineNum < nStartLineNum) {
+		strLine = inStream.readLine();
+		++nCurLineNum;
+	}
+
+	//输出开始行到当前行之间的行
+	while (nCurLineNum < nLineNum) {
+		strLine = inStream.readLine();
+		displayLine(hProcess, strSrcFile, strLine, nCurLineNum, false);
+		++nCurLineNum;
+	}
+
+	//输出当前行
+	strLine = inStream.readLine();
+	displayLine(hProcess, strSrcFile, strLine, nCurLineNum, true);
+	++nCurLineNum;
+
+	//输出当前行到最后一行之间的行
+	int nLastLineNum = nLineNum + nAfter;
+	while (nCurLineNum <= nLastLineNum) {
+		if (inStream.atEnd())
+			break;
+
+		strLine = inStream.readLine();
+		displayLine(hProcess, strSrcFile, strLine, nCurLineNum, false);
+		++nCurLineNum;
+	}
+
+	tFile.close();
+}
+
+//显示源文件中的一行
+void CDebuggerMain::displayLine(HANDLE hProcess, QString strSrcFile, 
+	QString strLine, int nLineNum, bool bCurLine)
+{
+	if (bCurLine) {
+		qout << qtr("=>") << flush;
+	}
+	else {
+		qout << qtr("  ") << flush;
+	}
+
+	LONG lDisplacement;
+	IMAGEHLP_LINE64 lineInfo = {};
+	lineInfo.SizeOfStruct = sizeof(lineInfo);
+
+	TCHAR szFile[MAX_PATH] = {};
+	strSrcFile.toWCharArray(szFile);
+	if (!SymGetLineFromName64(m_hProcess, NULL, szFile, nLineNum, &lDisplacement, &lineInfo)) {
+		DBGPRINT("SymGetLineFromName64 failed");
+		return;
+	}
+
+	qout << QString::asprintf("%4d  ", nLineNum) << flush;
+	if (lDisplacement == 0) {
+		qout << QString::asprintf("%08X  ", lineInfo.Address) << flush;
+	}
+	else {
+		qout << qtr("          ") << flush;
+	}
+
+	qout << strLine << endl;
 }
 
 void CDebuggerMain::showAll32Process()

@@ -58,24 +58,26 @@ private:
 	void showMainMenu();
 	bool openProc(QString strFile);
 	bool openProc(DWORD dwPID);
-
 	void startDebug(QString strChoice);
 	DWORD onException(DEBUG_EVENT *pEvent);
+	void onDllLoaded(LOAD_DLL_DEBUG_INFO *pInfo);
+	void onDllUnloaded(UNLOAD_DLL_DEBUG_INFO *pInfo);
+
 	void onProcessExited(EXIT_PROCESS_DEBUG_INFO *pEvent);
 	//DWORD dispatchException(EXCEPTION_DEBUG_INFO *pInfo);
 	void userInput(HANDLE hProcess, HANDLE hThread, LPVOID pExceptionAddr);
 	void traverseExecModule(DWORD dwPID);
 	void getNextInstructAddr(HANDLE hProcess, LPVOID pAddr, LPVOID *pNextAddr);
-	void getDebuggeeContext(PCONTEXT pContext);
+	void getDebuggeeContext(PCONTEXT pContext, HANDLE hThread);
 	int isCallInstruction(DWORD dwAddr);
-	void setDebuggeeContext(PCONTEXT pContext);
+	void setDebuggeeContext(PCONTEXT pContext, HANDLE hThread);
 	bool findModuleInCurProcess(DWORD dwBaseAddr, EXECMODULE *pModule);
 
-	void resetAllBreakpoint(HANDLE hProcess);
-	void clearAllBreakpoint(HANDLE hProcess);
+	void resetAllBreakpoint(HANDLE hProcess, HANDLE hThread);
+	void clearAllBreakpoint(HANDLE hProcess, HANDLE hThread);
 	bool setBreakpointCC(HANDLE hProc, LPVOID pAddr, BREAKPOINT *bp);
 	bool rmBreakpointCC(HANDLE hProc, LPVOID pAddr);
-	void setBreakpointTF(HANDLE hThread);
+	void setBreakpointTF(HANDLE hProcess, HANDLE hThread);
 	bool setBreakpointHardExec(HANDLE hThread, ULONG_PTR pAddr, BREAKPOINTHARD *bph);
 	bool setBreakpointHardRW(HANDLE hThread, ULONG_PTR pAddr, HardBreakpointType type, DWORD dwLen, BREAKPOINTHARD *bph);
 	bool rmBreakpointHard(HANDLE hThread, ULONG_PTR pAddr);
@@ -87,7 +89,6 @@ private:
 	void showAllBreakpointCCInfo();
 	void showAllBreakpointHardInfo();
 	void showAllBreakpointMemInfo();
-
 
 	void showDebugInfo(HANDLE hProc, HANDLE hThread, LPVOID pExceptionAddr);
 	void showDisambleInfo(HANDLE hProc, LPVOID pAddr, int nCnt = 50);
@@ -101,6 +102,10 @@ private:
 	void writeAsmCode2Memory(HANDLE hProc, LPVOID pAddr, QString strAsmCode);
 
 	void dump2file(HANDLE hProc, ULONG64 pStartAddr, ULONG64 pEndAddr, QString strFile);
+
+	void onLHandler(QStringList cmdList, HANDLE hProcess, HANDLE hThread);
+	void displaySourceLines(HANDLE hProcess, QString strSrcFile, int nLineNum, ULONG64 ulAddr, int nAfter, int nBefore);
+	void displayLine(HANDLE hProcess, QString strSrcFile, QString strLine, int nLineNum, bool bCurLine);
 
 	void showAll32Process();
 	void getAll32Process();
