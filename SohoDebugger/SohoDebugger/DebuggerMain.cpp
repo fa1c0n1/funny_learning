@@ -558,27 +558,40 @@ void CDebuggerMain::userInput(HANDLE hProcess, HANDLE hThread, LPVOID pException
 			}
 			else if (cmdList.size() < 3) {
 				if (cmdList[1] == qtr("-pe")) { //lm -pe :解析可执行模块
-					qout << qtr("请输入要查看的模块的路径: ") << flush;
-					QString strFile;
-					strFile = qin.readLine();
+					qout << qtr("请输入要查看的模块的基址: ") << flush;
+					QString strBaseAddr;
+					strBaseAddr = qin.readLine();
 
-					CPeParser peParser;
-					if (peParser.parsePE(strFile)) {
-						QString strPeShow;
-						qout << qtr("请输入(i:显示导入表，e:显示导出表):") << flush;
-						qin >> strPeShow;
-						if (strPeShow == qtr("i")) {
-							peParser.showImportTableInfo();
-						}
-						else if (strPeShow == qtr("e")) {
-							peParser.showExportTableInfo();
+					bool bOK = true;
+					DWORD dwBaseAddr = strBaseAddr.toULong(&bOK, 16);
+					if (bOK) {
+						EXECMODULE execMod = {};
+						if (findModuleInCurProcess(dwBaseAddr, &execMod)) {
+							CPeParser peParser;
+							if (peParser.parsePE(hProcess, dwBaseAddr, execMod.dwModSize)) {
+								QString strPeShow;
+								qout << qtr("请输入(i:显示导入表，e:显示导出表):") << flush;
+								qin >> strPeShow;
+								if (strPeShow == qtr("i")) {
+									peParser.showImportTableInfo();
+								}
+								else if (strPeShow == qtr("e")) {
+									peParser.showExportTableInfo();
+								}
+								else {
+									qout << qtr("输入错误") << endl;
+								}
+							}
+							else {
+								qout << qtr("解析失败") << endl;
+							}
 						}
 						else {
-							qout << qtr("输入错误") << endl;
+							qout << qtr("被调试进程没有该模块") << endl;
 						}
 					}
 					else {
-						qout << qtr("解析失败") << endl;
+						qout << qtr("%1不是一个合法的16进制值").arg(strBaseAddr) << endl;
 					}
 				} else {
 					qout << qtr("参数错误") << endl;
@@ -1681,6 +1694,20 @@ void CDebuggerMain::getAll32Process()
 
 		CloseHandle(hProcessSnap);
 	}
+}
+
+bool CDebuggerMain::findModuleInCurProcess(DWORD dwBaseAddr, EXECMODULE *pModule)
+{
+	for (auto &mod : m_vtModule) {
+		if (dwBaseAddr == mod.dwModBaseAddr) {
+			pModule->dwModBaseAddr = mod.dwModBaseAddr;
+			pModule->dwModSize = mod.dwModSize;
+			pModule->strModPath = mod.strModPath;
+			return true;
+		}
+	}
+
+	return false;
 }
 
 bool CDebuggerMain::getSeDebugPrivilge()

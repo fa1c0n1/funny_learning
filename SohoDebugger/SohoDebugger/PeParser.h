@@ -8,7 +8,7 @@ public:
 	CPeParser();
 	~CPeParser();
 
-	bool parsePE(QString strFile);
+	bool parsePE(HANDLE hProcess, DWORD dwBaseAddr, DWORD dwSize);
 	void showExportTableInfo();
 	void showImportTableInfo();
 
@@ -20,7 +20,7 @@ private:
 
 private:
 	bool m_bPEIs32;
-	BYTE *m_pFileImageBase;
+	BYTE *m_pImageBase;
 	PIMAGE_NT_HEADERS m_pNtHeader;
 	PIMAGE_DATA_DIRECTORY m_pDataDir;
 };

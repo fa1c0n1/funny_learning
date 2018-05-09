@@ -1,24 +1,24 @@
 #include "PeParser.h"
-
+#include "Comm.h"
 
 CPeParser::CPeParser()
-	: m_pFileImageBase(nullptr), m_pDataDir(nullptr),
-	m_pNtHeader(nullptr)
+	: m_pDataDir(nullptr), m_pNtHeader(nullptr),
+	m_pImageBase(nullptr)
 {
 }
 
 
 CPeParser::~CPeParser()
 {
-	if (m_pFileImageBase) {
-		delete[] m_pFileImageBase;
-		m_pFileImageBase = nullptr;
+	if (m_pImageBase) {
+		delete[] m_pImageBase;
+		m_pImageBase = nullptr;
 	}
 }
 
-bool CPeParser::parsePE(QString strFile)
+bool CPeParser::parsePE(HANDLE hProcess, DWORD dwBaseAddr, DWORD dwSize)
 {
-	TCHAR szFilePath[MAX_PATH] = {};
+/*	TCHAR szFilePath[MAX_PATH] = {};
 	strFile.toWCharArray(szFilePath);
 
 	HANDLE hFile = CreateFile(szFilePath,
@@ -38,9 +38,17 @@ bool CPeParser::parsePE(QString strFile)
 	if (!ReadFile(hFile, m_pFileImageBase, dwFileSize, &dwReadSize, NULL)) {
 		qout << qtr("加载文件失败") << endl;
 		return false;
+	}*/
+
+	m_pImageBase = new BYTE[dwSize]{};
+
+	DWORD dwByteRead = 0;
+	if (!ReadProcessMemory(hProcess, (LPCVOID)dwBaseAddr, (LPVOID)m_pImageBase, dwSize, &dwByteRead)) {
+		DBGPRINT("读取进程内存失败");
+		return false;
 	}
 
-	IMAGE_DOS_HEADER *pDosHeader = (IMAGE_DOS_HEADER*)m_pFileImageBase;
+	IMAGE_DOS_HEADER *pDosHeader = (IMAGE_DOS_HEADER*)m_pImageBase;
 	if (pDosHeader->e_magic != IMAGE_DOS_SIGNATURE) {
 		qout << qtr("不是PE文件") << endl;
 		return false;
@@ -53,7 +61,6 @@ bool CPeParser::parsePE(QString strFile)
 	}
 
 	getNtHeaderInfo(m_pNtHeader);
-	CloseHandle(hFile);
 }
 
 void CPeParser::getNtHeaderInfo(PIMAGE_NT_HEADERS pNtHeader)
@@ -76,7 +83,7 @@ void CPeParser::getNtHeaderInfo(PIMAGE_NT_HEADERS pNtHeader)
 
 void CPeParser::FILE_PE_32()
 {
-	IMAGE_DOS_HEADER *pDosHeader = (IMAGE_DOS_HEADER*)m_pFileImageBase;
+	IMAGE_DOS_HEADER *pDosHeader = (IMAGE_DOS_HEADER*)m_pImageBase;
 
 	//Nt头
 	IMAGE_NT_HEADERS32 *pNtHeader32 =
@@ -90,7 +97,7 @@ void CPeParser::FILE_PE_32()
 
 void CPeParser::FILE_PE_64()
 {
-	IMAGE_DOS_HEADER* pDosHeader = (IMAGE_DOS_HEADER*)m_pFileImageBase;
+	IMAGE_DOS_HEADER* pDosHeader = (IMAGE_DOS_HEADER*)m_pImageBase;
 	IMAGE_NT_HEADERS64 *pNtHeader64 =
 		(IMAGE_NT_HEADERS64*)(pDosHeader->e_lfanew + (ULONG64)pDosHeader);
 	IMAGE_OPTIONAL_HEADER64 *pOptionalHeader64 =
@@ -115,22 +122,24 @@ void CPeParser::showExportTableInfo()
 		return;
 	}
 
-	ULONG64 ul64ExpTableFOA = rva2foa(dwExpTableRVA);
-	IMAGE_EXPORT_DIRECTORY *pExpTable = (IMAGE_EXPORT_DIRECTORY*)(ul64ExpTableFOA + (ULONG64)m_pFileImageBase);
+	//ULONG64 ul64ExpTableFOA = rva2foa(dwExpTableRVA);
+	IMAGE_EXPORT_DIRECTORY *pExpTable = (IMAGE_EXPORT_DIRECTORY*)(dwExpTableRVA + (ULONG64)m_pImageBase);
 
-	ULONG64 ul64NameOffset = rva2foa(pExpTable->Name);
-	char *pDllName = (char*)(ul64NameOffset + (ULONG64)m_pFileImageBase);
+	//ULONG64 ul64NameOffset = rva2foa(pExpTable->Name);
+	char *pDllName = (char*)(pExpTable->Name + (ULONG64)m_pImageBase);
 	qout << qtr(pDllName) << endl;
 
 	//将导出地址表的RVA转成FOA
-	DWORD dwAddrTableFoa = rva2foa(pExpTable->AddressOfFunctions);
+	//DWORD dwAddrTableFoa = rva2foa(pExpTable->AddressOfFunctions);
 	//得到导出地址表
-	ULONG64 *pAddrTable = (ULONG64*)(dwAddrTableFoa + (ULONG64)m_pFileImageBase);
+	ULONG64 *pAddrTable = (ULONG64*)(pExpTable->AddressOfFunctions + (ULONG64)m_pImageBase);
 
 	//得到导出序号表的地址
-	WORD *pOrdinalTable = (WORD*)((ULONG64)m_pFileImageBase + rva2foa(pExpTable->AddressOfNameOrdinals));
+	//WORD *pOrdinalTable = (WORD*)((ULONG64)m_pImageBase + rva2foa(pExpTable->AddressOfNameOrdinals));
+	WORD *pOrdinalTable = (WORD*)((ULONG64)m_pImageBase + pExpTable->AddressOfNameOrdinals);
 	//得到导出名称表的地址
-	DWORD *pNameTable = (DWORD*)((ULONG64)m_pFileImageBase + rva2foa(pExpTable->AddressOfNames));
+	//DWORD *pNameTable = (DWORD*)((ULONG64)m_pImageBase + rva2foa(pExpTable->AddressOfNames));
+	DWORD *pNameTable = (DWORD*)((ULONG64)m_pImageBase + pExpTable->AddressOfNames);
 
 	bool bIndexExist = false;
 	for (DWORD i = 0; i < pExpTable->NumberOfFunctions; i++) {
@@ -153,8 +162,8 @@ void CPeParser::showExportTableInfo()
 		if (bIndexExist) {
 			//得到导出名称表的RVA
 			DWORD dwNameRVA = pNameTable[dwNameIdx];
-			//将导出名称表RVA转换成FOA
-			char *pFuncName = (char*)((ULONG64)m_pFileImageBase + rva2foa(dwNameRVA));
+			//char *pFuncName = (char*)((ULONG64)m_pImageBase + rva2foa(dwNameRVA));
+			char *pFuncName = (char*)((ULONG64)m_pImageBase + dwNameRVA);
 			qout << qtr("函数名: %1").arg(pFuncName) << endl;
 		}
 		else {
@@ -187,11 +196,11 @@ void CPeParser::showImportTableInfo()
 	}
 
 	//将导入表的RVA转成FOA
-	DWORD dwImpTableFOA = rva2foa(dwImpTableRVA);
+	//DWORD dwImpTableFOA = rva2foa(dwImpTableRVA);
 
 	//获取导入表
 	IMAGE_IMPORT_DESCRIPTOR *pImpTable =
-		(IMAGE_IMPORT_DESCRIPTOR*)((ULONG64)m_pFileImageBase + dwImpTableFOA);
+		(IMAGE_IMPORT_DESCRIPTOR*)((ULONG64)m_pImageBase + dwImpTableRVA);
 
 	//遍历导入表
 	if (m_bPEIs32) { //---------32位PE
@@ -199,8 +208,8 @@ void CPeParser::showImportTableInfo()
 		//判断是否遍历到了最后一个结构体
 		while (pImpTable->Name != 0) {
 			//解析出导入的 Dll 的模块名
-			DWORD dwNameFOA = rva2foa(pImpTable->Name);
-			char *pDllName = (char*)(dwNameFOA + (ULONG64)m_pFileImageBase);
+			//DWORD dwNameFOA = rva2foa(pImpTable->Name);
+			char *pDllName = (char*)(pImpTable->Name + (ULONG64)m_pImageBase);
 			qout << qtr(pDllName) << endl;
 
 			//解析当前dll的导入函数名称
@@ -208,8 +217,8 @@ void CPeParser::showImportTableInfo()
 			//pImpTable->FirstThunk;          //导入地址表
 			//上面说的两个表，在文件中保存的内容是完全相同的
 
-			DWORD dwIATfoa = rva2foa(pImpTable->OriginalFirstThunk);
-			IMAGE_THUNK_DATA32 *pIAT = (IMAGE_THUNK_DATA32*)((ULONG64)m_pFileImageBase + dwIATfoa);
+			//DWORD dwIATfoa = rva2foa(pImpTable->OriginalFirstThunk);
+			IMAGE_THUNK_DATA32 *pIAT = (IMAGE_THUNK_DATA32*)((ULONG64)m_pImageBase + pImpTable->OriginalFirstThunk);
 
 			//遍历IAT
 			//  IAT 是一个 IMAGE_THUNK_DATA 的结构体数组
@@ -221,9 +230,9 @@ void CPeParser::showImportTableInfo()
 				}
 				else { //函数是以名称导入的
 					//字段保存着一个指向IMAGE_IMPORT_BY_NAME结构体的RVA
-					DWORD dwFuncNameFOA = rva2foa(pIAT->u1.AddressOfData);
+					//DWORD dwFuncNameFOA = rva2foa(pIAT->u1.AddressOfData);
 					PIMAGE_IMPORT_BY_NAME pImpName =
-						(PIMAGE_IMPORT_BY_NAME)((ULONG64)m_pFileImageBase + dwFuncNameFOA);
+						(PIMAGE_IMPORT_BY_NAME)((ULONG64)m_pImageBase + pIAT->u1.AddressOfData);
 
 					qout << qtr("函数名称:[%1]").arg(pImpName->Name) << endl;
 				}
@@ -239,16 +248,16 @@ void CPeParser::showImportTableInfo()
 		//判断是否遍历到了最后一个结构体
 		while (pImpTable->Name != 0) {
 			//解析出导入的 Dll 的模块名
-			DWORD dwNameFOA = rva2foa(pImpTable->Name);
-			char *pDllName = (char*)(dwNameFOA + (ULONG64)m_pFileImageBase);
+			//DWORD dwNameFOA = rva2foa(pImpTable->Name);
+			char *pDllName = (char*)(pImpTable->Name + (ULONG64)m_pImageBase);
 			qout << qtr(pDllName) << endl;
 
 			//解析当前dll的导入函数名称
 			//pImpTable->OriginalFirstThunk;  //导入名称表
 			//pImpTable->FirstThunk;          //导入地址表
 
-			DWORD dwIATfoa = rva2foa(pImpTable->OriginalFirstThunk);
-			IMAGE_THUNK_DATA64 *pIAT = (IMAGE_THUNK_DATA64*)((ULONG64)m_pFileImageBase + dwIATfoa);
+			//DWORD dwIATfoa = rva2foa(pImpTable->OriginalFirstThunk);
+			IMAGE_THUNK_DATA64 *pIAT = (IMAGE_THUNK_DATA64*)((ULONG64)m_pImageBase + pImpTable->OriginalFirstThunk);
 
 			//遍历IAT
 			//  IAT 是一个 IMAGE_THUNK_DATA 的结构体数组
@@ -260,9 +269,9 @@ void CPeParser::showImportTableInfo()
 				}
 				else { //函数是以名称导入的
 					//字段保存着一个指向IMAGE_IMPORT_BY_NAME结构体的RVA
-					DWORD dwFuncNameFOA = rva2foa(pIAT->u1.AddressOfData);
+					//DWORD dwFuncNameFOA = rva2foa(pIAT->u1.AddressOfData);
 					PIMAGE_IMPORT_BY_NAME pImpName =
-						(PIMAGE_IMPORT_BY_NAME)((ULONG64)m_pFileImageBase + dwFuncNameFOA);
+						(PIMAGE_IMPORT_BY_NAME)((ULONG64)m_pImageBase + pIAT->u1.AddressOfData);
 
 					qout << qtr("函数名称:[%1]").arg(pImpName->Name) << endl;
 				}
@@ -276,6 +285,7 @@ void CPeParser::showImportTableInfo()
 	}
 }
 
+#if 0
 DWORD CPeParser::rva2foa(DWORD dwRva)
 {
 	//获取区段个数
@@ -297,3 +307,4 @@ DWORD CPeParser::rva2foa(DWORD dwRva)
 
 	return -1;
 }
+#endif

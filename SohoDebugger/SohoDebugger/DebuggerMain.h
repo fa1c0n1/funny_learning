@@ -36,7 +36,7 @@ typedef struct _BREAKPOINTMEM {
 
 typedef struct _EXECMODULE {
 	QString strModPath;
-	DWORD dwModBaseAddr;
+	DWORD dwModBaseAddr;     //Ä£¿é»ùÖ·
 	DWORD dwModSize;
 }EXECMODULE, *PEXECMODULE;
 
@@ -69,6 +69,7 @@ private:
 	void getDebuggeeContext(PCONTEXT pContext);
 	int isCallInstruction(DWORD dwAddr);
 	void setDebuggeeContext(PCONTEXT pContext);
+	bool findModuleInCurProcess(DWORD dwBaseAddr, EXECMODULE *pModule);
 
 	void resetAllBreakpoint(HANDLE hProcess);
 	void clearAllBreakpoint(HANDLE hProcess);
