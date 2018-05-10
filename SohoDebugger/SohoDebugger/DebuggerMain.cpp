@@ -67,6 +67,7 @@ _BEGIN:
 	startDebug(choiceCmdList[0]);
 }
 
+//显示主菜单
 void CDebuggerMain::showMainMenu()
 {
 	qout << qtr(" ━━━━━━ ") << endl;
@@ -75,6 +76,7 @@ void CDebuggerMain::showMainMenu()
 	qout << qtr(" ━━━━━━ ") << endl;
 }
 
+//以打开文件的方式打开进程
 bool CDebuggerMain::openProc(QString strFile)
 {
 	if (strFile.isEmpty())
@@ -103,19 +105,17 @@ bool CDebuggerMain::openProc(QString strFile)
 	m_hProcess = stcProcInfo.hProcess;
 	m_hThread = stcProcInfo.hThread;
 
-
-	//antiAntiDebugPEB(m_hProcess);
-
-
 	return bRet;
 }
 
+//附加指定进程
 bool CDebuggerMain::openProc(DWORD dwPID)
 {
 	getSeDebugPrivilge();
 	return DebugActiveProcess(dwPID);
 }
 
+//调试主循环
 void CDebuggerMain::startDebug(QString strChoice)
 {
 	if (strChoice == qtr("1")) {
@@ -166,9 +166,8 @@ void CDebuggerMain::startDebug(QString strChoice)
 		case CREATE_PROCESS_DEBUG_EVENT:
 		{
 			if (!m_bAttach) {
-
+				//如果不是附加进程，则在入口点地址处设置软件断点
 				CREATE_PROCESS_DEBUG_INFO debugInfo = debugEvent.u.CreateProcessInfo;
-
 				BREAKPOINT bp = {};
 				setBreakpointCC(debugInfo.hProcess,
 					debugEvent.u.CreateProcessInfo.lpStartAddress, &bp);
@@ -220,31 +219,17 @@ void CDebuggerMain::startDebug(QString strChoice)
 	}
 }
 
+//反反调试
 void CDebuggerMain::antiAntiDebugPEB(HANDLE hProcess)
 {
-//反反调试 ----------------
-
-	/*DWORD dwPEBAddr = *(DWORD*)(dwFS + 0x30);
-	BYTE *pPEBAddr = (BYTE*)dwPEBAddr + 2;
-	*pPEBAddr = 0;*/
-	
-
-	//GetThreadContext(hThread, &tCtx);
-	//if (tCtx.SegCs != 0) {
-	//DWORD dwPEBAddr = *(DWORD*)(tCtx.SegFs + 0x30);
-	//BYTE *pPEBAddr = (BYTE*)dwPEBAddr + 2;
-	//*pPEBAddr = 0;
-	//}
-	//--------------------------
-
 	DWORD dwPEBAddr = *(DWORD*)(0x7EFDD000 + 0x30);
 	BYTE *pPEBAddr = (BYTE*)dwPEBAddr + 2;
 	BYTE bNum = 0;
-
 	DWORD dwByteWrite = 0;
 	WriteProcessMemory(hProcess, (LPVOID)pPEBAddr, (LPCVOID)&bNum, 1, &dwByteWrite);
 }
 
+//遍历可执行模块
 void CDebuggerMain::traverseExecModule(DWORD dwPID)
 {
 	HANDLE hModuleSnap = 0;
@@ -278,6 +263,7 @@ void CDebuggerMain::traverseExecModule(DWORD dwPID)
 	}
 }
 
+//响应异常事件
 DWORD CDebuggerMain::onException(DEBUG_EVENT *pEvent)
 {
 	DWORD dwRet = DBG_CONTINUE;
@@ -405,6 +391,7 @@ _EXIT:
 	return dwRet;
 }
 
+//响应dll加载事件
 void CDebuggerMain::onDllLoaded(LOAD_DLL_DEBUG_INFO *pInfo)
 {
 	TCHAR szBuf[MAX_PATH] = {};
@@ -439,6 +426,7 @@ void CDebuggerMain::onProcessExited(EXIT_PROCESS_DEBUG_INFO *pEvent)
 	qout << qtr("Debuggee was terminated.") << endl;
 }
 
+//接收用户输入
 void CDebuggerMain::userInput(HANDLE hProcess, HANDLE hThread, LPVOID pExceptionAddr)
 {
 	// 接收用户控制
@@ -1002,6 +990,7 @@ int CDebuggerMain::isCallInstruction(DWORD dwAddr)
 	}
 }
 
+//设置被调试进程的线程上下文
 void CDebuggerMain::setDebuggeeContext(PCONTEXT pContext, HANDLE hThread)
 {
 	pContext->ContextFlags = CONTEXT_FULL;
@@ -1009,6 +998,7 @@ void CDebuggerMain::setDebuggeeContext(PCONTEXT pContext, HANDLE hThread)
 		DBGPRINT("设置线程上下文失败");
 }
 
+//获取被调试进程的线程上下文
 void CDebuggerMain::getDebuggeeContext(PCONTEXT pContext, HANDLE hThread)
 {
 	pContext->ContextFlags = CONTEXT_FULL;
@@ -1016,6 +1006,7 @@ void CDebuggerMain::getDebuggeeContext(PCONTEXT pContext, HANDLE hThread)
 		DBGPRINT("获取线程上下文失败");
 }
 
+#if 0
 void CDebuggerMain::getNextInstructAddr(HANDLE hProcess, LPVOID pAddr, LPVOID *pNextAddr)
 {
 	LPBYTE opcode[200] = { 0 };
@@ -1042,7 +1033,9 @@ void CDebuggerMain::getNextInstructAddr(HANDLE hProcess, LPVOID pAddr, LPVOID *p
 		}
 	}
 }
+#endif
 
+//修改寄存器的值
 void CDebuggerMain::editRegister(HANDLE hThread, QString strRegName, DWORD dwVal)
 {
 	CONTEXT ct = {};
@@ -1089,6 +1082,7 @@ void CDebuggerMain::editRegister(HANDLE hThread, QString strRegName, DWORD dwVal
 	}
 }
 
+//将汇编指令写入内存
 void CDebuggerMain::writeAsmCode2Memory(HANDLE hProc, LPVOID pAddr, QString strAsmCode)
 {
 	ks_engine *pAsmEngine = nullptr;
@@ -1119,6 +1113,7 @@ void CDebuggerMain::writeAsmCode2Memory(HANDLE hProc, LPVOID pAddr, QString strA
 	}
 }
 
+//修改内存数据
 void CDebuggerMain::editMemoryInfo(HANDLE hProc, LPVOID pAddr, QVector<BYTE> &vtData)
 {
 	DWORD pCurAddr = (DWORD)pAddr;
@@ -1130,6 +1125,7 @@ void CDebuggerMain::editMemoryInfo(HANDLE hProc, LPVOID pAddr, QVector<BYTE> &vt
 	}
 }
 
+//显示寄存器信息
 void CDebuggerMain::showRegisterInfo(HANDLE hThread)
 {
 	CONTEXT ct = {};
@@ -1163,6 +1159,7 @@ void CDebuggerMain::showRegisterInfo(HANDLE hThread)
 		pDr7->L3, pDr7->G3, pDr7->RW3, pDr7->LEN3) << endl;
 }
 
+//显示可执行模块的信息
 void CDebuggerMain::showExecuteModuleInfo()
 {
 	if (m_vtModule.isEmpty())
@@ -1176,6 +1173,7 @@ void CDebuggerMain::showExecuteModuleInfo()
 	}
 }
 
+//显示栈的信息
 void CDebuggerMain::showStackInfo(HANDLE hProc, HANDLE hThread, int nCnt)
 {
 	CONTEXT ct = {};
@@ -1199,6 +1197,7 @@ void CDebuggerMain::showStackInfo(HANDLE hProc, HANDLE hThread, int nCnt)
 	delete[] pBuf; pBuf = nullptr;
 }
 
+//显示内存信息
 void CDebuggerMain::showMemoryInfo(HANDLE hProc, LPVOID pAddr, int nNumOfBytesRead)
 {
 	SIZE_T byteRead = 0;
@@ -1250,6 +1249,7 @@ void CDebuggerMain::showMemoryInfo(HANDLE hProc, LPVOID pAddr, int nNumOfBytesRe
 	}
 }
 
+//显示部分调试信息
 void CDebuggerMain::showDebugInfo(HANDLE hProc, HANDLE hThread, LPVOID pExceptionAddr)
 {
 	//输出寄存器信息
@@ -1262,6 +1262,7 @@ void CDebuggerMain::showDebugInfo(HANDLE hProc, HANDLE hThread, LPVOID pExceptio
 	showDisambleInfo(hProc, pExceptionAddr, 10);
 }
 
+//显示反汇编
 void CDebuggerMain::showDisambleInfo(HANDLE hProc, LPVOID pAddr, int nCnt)
 {
 	BYTE opcode[200] = { 0 };
@@ -1296,6 +1297,7 @@ void CDebuggerMain::showDisambleInfo(HANDLE hProc, LPVOID pAddr, int nCnt)
 	}
 }
 
+//恢复所有断点
 void CDebuggerMain::resetAllBreakpoint(HANDLE hProcess, HANDLE hThread)
 {
 	//恢复所有软件断点
@@ -1338,6 +1340,7 @@ void CDebuggerMain::resetAllBreakpoint(HANDLE hProcess, HANDLE hThread)
 
 }
 
+//清除所有内存断点
 void CDebuggerMain::clearAllBreakpoint(HANDLE hProcess, HANDLE hThread)
 {
 	//删除所有内存断点
@@ -1382,6 +1385,7 @@ void CDebuggerMain::clearAllBreakpoint(HANDLE hProcess, HANDLE hThread)
 	SetThreadContext(hThread, &ct);
 }
 
+//设置软件断点
 bool CDebuggerMain::setBreakpointCC(HANDLE hProc, LPVOID pAddr, BREAKPOINT *bp)
 {
 	/*
@@ -1741,6 +1745,7 @@ bool CDebuggerMain::rmBreakpointCC(HANDLE hProc, LPVOID pAddr)
 	return bRet;
 }
 
+//显示所有软件断点的信息
 void CDebuggerMain::showAllBreakpointCCInfo()
 {
 	if (m_listBp.isEmpty()) {
@@ -1756,6 +1761,7 @@ void CDebuggerMain::showAllBreakpointCCInfo()
 	}
 }
 
+//显示所有硬件断点的信息
 void CDebuggerMain::showAllBreakpointHardInfo()
 {
 	if (m_listBpHard.isEmpty()) {
@@ -1796,6 +1802,7 @@ void CDebuggerMain::showAllBreakpointHardInfo()
 	}
 }
 
+//显示所有内存断点的信息
 void CDebuggerMain::showAllBreakpointMemInfo()
 {
 	if (m_listBpMem.isEmpty()) {
@@ -1824,6 +1831,7 @@ void CDebuggerMain::showAllBreakpointMemInfo()
 	}
 }
 
+//处理 l 命令: 显示源码
 void CDebuggerMain::onLHandler(QStringList cmdList, HANDLE hProcess, HANDLE hThread)
 {
 	int afterLines = 10;
@@ -1950,6 +1958,7 @@ void CDebuggerMain::displayLine(HANDLE hProcess, QString strSrcFile,
 	qout << strLine << endl;
 }
 
+//显示所有的32位进程
 void CDebuggerMain::showAll32Process()
 {
 	getAll32Process();
@@ -1963,6 +1972,7 @@ void CDebuggerMain::showAll32Process()
 	qout << qtr("===========================") << endl;
 }
 
+//将内存中的数据dump到文件
 void CDebuggerMain::dump2file(HANDLE hProc, ULONG64 pStartAddr, ULONG64 pEndAddr, QString strFile)
 {
 	SIZE_T nBytes = pEndAddr - pStartAddr + 1;
@@ -1987,6 +1997,7 @@ void CDebuggerMain::dump2file(HANDLE hProc, ULONG64 pStartAddr, ULONG64 pEndAddr
 	delete[] pData; pData = nullptr;
 }
 
+//获取所有的32位进程的信息
 void CDebuggerMain::getAll32Process()
 {
 	HANDLE hProcessSnap = NULL;
@@ -2040,6 +2051,7 @@ void CDebuggerMain::getAll32Process()
 	}
 }
 
+//寻找并获取指定基址的模块信息
 bool CDebuggerMain::findModuleInCurProcess(DWORD dwBaseAddr, EXECMODULE *pModule)
 {
 	for (auto &mod : m_vtModule) {
@@ -2054,6 +2066,7 @@ bool CDebuggerMain::findModuleInCurProcess(DWORD dwBaseAddr, EXECMODULE *pModule
 	return false;
 }
 
+//权限提升
 bool CDebuggerMain::getSeDebugPrivilge()
 {
 	HANDLE hToken;

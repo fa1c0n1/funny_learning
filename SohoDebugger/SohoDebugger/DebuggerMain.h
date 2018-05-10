@@ -70,7 +70,7 @@ private:
 	//DWORD dispatchException(EXCEPTION_DEBUG_INFO *pInfo);
 	void userInput(HANDLE hProcess, HANDLE hThread, LPVOID pExceptionAddr);
 	void traverseExecModule(DWORD dwPID);
-	void getNextInstructAddr(HANDLE hProcess, LPVOID pAddr, LPVOID *pNextAddr);
+	//void getNextInstructAddr(HANDLE hProcess, LPVOID pAddr, LPVOID *pNextAddr);
 	void getDebuggeeContext(PCONTEXT pContext, HANDLE hThread);
 	int isCallInstruction(DWORD dwAddr);
 	void setDebuggeeContext(PCONTEXT pContext, HANDLE hThread);
