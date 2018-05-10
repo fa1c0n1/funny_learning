@@ -103,6 +103,10 @@ bool CDebuggerMain::openProc(QString strFile)
 	m_hProcess = stcProcInfo.hProcess;
 	m_hThread = stcProcInfo.hThread;
 
+
+	//antiAntiDebugPEB(m_hProcess);
+
+
 	return bRet;
 }
 
@@ -162,7 +166,9 @@ void CDebuggerMain::startDebug(QString strChoice)
 		case CREATE_PROCESS_DEBUG_EVENT:
 		{
 			if (!m_bAttach) {
+
 				CREATE_PROCESS_DEBUG_INFO debugInfo = debugEvent.u.CreateProcessInfo;
+
 				BREAKPOINT bp = {};
 				setBreakpointCC(debugInfo.hProcess,
 					debugEvent.u.CreateProcessInfo.lpStartAddress, &bp);
@@ -214,6 +220,31 @@ void CDebuggerMain::startDebug(QString strChoice)
 	}
 }
 
+void CDebuggerMain::antiAntiDebugPEB(HANDLE hProcess)
+{
+//反反调试 ----------------
+
+	/*DWORD dwPEBAddr = *(DWORD*)(dwFS + 0x30);
+	BYTE *pPEBAddr = (BYTE*)dwPEBAddr + 2;
+	*pPEBAddr = 0;*/
+	
+
+	//GetThreadContext(hThread, &tCtx);
+	//if (tCtx.SegCs != 0) {
+	//DWORD dwPEBAddr = *(DWORD*)(tCtx.SegFs + 0x30);
+	//BYTE *pPEBAddr = (BYTE*)dwPEBAddr + 2;
+	//*pPEBAddr = 0;
+	//}
+	//--------------------------
+
+	DWORD dwPEBAddr = *(DWORD*)(0x7EFDD000 + 0x30);
+	BYTE *pPEBAddr = (BYTE*)dwPEBAddr + 2;
+	BYTE bNum = 0;
+
+	DWORD dwByteWrite = 0;
+	WriteProcessMemory(hProcess, (LPVOID)pPEBAddr, (LPCVOID)&bNum, 1, &dwByteWrite);
+}
+
 void CDebuggerMain::traverseExecModule(DWORD dwPID)
 {
 	HANDLE hModuleSnap = 0;
@@ -263,14 +294,15 @@ DWORD CDebuggerMain::onException(DEBUG_EVENT *pEvent)
 	}
 
 	if (m_bSystemBreakpoint) {
+		antiAntiDebugPEB(hProcess);
 		qout << qtr("到达系统断点,忽略") << endl;
 		m_bSystemBreakpoint = false;
 		
 		if (m_bAttach)
-			userInput(hProcess, hThread, er.ExceptionAddress);
+			userInput(hProcess, hThread, er.ExceptionAddress);	
 
 		return DBG_CONTINUE;
-	}
+	}	
 
 	switch (er.ExceptionCode)
 	{
@@ -375,11 +407,17 @@ _EXIT:
 
 void CDebuggerMain::onDllLoaded(LOAD_DLL_DEBUG_INFO *pInfo)
 {
+	TCHAR szBuf[MAX_PATH] = {};
+	GetModuleFileName((HMODULE)pInfo->lpBaseOfDll, szBuf, MAX_PATH);
+	QString strModulePath = QString::fromWCharArray(szBuf);
+	QByteArray bArr = strModulePath.toUtf8();
+	const char *szModulePath = bArr.data();
+
 	//加载模块的调试信息
 	DWORD64 moduleAddress = SymLoadModule64(
 		m_hProcess,
 		pInfo->hFile,
-		NULL,
+		szModulePath,
 		NULL,
 		(DWORD64)pInfo->lpBaseOfDll,
 		0);
@@ -760,6 +798,17 @@ void CDebuggerMain::userInput(HANDLE hProcess, HANDLE hThread, LPVOID pException
 				qout << qtr("缺少参数") << endl;
 			}
 		}
+		else if (cmdList[0] == qtr("find")) {
+			if (cmdList.size() > 1) {
+				DWORD dwAddr = findApiAddress(hProcess, cmdList[1]);
+				if (dwAddr == 0) {
+					qout << qtr("未找到该函数的地址") << endl;
+				}
+				else {
+					qout << cmdList[1] << QString::asprintf("的地址为: %08X", dwAddr) << endl;
+				}
+			}
+		}
 		else if (cmdList[0] == qtr("r")) { //r: 查看/修改寄存器
 			if (cmdList.size() < 2) { //r 查看所有寄存器的值
 				showRegisterInfo(hThread);
@@ -1092,6 +1141,7 @@ void CDebuggerMain::showRegisterInfo(HANDLE hThread)
 	qout << QString::asprintf("EAX:%08X ECX:%08X EDX:%08X EBX:%08X EBP:%08X ESP:%08X",
 		ct.Eax, ct.Ecx, ct.Edx, ct.Ebx, ct.Ebp, ct.Esp) << endl;
 	qout << QString::asprintf("ESI:%08X EDI:%08X EIP:%08X", ct.Esi, ct.Edi, ct.Eip) << endl;
+	qout << QString::asprintf("FS:%08X", ct.SegFs) << endl;
 
 	
 	qout << qtr("调试寄存器信息:") << endl;
@@ -1642,6 +1692,23 @@ bool CDebuggerMain::isTriggeredBreakpointCond(CONTEXT *pContext, BREAKPOINT &bp)
 	else {
 		return false;
 	}
+}
+
+DWORD CDebuggerMain::findApiAddress(HANDLE hProcess, QString strName)
+{
+	BYTE buf[sizeof(SYMBOL_INFO) + MAX_SYM_NAME * sizeof(TCHAR)]{};
+	PSYMBOL_INFO pSymbol = (PSYMBOL_INFO)buf;
+	pSymbol->SizeOfStruct = sizeof(SYMBOL_INFO);
+	pSymbol->MaxNameLen = MAX_SYM_NAME;
+	
+	TCHAR szName[MAX_SYM_NAME] = {};
+	strName.toWCharArray(szName);
+
+	//根据名字查询符号信息,输出到 pSymbol 中
+	if (!SymFromName(m_hProcess, szName, pSymbol))
+		return 0;
+
+	return (DWORD)pSymbol->Address;   //返回函数地址
 }
 
 //删除软件断点

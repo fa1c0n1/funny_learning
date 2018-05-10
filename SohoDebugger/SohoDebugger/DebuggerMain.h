@@ -76,6 +76,8 @@ private:
 	void setDebuggeeContext(PCONTEXT pContext, HANDLE hThread);
 	bool findModuleInCurProcess(DWORD dwBaseAddr, EXECMODULE *pModule);
 
+	void antiAntiDebugPEB(HANDLE hProcess);
+
 	void resetAllBreakpoint(HANDLE hProcess, HANDLE hThread);
 	void clearAllBreakpoint(HANDLE hProcess, HANDLE hThread);
 	bool setBreakpointCC(HANDLE hProc, LPVOID pAddr, BREAKPOINT *bp);
@@ -89,6 +91,7 @@ private:
 	bool resetBreakpointMem(HANDLE hProcess);
 	bool isTriggeredBreakpointHard(HANDLE hThread);
 	bool isTriggeredBreakpointCond(CONTEXT *pContext, BREAKPOINT &bp);
+	DWORD findApiAddress(HANDLE hProcess, QString strName);
 
 	void showAllBreakpointCCInfo();
 	void showAllBreakpointHardInfo();
