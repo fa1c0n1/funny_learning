@@ -13,9 +13,12 @@ typedef struct _PROCESS {
 //软件断点
 typedef struct _BREAKPOINT {
 	LPVOID pAddr;
-	bool bTmp;        //是否为临时断点
-	DWORD dwType;     //断点的类型
-	BYTE oldData;     //被int3断点覆盖的原始数据
+	BYTE oldData;           //被int3断点覆盖的原始数据
+	bool bTmp;              //是否为临时断点
+	bool bCondition;        //是否为条件断点
+	DWORD dwCondVal;        //是条件断点时:符合的值
+	DWORD dwType;           //断点的类型
+	QString strCondRegName; //是条件断点时:寄存器的名字(这里只支持以寄存器的值为条件)
 }BREAKPOINT, *PBREAKPOINT;
 
 //硬件断点
@@ -84,7 +87,8 @@ private:
 	bool setBreakpointMem(HANDLE hProcess, ULONG_PTR pAddr, INT nType, BREAKPOINTMEM *bpm);
 	bool rmBreakpointMem(HANDLE hProcess);
 	bool resetBreakpointMem(HANDLE hProcess);
-	bool isHardBreakpoint(HANDLE hThread);
+	bool isTriggeredBreakpointHard(HANDLE hThread);
+	bool isTriggeredBreakpointCond(CONTEXT *pContext, BREAKPOINT &bp);
 
 	void showAllBreakpointCCInfo();
 	void showAllBreakpointHardInfo();

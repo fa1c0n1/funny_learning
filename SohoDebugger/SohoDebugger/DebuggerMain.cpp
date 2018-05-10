@@ -279,6 +279,29 @@ DWORD CDebuggerMain::onException(DEBUG_EVENT *pEvent)
 		qout << qtr("触发软件断点") << endl;
 		
 		clearAllBreakpoint(hProcess, hThread);
+
+		//判断是否为条件断点
+		for (auto &bp : m_listBp) {
+			if ((DWORD)bp.pAddr == (DWORD)er.ExceptionAddress) {
+				if (!bp.bCondition) { //不是条件断点
+					break;
+				}
+				else { //是条件断点,则判断是否符合条件
+					CONTEXT tmpCt = {};
+					getDebuggeeContext(&tmpCt, hThread);
+					if (isTriggeredBreakpointCond(&tmpCt, bp)) {//符合条件
+						break;
+					}
+					else {
+						tmpCt.Eip--;
+						setDebuggeeContext(&tmpCt, hThread);
+						setBreakpointTF(hProcess, hThread);
+						goto _EXIT;
+					}
+				}
+			}
+		}
+
 		//输出调试信息
 		showDebugInfo(hProcess, hThread, er.ExceptionAddress);
 
@@ -323,7 +346,7 @@ DWORD CDebuggerMain::onException(DEBUG_EVENT *pEvent)
 			//输出调试信息
 			showDebugInfo(hProcess, hThread, er.ExceptionAddress);
 
-		if (isHardBreakpoint(hThread)) {
+		if (isTriggeredBreakpointHard(hThread)) {
 			qout << qtr("触发硬件断点") << endl;
 			break;
 		}
@@ -469,6 +492,48 @@ void CDebuggerMain::userInput(HANDLE hProcess, HANDLE hThread, LPVOID pException
 					}
 					else {
 						qout << qtr("%1不是一个合法的16进制值").arg(cmdList[2]) << endl;
+					}
+				}
+				else {
+					qout << qtr("参数错误") << endl;
+				}
+			}
+			else if (cmdList.size() < 5) { //b -c <条件> <addr> 设置条件断点
+				if (cmdList[1] == qtr("-c")) {
+					QStringList condList = cmdList[2].split("==", QString::SkipEmptyParts);
+					if (condList.size() == 2) {
+						if (m_vtRegName.contains(condList[0].toUpper())) {
+							bool bOK = true;
+							DWORD dwCondVal = condList[1].toULong(&bOK, 16);
+							if (bOK) {
+								BREAKPOINT tmpBp = {};
+								tmpBp.bCondition = true;
+								tmpBp.strCondRegName = condList[0].toUpper();
+								tmpBp.dwCondVal = dwCondVal;
+
+								DWORD dwAddr = cmdList[3].toULong(&bOK, 16);
+								if (bOK) {
+									if (!setBreakpointCC(hProcess, (LPVOID)dwAddr, &tmpBp)) {
+										DBGPRINT("设置软件断点失败");
+									}
+									else {
+										m_listBp.push_back(tmpBp);
+									}
+								}
+								else {
+									qout << QString::asprintf("%1不是一个合法的16进制值").arg(cmdList[3]) << endl;
+								}
+							}
+							else {
+								qout << QString::asprintf("%1不是一个合法的16进制值").arg(condList[1]) << endl;
+							}
+						}
+						else {
+							qout << qtr("不支持该寄存器") << endl;
+						}
+					}
+					else {
+						qout << qtr("条件表达式错误:[例: eax==5](只能用16进制数)") << endl;
 					}
 				}
 				else {
@@ -1537,7 +1602,8 @@ bool CDebuggerMain::resetBreakpointMem(HANDLE hProcess)
 	return true;
 }
 
-bool CDebuggerMain::isHardBreakpoint(HANDLE hThread)
+//是否触发了硬件断点
+bool CDebuggerMain::isTriggeredBreakpointHard(HANDLE hThread)
 {
 	CONTEXT ct = {};
 	ct.ContextFlags = CONTEXT_FULL | CONTEXT_DEBUG_REGISTERS;
@@ -1548,6 +1614,34 @@ bool CDebuggerMain::isHardBreakpoint(HANDLE hThread)
 		return true;
 
 	return false;
+}
+
+//是否触发了条件断点
+bool CDebuggerMain::isTriggeredBreakpointCond(CONTEXT *pContext, BREAKPOINT &bp)
+{
+	if (bp.bCondition) {
+		if (bp.strCondRegName == qtr("EAX"))
+			return bp.dwCondVal == pContext->Eax;
+		else if (bp.strCondRegName == qtr("EBX"))
+			return bp.dwCondVal == pContext->Ebx;
+		else if (bp.strCondRegName == qtr("ECX"))
+			return bp.dwCondVal == pContext->Ecx;
+		else if (bp.strCondRegName == qtr("EDX"))
+			return bp.dwCondVal == pContext->Edx;
+		else if (bp.strCondRegName == qtr("ESI"))
+			return bp.dwCondVal == pContext->Esi;
+		else if (bp.strCondRegName == qtr("EDI"))
+			return bp.dwCondVal == pContext->Edi;
+		else if (bp.strCondRegName == qtr("EBP"))
+			return bp.dwCondVal == pContext->Ebp;
+		else if (bp.strCondRegName == qtr("ESP"))
+			return bp.dwCondVal == pContext->Esp;
+		else if (bp.strCondRegName == qtr("EIP"))
+			return false;
+	}
+	else {
+		return false;
+	}
 }
 
 //删除软件断点
