@@ -6,7 +6,7 @@ public:
 	~CPE();
 	DWORD RVA2OffSet(DWORD dwRVA, PIMAGE_NT_HEADERS  pNt);
 	BOOL InitPE(CString strPath);
-	ULONG AddSection(LPBYTE pBuffer, DWORD dwSectionSize, PCHAR pszSectionName);
+	ULONG AddSection(LPBYTE pBuffer, DWORD dwSectionSize, PCHAR pszSectionName, bool bAddSubOEP);
 	void SetNewOEP(DWORD dwOEP);
 	void ClearRandBase();
 	void ClearBundleImport();
@@ -15,6 +15,9 @@ public:
 	// Stub信息处理
 	void FixReloc(PBYTE lpImage, PBYTE lpCode, DWORD dwCodeRVA);// 在内存中重定位Stub
 	DWORD GetSectionData(PBYTE lpImage, DWORD dwSectionIndex, PBYTE& lpBuffer, DWORD& dwCodeBaseRVA);
+	void ChangeReloc(PBYTE lpStubMod, PBYTE &pNewRelocSection, DWORD &dwNewRelocTableSize);
+	void save2File();
+
 public:
 	PBYTE  m_pFileBase;
 	DWORD  m_dwFileSize;

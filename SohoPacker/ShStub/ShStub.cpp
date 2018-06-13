@@ -33,6 +33,7 @@ ULONG GetKernel32Addr()
 ULONG MyGetProcAddress()
 {
 	ULONG nKernel32Base = GetKernel32Addr();
+	//char szFuncName[15] = { 'G', 'e', 't', 'P', 'r', 'o', 'c', 'A', 'd', 'd', 'r', 'e', 's', 's', '\0' };
 	// 1. 获取DOS头
 	PIMAGE_DOS_HEADER pDosHeader = (PIMAGE_DOS_HEADER)nKernel32Base;
 	// 2. 获取NT头
@@ -101,6 +102,8 @@ void  Start()
 	// 获取API地址
 	fnLoadLibraryA pfnLoadLibraryA = (fnLoadLibraryA)pfnGetProcAddress((HMODULE)dwBase, "LoadLibraryExA");
 	fnVirtualProtect pfnVirtualProtect = (fnVirtualProtect)pfnGetProcAddress((HMODULE)dwBase, "VirtualProtect");
+	fnGetModuleHandleA pfnGetModuleHandleA = (fnGetModuleHandleA)pfnGetProcAddress((HMODULE)dwBase, "GetModuleHandleA");
+	g_stcParam.dwImageBase = (ULONG)pfnGetModuleHandleA(NULL);
 	HMODULE hUser32 = (HMODULE)pfnLoadLibraryA("user32.dll");
 	fnMessageBox pfnMessageBoxA = (fnMessageBox)pfnGetProcAddress(hUser32, "MessageBoxA");
 	fnExitProcess pfnExitProcess = (fnExitProcess)pfnGetProcAddress((HMODULE)dwBase, "ExitProcess");
@@ -121,4 +124,6 @@ void  Start()
 	// 退出程序
 	pfnExitProcess(0);
 }
+
+
 

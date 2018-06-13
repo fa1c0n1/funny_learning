@@ -34,11 +34,9 @@ CShPack::CShPack()
 #include "PE.h"
 BOOL Pack(CString szPath, BYTE byXor)
 {
-	CString strPath = szPath;
-
 	// 1.获取目标文件PE信息
 	CPE objPE;
-	objPE.InitPE(strPath);
+	objPE.InitPE(szPath);
 	BOOL bRet = FALSE;
 
 	//加密代码段, 返回代码段的基址RVA
@@ -71,16 +69,48 @@ BOOL Pack(CString szPath, BYTE byXor)
 	DWORD dwNewOEP = dwStubOEPRVA - dwCodeBaseRVA;
 	//StubOEP = dwStubOEPRVA - 原RVA + 新区段的RVA;
 	objPE.SetNewOEP(dwNewOEP);
-	objPE.ClearRandBase();
+	//objPE.ClearRandBase();
 	objPE.ClearBundleImport();//兼容有绑定输入表项的程序
 
+	printf("aaaaaaaaaaaaaaaaaaaa\n");
 	// 3.4 读取重定位的信息，修复代码
-	if (objPE.AddSection(pCodeSection, dwSize, ".Soho"))
+	if (objPE.AddSection(pCodeSection, dwSize, ".Soho", true))
 	{
 		bRet = TRUE;
 	}
+
+	printf("bbbbbbbbbbbbbbbbbbbb\n");
+	PBYTE pNewRelocSection = NULL;
+	DWORD dwNewRelocTableSize = 0;
+	objPE.ChangeReloc(lpMod, pNewRelocSection, dwNewRelocTableSize);
+
+	//-------------写入文件-----------------
+	//生成输出文件路径
+	CString strPath = objPE.m_objFile.GetFilePath();
+	TCHAR szOutPath[MAX_PATH] = { 0 };
+	LPWSTR strSuffix = PathFindExtension(strPath);                     // 获取文件的后缀名
+	wcsncpy_s(szOutPath, MAX_PATH, strPath, wcslen(strPath));          // 备份目标文件路径到szOutPath
+	PathRemoveExtension(szOutPath);                                    // 将szOutPath中保存路径的后缀名去掉
+	wcscat_s(szOutPath, MAX_PATH, L"_SohoPack");                       // 在路径最后附加"_SohoPack"
+	wcscat_s(szOutPath, MAX_PATH, strSuffix);                          // 在路径最后附加刚刚保存的后缀名
+
+	//创建文件
+	CFile objFile(szOutPath, CFile::modeCreate | CFile::modeReadWrite);
+	objFile.Write(objPE.m_pFileBase, objPE.m_dwFileSize);
+	objFile.Write(pCodeSection, dwSize);
+	objFile.Write(pNewRelocSection, dwNewRelocTableSize);
+	objFile.Close();
+
 	// 释放资源
-	delete lpMod;
-	lpMod = NULL;
+	if (pNewRelocSection != NULL) {
+		delete[] pNewRelocSection;
+		pNewRelocSection = NULL;
+	}
+
+	if (lpMod != NULL) {
+		delete[] lpMod;
+		lpMod = NULL;
+	}
+
 	return bRet;
 }
