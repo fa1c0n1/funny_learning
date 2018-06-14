@@ -31,6 +31,9 @@ public:
 	DWORD   m_dwCodeSize;
 	DWORD   m_dwNewOEP;
 	DWORD   m_dwNewSectionRVA;
+	DWORD   m_dwRelocTableRVA;
+	DWORD   m_dwRDataRVA;
+	DWORD   m_dwRDataSize;
 	CFile   m_objFile;
 };
 

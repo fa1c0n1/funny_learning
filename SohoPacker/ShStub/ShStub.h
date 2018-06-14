@@ -21,6 +21,9 @@ extern "C"
 		PBYTE       lpStartVA;	           // 起始虚拟地址（被异或加密区）
 		DWORD       dwCodeSize;	           // 被加密大小
 		BYTE        byXor;                 // 加密异或的值
+		DWORD       dwOriPeRelocRVA;         // 原始PE重定位表的RVA
+		DWORD       dwRDataSectionRVA;       //.rdata段的RVA
+		DWORD       dwRDataSectionSize;      //.rdata段的长度
 	}GLOBAL_PARAM, *PGLOBAL_PARAM;
 
 	typedef ULONG(WINAPI *fnGetProcAddress)(_In_ HMODULE hModule, _In_ LPCSTR lpProcName);

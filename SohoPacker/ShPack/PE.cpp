@@ -59,11 +59,27 @@ BOOL CPE::InitPE(CString strPath)
 		m_dwCodeBase = m_pNT->OptionalHeader.BaseOfCode;
 		m_dwCodeSize = m_pNT->OptionalHeader.SizeOfCode;
 
-		// 3. 获取最后一个区段后的地址
+		PIMAGE_SECTION_HEADER pSectionHeader = IMAGE_FIRST_SECTION(m_pNT);
+		while (pSectionHeader->VirtualAddress) {
+			if (strcmp(".rdata", (char*)pSectionHeader->Name) == 0) {
+				m_dwRDataRVA = pSectionHeader->VirtualAddress;
+				m_dwRDataSize = pSectionHeader->Misc.VirtualSize;
+				printf(".rdata Found!, m_dwRDataRVA=%X, m_dwRDataSize=%X\n", m_dwRDataRVA, m_dwRDataSize);
+				break;
+			}
+			pSectionHeader++;
+		}
+
+		// 4. 获取重定位表的RVA
+		PIMAGE_DATA_DIRECTORY pRelocDir = (PIMAGE_DATA_DIRECTORY)&m_pNT->OptionalHeader.DataDirectory[5];
+		m_dwRelocTableRVA = pRelocDir->VirtualAddress;
+		printf("Ori PE RelocTableRVA = %X\n", m_dwRelocTableRVA);
+
+		// 5. 获取最后一个区段后的地址
 		PIMAGE_SECTION_HEADER pSection = IMAGE_FIRST_SECTION(m_pNT);
 		m_pLastSection = &pSection[m_pNT->FileHeader.NumberOfSections];
 
-		// 4. 获取新加区段的起始RVA,  内存4K对齐
+		// 6. 获取新加区段的起始RVA,  内存4K对齐
 		DWORD dwVirtualSize = m_pLastSection[-1].Misc.VirtualSize;
 		if (dwVirtualSize % m_dwMemAlign)
 			dwVirtualSize = (dwVirtualSize / m_dwMemAlign + 1) * m_dwMemAlign;
@@ -251,8 +267,6 @@ void CPE::ChangeReloc(PBYTE lpStubMod, PBYTE &pNewRelocSection, DWORD &dwNewRelo
 {
 	PIMAGE_DOS_HEADER pHostDos = (PIMAGE_DOS_HEADER)m_pFileBase;
 	PIMAGE_NT_HEADERS32 pHostNtHeader = (PIMAGE_NT_HEADERS32)((ULONG)m_pFileBase + pHostDos->e_lfanew);
-	PIMAGE_OPTIONAL_HEADER32 pHostOptionHeader = (PIMAGE_OPTIONAL_HEADER32)&pHostNtHeader->OptionalHeader;
-	PIMAGE_DATA_DIRECTORY pHostRelocDir = (PIMAGE_DATA_DIRECTORY)&pHostNtHeader->OptionalHeader.DataDirectory[5];
 
 	PIMAGE_DOS_HEADER pStubDos = (PIMAGE_DOS_HEADER)lpStubMod;
 	PIMAGE_NT_HEADERS32 pStubNtHeader = (PIMAGE_NT_HEADERS32)((ULONG)lpStubMod + pStubDos->e_lfanew);
@@ -275,8 +289,8 @@ void CPE::ChangeReloc(PBYTE lpStubMod, PBYTE &pNewRelocSection, DWORD &dwNewRelo
 	}
 	//----------------------------------------------------------------
 
-	//将被加壳PE的重定位表的内容和壳Stub.dll中的重定位表的内容，拷贝到新的区段中
-	dwNewRelocTableSize = pHostRelocDir->Size + pStubRelocDir->Size;
+	//将壳Stub.dll中的重定位表的内容，拷贝到新的区段中
+	dwNewRelocTableSize = pStubRelocDir->Size;
 	printf("before: dwNewRelocTableSize=%X\n", dwNewRelocTableSize);
 
 	DWORD dwNewRelocTableAlignSize = dwNewRelocTableSize;
@@ -289,25 +303,10 @@ void CPE::ChangeReloc(PBYTE lpStubMod, PBYTE &pNewRelocSection, DWORD &dwNewRelo
 
 	pNewRelocSection = new BYTE[dwNewRelocTableAlignSize]{};
 	printf("%p\n", pNewRelocSection);
-	PBYTE pHostReloc = (PBYTE)((ULONG)m_pFileBase + RVA2OffSet(pHostRelocDir->VirtualAddress, pHostNtHeader));
 	PBYTE pStubReloc = (PBYTE)((ULONG)lpStubMod + pStubRelocDir->VirtualAddress);
 
-	if (pHostRelocDir->Size != 0) {
-		memcpy_s(pNewRelocSection, dwNewRelocTableAlignSize, pHostReloc, pHostRelocDir->Size);
-		printf("1: 0x%02X 0x%02X 0x%02X 0x%02X\n",
-			pNewRelocSection[4], pNewRelocSection[5], pNewRelocSection[6], pNewRelocSection[7]);
-		memcpy_s(pNewRelocSection + pHostRelocDir->Size, dwNewRelocTableAlignSize - pHostRelocDir->Size,
-			pStubReloc, pStubRelocDir->Size);
-		printf("2: 0x%02X 0x%02X 0x%02X 0x%02X\n",
-			(pNewRelocSection + pHostRelocDir->Size)[4], (pNewRelocSection + pHostRelocDir->Size)[5],
-			(pNewRelocSection + pHostRelocDir->Size)[6], (pNewRelocSection + pHostRelocDir->Size)[7]);
-	}
-	else {
-		memcpy_s(pNewRelocSection, dwNewRelocTableAlignSize, pStubReloc, pStubRelocDir->Size);
-		printf("2: 0x%02X 0x%02X 0x%02X 0x%02X\n",
-			(pNewRelocSection + pHostRelocDir->Size)[4], (pNewRelocSection + pHostRelocDir->Size)[5],
-			(pNewRelocSection + pHostRelocDir->Size)[6], (pNewRelocSection + pHostRelocDir->Size)[7]);
-	}
+	
+	memcpy_s(pNewRelocSection, dwNewRelocTableAlignSize, pStubReloc, pStubRelocDir->Size);
 
 	DWORD dwNewRelocSectionRVA = this->AddSection(pNewRelocSection, dwNewRelocTableSize, ".nrelc", false);
 	printf("555555555555555555, dwNewRelocSectionRVA=%X\n", dwNewRelocSectionRVA);
@@ -328,10 +327,10 @@ DWORD CPE::XorCode(BYTE byXOR)
 	}
 	PBYTE pBase = (PBYTE)((ULONG)m_pFileBase + dwOffset);
 
-	/*for (DWORD i = 0; i < m_dwCodeSize; i++)
+	for (DWORD i = 0; i < m_dwCodeSize; i++)
 	{
-	pBase[i] ^= byXOR;
-	}*/
+		pBase[i] ^= byXOR;
+	}
 
 	return dwVirtualAddr;
 }

@@ -3,7 +3,7 @@
 
 #include "stdafx.h"
 #include "ShStub.h"
-
+#include <windows.h>
 #pragma comment(linker, "/merge:.data=.text") 
 #pragma comment(linker, "/merge:.rdata=.text")
 #pragma comment(linker, "/section:.text,RWE")
@@ -103,6 +103,7 @@ void  Start()
 	fnLoadLibraryA pfnLoadLibraryA = (fnLoadLibraryA)pfnGetProcAddress((HMODULE)dwBase, "LoadLibraryExA");
 	fnVirtualProtect pfnVirtualProtect = (fnVirtualProtect)pfnGetProcAddress((HMODULE)dwBase, "VirtualProtect");
 	fnGetModuleHandleA pfnGetModuleHandleA = (fnGetModuleHandleA)pfnGetProcAddress((HMODULE)dwBase, "GetModuleHandleA");
+	DWORD dwDefaultImageBase = g_stcParam.dwImageBase;
 	g_stcParam.dwImageBase = (ULONG)pfnGetModuleHandleA(NULL);
 	HMODULE hUser32 = (HMODULE)pfnLoadLibraryA("user32.dll");
 	fnMessageBox pfnMessageBoxA = (fnMessageBox)pfnGetProcAddress(hUser32, "MessageBoxA");
@@ -114,10 +115,52 @@ void  Start()
 	{
 		// 修改代码段属性
 		ULONG dwCodeBase = g_stcParam.dwImageBase + (DWORD)g_stcParam.lpStartVA;
-		DWORD dwOldProtect = 0;
-		pfnVirtualProtect((LPBYTE)dwCodeBase, g_stcParam.dwCodeSize, PAGE_EXECUTE_READWRITE, &dwOldProtect);
-		//XorCode(); // 解密代码
-		pfnVirtualProtect((LPBYTE)dwCodeBase, g_stcParam.dwCodeSize, dwOldProtect, &dwOldProtect);
+
+		DWORD dwOldCodeProtect = 0;
+		pfnVirtualProtect((LPBYTE)dwCodeBase, g_stcParam.dwCodeSize, PAGE_EXECUTE_READWRITE, &dwOldCodeProtect);
+		XorCode(); // 解密代码
+
+		// 修改.rdata段的属性
+		DWORD dwOldRDataProtect = 0;
+		ULONG dwRDataBase = g_stcParam.dwImageBase + (DWORD)g_stcParam.dwRDataSectionRVA;
+		pfnVirtualProtect((LPBYTE)dwRDataBase, g_stcParam.dwRDataSectionSize, PAGE_EXECUTE_READWRITE, &dwOldRDataProtect);
+
+		//---------------修复原exe的重定位信息-----------------------------------------
+		DWORD dwOriPeRelocSize = 0;
+		if (g_stcParam.dwOriPeRelocRVA != 0) {
+			PIMAGE_BASE_RELOCATION pRelocBlock = (PIMAGE_BASE_RELOCATION)(g_stcParam.dwImageBase + g_stcParam.dwOriPeRelocRVA);
+			typedef struct {
+				WORD Offset : 12;          // (1) 大小为12Bit的重定位偏移
+				WORD Type : 4;             // (2) 大小为4Bit的重定位信息类型值
+			}TypeOffset, *PTypeOffset;
+			// 循环获取每一个MAGE_BASE_RELOCATION结构的重定位信息
+			while (pRelocBlock->VirtualAddress)
+			{
+				dwOriPeRelocSize += pRelocBlock->SizeOfBlock;
+				PTypeOffset pTypeOffset = (PTypeOffset)(pRelocBlock + 1);
+				ULONG dwCount = (pRelocBlock->SizeOfBlock - 8) / 2;
+				for (ULONG i = 0; i < dwCount; i++)
+				{
+					if (*(WORD*)&pTypeOffset[i] == 0)
+						continue;
+
+					ULONG dwRVA = pRelocBlock->VirtualAddress + pTypeOffset[i].Offset;
+					PULONG pRelocAddr = (PULONG)(g_stcParam.dwImageBase + dwRVA);
+					ULONG dwRelocData = *pRelocAddr - dwDefaultImageBase + g_stcParam.dwImageBase;
+					*pRelocAddr = dwRelocData;
+				}
+				pRelocBlock = (PIMAGE_BASE_RELOCATION)((ULONG)pRelocBlock + pRelocBlock->SizeOfBlock);
+			}
+
+			PIMAGE_DOS_HEADER pDosHeader = (PIMAGE_DOS_HEADER)g_stcParam.dwImageBase;
+			PIMAGE_NT_HEADERS32 pNtHeader = (PIMAGE_NT_HEADERS32)(g_stcParam.dwImageBase + pDosHeader->e_lfanew);
+			PIMAGE_DATA_DIRECTORY pRelocDir = (PIMAGE_DATA_DIRECTORY)&pNtHeader->OptionalHeader.DataDirectory[5];
+		}
+		//--------------------------------------------------------------------
+
+		DWORD dwTmp = 0;
+		pfnVirtualProtect((LPBYTE)dwCodeBase, g_stcParam.dwCodeSize, dwOldCodeProtect, &dwTmp);
+		pfnVirtualProtect((LPBYTE)dwRDataBase, g_stcParam.dwRDataSectionSize, dwOldRDataProtect, &dwTmp);
 		g_oep = (FUN)(g_stcParam.dwImageBase + g_stcParam.dwOEP);
 		g_oep(); // 跳回原始OEP
 	}

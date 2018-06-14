@@ -50,6 +50,10 @@ BOOL Pack(CString szPath, BYTE byXor)
 	pstcParam->dwOEP = objPE.m_dwOEP;
 	pstcParam->byXor = byXor;
 	pstcParam->lpStartVA = (PBYTE)dwVirtualAddr;
+	pstcParam->dwOriPeRelocRVA = objPE.m_dwRelocTableRVA;
+	pstcParam->dwRDataSectionRVA = objPE.m_dwRDataRVA;
+	pstcParam->dwRDataSectionSize = objPE.m_dwRDataSize;
+	printf("Ori PE RelocTableRVA = %X\n", pstcParam->dwOriPeRelocRVA);
 
 	// 3. 添加Stub代码段到被加壳程序中
 	// 3.1 读取Stub代码段
