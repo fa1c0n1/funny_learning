@@ -259,6 +259,22 @@ void CPE::ChangeReloc(PBYTE lpStubMod, PBYTE &pNewRelocSection, DWORD &dwNewRelo
 	PIMAGE_OPTIONAL_HEADER32 pStubOptionHeader = (PIMAGE_OPTIONAL_HEADER32)&pStubNtHeader->OptionalHeader;
 	PIMAGE_DATA_DIRECTORY pStubRelocDir = (PIMAGE_DATA_DIRECTORY)&pStubNtHeader->OptionalHeader.DataDirectory[5];
 
+	//----------------------//先把ShStub.dll里的重定位块的RVA改为 .Soho 节区的RVA------------------------------------------
+	PIMAGE_BASE_RELOCATION pRelocBlock = (PIMAGE_BASE_RELOCATION)((ULONG)lpStubMod + pStubRelocDir->VirtualAddress);
+	typedef struct {
+		WORD Offset : 12;          // (1) 大小为12Bit的重定位偏移
+		WORD Type : 4;             // (2) 大小为4Bit的重定位信息类型值
+	}TypeOffset, *PTypeOffset;
+
+	// 循环获取每一个MAGE_BASE_RELOCATION结构的重定位信息
+	while (pRelocBlock->VirtualAddress)
+	{
+		pRelocBlock->VirtualAddress = m_pLastSection[-1].VirtualAddress;
+		printf("************* %X \n", pRelocBlock->VirtualAddress);
+		pRelocBlock = (PIMAGE_BASE_RELOCATION)((ULONG)pRelocBlock + pRelocBlock->SizeOfBlock);
+	}
+	//----------------------------------------------------------------
+
 	//将被加壳PE的重定位表的内容和壳Stub.dll中的重定位表的内容，拷贝到新的区段中
 	dwNewRelocTableSize = pHostRelocDir->Size + pStubRelocDir->Size;
 	printf("before: dwNewRelocTableSize=%X\n", dwNewRelocTableSize);
@@ -294,7 +310,7 @@ void CPE::ChangeReloc(PBYTE lpStubMod, PBYTE &pNewRelocSection, DWORD &dwNewRelo
 	}
 
 	DWORD dwNewRelocSectionRVA = this->AddSection(pNewRelocSection, dwNewRelocTableSize, ".nrelc", false);
-	printf("555555555555555555\n");
+	printf("555555555555555555, dwNewRelocSectionRVA=%X\n", dwNewRelocSectionRVA);
 	pHostNtHeader->OptionalHeader.DataDirectory[5].VirtualAddress = dwNewRelocSectionRVA;
 	pHostNtHeader->OptionalHeader.DataDirectory[5].Size = dwNewRelocTableSize;
 	dwNewRelocTableSize = dwNewRelocTableAlignSize;
@@ -312,10 +328,10 @@ DWORD CPE::XorCode(BYTE byXOR)
 	}
 	PBYTE pBase = (PBYTE)((ULONG)m_pFileBase + dwOffset);
 
-	for (DWORD i = 0; i < m_dwCodeSize; i++)
+	/*for (DWORD i = 0; i < m_dwCodeSize; i++)
 	{
-		pBase[i] ^= byXOR;
-	}
+	pBase[i] ^= byXOR;
+	}*/
 
 	return dwVirtualAddr;
 }

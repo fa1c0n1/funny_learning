@@ -116,7 +116,7 @@ void  Start()
 		ULONG dwCodeBase = g_stcParam.dwImageBase + (DWORD)g_stcParam.lpStartVA;
 		DWORD dwOldProtect = 0;
 		pfnVirtualProtect((LPBYTE)dwCodeBase, g_stcParam.dwCodeSize, PAGE_EXECUTE_READWRITE, &dwOldProtect);
-		XorCode(); // 解密代码
+		//XorCode(); // 解密代码
 		pfnVirtualProtect((LPBYTE)dwCodeBase, g_stcParam.dwCodeSize, dwOldProtect, &dwOldProtect);
 		g_oep = (FUN)(g_stcParam.dwImageBase + g_stcParam.dwOEP);
 		g_oep(); // 跳回原始OEP
