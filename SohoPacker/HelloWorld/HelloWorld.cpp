@@ -8,7 +8,6 @@
 
 int _tmain(int argc, _TCHAR* argv[])
 {
-	//CString strPath = "D:\\VSProjects\\SohoPacker\\Release\\test.exe";
 	char szPath[MAX_PATH] = {};
 
 	printf("Â·¾¶: ");

@@ -201,8 +201,6 @@ void CPE::FixReloc(PBYTE lpImage, PBYTE lpCode, DWORD dwCodeRVA)
 		ULONG dwCount = (pReloc->SizeOfBlock - dwSize) / 2;
 		for (ULONG i = 0; i < dwCount; i++)
 		{
-			/*if (*(PULONG)(&pTypeOffset[i]) == NULL)
-				break;*/
 			if (*(WORD*)&pTypeOffset[i] == 0)
 				continue;
 
@@ -325,7 +323,7 @@ void CPE::ChangeReloc(PBYTE lpStubMod, PBYTE &pNewRelocSection, DWORD &dwNewRelo
 	dwNewRelocTableSize = dwNewRelocTableAlignSize;
 }
 
-DWORD CPE::XorCode(BYTE byXOR)
+DWORD CPE::Encrypt(BYTE &bKey)
 {
 	DWORD dwVirtualAddr = m_dwCodeBase;
 	DWORD dwOffset = RVA2OffSet(m_dwCodeBase, m_pNT);
@@ -337,9 +335,11 @@ DWORD CPE::XorCode(BYTE byXOR)
 	}
 	PBYTE pBase = (PBYTE)((ULONG)m_pFileBase + dwOffset);
 
+	printf("m_dwCodeSize=%X, bKey=0x%02X\n", m_dwCodeSize, bKey);
 	for (DWORD i = 0; i < m_dwCodeSize; i++)
 	{
-		pBase[i] ^= byXOR;
+		pBase[i] = pBase[i] + bKey;
+		bKey = pBase[i] ^ bKey;
 	}
 
 	return dwVirtualAddr;

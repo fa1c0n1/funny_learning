@@ -3,7 +3,8 @@
 
 #include "stdafx.h"
 #include "ShPack.h"
-
+#include <stdlib.h>
+#include <time.h>
 
 // 这是导出变量的一个示例
 PACK_API int nPack = 0;
@@ -40,11 +41,17 @@ BOOL Pack(CString szPath, BYTE byXor)
 	BOOL bRet = FALSE;
 
 	//加密代码段, 返回代码段的基址RVA
-	DWORD dwVirtualAddr = objPE.XorCode(byXor);
+	srand((unsigned)time(NULL));
+	BYTE bKey = rand() % 255;
+	printf("before: key=0x%02X\n", bKey);
+	DWORD dwVirtualAddr = objPE.Encrypt(bKey);
+	printf("after: key=0x%02X\n", bKey);
 
 	//2. 获取Stub文件PE信息,将必要的信息设置到Stub中
 	HMODULE hMod = LoadLibrary(L"ShStub.dll");
 	PGLOBAL_PARAM pstcParam = (PGLOBAL_PARAM)GetProcAddress(hMod, "g_stcParam");
+	pstcParam->bKey = bKey;
+	printf("after: pstcParam->bKey=0x%02X\n", pstcParam->bKey);
 	pstcParam->dwImageBase = objPE.m_dwImageBase;
 	pstcParam->dwCodeSize = objPE.m_dwCodeSize;
 	pstcParam->dwOEP = objPE.m_dwOEP;

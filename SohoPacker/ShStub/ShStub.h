@@ -24,6 +24,7 @@ extern "C"
 		DWORD       dwOriPeRelocRVA;       // 原始PE重定位表的RVA
 		DWORD       dwRDataSectionRVA;     //.rdata段的RVA
 		DWORD       dwRDataSectionSize;    //.rdata段的长度
+		BYTE        bKey;                  //解密密钥
 	}GLOBAL_PARAM, *PGLOBAL_PARAM;
 
 	typedef ULONG(WINAPI *fnGetProcAddress)(_In_ HMODULE hModule, _In_ LPCSTR lpProcName);

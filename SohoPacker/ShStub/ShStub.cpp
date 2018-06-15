@@ -107,14 +107,14 @@ ULONG MyGetProcAddress()
 	return 0;
 }
 
-void XorCode()
+void Decrypt(BYTE bKey)
 {
 	// 获取代码基址
 	PBYTE pBase = (PBYTE)((ULONG)g_stcParam.dwImageBase + g_stcParam.lpStartVA);
-	// 异或操作
-	for (DWORD i = 0; i < g_stcParam.dwCodeSize; i++)
-	{
-		pBase[i] ^= g_stcParam.byXor;
+	// 解密操作
+	for (LONG64 i = g_stcParam.dwCodeSize - 1; i >= 0; i--) {
+		bKey = pBase[i] ^ bKey;
+		pBase[i] = pBase[i] - bKey;
 	}
 }
 
@@ -156,7 +156,7 @@ void UnPack()
 
 		DWORD dwOldCodeProtect = 0;
 		g_pfnVirtualProtect((LPBYTE)dwCodeBase, g_stcParam.dwCodeSize, PAGE_EXECUTE_READWRITE, &dwOldCodeProtect);
-		XorCode(); // 解密代码
+		Decrypt(g_stcParam.bKey); // 解密代码
 
 		// 修改.rdata段的属性
 		DWORD dwOldRDataProtect = 0;

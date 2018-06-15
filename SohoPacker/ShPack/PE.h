@@ -10,7 +10,7 @@ public:
 	void SetNewOEP(DWORD dwOEP);
 	void ClearRandBase();
 	void ClearBundleImport();
-	DWORD XorCode(BYTE byXOR);
+	DWORD Encrypt(BYTE &bKey);
 
 	// Stub信息处理
 	void FixReloc(PBYTE lpImage, PBYTE lpCode, DWORD dwCodeRVA);// 在内存中重定位Stub
