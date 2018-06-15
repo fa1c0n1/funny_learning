@@ -201,8 +201,11 @@ void CPE::FixReloc(PBYTE lpImage, PBYTE lpCode, DWORD dwCodeRVA)
 		ULONG dwCount = (pReloc->SizeOfBlock - dwSize) / 2;
 		for (ULONG i = 0; i < dwCount; i++)
 		{
-			if (*(PULONG)(&pTypeOffset[i]) == NULL)
-				break;
+			/*if (*(PULONG)(&pTypeOffset[i]) == NULL)
+				break;*/
+			if (*(WORD*)&pTypeOffset[i] == 0)
+				continue;
+
 			ULONG dwRVA = pReloc->VirtualAddress + pTypeOffset[i].Offset;
 			PULONG pRelocAddr = (PULONG)((ULONG)lpImage + dwRVA);
 			// 修复重定位信息   公式：需要修复的地址-原映像基址-原区段基址+现区段基址+现映像基址
@@ -273,7 +276,7 @@ void CPE::ChangeReloc(PBYTE lpStubMod, PBYTE &pNewRelocSection, DWORD &dwNewRelo
 	PIMAGE_OPTIONAL_HEADER32 pStubOptionHeader = (PIMAGE_OPTIONAL_HEADER32)&pStubNtHeader->OptionalHeader;
 	PIMAGE_DATA_DIRECTORY pStubRelocDir = (PIMAGE_DATA_DIRECTORY)&pStubNtHeader->OptionalHeader.DataDirectory[5];
 
-	//----------------------//先把ShStub.dll里的重定位块的RVA改为 .Soho 节区的RVA------------------------------------------
+	//----------------------//先把ShStub.dll里的重定位块的RVA改为 .Soho 节区的RVA---------------------------------
 	PIMAGE_BASE_RELOCATION pRelocBlock = (PIMAGE_BASE_RELOCATION)((ULONG)lpStubMod + pStubRelocDir->VirtualAddress);
 	typedef struct {
 		WORD Offset : 12;          // (1) 大小为12Bit的重定位偏移
@@ -281,11 +284,18 @@ void CPE::ChangeReloc(PBYTE lpStubMod, PBYTE &pNewRelocSection, DWORD &dwNewRelo
 	}TypeOffset, *PTypeOffset;
 
 	// 循环获取每一个MAGE_BASE_RELOCATION结构的重定位信息
+	DWORD dwNewRelocBlockRVA = m_pLastSection[-1].VirtualAddress;
+	DWORD dwOldRelocBlockRVA = 0;
 	while (pRelocBlock->VirtualAddress)
 	{
-		pRelocBlock->VirtualAddress = m_pLastSection[-1].VirtualAddress;
+		dwOldRelocBlockRVA = pRelocBlock->VirtualAddress - dwOldRelocBlockRVA;   //
+		pRelocBlock->VirtualAddress = dwNewRelocBlockRVA;
 		printf("************* %X \n", pRelocBlock->VirtualAddress);
 		pRelocBlock = (PIMAGE_BASE_RELOCATION)((ULONG)pRelocBlock + pRelocBlock->SizeOfBlock);
+
+		if (pRelocBlock->VirtualAddress) {
+			dwNewRelocBlockRVA += (pRelocBlock->VirtualAddress - dwOldRelocBlockRVA);
+		}
 	}
 	//----------------------------------------------------------------
 

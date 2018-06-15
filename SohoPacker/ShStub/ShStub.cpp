@@ -9,8 +9,32 @@
 #pragma comment(linker, "/section:.text,RWE")
 extern "C"__declspec(dllexport) GLOBAL_PARAM g_stcParam = { (DWORD)(Start) };
 
+//----------- 全局变量 --------------------------
 typedef void(*FUN)();
 FUN g_oep;
+
+fnGetProcAddress g_pfnGetProcAddress = NULL;
+fnLoadLibrary g_pfnLoadLibrary = NULL;
+fnVirtualProtect g_pfnVirtualProtect = NULL;
+fnGetModuleHandle g_pfnGetModuleHandle = NULL;
+fnMessageBox g_pfnMessageBox = NULL;
+fnExitProcess g_pfnExitProcess = NULL;
+fnDefWindowProc g_pfnDefWindowProc = NULL;
+fnPostQuitMessage g_pfnPostQuitMessage = NULL;
+fnSetWindowText g_pfnSetWindowText = NULL;
+fnGetWindowText g_pfnGetWindowText = NULL;
+fnShowWindow g_pfnShowWindow = NULL;
+fnUpdateWindow g_pfnUpdateWindow = NULL;
+fnGetMessage g_pfnGetMessage = NULL;
+fnGetWindowTextLength g_pfnGetWindowTextLength = NULL;
+fnGetDlgItem g_pfnGetDlgItem = NULL;
+fnDispatchMessage g_pfnDispatchMessage = NULL;
+fnTranslateMessage g_pfnTranslateMessage = NULL;
+fnRegisterClass g_pfnRegisterClass = NULL;
+fnCreateWindowEx g_pfnCreateWindowEx = NULL;
+
+CHAR g_szPwdText[64] = {};
+DWORD g_dwDefaultImageBase = 0;
 
 ULONG GetKernel32Addr()
 {
@@ -94,36 +118,50 @@ void XorCode()
 	}
 }
 
-void  Start()
+void InitData()
 {
 	// 获取kernel32基址
-	fnGetProcAddress pfnGetProcAddress = (fnGetProcAddress)MyGetProcAddress();
+	g_pfnGetProcAddress = (fnGetProcAddress)MyGetProcAddress();
 	ULONG dwBase = GetKernel32Addr();
 	// 获取API地址
-	fnLoadLibraryA pfnLoadLibraryA = (fnLoadLibraryA)pfnGetProcAddress((HMODULE)dwBase, "LoadLibraryExA");
-	fnVirtualProtect pfnVirtualProtect = (fnVirtualProtect)pfnGetProcAddress((HMODULE)dwBase, "VirtualProtect");
-	fnGetModuleHandleA pfnGetModuleHandleA = (fnGetModuleHandleA)pfnGetProcAddress((HMODULE)dwBase, "GetModuleHandleA");
-	DWORD dwDefaultImageBase = g_stcParam.dwImageBase;
-	g_stcParam.dwImageBase = (ULONG)pfnGetModuleHandleA(NULL);
-	HMODULE hUser32 = (HMODULE)pfnLoadLibraryA("user32.dll");
-	fnMessageBox pfnMessageBoxA = (fnMessageBox)pfnGetProcAddress(hUser32, "MessageBoxA");
-	fnExitProcess pfnExitProcess = (fnExitProcess)pfnGetProcAddress((HMODULE)dwBase, "ExitProcess");
+	g_pfnLoadLibrary = (fnLoadLibrary)g_pfnGetProcAddress((HMODULE)dwBase, "LoadLibraryExW");
+	g_pfnVirtualProtect = (fnVirtualProtect)g_pfnGetProcAddress((HMODULE)dwBase, "VirtualProtect");
+	g_pfnGetModuleHandle = (fnGetModuleHandle)g_pfnGetProcAddress((HMODULE)dwBase, "GetModuleHandleW");
+	HMODULE hUser32 = (HMODULE)g_pfnLoadLibrary(L"user32.dll", NULL, NULL);
+	g_pfnMessageBox = (fnMessageBox)g_pfnGetProcAddress(hUser32, "MessageBoxW");
+	g_pfnGetWindowText = (fnGetWindowText)g_pfnGetProcAddress(hUser32, "GetWindowTextA");
+	g_pfnExitProcess = (fnExitProcess)g_pfnGetProcAddress((HMODULE)dwBase, "ExitProcess");
+	g_pfnDefWindowProc = (fnDefWindowProc)g_pfnGetProcAddress(hUser32, "DefWindowProcW");
+	g_pfnPostQuitMessage = (fnPostQuitMessage)g_pfnGetProcAddress(hUser32, "PostQuitMessage");
+	g_pfnSetWindowText = (fnSetWindowText)g_pfnGetProcAddress(hUser32, "SetWindowTextA");
+	g_pfnShowWindow = (fnShowWindow)g_pfnGetProcAddress(hUser32, "ShowWindow");
+	g_pfnUpdateWindow = (fnUpdateWindow)g_pfnGetProcAddress(hUser32, "UpdateWindow");
+	g_pfnGetMessage = (fnGetMessage)g_pfnGetProcAddress(hUser32, "GetMessageW");
+	g_pfnGetWindowTextLength = (fnGetWindowTextLength)g_pfnGetProcAddress(hUser32, "GetWindowTextLengthA");
+	g_pfnGetDlgItem = (fnGetDlgItem)g_pfnGetProcAddress(hUser32, "GetDlgItem");
+	g_pfnDispatchMessage = (fnDispatchMessage)g_pfnGetProcAddress(hUser32, "DispatchMessageW");
+	g_pfnTranslateMessage = (fnTranslateMessage)g_pfnGetProcAddress(hUser32, "TranslateMessage");
+	g_pfnRegisterClass = (fnRegisterClass)g_pfnGetProcAddress(hUser32, "RegisterClassW");
+	g_pfnCreateWindowEx = (fnCreateWindowEx)g_pfnGetProcAddress(hUser32, "CreateWindowExW");
+}
 
+void UnPack()
+{
 	// 弹出信息框
-	int nRet = pfnMessageBoxA(NULL, "欢迎使用免费加壳程序，是否运行主程序？", "Hello PEDIY", MB_YESNO);
+	int nRet = g_pfnMessageBox(NULL, L"欢迎使用免费加壳程序，是否运行主程序？", L"SohoPacker", MB_YESNO);
 	if (nRet == IDYES)
 	{
 		// 修改代码段属性
 		ULONG dwCodeBase = g_stcParam.dwImageBase + (DWORD)g_stcParam.lpStartVA;
 
 		DWORD dwOldCodeProtect = 0;
-		pfnVirtualProtect((LPBYTE)dwCodeBase, g_stcParam.dwCodeSize, PAGE_EXECUTE_READWRITE, &dwOldCodeProtect);
+		g_pfnVirtualProtect((LPBYTE)dwCodeBase, g_stcParam.dwCodeSize, PAGE_EXECUTE_READWRITE, &dwOldCodeProtect);
 		XorCode(); // 解密代码
 
 		// 修改.rdata段的属性
 		DWORD dwOldRDataProtect = 0;
 		ULONG dwRDataBase = g_stcParam.dwImageBase + (DWORD)g_stcParam.dwRDataSectionRVA;
-		pfnVirtualProtect((LPBYTE)dwRDataBase, g_stcParam.dwRDataSectionSize, PAGE_EXECUTE_READWRITE, &dwOldRDataProtect);
+		g_pfnVirtualProtect((LPBYTE)dwRDataBase, g_stcParam.dwRDataSectionSize, PAGE_EXECUTE_READWRITE, &dwOldRDataProtect);
 
 		//---------------修复原exe的重定位信息-----------------------------------------
 		DWORD dwOriPeRelocSize = 0;
@@ -146,7 +184,7 @@ void  Start()
 
 					ULONG dwRVA = pRelocBlock->VirtualAddress + pTypeOffset[i].Offset;
 					PULONG pRelocAddr = (PULONG)(g_stcParam.dwImageBase + dwRVA);
-					ULONG dwRelocData = *pRelocAddr - dwDefaultImageBase + g_stcParam.dwImageBase;
+					ULONG dwRelocData = *pRelocAddr - g_dwDefaultImageBase + g_stcParam.dwImageBase;
 					*pRelocAddr = dwRelocData;
 				}
 				pRelocBlock = (PIMAGE_BASE_RELOCATION)((ULONG)pRelocBlock + pRelocBlock->SizeOfBlock);
@@ -159,13 +197,131 @@ void  Start()
 		//--------------------------------------------------------------------
 
 		DWORD dwTmp = 0;
-		pfnVirtualProtect((LPBYTE)dwCodeBase, g_stcParam.dwCodeSize, dwOldCodeProtect, &dwTmp);
-		pfnVirtualProtect((LPBYTE)dwRDataBase, g_stcParam.dwRDataSectionSize, dwOldRDataProtect, &dwTmp);
+		g_pfnVirtualProtect((LPBYTE)dwCodeBase, g_stcParam.dwCodeSize, dwOldCodeProtect, &dwTmp);
+		g_pfnVirtualProtect((LPBYTE)dwRDataBase, g_stcParam.dwRDataSectionSize, dwOldRDataProtect, &dwTmp);
 		g_oep = (FUN)(g_stcParam.dwImageBase + g_stcParam.dwOEP);
 		g_oep(); // 跳回原始OEP
 	}
 	// 退出程序
-	pfnExitProcess(0);
+	g_pfnExitProcess(0);
+}
+
+LRESULT CALLBACK MyWinProc(
+	_In_ HWND   hwnd,
+	_In_ UINT   uMsg,
+	_In_ WPARAM wParam,
+	_In_ LPARAM lParam) 
+{
+	switch (uMsg)
+	{
+	case WM_CREATE: {
+		return 0;
+	}
+	case WM_COMMAND: {
+		WORD wId = LOWORD(wParam);
+		WORD wCode = HIWORD(wParam);
+		HANDLE hChild = (HANDLE)lParam;
+
+		if (wId == 0x1001 && wCode == BN_CLICKED) {	
+			HWND hPwdEdit = g_pfnGetDlgItem(hwnd, 0x1002);
+			g_pfnGetWindowText(hPwdEdit, g_szPwdText, 64);
+			g_pfnShowWindow(hwnd, SW_HIDE);
+			UnPack();
+			//int cTxtLen = g_pfnGetWindowTextLength(hEdit);
+			//g_pfnGetWindowText(hEdit, g_wcbuf100, 100);
+			//
+		 //   WCHAR wVoid[20] = L"";
+			//if (VerifyPassword() == 1) {
+			//	//g_funPostQuitMessage(0);
+			//	g_pfnShowWindow(hwnd, SW_HIDE);
+			//	Decompress();
+			//	Decode();
+			//	FixReloc();
+			//	//_asm jmp g_PackInfo.TargetOep;
+			//	_asm jmp g_oep;
+			//	wchar_t wStr[20] = L"密码正确！！！";
+			//	wchar_t wStr2[20] = L"haha";
+			//	g_pfnMessageBox(NULL, wStr, wStr2, NULL);
+			//}
+			//else {
+			//	WCHAR wStr[20] = L"密码错误请重新输入！！！";
+			//	WCHAR wStr2[20] = L"haha";
+			//	g_pfnMessageBox(NULL, wStr, wStr2, NULL);
+			//}
+			//g_pfnSetWindowText(hwndCombo, wStr3);
+			return 0;
+		}
+		break;
+	}
+	case WM_CLOSE: {
+		g_pfnPostQuitMessage(0);
+		break;
+	}
+
+	}
+	// 返回默认的窗口处理过程
+	return g_pfnDefWindowProc(hwnd, uMsg, wParam, lParam);
+}
+
+void ShowPasswordWindow()
+{
+	MSG msg = {};
+	WNDCLASS wndcls = {};
+	wndcls.lpszClassName = L"soho";
+	wndcls.lpfnWndProc = MyWinProc;
+	wndcls.hbrBackground = (HBRUSH)(COLOR_BACKGROUND);
+
+	//注册窗口类
+	g_pfnRegisterClass(&wndcls);
+
+	//-------------创建主窗口---------------------
+	HWND hWnd = g_pfnCreateWindowEx(
+		0, L"soho", L"密码验证", 
+		WS_OVERLAPPEDWINDOW | WS_VISIBLE, 
+		500, 200, 500, 500, 
+		NULL, NULL, NULL, NULL);
+
+	//-------创建按钮------------------------------
+	g_pfnCreateWindowEx(
+		0, L"BUTTON", L"确定", WS_CHILD | WS_VISIBLE,
+		200, 150,//在父窗口客户区的位置，
+		100, 50,//宽,高
+		hWnd,// 父窗口句柄
+		(HMENU)0x1001,// 如果是顶层窗口 就是菜单句柄 子窗口就是本身的ID
+		g_pfnGetModuleHandle(0), NULL);
+
+	//-------创建编辑框--------------------------------
+	DWORD dwStyle = ES_LEFT | WS_CHILD | WS_OVERLAPPED | WS_VISIBLE | ES_PASSWORD;
+	DWORD dwExStyle = WS_EX_CLIENTEDGE | WS_EX_LEFT | WS_EX_LTRREADING | WS_EX_RIGHTSCROLLBAR;
+	g_pfnCreateWindowEx(
+		dwExStyle,            //扩展样式
+		L"Edit",           //窗口类名
+		L"",         //窗口标题
+		dwStyle,              //窗口样式
+		150,                  //x
+		100,                  //y
+		200,                  //宽度
+		20,                   //高度
+		hWnd,                 //父窗口句柄
+		(HMENU)0x1002,        //ID
+		g_pfnGetModuleHandle(0), //应用程序句柄
+		NULL                  //附加参数
+		);
+
+	g_pfnShowWindow(hWnd, SW_SHOW);
+	g_pfnUpdateWindow(hWnd);
+	while (g_pfnGetMessage(&msg, 0, 0, 0)) {
+		g_pfnTranslateMessage(&msg);
+		g_pfnDispatchMessage(&msg);
+	}
+}
+
+void  Start()
+{
+	InitData();
+	g_dwDefaultImageBase = g_stcParam.dwImageBase;
+	g_stcParam.dwImageBase = (ULONG)g_pfnGetModuleHandle(NULL);
+	ShowPasswordWindow();
 }
 
 
