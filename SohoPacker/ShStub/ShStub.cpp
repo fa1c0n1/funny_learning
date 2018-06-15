@@ -227,35 +227,13 @@ LRESULT CALLBACK MyWinProc(
 			g_pfnGetWindowText(hPwdEdit, g_szPwdText, 64);
 			g_pfnShowWindow(hwnd, SW_HIDE);
 			UnPack();
-			//int cTxtLen = g_pfnGetWindowTextLength(hEdit);
-			//g_pfnGetWindowText(hEdit, g_wcbuf100, 100);
-			//
-		 //   WCHAR wVoid[20] = L"";
-			//if (VerifyPassword() == 1) {
-			//	//g_funPostQuitMessage(0);
-			//	g_pfnShowWindow(hwnd, SW_HIDE);
-			//	Decompress();
-			//	Decode();
-			//	FixReloc();
-			//	//_asm jmp g_PackInfo.TargetOep;
-			//	_asm jmp g_oep;
-			//	wchar_t wStr[20] = L"密码正确！！！";
-			//	wchar_t wStr2[20] = L"haha";
-			//	g_pfnMessageBox(NULL, wStr, wStr2, NULL);
-			//}
-			//else {
-			//	WCHAR wStr[20] = L"密码错误请重新输入！！！";
-			//	WCHAR wStr2[20] = L"haha";
-			//	g_pfnMessageBox(NULL, wStr, wStr2, NULL);
-			//}
-			//g_pfnSetWindowText(hwndCombo, wStr3);
 			return 0;
 		}
 		break;
 	}
 	case WM_CLOSE: {
-		g_pfnPostQuitMessage(0);
-		break;
+		g_pfnExitProcess(0);
+		return 0;
 	}
 
 	}
