@@ -16,7 +16,6 @@ public:
 	void FixReloc(PBYTE lpImage, PBYTE lpCode, DWORD dwCodeRVA);// 在内存中重定位Stub
 	DWORD GetSectionData(PBYTE lpImage, DWORD dwSectionIndex, PBYTE& lpBuffer, DWORD& dwCodeBaseRVA);
 	void ChangeReloc(PBYTE lpStubMod, PBYTE &pNewRelocSection, DWORD &dwNewRelocTableSize);
-	void save2File();
 
 public:
 	PBYTE  m_pFileBase;

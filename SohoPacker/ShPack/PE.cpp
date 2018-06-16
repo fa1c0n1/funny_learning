@@ -125,7 +125,6 @@ ULONG CPE::AddSection(LPBYTE pBuffer, DWORD dwSize, PCHAR pszSectionName, bool b
 
 	m_pLastSection->VirtualAddress = dwSizeOfImage;
 	m_pLastSection->PointerToRawData = dwTmpFileSize;
-	printf("----------- %X ------------\n", dwTmpFileSize);
 	dwTmpFileSize += dwSize;
 	m_pLastSection->SizeOfRawData = dwSizeOfRawData;
 	m_pLastSection->Misc.VirtualSize = dwSize;
@@ -136,44 +135,9 @@ ULONG CPE::AddSection(LPBYTE pBuffer, DWORD dwSize, PCHAR pszSectionName, bool b
 	if (bAddStubOEP)
 		m_pNT->OptionalHeader.AddressOfEntryPoint = m_dwNewOEP + m_pLastSection->VirtualAddress;
 
-	//// 3.1 生成输出文件路径
-	//CString strPath = m_objFile.GetFilePath();
-	//TCHAR szOutPath[MAX_PATH] = { 0 };
-	//LPWSTR strSuffix = PathFindExtension(strPath);                     // 获取文件的后缀名
-	//wcsncpy_s(szOutPath, MAX_PATH, strPath, wcslen(strPath)); // 备份目标文件路径到szOutPath
-	//PathRemoveExtension(szOutPath);                                         // 将szOutPath中保存路径的后缀名去掉
-	//wcscat_s(szOutPath, MAX_PATH, L"_SohoPack");                       // 在路径最后附加"_SohoPack"
-	//wcscat_s(szOutPath, MAX_PATH, strSuffix);                           // 在路径最后附加刚刚保存的后缀名
-
-	//// 3.2 创建文件
-	//CFile objFile(szOutPath, CFile::modeCreate | CFile::modeReadWrite);
-	//objFile.Write(m_pFileBase, m_dwFileSize);
-	//objFile.SeekToEnd();
-	//objFile.Write(pBuffer, dwSize);
-
 	m_pLastSection++;
 
 	return m_pLastSection[-1].VirtualAddress;
-}
-
-void CPE::save2File()
-{
-#if 0
-	// 3.1 生成输出文件路径
-	CString strPath = m_objFile.GetFilePath();
-	TCHAR szOutPath[MAX_PATH] = { 0 };
-	LPWSTR strSuffix = PathFindExtension(strPath);                     // 获取文件的后缀名
-	wcsncpy_s(szOutPath, MAX_PATH, strPath, wcslen(strPath)); // 备份目标文件路径到szOutPath
-	PathRemoveExtension(szOutPath);                                         // 将szOutPath中保存路径的后缀名去掉
-	wcscat_s(szOutPath, MAX_PATH, L"_SohoPack");                       // 在路径最后附加"_SohoPack"
-	wcscat_s(szOutPath, MAX_PATH, strSuffix);                           // 在路径最后附加刚刚保存的后缀名
-
-	// 3.2 创建文件
-	CFile objFile(szOutPath, CFile::modeCreate | CFile::modeReadWrite);
-	objFile.Write(m_pFileBase, m_dwFileSize);
-	objFile.SeekToEnd();
-	objFile.Write(pBuffer, dwSize);
-#endif
 }
 
 // 在内存中重定位Stub
@@ -307,17 +271,14 @@ void CPE::ChangeReloc(PBYTE lpStubMod, PBYTE &pNewRelocSection, DWORD &dwNewRelo
 		dwNewRelocTableAlignSize = (dwNewRelocTableSize / m_dwFileAlign + 1) * m_dwFileAlign;
 	else
 		dwNewRelocTableAlignSize = (dwNewRelocTableSize / m_dwFileAlign) * m_dwFileAlign;
-	printf("after: dwNewRelocTableAlignSize=%X\n", dwNewRelocTableAlignSize);
 
 	pNewRelocSection = new BYTE[dwNewRelocTableAlignSize]{};
-	printf("%p\n", pNewRelocSection);
 	PBYTE pStubReloc = (PBYTE)((ULONG)lpStubMod + pStubRelocDir->VirtualAddress);
 
 	
 	memcpy_s(pNewRelocSection, dwNewRelocTableAlignSize, pStubReloc, pStubRelocDir->Size);
 
 	DWORD dwNewRelocSectionRVA = this->AddSection(pNewRelocSection, dwNewRelocTableSize, ".nrelc", false);
-	printf("555555555555555555, dwNewRelocSectionRVA=%X\n", dwNewRelocSectionRVA);
 	pHostNtHeader->OptionalHeader.DataDirectory[5].VirtualAddress = dwNewRelocSectionRVA;
 	pHostNtHeader->OptionalHeader.DataDirectory[5].Size = dwNewRelocTableSize;
 	dwNewRelocTableSize = dwNewRelocTableAlignSize;

@@ -83,14 +83,12 @@ BOOL Pack(CString szPath, BYTE byXor)
 	//objPE.ClearRandBase();
 	objPE.ClearBundleImport();//兼容有绑定输入表项的程序
 
-	printf("aaaaaaaaaaaaaaaaaaaa\n");
 	// 3.4 读取重定位的信息，修复代码
 	if (objPE.AddSection(pCodeSection, dwSize, ".Soho", true))
 	{
 		bRet = TRUE;
 	}
 
-	printf("bbbbbbbbbbbbbbbbbbbb\n");
 	PBYTE pNewRelocSection = NULL;
 	DWORD dwNewRelocTableSize = 0;
 	objPE.ChangeReloc(lpMod, pNewRelocSection, dwNewRelocTableSize);
