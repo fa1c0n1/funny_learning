@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="ProjectModuleManager">
+    <modules>
+      <module fileurl="file://$PROJECT_DIR$/Demo1_SimpleWindow/Demo1_SimpleWindow.iml" filepath="$PROJECT_DIR$/Demo1_SimpleWindow/Demo1_SimpleWindow.iml" />
+      <module fileurl="file://$PROJECT_DIR$/Demo2_FlowLayout/Demo2_FlowLayout.iml" filepath="$PROJECT_DIR$/Demo2_FlowLayout/Demo2_FlowLayout.iml" />
+      <module fileurl="file://$PROJECT_DIR$/Demo3_GridLayout/Demo3_GridLayout.iml" filepath="$PROJECT_DIR$/Demo3_GridLayout/Demo3_GridLayout.iml" />
+      <module fileurl="file://$PROJECT_DIR$/Demo4_GridBagLayout/Demo4_GridBagLayout.iml" filepath="$PROJECT_DIR$/Demo4_GridBagLayout/Demo4_GridBagLayout.iml" />
+      <module fileurl="file://$PROJECT_DIR$/Demo5_BoxLayout/Demo5_BoxLayout.iml" filepath="$PROJECT_DIR$/Demo5_BoxLayout/Demo5_BoxLayout.iml" />
+      <module fileurl="file://$PROJECT_DIR$/Demo6_GroupLayout/Demo6_GroupLayout.iml" filepath="$PROJECT_DIR$/Demo6_GroupLayout/Demo6_GroupLayout.iml" />
+      <module fileurl="file://$PROJECT_DIR$/Demo7_CardLayout/Demo7_CardLayout.iml" filepath="$PROJECT_DIR$/Demo7_CardLayout/Demo7_CardLayout.iml" />
+      <module fileurl="file://$PROJECT_DIR$/Demo8_BorderLayout/Demo8_BorderLayout.iml" filepath="$PROJECT_DIR$/Demo8_BorderLayout/Demo8_BorderLayout.iml" />
+      <module fileurl="file://$PROJECT_DIR$/Demo9_SpringLayout/Demo9_SpringLayout.iml" filepath="$PROJECT_DIR$/Demo9_SpringLayout/Demo9_SpringLayout.iml" />
+      <module fileurl="file://$PROJECT_DIR$/SwingLearn.iml" filepath="$PROJECT_DIR$/SwingLearn.iml" />
+    </modules>
+  </component>
+</project>
