@@ -1,10 +1,11 @@
 import javax.print.attribute.standard.PrinterName;
 import javax.swing.*;
+import cn.com.essence.SimpleJifenUtils;
 
 public class MainTest {
 
     public static void main(String[] args) {
-        JFrame jf = new JFrame("测试窗口");
+        JFrame jf = new JFrame("cn.com.axzq - Context");
         jf.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
 
         // 创建内容面板容器
@@ -20,6 +21,7 @@ public class MainTest {
         JButton btn03 = new JButton("Button03");
         JButton btn04 = new JButton("Button04");
         JButton btn05 = new JButton("Button05");
+        JFrame jf2 = new JFrame("axzq.com.cn == essence.com.cn - Context");
 
         // 自动创建组件之间的间隙
         layout.setAutoCreateGaps(true);

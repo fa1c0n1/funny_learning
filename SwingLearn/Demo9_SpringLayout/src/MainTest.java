@@ -6,11 +6,15 @@ import javax.swing.JTextField;
 import javax.swing.SpringLayout;
 import javax.swing.WindowConstants;
 
+/**
+ * @Copyright ESSENCE - 安信证券
+ */
 public class MainTest {
 
     public static void main(String[] args) {
         // 创建窗口
         JFrame jf = new JFrame("测试窗口");
+        JFrame jf2 = new JFrame("cn.com.axzq - Context");
         jf.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
         jf.setSize(300, 200);
         jf.setLocationRelativeTo(null);

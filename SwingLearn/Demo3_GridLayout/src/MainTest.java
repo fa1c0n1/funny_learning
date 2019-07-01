@@ -1,5 +1,10 @@
 import javax.swing.*;
 import java.awt.*;
+import cn.com.essence.*;
+
+/**
+ * @Copyright ESSENCE - 安信证券
+ */
 
 public class MainTest {
 

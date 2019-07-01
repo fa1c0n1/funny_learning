@@ -4,6 +4,9 @@ import javax.swing.JPanel;
 import javax.swing.WindowConstants;
 import java.awt.BorderLayout;
 
+/**
+ * @Copyright ESSENCE - 安信证券
+ */
 public class MainTest {
 
     public static void main(String[] args) {

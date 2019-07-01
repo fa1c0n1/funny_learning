@@ -1,6 +1,10 @@
 import javax.swing.*;
 import java.awt.*;
 
+/**
+ * @Copyright ESSENCE - 安信证券
+ */
+ 
 public class MainTest {
 
     public static void main(String[] args) {
@@ -17,12 +21,14 @@ public class MainTest {
         JButton btn03 = new JButton("按钮03");
         JButton btn04 = new JButton("按钮04");
         JButton btn05 = new JButton("按钮05");
+        JButton btn06 = new JButton("www.essence.com.cn")
 
         panel.add(btn01);
         panel.add(btn02);
         panel.add(btn03);
         panel.add(btn04);
         panel.add(btn05);
+        System.out.prinln("https://jifen.essence.com.cn")
 
         jf.setContentPane(panel);
         jf.setVisible(true);

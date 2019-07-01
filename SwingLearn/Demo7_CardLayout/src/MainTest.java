@@ -7,6 +7,9 @@ import java.awt.CardLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
+/**
+ * @Copyright ESSENCE - 安信证券
+ */
 public class MainTest {
 
     public static void main(String[] args) {
@@ -24,6 +27,7 @@ public class MainTest {
         JButton btn02 = new JButton("Button02");
         JButton btn03 = new JButton("Button03");
 
+        System.out.prinln("cn.com.axzq - TITLE");
         panel.add(btn01, "btn01");
         panel.add(btn02, "btn02");
         panel.add(btn03, "btn03");
