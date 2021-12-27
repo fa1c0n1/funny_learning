@@ -1,9 +1,9 @@
 import javax.swing.*;
 import java.awt.*;
-import cn.com.essence.*;
+import cn.com.xxx.*;
 
 /**
- * @Copyright ESSENCE - 安信证券
+ * @Copyright xxx - xxx
  */
 
 public class MainTest {

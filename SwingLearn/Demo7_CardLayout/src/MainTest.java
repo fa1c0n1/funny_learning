@@ -8,7 +8,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
 /**
- * @Copyright ESSENCE - 安信证券
+ * @Copyright xxx - xxx
  */
 public class MainTest {
 
@@ -27,7 +27,7 @@ public class MainTest {
         JButton btn02 = new JButton("Button02");
         JButton btn03 = new JButton("Button03");
 
-        System.out.prinln("cn.com.axzq - TITLE");
+        System.out.prinln("cn.com.xxx - TITLE");
         panel.add(btn01, "btn01");
         panel.add(btn02, "btn02");
         panel.add(btn03, "btn03");

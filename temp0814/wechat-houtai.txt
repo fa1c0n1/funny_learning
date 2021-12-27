@@ -1,8 +1,0 @@
-﻿data={"getRsaPubKey":"getRsaPubKey","_event_no":"","_rightId":null,"_version_id":"","_module_id":"","_catalog_id":"","_version_type":"1"}&reactFlag=1&requestId=6efebb05-d36e-4cb9-803f-86d2bdf46e3c&signKey=4db7b064f5455b890e1deadc5ef90a6d&timestamp=1565771452336
-
-
-
-Python2 -m SimpleHTTPServer 80
-Python3 -m http.server 80
-
-

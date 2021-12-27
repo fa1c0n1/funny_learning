@@ -5,7 +5,7 @@ import javax.swing.WindowConstants;
 import java.awt.BorderLayout;
 
 /**
- * @Copyright ESSENCE - 安信证券
+ * @Copyright xxx - xxx
  */
 public class MainTest {
 
